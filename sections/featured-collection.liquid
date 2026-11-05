@@ -1,0 +1,199 @@
+{%- comment -%}
+  Aura Theme - Featured Collection Section
+  Displays a curated collection of products with luxury typography and quick-add functionality.
+{%- endcomment -%}
+
+<div class="featured-collection section-spacing" id="FeaturedCollection-{{ section.id }}">
+  <div class="page-container">
+    
+    <!-- Section Header -->
+    <div class="featured-collection__header text-center">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h2 class="featured-collection__title font-heading">
+          {{ section.settings.heading | escape }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.description != blank -%}
+        <div class="featured-collection__subtext">
+          <p>{{ section.settings.description | escape }}</p>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Product Grid -->
+    {%- assign target_collection = section.settings.collection -%}
+    {%- if target_collection == blank -%}
+      {%- assign target_collection = collections['all'] -%}
+    {%- endif -%}
+
+    <div class="featured-collection__grid" style="--fc-columns-desktop: {{ section.settings.columns_desktop }};">
+      {%- if target_collection != blank and target_collection.products_count > 0 -%}
+        {%- for product in target_collection.products limit: section.settings.products_to_show -%}
+          <div class="featured-collection__item">
+            {% render 'product-card',
+               product: product,
+               show_secondary_image: section.settings.show_secondary_image,
+               show_vendor: section.settings.show_vendor
+            %}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..section.settings.products_to_show) -%}
+          <div class="featured-collection__item">
+            <div class="product-card">
+              <div class="product-card__media-wrapper">
+                <div class="product-card__placeholder">
+                  <svg viewBox="0 0 400 500" fill="none" class="product-card__placeholder-svg" aria-hidden="true">
+                    <rect width="400" height="500" fill="#F4F1EB"/>
+                    <circle cx="200" cy="250" r="100" fill="#EAE5DC"/>
+                    <text x="200" y="255" font-family="serif" font-size="16" fill="#6B6661" text-anchor="middle" letter-spacing="2">AURA BOTANICAL {{ i }}</text>
+                  </svg>
+                </div>
+              </div>
+              <div class="product-card__info">
+                <h3 class="product-card__title">Curated Formulation {{ i }}</h3>
+                <div class="product-card__price-wrapper">
+                  <span class="product-card__price">$68.00</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+
+    <!-- Footer View All CTA -->
+    {%- if section.settings.show_view_all and target_collection != blank -%}
+      <div class="featured-collection__footer text-center">
+        <a href="{{ target_collection.url | default: '/collections/all' }}" class="btn-secondary">
+          {{ section.settings.view_all_label | default: 'Explore All Formulations' }} &rarr;
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</div>
+
+<style>
+  .featured-collection__header {
+    max-width: 680px;
+    margin: 0 auto var(--space-8);
+  }
+  .featured-collection__title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+  .featured-collection__subtext {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-relaxed);
+  }
+  .featured-collection__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+  @media (min-width: 768px) {
+    .featured-collection__grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+  }
+  @media (min-width: 1024px) {
+    .featured-collection__grid {
+      grid-template-columns: repeat(var(--fc-columns-desktop, 4), 1fr);
+      gap: var(--space-8);
+    }
+  }
+  .featured-collection__footer {
+    margin-top: var(--space-6);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Featured Collection",
+  "tag": "section",
+  "class": "section-featured-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subheading",
+      "default": "Bestselling Formulations"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Curated Daily Rituals"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Potent clinical bio-actives blended with cold-pressed botanical extracts for visible radiance."
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "default": 4,
+      "label": "Products to show"
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Show secondary image on hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "default": true,
+      "label": "Enable 'View all' button"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "'View all' button label",
+      "default": "Explore All Formulations"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured Collection"
+    }
+  ]
+}
+{% endschema %}

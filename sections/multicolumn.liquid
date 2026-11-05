@@ -1,0 +1,326 @@
+{%- comment -%}
+  Aura Theme - Multicolumn Section
+  Displays brand pillars, clinical benefits, and value propositions with bespoke SVG icons.
+{%- endcomment -%}
+
+<div class="multicolumn section-spacing {% if section.settings.subtle_bg %}multicolumn--subtle-bg{% endif %}" id="Multicolumn-{{ section.id }}">
+  <div class="page-container">
+    
+    <!-- Section Header -->
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+      <div class="multicolumn__header text-center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 class="multicolumn__title font-heading">
+            {{ section.settings.heading | escape }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="multicolumn__subtext">
+            {{ section.settings.description | escape }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <!-- Columns Grid -->
+    <div class="multicolumn__grid" style="--mc-columns-desktop: {{ section.settings.columns_desktop }};">
+      {%- for block in section.blocks -%}
+        <div class="multicolumn__item text-{{ section.settings.column_alignment }}" {{ block.shopify_attributes }}>
+          
+          <!-- Bespoke SVG Icon Indicator -->
+          <div class="multicolumn__icon-wrapper">
+            {%- case block.settings.icon -%}
+              {%- when 'leaf' -%}
+                <svg class="multicolumn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                </svg>
+              {%- when 'droplet' -%}
+                <svg class="multicolumn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                </svg>
+              {%- when 'flask' -%}
+                <svg class="multicolumn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M10 2v7.31L4.1 19.46a2 2 0 0 0 1.7 2.54h12.4a2 2 0 0 0 1.7-2.54L14 9.31V2"></path>
+                  <line x1="8.5" y1="2" x2="15.5" y2="2"></line>
+                  <line x1="14" y1="9" x2="10" y2="9"></line>
+                </svg>
+              {%- when 'recycle' -%}
+                <svg class="multicolumn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="7 19 3 19 3 15"></polyline>
+                  <path d="M21 16.5a9 9 0 0 0-14.3-8.8L3 11"></path>
+                  <polyline points="17 5 21 5 21 9"></polyline>
+                  <path d="M3 7.5a9 9 0 0 0 14.3 8.8L21 13"></path>
+                </svg>
+              {%- when 'shield' -%}
+                <svg class="multicolumn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              {%- else -%}
+                <svg class="multicolumn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 14 14"></polyline>
+                </svg>
+            {%- endcase -%}
+          </div>
+
+          <!-- Column Text -->
+          {%- if block.settings.title != blank -%}
+            <h3 class="multicolumn__col-title font-heading">
+              {{ block.settings.title | escape }}
+            </h3>
+          {%- endif -%}
+
+          {%- if block.settings.text != blank -%}
+            <div class="multicolumn__col-text rte">
+              {{ block.settings.text }}
+            </div>
+          {%- endif -%}
+
+          {%- if block.settings.link_label != blank and block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}" class="multicolumn__col-link">
+              {{ block.settings.link_label | escape }} &rarr;
+            </a>
+          {%- endif -%}
+
+        </div>
+      {%- endfor -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .multicolumn--subtle-bg {
+    background-color: var(--color-surface);
+  }
+  .multicolumn__header {
+    max-width: 640px;
+    margin: 0 auto var(--space-10);
+  }
+  .multicolumn__title {
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+  .multicolumn__subtext {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-relaxed);
+  }
+  .multicolumn__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  @media (min-width: 768px) {
+    .multicolumn__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+  }
+  @media (min-width: 1024px) {
+    .multicolumn__grid {
+      grid-template-columns: repeat(var(--mc-columns-desktop, 3), 1fr);
+      gap: var(--space-10);
+    }
+  }
+  .multicolumn__item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+    background-color: var(--color-bg);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+  .multicolumn__item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-subtle);
+  }
+  .text-center {
+    align-items: center;
+    text-align: center;
+  }
+  .text-left {
+    align-items: flex-start;
+    text-align: left;
+  }
+  .multicolumn__icon-wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg-subtle);
+    color: var(--color-accent);
+    margin-bottom: var(--space-4);
+  }
+  .multicolumn__icon {
+    width: 24px;
+    height: 24px;
+  }
+  .multicolumn__col-title {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+  .multicolumn__col-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-relaxed);
+    margin-bottom: var(--space-4);
+    flex-grow: 1;
+  }
+  .multicolumn__col-link {
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    transition: color var(--transition-fast);
+  }
+  .multicolumn__col-link:hover {
+    color: var(--color-text);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Multicolumn",
+  "tag": "section",
+  "class": "section-multicolumn",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subheading",
+      "default": "Formulation Standards"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "The Conscious Radiance Creed"
+    },
+    {
+      "type": "text",
+      "id": "description",
+      "label": "Description",
+      "default": "Rigorous clinical principles grounded in botanical integrity."
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Columns on desktop"
+    },
+    {
+      "type": "select",
+      "id": "column_alignment",
+      "label": "Column alignment",
+      "options": [
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "left",
+          "label": "Left"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "subtle_bg",
+      "label": "Use subtle background",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "leaf", "label": "Leaf (Botanical)" },
+            { "value": "flask", "label": "Flask (Clinical)" },
+            { "value": "droplet", "label": "Droplet (Hydration)" },
+            { "value": "recycle", "label": "Recycle (Sustainable)" },
+            { "value": "shield", "label": "Shield (Purity)" }
+          ],
+          "default": "leaf"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Pure Clinical Botany"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Description",
+          "default": "<p>Cold-pressed within hours of harvest to preserve active phytonutrients and natural plant lipids.</p>"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multicolumn",
+      "blocks": [
+        {
+          "type": "column",
+          "settings": {
+            "icon": "leaf",
+            "title": "Bio-Active Botany",
+            "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "flask",
+            "title": "Clean Chemistry",
+            "text": "<p>100% free from synthetic perfumes, sulfates, and filler oils. Dermatologically tested for sensitive skin.</p>"
+          }
+        },
+        {
+          "type": "column",
+          "settings": {
+            "icon": "recycle",
+            "title": "Sustainable Glass",
+            "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
