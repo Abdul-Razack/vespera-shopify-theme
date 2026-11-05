@@ -1,0 +1,177 @@
+{%- comment -%}
+  Aura Theme - Main Collections List Section (Online Store 2.0)
+  Luxury portrait card grid showcasing curated skincare collections & rituals.
+{%- endcomment -%}
+
+{%- paginate collections by section.settings.collections_per_page -%}
+  <div class="main-list-collections page-container section-spacing">
+    
+    <!-- Editorial Section Header -->
+    <header class="main-list-collections__header text-center">
+      <span class="main-list-collections__eyebrow">{{ section.settings.eyebrow | default: 'CURATED RITUALS' }}</span>
+      <h1 class="main-list-collections__title">{{ section.settings.title | default: 'All Collections' }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="main-list-collections__subtitle">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+    </header>
+
+    <!-- Collections Grid -->
+    <div class="collections-grid collections-grid--{{ section.settings.columns_desktop }}-col">
+      {%- for collection in collections -%}
+        {%- if collection.all_products_count > 0 -%}
+          {%- liquid
+            assign featured_img = collection.featured_image
+            if featured_img == blank and collection.products.size > 0
+              assign featured_img = collection.products.first.featured_image
+            endif
+          -%}
+
+          <div class="collection-card">
+            <a href="{{ collection.url }}" class="collection-card__link">
+              <div class="collection-card__media-wrap collection-card__media-wrap--{{ section.settings.image_ratio }}">
+                {%- if featured_img != blank -%}
+                  <img 
+                    src="{{ featured_img | image_url: width: 800 }}" 
+                    alt="{{ featured_img.alt | default: collection.title | escape }}"
+                    loading="lazy"
+                    width="800"
+                    height="1000"
+                    class="collection-card__image"
+                  >
+                {%- else -%}
+                  <div class="collection-card__placeholder">
+                    <span class="collection-card__placeholder-monogram">{{ collection.title | slice: 0, 1 }}</span>
+                  </div>
+                {%- endif -%}
+
+                <div class="collection-card__overlay">
+                  <span class="collection-card__badge">
+                    {{ 'collections.general.items_with_count.other' | t: count: collection.all_products_count | default: 'formulations' }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="collection-card__content">
+                <h2 class="collection-card__title">{{ collection.title | escape }}</h2>
+                {%- if collection.description != blank -%}
+                  <p class="collection-card__desc">{{ collection.description | strip_html | truncatewords: 12 }}</p>
+                {%- endif -%}
+                <span class="collection-card__cta">
+                  Explore Ritual &rarr;
+                </span>
+              </div>
+            </a>
+          </div>
+        {%- endif -%}
+      {%- else -%}
+        <div class="main-list-collections__empty text-center">
+          <p>{{ 'collections.general.no_matches' | t | default: 'No collections found in this store.' }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
+            {{ 'general.continue_shopping' | t | default: 'View All Formulations' }}
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Pagination -->
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+        <ul class="pagination__list" role="list">
+          {%- if paginate.previous -%}
+            <li>
+              <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                &larr;
+              </a>
+            </li>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            <li>
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pagination__item" aria-label="{{ 'general.pagination.page' | t: number: part.title | default: part.title }}">
+                  {{ part.title }}
+                </a>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <span class="pagination__item pagination__item--current" aria-current="page">
+                    {{ part.title }}
+                  </span>
+                {%- else -%}
+                  <span class="pagination__item pagination__item--gap">&hellip;</span>
+                {%- endif -%}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <li>
+              <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                &rarr;
+              </a>
+            </li>
+          {%- endif -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collections List",
+  "tag": "section",
+  "class": "section-main-list-collections",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Kicker",
+      "default": "CURATED RITUALS"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Page Title",
+      "default": "All Collections"
+    },
+    {
+      "type": "textarea",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Discover thoughtful botanical systems formulated with clinical precision for conscious daily rituals."
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "2", "label": "2 Columns" },
+        { "value": "3", "label": "3 Columns" },
+        { "value": "4", "label": "4 Columns" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Card image aspect ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "square", "label": "Square (1:1)" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "label": "Collections per page",
+      "default": 9
+    }
+  ]
+}
+{% endschema %}
+

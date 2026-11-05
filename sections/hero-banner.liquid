@@ -1,0 +1,262 @@
+<section class="hero-editorial section-spacing" aria-labelledby="HeroHeading-{{ section.id }}">
+  <div class="page-container">
+    <div class="hero-editorial__layout">
+      
+      <!-- Content Column (Left on Desktop) -->
+      <div class="hero-editorial__content">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        <h1 id="HeroHeading-{{ section.id }}" class="hero-editorial__heading">
+          {{ section.settings.heading | default: 'Formulated to Elevate Your Natural Radiance' }}
+        </h1>
+
+        <p class="hero-editorial__subtext">
+          {{ section.settings.subtext | default: 'Pure clinical bio-actives blended with cold-pressed botanical oils. Designed for conscious daily rituals.' }}
+        </p>
+
+        <div class="hero-editorial__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a href="{{ section.settings.button_link | default: routes.all_products_collection_url }}" class="btn-primary hero-banner__btn">
+              {{ section.settings.button_label | escape }}
+            </a>
+          {%- endif -%}
+
+          {%- if section.settings.secondary_button_label != blank -%}
+            <a href="{{ section.settings.secondary_button_link | default: routes.collections_url }}" class="btn-secondary hero-banner__btn">
+              {{ section.settings.secondary_button_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+
+        <!-- Clinical Proof Metrics -->
+        {%- if section.blocks.size > 0 -%}
+          <div class="hero-editorial__metrics">
+            {%- for block in section.blocks -%}
+              <div class="hero-editorial__metric-item" {{ block.shopify_attributes }}>
+                <span class="hero-editorial__metric-value">{{ block.settings.value | escape }}</span>
+                <span class="hero-editorial__metric-label">{{ block.settings.label | escape }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Visual Media Column (Right on Desktop) -->
+      <div class="hero-editorial__media-wrapper">
+        <div class="hero-editorial__image-card">
+          {%- if section.settings.image != blank -%}
+            {{ section.settings.image | image_url: width: 1200 | image_tag: 
+               loading: 'eager',
+               fetchpriority: 'high',
+               class: 'hero-editorial__image',
+               alt: section.settings.heading | escape
+            }}
+          {%- else -%}
+            <!-- Sophisticated Luxury Placeholder Visual -->
+            <div class="hero-editorial__placeholder">
+              <svg viewBox="0 0 600 750" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-editorial__placeholder-svg" aria-hidden="true">
+                <rect width="600" height="750" fill="#EFECE6"/>
+                <circle cx="300" cy="375" r="180" fill="#E4DFC9" fill-opacity="0.6"/>
+                <path d="M260 220C260 200 340 200 340 220V260H260V220Z" fill="#8C5942"/>
+                <rect x="230" y="260" width="140" height="260" rx="20" fill="#FBF9F5" stroke="#C9C4BC" stroke-width="2"/>
+                <text x="300" y="380" font-family="serif" font-size="22" fill="#191817" text-anchor="middle" letter-spacing="3">AURA</text>
+                <text x="300" y="410" font-family="sans-serif" font-size="11" fill="#6B6661" text-anchor="middle" letter-spacing="2">BOTANICAL SERUM</text>
+              </svg>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-editorial {
+    background-color: var(--color-bg);
+  }
+  .hero-editorial__layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    align-items: center;
+  }
+  @media (min-width: 990px) {
+    .hero-editorial__layout {
+      grid-template-columns: 1.15fr 1fr;
+      gap: var(--space-16);
+    }
+  }
+  .hero-editorial__heading {
+    margin-bottom: var(--space-6);
+    max-width: 580px;
+  }
+  .hero-editorial__subtext {
+    font-size: var(--font-size-md);
+    color: var(--color-text-muted);
+    max-width: 480px;
+    margin-bottom: var(--space-8);
+  }
+  .hero-editorial__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    margin-bottom: var(--space-12);
+  }
+  .hero-editorial__metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-6);
+    max-width: 500px;
+  }
+  .hero-editorial__metric-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .hero-editorial__metric-value {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+  }
+  .hero-editorial__metric-label {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: var(--space-1);
+  }
+  .hero-editorial__media-wrapper {
+    position: relative;
+  }
+  .hero-editorial__image-card {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-bg-subtle);
+    box-shadow: var(--shadow-subtle);
+  }
+  .hero-editorial__image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .hero-editorial__placeholder {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background-color: var(--color-bg-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .hero-editorial__placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Editorial Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subtitle",
+      "default": "Clinical Botany • Conscious Rituals"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Formulated to Elevate Your Natural Radiance"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Description",
+      "default": "Pure clinical bio-actives blended with cold-pressed botanical oils. Designed for conscious daily rituals."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Primary Button Label",
+      "default": "Explore Formulations"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Primary Button Link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary Button Label",
+      "default": "Our Philosophy"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary Button Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "metric",
+      "name": "Proof Metric",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Metric Value",
+          "default": "98%"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Metric Label",
+          "default": "Bio-Active Plants"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Editorial Hero",
+      "blocks": [
+        {
+          "type": "metric",
+          "settings": {
+            "value": "98%",
+            "label": "Bio-Active Plants"
+          }
+        },
+        {
+          "type": "metric",
+          "settings": {
+            "value": "0%",
+            "label": "Synthetic Fragrance"
+          }
+        },
+        {
+          "type": "metric",
+          "settings": {
+            "value": "100%",
+            "label": "Recyclable Glass"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+

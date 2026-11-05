@@ -1,0 +1,600 @@
+<header class="site-header{% if section.settings.enable_sticky_header %} site-header--sticky{% endif %}" role="banner">
+  <div class="page-container site-header__inner">
+    
+    <!-- Mobile Menu Toggle Button -->
+    <button 
+      type="button" 
+      class="site-header__mobile-toggle" 
+      id="MobileNavToggle"
+      aria-label="{{ 'sections.header.menu' | t | default: 'Open Menu' }}"
+      aria-expanded="false"
+      aria-controls="MobileNavDrawer"
+    >
+      <span class="site-header__icon-bar" aria-hidden="true"></span>
+      <span class="site-header__icon-bar" aria-hidden="true"></span>
+    </button>
+
+    <!-- Brand Logo / Title -->
+    <div class="site-header__logo-wrapper">
+      <a href="{{ routes.root_url }}" class="site-header__logo-link">
+        {%- if settings.logo != blank -%}
+          <img 
+            src="{{ settings.logo | image_url: width: 300 }}" 
+            alt="{{ settings.logo.alt | default: shop.name | escape }}"
+            width="{{ settings.logo_width | default: 120 }}"
+            height="auto"
+            loading="eager"
+            class="site-header__logo-img"
+          >
+        {%- else -%}
+          <span class="site-header__brand-name">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <!-- Desktop Navigation Menu -->
+    <nav class="site-header__nav" role="navigation" aria-label="{{ 'sections.header.main_menu' | t | default: 'Main Menu' }}">
+      <ul class="site-header__nav-list">
+        {%- for link in linklists[section.settings.menu].links -%}
+          <li class="site-header__nav-item">
+            <a 
+              href="{{ link.url }}" 
+              class="site-header__nav-link{% if link.current %} site-header__nav-link--active{% endif %}"
+              {% if link.current %}aria-current="page"{% endif %}
+            >
+              {{ link.title | escape }}
+            </a>
+          </li>
+        {%- else -%}
+          <!-- Fallback links if menu not yet set up -->
+          <li class="site-header__nav-item"><a href="{{ routes.all_products_collection_url }}" class="site-header__nav-link">Shop Skincare</a></li>
+          <li class="site-header__nav-item"><a href="{{ routes.collections_url }}" class="site-header__nav-link">Collections</a></li>
+          <li class="site-header__nav-item"><a href="/pages/contact" class="site-header__nav-link">Contact</a></li>
+        {%- endfor -%}
+      </ul>
+    </nav>
+
+    <!-- Header Actions (Search, Account & Cart) -->
+    <div class="site-header__actions">
+      
+      <!-- Search Trigger Icon Button -->
+      <a 
+        href="{{ routes.search_url }}" 
+        class="site-header__icon-link site-header__search-toggle" 
+        id="HeaderSearchToggle"
+        aria-label="{{ 'templates.search.search' | t | default: 'Search Formulations' }}"
+        aria-expanded="false"
+        aria-controls="HeaderSearchModal"
+      >
+        <svg class="site-header__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </a>
+
+      <!-- Native Shopify Account Component (Mandatory Theme Store Requirement) -->
+      {%- if shop.customer_accounts_enabled -%}
+        <div class="site-header__account-slot">
+          <shopify-account></shopify-account>
+        </div>
+      {%- endif -%}
+
+      <!-- Cart Icon with Live Bubble -->
+      <a 
+        href="{{ routes.cart_url }}" 
+        class="site-header__icon-link site-header__cart-link" 
+        id="CartIconBubble"
+        aria-label="{{ cart.item_count }} {{ 'templates.cart.items' | t | default: 'items in cart' }}"
+      >
+        <svg class="site-header__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <path d="M16 10a4 4 0 0 1-8 0"></path>
+        </svg>
+        <span class="site-header__cart-count" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>
+      </a>
+
+    </div>
+
+  </div>
+
+  <!-- Header Predictive Search Drawer / Bar -->
+  <div id="HeaderSearchModal" class="header-search" aria-hidden="true">
+    <div class="page-container header-search__inner">
+      <predictive-search class="header-search__predictive">
+        <form action="{{ routes.search_url }}" method="get" role="search" class="header-search__form">
+          <input type="hidden" name="options[prefix]" value="last">
+          <button type="submit" class="header-search__submit-btn" aria-label="{{ 'templates.search.submit' | t | default: 'Search Formulations' }}">
+            <svg class="header-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </button>
+          <input 
+            type="search" 
+            name="q" 
+            id="HeaderSearchInput"
+            class="header-search__input" 
+            placeholder="Search formulations, rituals, botanical extracts..." 
+            aria-label="{{ 'templates.search.search' | t | default: 'Search formulations' }}"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+          >
+          <button type="button" class="header-search__close-btn" id="HeaderSearchClose" aria-label="Close search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </form>
+        <div class="predictive-search__results header-search__results" tabindex="-1"></div>
+      </predictive-search>
+    </div>
+  </div>
+
+  <!-- Mobile Navigation Drawer -->
+  <div id="MobileNavDrawer" class="mobile-nav-drawer" aria-hidden="true">
+    <div class="mobile-nav-drawer__overlay" id="MobileNavOverlay"></div>
+    <div class="mobile-nav-drawer__panel">
+      <div class="mobile-nav-drawer__header">
+        <span class="site-header__brand-name">{{ shop.name }}</span>
+        <button type="button" class="mobile-nav-drawer__close" id="MobileNavClose" aria-label="Close menu">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Mobile Search Form inside Drawer -->
+      <form action="{{ routes.search_url }}" method="get" role="search" class="mobile-nav-drawer__search">
+        <input type="hidden" name="options[prefix]" value="last">
+        <svg class="mobile-nav-drawer__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input 
+          type="search" 
+          name="q" 
+          class="mobile-nav-drawer__search-input" 
+          placeholder="Search formulations..." 
+          aria-label="Search formulations"
+        >
+      </form>
+
+      <nav class="mobile-nav-drawer__nav">
+        <ul class="mobile-nav-drawer__list">
+          {%- for link in linklists[section.settings.menu].links -%}
+            <li class="mobile-nav-drawer__item">
+              <a href="{{ link.url }}" class="mobile-nav-drawer__link{% if link.current %} mobile-nav-drawer__link--active{% endif %}">
+                {{ link.title | escape }}
+              </a>
+            </li>
+          {%- else -%}
+            <li class="mobile-nav-drawer__item"><a href="{{ routes.all_products_collection_url }}" class="mobile-nav-drawer__link">Shop Skincare</a></li>
+            <li class="mobile-nav-drawer__item"><a href="{{ routes.collections_url }}" class="mobile-nav-drawer__link">Collections</a></li>
+            <li class="mobile-nav-drawer__item"><a href="/pages/contact" class="mobile-nav-drawer__link">Contact</a></li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: relative;
+    background-color: var(--color-bg);
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color var(--transition-normal);
+  }
+  .site-header--sticky {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 72px;
+  }
+  .site-header__brand-name {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-xl);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+  }
+  .site-header__nav-list {
+    display: none;
+    list-style: none;
+    gap: var(--space-8);
+  }
+  @media (min-width: 990px) {
+    .site-header__nav-list {
+      display: flex;
+    }
+  }
+  .site-header__nav-link {
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    font-weight: var(--font-weight-medium);
+    padding: var(--space-2) 0;
+    position: relative;
+  }
+  .site-header__nav-link:hover,
+  .site-header__nav-link--active {
+    color: var(--color-text);
+  }
+  .site-header__nav-link--active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-text);
+  }
+  .site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .site-header__icon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+    position: relative;
+    padding: var(--space-2);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+  .site-header__icon-link:hover {
+    color: var(--color-accent);
+  }
+  .site-header__icon-svg {
+    width: 22px;
+    height: 22px;
+  }
+  .site-header__cart-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 4px;
+    background-color: var(--color-accent);
+    color: var(--color-surface);
+    font-size: 11px;
+    line-height: 1;
+    font-weight: var(--font-weight-semibold);
+    border-radius: var(--radius-full);
+    margin-left: 4px;
+  }
+  .site-header__mobile-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    margin-left: -10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  @media (min-width: 990px) {
+    .site-header__mobile-toggle {
+      display: none;
+    }
+  }
+  .site-header__icon-bar {
+    width: 20px;
+    height: 1.5px;
+    background-color: var(--color-text);
+    transition: transform var(--transition-fast);
+  }
+
+  /* ==========================================================================
+     HEADER PREDICTIVE SEARCH DRAWER
+     ========================================================================== */
+  .header-search {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--color-surface, #FFFFFF);
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 12px 32px rgba(25, 24, 23, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity var(--transition-normal), transform var(--transition-normal), visibility var(--transition-normal);
+    z-index: 95;
+  }
+  .header-search--open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .header-search__inner {
+    padding: var(--space-4) var(--space-6);
+  }
+  .header-search__form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-2);
+  }
+  .header-search__submit-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+  }
+  .header-search__submit-btn:hover {
+    color: var(--color-text);
+  }
+  .header-search__icon {
+    width: 20px;
+    height: 20px;
+  }
+  .header-search__input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 1.125rem;
+    font-family: inherit;
+    color: var(--color-text);
+  }
+  .header-search__close-btn {
+    background: transparent;
+    border: none;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    padding: var(--space-1);
+    display: inline-flex;
+    align-items: center;
+    transition: color var(--transition-fast);
+  }
+  .header-search__close-btn:hover {
+    color: var(--color-text);
+  }
+
+  /* ==========================================================================
+     MOBILE NAVIGATION DRAWER
+     ========================================================================== */
+  .mobile-nav-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 250;
+    pointer-events: none;
+    visibility: hidden;
+    transition: visibility var(--transition-normal);
+  }
+  .mobile-nav-drawer--open {
+    pointer-events: auto;
+    visibility: visible;
+  }
+  .mobile-nav-drawer__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(25, 24, 23, 0.45);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+  }
+  .mobile-nav-drawer--open .mobile-nav-drawer__overlay {
+    opacity: 1;
+  }
+  .mobile-nav-drawer__panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 85%;
+    max-width: 380px;
+    background-color: var(--color-bg);
+    box-shadow: 4px 0 30px rgba(25, 24, 23, 0.12);
+    transform: translateX(-100%);
+    transition: transform var(--transition-smooth);
+    padding: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+  .mobile-nav-drawer--open .mobile-nav-drawer__panel {
+    transform: translateX(0);
+  }
+  .mobile-nav-drawer__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+  }
+  .mobile-nav-drawer__close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text);
+    padding: var(--space-1);
+  }
+  .mobile-nav-drawer__search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-3);
+    background-color: var(--color-surface);
+    margin-bottom: var(--space-6);
+  }
+  .mobile-nav-drawer__search-icon {
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-muted);
+  }
+  .mobile-nav-drawer__search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    font-family: inherit;
+  }
+  .mobile-nav-drawer__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+  .mobile-nav-drawer__link {
+    font-size: var(--font-size-md);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    display: block;
+    padding: var(--space-2) 0;
+  }
+  .mobile-nav-drawer__link--active {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  (function() {
+    // Header Search Toggle & Focus Management
+    const searchToggle = document.getElementById('HeaderSearchToggle');
+    const searchModal = document.getElementById('HeaderSearchModal');
+    const searchClose = document.getElementById('HeaderSearchClose');
+    const searchInput = document.getElementById('HeaderSearchInput');
+
+    function openSearch(e) {
+      if (e) e.preventDefault();
+      if (!searchModal) return;
+      searchModal.classList.add('header-search--open');
+      searchModal.setAttribute('aria-hidden', 'false');
+      if (searchToggle) searchToggle.setAttribute('aria-expanded', 'true');
+      if (searchInput) {
+        setTimeout(() => searchInput.focus(), 60);
+      }
+    }
+
+    function closeSearch() {
+      if (!searchModal) return;
+      searchModal.classList.remove('header-search--open');
+      searchModal.setAttribute('aria-hidden', 'true');
+      if (searchToggle) {
+        searchToggle.setAttribute('aria-expanded', 'false');
+        searchToggle.focus();
+      }
+      const results = searchModal.querySelector('.predictive-search__results');
+      if (results) results.style.display = 'none';
+    }
+
+    if (searchToggle) {
+      searchToggle.addEventListener('click', (e) => {
+        if (searchModal && searchModal.classList.contains('header-search--open')) {
+          e.preventDefault();
+          closeSearch();
+        } else {
+          openSearch(e);
+        }
+      });
+    }
+
+    if (searchClose) {
+      searchClose.addEventListener('click', (e) => {
+        e.preventDefault();
+        closeSearch();
+      });
+    }
+
+    // Dismiss search on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && searchModal && searchModal.classList.contains('header-search--open')) {
+        closeSearch();
+      }
+    });
+
+    // Dismiss search on click outside
+    document.addEventListener('click', (e) => {
+      if (searchModal && searchModal.classList.contains('header-search--open')) {
+        if (!searchModal.contains(e.target) && !searchToggle.contains(e.target)) {
+          closeSearch();
+        }
+      }
+    });
+
+    // Mobile Navigation Drawer Toggle
+    const mobileToggle = document.getElementById('MobileNavToggle');
+    const mobileDrawer = document.getElementById('MobileNavDrawer');
+    const mobileClose = document.getElementById('MobileNavClose');
+    const mobileOverlay = document.getElementById('MobileNavOverlay');
+
+    function openMobileDrawer() {
+      if (!mobileDrawer) return;
+      mobileDrawer.classList.add('mobile-nav-drawer--open');
+      mobileDrawer.setAttribute('aria-hidden', 'false');
+      if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileDrawer() {
+      if (!mobileDrawer) return;
+      mobileDrawer.classList.remove('mobile-nav-drawer--open');
+      mobileDrawer.setAttribute('aria-hidden', 'true');
+      if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    if (mobileToggle) {
+      mobileToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        openMobileDrawer();
+      });
+    }
+    if (mobileClose) mobileClose.addEventListener('click', closeMobileDrawer);
+    if (mobileOverlay) mobileOverlay.addEventListener('click', closeMobileDrawer);
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Navigation Menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky_header",
+      "label": "Enable Sticky Header",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

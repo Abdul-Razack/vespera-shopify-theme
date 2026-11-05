@@ -1,0 +1,408 @@
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_media = current_variant.featured_media | default: product.featured_media -%}
+
+<div class="main-product page-container section-spacing" data-section-id="{{ section.id }}" data-product-id="{{ product.id }}">
+  <div class="main-product__layout">
+    
+    <!-- LEFT COLUMN: Media Gallery -->
+    <div class="main-product__media-col">
+      <div class="main-product__gallery" data-gallery>
+        <div class="main-product__featured-wrapper">
+          {%- if featured_media != blank -%}
+            <img 
+              id="MainProductImage-{{ section.id }}"
+              src="{{ featured_media | image_url: width: 1200 }}" 
+              alt="{{ featured_media.alt | default: product.title | escape }}"
+              class="main-product__featured-img"
+              width="{{ featured_media.width | default: 800 }}"
+              height="{{ featured_media.height | default: 1000 }}"
+              loading="eager"
+            >
+          {%- else -%}
+            <div class="main-product__placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+            </div>
+          {%- endif -%}
+
+          {%- if product.compare_at_price > product.price -%}
+            <span class="product-badge product-badge--sale">{{ 'products.product.on_sale' | t | default: 'Sale' }}</span>
+          {%- elsif product.available == false -%}
+            <span class="product-badge product-badge--soldout">{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</span>
+          {%- endif -%}
+        </div>
+
+        <!-- Thumbnails Strip -->
+        {%- if product.media.size > 1 -%}
+          <div class="main-product__thumbnails" role="list">
+            {%- for media in product.media -%}
+              <button 
+                type="button" 
+                class="main-product__thumb-btn {% if media == featured_media %}is-active{% endif %}"
+                data-thumbnail-id="{{ media.id }}"
+                data-target-src="{{ media | image_url: width: 1200 }}"
+                aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load image ' | append: forloop.index }}"
+              >
+                <img 
+                  src="{{ media | image_url: width: 160, height: 200, crop: 'center' }}" 
+                  alt="{{ media.alt | default: product.title | escape }}"
+                  width="80" 
+                  height="100" 
+                  loading="lazy"
+                  class="main-product__thumb-img"
+                >
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: Purchase Panel & Story -->
+    <div class="main-product__info-col">
+      <div class="main-product__info-stack">
+        
+        <!-- Vendor / Philosophy Sub-title -->
+        {%- if section.settings.show_vendor and product.vendor != blank -%}
+          <p class="main-product__vendor">{{ product.vendor | escape }} &bull; {{ 'products.product.clinical_grade' | t | default: 'Clinical Botany' }}</p>
+        {%- else -%}
+          <p class="main-product__vendor">AURA &bull; {{ 'products.product.clinical_grade' | t | default: 'Conscious Formulation' }}</p>
+        {%- endif -%}
+
+        <!-- Title -->
+        <h1 class="main-product__title">{{ product.title | escape }}</h1>
+
+        <!-- Price -->
+        <div class="main-product__price-wrap" id="Price-{{ section.id }}" role="status">
+          <span class="main-product__price" data-regular-price>{{ current_variant.price | money }}</span>
+          {%- if current_variant.compare_at_price > current_variant.price -%}
+            <span class="main-product__compare-price" data-compare-price>{{ current_variant.compare_at_price | money }}</span>
+          {%- endif -%}
+          <span class="main-product__tax-note">{{ 'products.product.tax_included' | t | default: 'Taxes included. Free worldwide shipping on $75+' }}</span>
+        </div>
+
+        <!-- Stock Status -->
+        <div class="main-product__stock-status">
+          {%- if current_variant.available -%}
+            <span class="stock-dot stock-dot--in"></span>
+            <span class="stock-text">{{ 'products.product.in_stock' | t | default: 'In stock — Small-batch release' }}</span>
+          {%- else -%}
+            <span class="stock-dot stock-dot--out"></span>
+            <span class="stock-text">{{ 'products.product.sold_out' | t | default: 'Currently out of stock' }}</span>
+          {%- endif -%}
+        </div>
+
+        <!-- Add To Cart Form -->
+        {%- form 'product', product, id: 'MainProductForm', class: 'main-product__form' -%}
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-selected-variant-id>
+
+          <!-- Variant Pickers -->
+          {%- unless product.has_only_default_variant -%}
+            <div class="main-product__options">
+              {%- for option in product.options_with_values -%}
+                <div class="main-product__option-group" data-option-index="{{ forloop.index0 }}">
+                  <label class="main-product__option-label">
+                    {{ option.name }}: <span class="main-product__option-selected-val">{{ option.selected_value }}</span>
+                  </label>
+                  
+                  <div class="main-product__pill-list">
+                    {%- for value in option.values -%}
+                      <label class="main-product__pill">
+                        <input 
+                          type="radio" 
+                          name="option-{{ option.name | handleize }}" 
+                          value="{{ value | escape }}"
+                          {% if option.selected_value == value %}checked="checked"{% endif %}
+                          class="visually-hidden main-product__pill-input"
+                          data-option-value
+                        >
+                        <span class="main-product__pill-btn">{{ value }}</span>
+                      </label>
+                    {%- endfor -%}
+                  </div>
+                </div>
+              {%- endfor -%}
+            </div>
+          {%- endunless -%}
+
+          <!-- Quantity Stepper -->
+          <div class="main-product__qty-group">
+            <label for="Quantity-{{ section.id }}" class="main-product__qty-label">{{ 'products.product.quantity' | t | default: 'Quantity' }}</label>
+            <div class="main-product__qty-stepper">
+              <button type="button" class="main-product__qty-btn" data-product-qty-minus aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease quantity' }}">&minus;</button>
+              <input 
+                type="number" 
+                id="Quantity-{{ section.id }}" 
+                name="quantity" 
+                value="1" 
+                min="1" 
+                class="main-product__qty-input"
+                data-product-qty-input
+              >
+              <button type="button" class="main-product__qty-btn" data-product-qty-plus aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase quantity' }}">&plus;</button>
+            </div>
+          </div>
+
+          <!-- Add to Cart CTA -->
+          <div class="main-product__cta-wrap">
+            <button 
+              type="submit" 
+              name="add" 
+              id="AddToCart-{{ section.id }}"
+              class="btn-primary main-product__add-btn"
+              {% unless current_variant.available %}disabled="disabled"{% endunless %}
+            >
+              {%- if current_variant.available -%}
+                {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }} &bull; <span data-btn-price>{{ current_variant.price | money }}</span>
+              {%- else -%}
+                {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+              {%- endif -%}
+            </button>
+            
+            {%- if section.settings.show_dynamic_checkout -%}
+              <div class="main-product__dynamic-checkout">
+                {{ form | payment_button }}
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endform -%}
+
+        <!-- Clinical Proof Badges -->
+        <div class="main-product__proof-row">
+          <div class="proof-badge">
+            <span class="proof-badge__icon">&check;</span>
+            <span class="proof-badge__text">Dermatologist Verified</span>
+          </div>
+          <div class="proof-badge">
+            <span class="proof-badge__icon">&check;</span>
+            <span class="proof-badge__text">100% Vegan & Bio-Active</span>
+          </div>
+          <div class="proof-badge">
+            <span class="proof-badge__icon">&check;</span>
+            <span class="proof-badge__text">Sustainable Glass Vessel</span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        {%- if product.description != blank -%}
+          <div class="main-product__description rte">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        <!-- Collapsible Ritual Tabs / Accordions -->
+        <div class="main-product__accordions">
+          
+          <details class="main-product__accordion" open>
+            <summary class="main-product__accordion-summary">
+              <span>Clinical Formulation & Efficacy</span>
+              <span class="accordion-icon">+</span>
+            </summary>
+            <div class="main-product__accordion-content">
+              <p>Engineered with cold-pressed botanical actives and pure bio-compatible lipid barriers. Clinically documented to boost barrier moisture retention by 94% within 14 consecutive days of daily morning and evening ritual.</p>
+            </div>
+          </details>
+
+          <details class="main-product__accordion">
+            <summary class="main-product__accordion-summary">
+              <span>Conscious Ritual & How to Use</span>
+              <span class="accordion-icon">+</span>
+            </summary>
+            <div class="main-product__accordion-content">
+              <p>Warm 2–3 drops into clean palms. Inhale the natural botanical terpene profile. Press gently into damp face and decolletage using upward sweeps until fully absorbed. Follow with SPF during daytime rituals.</p>
+            </div>
+          </details>
+
+          <details class="main-product__accordion">
+            <summary class="main-product__accordion-summary">
+              <span>Conscious Packaging & Earth Standard</span>
+              <span class="accordion-icon">+</span>
+            </summary>
+            <div class="main-product__accordion-content">
+              <p>Housed in 100% recyclable amber UV-filtering glass to preserve potency without synthetic stabilizers. Packaged in FSC-certified post-consumer recycled paper printed with soy ink.</p>
+            </div>
+          </details>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Sticky Mobile Add to Cart Bar -->
+<div class="sticky-mobile-buy-bar" id="StickyMobileBuyBar" aria-hidden="true">
+  <div class="sticky-mobile-buy-bar__inner">
+    <div class="sticky-mobile-buy-bar__left">
+      {%- if featured_media != blank -%}
+        <img src="{{ featured_media | image_url: width: 100, height: 100, crop: 'center' }}" alt="{{ product.title | escape }}" width="48" height="48" class="sticky-mobile-buy-bar__img">
+      {%- endif -%}
+      <div class="sticky-mobile-buy-bar__text">
+        <p class="sticky-mobile-buy-bar__title">{{ product.title | escape }}</p>
+        <p class="sticky-mobile-buy-bar__price">{{ current_variant.price | money }}</p>
+      </div>
+    </div>
+    <button type="button" class="btn-primary sticky-mobile-buy-bar__btn" data-sticky-buy-btn>
+      {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}
+    </button>
+  </div>
+</div>
+
+<!-- Safe JSON Variant Data for Vanilla JS Controller -->
+<script type="application/json" id="ProductJson-{{ section.id }}">
+  {{ product.variants | json }}
+</script>
+
+<script>
+  (function() {
+    const section = document.querySelector('[data-section-id="{{ section.id }}"]');
+    if (!section) return;
+
+    const variantDataEl = document.getElementById('ProductJson-{{ section.id }}');
+    const variants = variantDataEl ? JSON.parse(variantDataEl.textContent) : [];
+    const mainImg = document.getElementById('MainProductImage-{{ section.id }}');
+    const hiddenIdInput = section.querySelector('[data-selected-variant-id]');
+    const addBtn = document.getElementById('AddToCart-{{ section.id }}');
+    const regularPriceEl = section.querySelector('[data-regular-price]');
+    const comparePriceEl = section.querySelector('[data-compare-price]');
+    const btnPriceEl = section.querySelector('[data-btn-price]');
+
+    // Thumbnails click switching
+    const thumbBtns = section.querySelectorAll('.main-product__thumb-btn');
+    thumbBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        thumbBtns.forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        const targetSrc = btn.getAttribute('data-target-src');
+        if (mainImg && targetSrc) {
+          mainImg.src = targetSrc;
+        }
+      });
+    });
+
+    // Variant Selection Handling
+    const pillInputs = section.querySelectorAll('[data-option-value]');
+    pillInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        // Update label
+        const group = input.closest('.main-product__option-group');
+        const selectedValEl = group.querySelector('.main-product__option-selected-val');
+        if (selectedValEl) selectedValEl.textContent = input.value;
+
+        // Find selected options
+        const selectedOptions = Array.from(section.querySelectorAll('.main-product__option-group')).map(g => {
+          const checked = g.querySelector('.main-product__pill-input:checked');
+          return checked ? checked.value : null;
+        });
+
+        // Find matching variant
+        const matchedVariant = variants.find(v => {
+          return v.options.every((opt, idx) => opt === selectedOptions[idx]);
+        });
+
+        if (matchedVariant) {
+          if (hiddenIdInput) hiddenIdInput.value = matchedVariant.id;
+          
+          // Format price
+          const formattedPrice = "$" + (matchedVariant.price / 100).toFixed(2);
+          if (regularPriceEl) regularPriceEl.textContent = formattedPrice;
+          if (btnPriceEl) btnPriceEl.textContent = formattedPrice;
+
+          if (matchedVariant.compare_at_price && matchedVariant.compare_at_price > matchedVariant.price) {
+            const formattedCompare = "$" + (matchedVariant.compare_at_price / 100).toFixed(2);
+            if (comparePriceEl) {
+              comparePriceEl.textContent = formattedCompare;
+              comparePriceEl.style.display = 'inline';
+            }
+          } else if (comparePriceEl) {
+            comparePriceEl.style.display = 'none';
+          }
+
+          // Availability
+          if (matchedVariant.available) {
+            addBtn.removeAttribute('disabled');
+            addBtn.innerHTML = `Add to Bag &bull; <span>${formattedPrice}</span>`;
+          } else {
+            addBtn.setAttribute('disabled', 'disabled');
+            addBtn.textContent = 'Sold Out';
+          }
+
+          // Featured image
+          if (matchedVariant.featured_image && mainImg) {
+            mainImg.src = matchedVariant.featured_image.src;
+          }
+        }
+      });
+    });
+
+    // Quantity Stepper
+    const minusBtn = section.querySelector('[data-product-qty-minus]');
+    const plusBtn = section.querySelector('[data-product-qty-plus]');
+    const qtyInput = section.querySelector('[data-product-qty-input]');
+
+    if (minusBtn && plusBtn && qtyInput) {
+      minusBtn.addEventListener('click', () => {
+        const val = parseInt(qtyInput.value, 10) || 1;
+        if (val > 1) qtyInput.value = val - 1;
+      });
+      plusBtn.addEventListener('click', () => {
+        const val = parseInt(qtyInput.value, 10) || 1;
+        qtyInput.value = val + 1;
+      });
+    }
+
+    // Sticky Mobile Buy Bar IntersectionObserver
+    const stickyBar = document.getElementById('StickyMobileBuyBar');
+    const stickyBtn = document.querySelector('[data-sticky-buy-btn]');
+    if (stickyBar && addBtn) {
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+              stickyBar.setAttribute('aria-hidden', 'false');
+              stickyBar.classList.add('is-visible');
+            } else {
+              stickyBar.setAttribute('aria-hidden', 'true');
+              stickyBar.classList.remove('is-visible');
+            }
+          });
+        }, { threshold: 0 });
+        observer.observe(addBtn);
+      }
+
+      if (stickyBtn) {
+        stickyBtn.addEventListener('click', () => {
+          addBtn.click();
+        });
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product Information",
+  "tag": "section",
+  "class": "section-main-product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show brand vendor",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Information"
+    }
+  ]
+}
+{% endschema %}
+

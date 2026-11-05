@@ -1,0 +1,256 @@
+<footer class="site-footer" role="contentinfo">
+  <div class="page-container">
+    
+    <!-- Top Grid: Brand Bio + Newsletter + Menus -->
+    <div class="site-footer__grid">
+      
+      <!-- Column 1: Brand Philosophy -->
+      <div class="site-footer__col site-footer__col--brand">
+        <h2 class="site-footer__brand-title">{{ shop.name }}</h2>
+        <p class="site-footer__brand-desc">
+          Formulated with intentional botanical extracts and clinical precision. Created for conscious rituals and radiant skin.
+        </p>
+      </div>
+
+      <!-- Column 2: Quick Links -->
+      <div class="site-footer__col site-footer__col--links">
+        <h3 class="site-footer__heading">Explore</h3>
+        <ul class="site-footer__link-list">
+          {%- if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 -%}
+            {%- for link in linklists[section.settings.menu].links -%}
+              <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title }}</a></li>
+            {%- endfor -%}
+          {%- else -%}
+            <li><a href="{{ routes.all_products_collection_url }}" class="site-footer__link">All Formulations</a></li>
+            <li><a href="{{ routes.collections_url }}" class="site-footer__link">Ritual Sets</a></li>
+            <li><a href="{{ routes.search_url }}" class="site-footer__link">Search Catalog</a></li>
+            <li><a href="/pages/contact" class="site-footer__link">Customer Care</a></li>
+          {%- endif -%}
+        </ul>
+      </div>
+
+      <!-- Column 3: Newsletter (High-Converting & Accessible) -->
+      <div class="site-footer__col site-footer__col--newsletter">
+        <h3 class="site-footer__heading">{{ section.settings.newsletter_heading | default: 'The Inner Circle' }}</h3>
+        <p class="site-footer__newsletter-text">
+          {{ section.settings.newsletter_subheading | default: 'Receive private invitations and early formula releases.' }}
+        </p>
+
+        {%- form 'customer', id: 'ContactFooter', class: 'site-footer__newsletter-form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          
+          {%- if form.posted_successfully? -%}
+            <p class="site-footer__form-success" role="status" tabindex="-1" autofocus>
+              Thank you for subscribing to Aura.
+            </p>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <p class="site-footer__form-error" role="alert">
+              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+            </p>
+          {%- endif -%}
+
+          <div class="site-footer__input-group">
+            <label for="NewsletterEmail" class="visually-hidden">Email address</label>
+            <input 
+              id="NewsletterEmail"
+              type="email" 
+              name="contact[email]" 
+              class="site-footer__input" 
+              value="{{ form.email }}" 
+              placeholder="Enter your email" 
+              aria-required="true" 
+              autocorrect="off" 
+              autocapitalize="off" 
+              autocomplete="email"
+              {% if form.errors %}aria-invalid="true"{% endif %}
+              required
+            >
+            <button type="submit" class="site-footer__submit-btn" aria-label="Join - Subscribe to newsletter">
+              Join &rarr;
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+
+    </div>
+
+    <!-- Bottom Bar: Copyright & Payment Badges -->
+    <div class="site-footer__bottom">
+      <p class="site-footer__copyright">
+        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved. Powered by Shopify.
+      </p>
+
+      {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
+        <div class="site-footer__payments" aria-label="Payment methods">
+          <ul class="site-footer__payment-list" role="list">
+            {%- for type in shop.enabled_payment_types -%}
+              <li class="site-footer__payment-item">
+                {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background-color: var(--color-bg-subtle);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--section-padding-desktop);
+    padding-bottom: var(--space-12);
+    color: var(--color-text);
+  }
+  .site-footer__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-10);
+    margin-bottom: var(--space-16);
+  }
+  @media (min-width: 768px) {
+    .site-footer__grid {
+      grid-template-columns: 1.5fr 1fr 1.5fr;
+      gap: var(--space-12);
+    }
+  }
+  .site-footer__brand-title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-lg);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-3);
+  }
+  .site-footer__brand-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    max-width: 320px;
+    line-height: 1.7;
+  }
+  .site-footer__heading {
+    font-family: var(--font-sans);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+  .site-footer__link-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .site-footer__link {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+  .site-footer__link:hover {
+    color: var(--color-text);
+  }
+  .site-footer__newsletter-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+  .site-footer__input-group {
+    display: flex;
+    border-bottom: 1px solid var(--color-border-dark);
+    max-width: 360px;
+  }
+  .site-footer__input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: var(--space-3) 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    outline: none;
+  }
+  .site-footer__submit-btn {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    padding: var(--space-3) var(--space-2);
+    transition: color var(--transition-fast);
+  }
+  .site-footer__submit-btn:hover {
+    color: var(--color-accent);
+  }
+  .site-footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: center;
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-8);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+  @media (min-width: 768px) {
+    .site-footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+    }
+  }
+  .site-footer__payment-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    list-style: none;
+  }
+  .payment-icon {
+    width: 36px;
+    height: 24px;
+  }
+  .visually-hidden {
+    position: absolute !important;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "Newsletter Heading",
+      "default": "The Inner Circle"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_subheading",
+      "label": "Newsletter Subheading",
+      "default": "Receive private invitations and early formula releases."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Quick Links Menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "Show Payment Icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}
+

@@ -1,0 +1,20 @@
+<div class="main-page page-container section-spacing">
+  <article class="main-page__article">
+    <header class="main-page__header">
+      <h1 class="main-page__title">{{ page.title | escape }}</h1>
+    </header>
+    <div class="main-page__content rte">
+      {{ page.content }}
+    </div>
+  </article>
+</div>
+
+{% schema %}
+{
+  "name": "Page Content",
+  "tag": "section",
+  "class": "section-main-page",
+  "settings": []
+}
+{% endschema %}
+

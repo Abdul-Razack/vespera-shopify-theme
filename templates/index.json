@@ -1,0 +1,46 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "blocks": {
+        "metric_1": {
+          "type": "metric",
+          "settings": {
+            "value": "98%",
+            "label": "Bio-Active Plants"
+          }
+        },
+        "metric_2": {
+          "type": "metric",
+          "settings": {
+            "value": "0%",
+            "label": "Synthetic Fragrance"
+          }
+        },
+        "metric_3": {
+          "type": "metric",
+          "settings": {
+            "value": "100%",
+            "label": "Recyclable Glass"
+          }
+        }
+      },
+      "block_order": [
+        "metric_1",
+        "metric_2",
+        "metric_3"
+      ],
+      "settings": {
+        "eyebrow": "Clinical Botany • Conscious Rituals",
+        "heading": "Formulated to Elevate Your Natural Radiance",
+        "subtext": "Pure clinical bio-actives blended with cold-pressed botanical oils. Designed for conscious daily rituals.",
+        "button_label": "Explore Formulations",
+        "secondary_button_label": "Our Philosophy"
+      }
+    }
+  },
+  "order": [
+    "hero"
+  ]
+}
+

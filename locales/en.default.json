@@ -1,4 +1,72 @@
 {
+  "accessibility": {
+    "skip_to_text": "Skip to content"
+  },
+  "sections": {
+    "header": {
+      "announcement": "Announcement",
+      "menu": "Menu",
+      "main_menu": "Main menu"
+    }
+  },
+  "templates": {
+    "cart": {
+      "title": "Your Ritual Bag",
+      "cart": "Cart",
+      "items": "items",
+      "free_shipping_unlocked": "You've unlocked Free Worldwide Shipping!",
+      "empty": "Your ritual bag is currently empty.",
+      "remove": "Remove",
+      "remove_item": "Remove {{ title }}",
+      "note": "Order note or special ritual instructions:",
+      "summary": "Summary",
+      "subtotal": "Subtotal",
+      "taxes_and_shipping_policy_at_checkout_html": "Taxes and shipping calculated at checkout.",
+      "checkout": "Proceed to Checkout",
+      "continue_shopping": "Continue Shopping",
+      "headings": {
+        "product": "Formulation",
+        "quantity": "Quantity",
+        "total": "Total"
+      }
+    },
+    "search": {
+      "search": "Search Formulations",
+      "title": "Search Formulations",
+      "placeholder": "Search by botanical active, concern, or product...",
+      "submit": "Submit Search",
+      "no_results": "No formulations found matching your query.",
+      "results_with_count": "{{ count }} formulations found"
+    },
+    "404": {
+      "subtext": "Formulation Not Found"
+    }
+  },
+  "general": {
+    "continue_shopping": "Explore Formulations",
+    "pagination": {
+      "label": "Pagination",
+      "page": "Page {{ number }}",
+      "previous": "Previous page",
+      "next": "Next page"
+    }
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "Quick Add",
+      "sold_out": "Sold Out",
+      "on_sale": "Sale",
+      "clinical_grade": "Clinical Botany",
+      "tax_included": "Taxes included. Free worldwide shipping on $75+",
+      "in_stock": "In stock — Small-batch release",
+      "quantity": "Quantity",
+      "decrease_quantity": "Decrease quantity",
+      "increase_quantity": "Increase quantity",
+      "media": {
+        "load_image": "Load image {{ index }}"
+      }
+    }
+  },
   "404": {
     "title": "404",
     "not_found": "Page not found.",
@@ -28,7 +96,25 @@
     }
   },
   "collections": {
-    "title": "Collections"
+    "title": "Collections",
+    "general": {
+      "no_matches": "No formulations found in this ritual collection.",
+      "items_with_count": {
+        "one": "1 formulation",
+        "other": "{{ count }} formulations"
+      }
+    },
+    "sorting": {
+      "title": "Sort by"
+    },
+    "filtering": {
+      "filter_by_label": "Filter by",
+      "filter_and_sort": "Filter & Sort",
+      "clear_all": "Clear all",
+      "reset": "Reset",
+      "apply": "Apply",
+      "active_filters": "Active filters"
+    }
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",

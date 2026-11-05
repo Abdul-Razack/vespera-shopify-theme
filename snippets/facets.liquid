@@ -1,0 +1,301 @@
+{%- comment -%}
+  Renders faceted storefront filtering and sorting for collections and search.
+  Accepts:
+  - results: {Object} Collection or Search Liquid object
+  - enable_filtering: {Boolean}
+  - enable_sorting: {Boolean}
+{%- endcomment -%}
+
+{%- assign sort_by = results.sort_by | default: results.default_sort_by -%}
+{%- assign total_active_values = 0 -%}
+
+{%- for filter in results.filters -%}
+  {%- assign total_active_values = total_active_values | plus: filter.active_values.size -%}
+  {%- if filter.type == 'price_range' -%}
+    {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+      {%- assign total_active_values = total_active_values | plus: 1 -%}
+    {%- endif -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<div class="facets-container" id="FacetsContainer">
+  <form id="FacetFiltersForm" class="facets__form" method="get">
+    {%- if results.terms -%}
+      <input type="hidden" name="q" value="{{ results.terms | escape }}">
+    {%- endif -%}
+
+    <div class="facets__bar">
+      <!-- Left: Filter Disclosures -->
+      <div class="facets__left-group">
+        {%- if enable_filtering and results.filters != empty -%}
+          <div class="facets__filters-group">
+            {%- for filter in results.filters -%}
+              {%- case filter.type -%}
+                {%- when 'list' -%}
+                  <details class="facet-disclosure" name="facet-group" id="Details-{{ filter.param_name | escape }}">
+                    <summary class="facet-disclosure__summary">
+                      <span class="facet-disclosure__title">{{ filter.label | escape }}</span>
+                      {%- if filter.active_values.size > 0 -%}
+                        <span class="facet-disclosure__badge">{{ filter.active_values.size }}</span>
+                      {%- endif -%}
+                      <span class="facet-disclosure__icon" aria-hidden="true">&darr;</span>
+                    </summary>
+
+                    <div class="facet-disclosure__panel">
+                      <div class="facet-disclosure__header">
+                        <span class="facet-disclosure__selected">{{ filter.active_values.size }} selected</span>
+                        {%- if filter.active_values.size > 0 -%}
+                          <a href="{{ filter.url_to_remove }}" class="facet-disclosure__reset" data-facet-reset>
+                            {{ 'collections.filtering.reset' | t | default: 'Reset' }}
+                          </a>
+                        {%- endif -%}
+                      </div>
+
+                      <ul class="facet-disclosure__list" role="list">
+                        {%- for value in filter.values -%}
+                          <li class="facet-disclosure__item">
+                            <label class="facet-checkbox {% if value.count == 0 and value.active == false %}facet-checkbox--disabled{% endif %}">
+                              <input 
+                                type="checkbox" 
+                                name="{{ value.param_name }}" 
+                                value="{{ value.value | escape }}"
+                                {% if value.active %}checked="checked"{% endif %}
+                                {% if value.count == 0 and value.active == false %}disabled="disabled"{% endif %}
+                                class="facet-checkbox__input"
+                                onchange="this.form.submit()"
+                              >
+                              <span class="facet-checkbox__box"></span>
+                              <span class="facet-checkbox__label">{{ value.label | escape }}</span>
+                              <span class="facet-checkbox__count">({{ value.count }})</span>
+                            </label>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    </div>
+                  </details>
+
+                {%- when 'price_range' -%}
+                  {%- liquid
+                    assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+                    assign uses_comma_decimals = false
+                    if currencies_using_comma_decimals contains cart.currency.iso_code
+                      assign uses_comma_decimals = true
+                    endif
+                  -%}
+
+                  <details class="facet-disclosure" name="facet-group" id="Details-{{ filter.param_name | escape }}">
+                    <summary class="facet-disclosure__summary">
+                      <span class="facet-disclosure__title">{{ filter.label | escape }}</span>
+                      {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                        <span class="facet-disclosure__badge">1</span>
+                      {%- endif -%}
+                      <span class="facet-disclosure__icon" aria-hidden="true">&darr;</span>
+                    </summary>
+
+                    <div class="facet-disclosure__panel facet-disclosure__panel--price">
+                      <div class="facet-disclosure__header">
+                        <span class="facet-disclosure__selected">
+                          The highest price is {{ filter.range_max | money }}
+                        </span>
+                        {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+                          <a href="{{ filter.url_to_remove }}" class="facet-disclosure__reset" data-facet-reset>
+                            {{ 'collections.filtering.reset' | t | default: 'Reset' }}
+                          </a>
+                        {%- endif -%}
+                      </div>
+
+                      <div class="facet-price-range">
+                        <div class="facet-price-field">
+                          <span class="facet-price-currency">{{ cart.currency.symbol }}</span>
+                          <input 
+                            type="number" 
+                            name="{{ filter.min_value.param_name }}" 
+                            id="Filter-{{ filter.param_name | escape }}-GTE"
+                            {%- if filter.min_value.value -%}
+                              {%- if uses_comma_decimals -%}
+                                value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                              {%- else -%}
+                                value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                              {%- endif %}
+                            {%- endif -%}
+                            min="0"
+                            placeholder="0"
+                            class="facet-price-input"
+                          >
+                        </div>
+
+                        <span class="facet-price-separator">&ndash;</span>
+
+                        <div class="facet-price-field">
+                          <span class="facet-price-currency">{{ cart.currency.symbol }}</span>
+                          <input 
+                            type="number" 
+                            name="{{ filter.max_value.param_name }}" 
+                            id="Filter-{{ filter.param_name | escape }}-LTE"
+                            {%- if filter.max_value.value -%}
+                              {%- if uses_comma_decimals -%}
+                                value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                              {%- else -%}
+                                value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                              {%- endif %}
+                            {%- endif -%}
+                            min="0"
+                            placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                            class="facet-price-input"
+                          >
+                        </div>
+
+                        <button type="submit" class="btn-secondary facet-price-submit">
+                          {{ 'collections.filtering.apply' | t | default: 'Apply' }}
+                        </button>
+                      </div>
+                    </div>
+                  </details>
+              {%- endcase -%}
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Right: Formulation Count & Sorting Selector -->
+      <div class="facets__right-group">
+        <div class="facets__count">
+          <span class="facets__count-text">{{ 'collections.general.items_with_count.other' | t: count: results.products_count | default: 'formulations' }}</span>
+        </div>
+
+        {%- if enable_sorting -%}
+          {%- liquid
+            assign current_sort_name = ''
+            for option in results.sort_options
+              if option.value == sort_by
+                assign current_sort_name = option.name
+                break
+              endif
+            endfor
+            if current_sort_name == ''
+              assign current_sort_name = results.sort_options.first.name
+            endif
+          -%}
+          <div class="facets__sort-wrap">
+            <details class="facet-disclosure facet-disclosure--sort" name="facet-group" id="Details-SortBy">
+              <summary class="facet-disclosure__summary">
+                <span class="facet-disclosure__title">Sort: {{ current_sort_name }}</span>
+                <span class="facet-disclosure__icon" aria-hidden="true">&darr;</span>
+              </summary>
+
+              <div class="facet-disclosure__panel facet-disclosure__panel--sort">
+                <ul class="facet-disclosure__list" role="list">
+                  {%- for option in results.sort_options -%}
+                    {%- if results.terms == blank and option.value == 'most-relevant' -%}
+                      {%- continue -%}
+                    {%- endif -%}
+                    <li class="facet-disclosure__item">
+                      <label class="facet-radio {% if option.value == sort_by %}facet-radio--active{% endif %}">
+                        <input 
+                          type="radio" 
+                          name="sort_by" 
+                          value="{{ option.value | escape }}"
+                          {% if option.value == sort_by %}checked="checked"{% endif %}
+                          class="facet-radio__input"
+                          onchange="this.form.submit()"
+                        >
+                        <span class="facet-radio__label">{{ option.name | escape }}</span>
+                      </label>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            </details>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Active Filters Chips Bar -->
+    {%- if total_active_values > 0 -%}
+      <div class="facets__active-chips" role="region" aria-label="{{ 'collections.filtering.active_filters' | t | default: 'Active filters' }}">
+        {%- for filter in results.filters -%}
+          {%- for value in filter.active_values -%}
+            <a href="{{ value.url_to_remove }}" class="facet-chip" aria-label="Remove {{ filter.label }}: {{ value.label }}">
+              <span class="facet-chip__label">{{ filter.label }}: <strong>{{ value.label }}</strong></span>
+              <span class="facet-chip__remove" aria-hidden="true">&times;</span>
+            </a>
+          {%- endfor -%}
+
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              <a href="{{ filter.url_to_remove }}" class="facet-chip" aria-label="Remove price filter">
+                <span class="facet-chip__label">
+                  {{ filter.label }}: <strong>{{ filter.min_value.value | default: 0 | money }} - {{ filter.max_value.value | default: filter.range_max | money }}</strong>
+                </span>
+                <span class="facet-chip__remove" aria-hidden="true">&times;</span>
+              </a>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        <a href="{{ results.url }}" class="facets__clear-all">
+          {{ 'collections.filtering.clear_all' | t | default: 'Clear all' }}
+        </a>
+      </div>
+    {%- endif -%}
+
+  </form>
+</div>
+
+<script>
+  // Mutual exclusion: Close other disclosures when one opens
+  document.querySelectorAll('.facet-disclosure').forEach(function(details) {
+    details.addEventListener('toggle', function() {
+      if (this.open) {
+        document.querySelectorAll('.facet-disclosure').forEach(function(other) {
+          if (other !== details && other.open) {
+            other.removeAttribute('open');
+          }
+        });
+      }
+    });
+  });
+
+  // Close open facet details dropdowns when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.facet-disclosure')) {
+      document.querySelectorAll('.facet-disclosure[open]').forEach(function(el) {
+        el.removeAttribute('open');
+      });
+    }
+  });
+
+  // Close open facet details dropdowns when Escape is pressed
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+      document.querySelectorAll('.facet-disclosure[open]').forEach(function(el) {
+        el.removeAttribute('open');
+      });
+    }
+  });
+
+  // Close open facet details dropdowns when Sort selector is clicked or focused
+  const sortSelect = document.getElementById('SortBySelect');
+  if (sortSelect) {
+    const closeAllDisclosures = function() {
+      document.querySelectorAll('.facet-disclosure[open]').forEach(function(el) {
+        el.removeAttribute('open');
+      });
+    };
+    sortSelect.addEventListener('mousedown', closeAllDisclosures);
+    sortSelect.addEventListener('focus', closeAllDisclosures);
+  }
+
+  // Prevent submitting empty price range inputs
+  const facetForm = document.getElementById('FacetFiltersForm');
+  if (facetForm) {
+    facetForm.addEventListener('submit', function() {
+      facetForm.querySelectorAll('input.facet-price-input').forEach(function(input) {
+        if (!input.value.trim()) {
+          input.disabled = true;
+        }
+      });
+    });
+  }
+</script>

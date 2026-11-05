@@ -1,0 +1,322 @@
+<cart-drawer class="cart-drawer" id="CartDrawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'templates.cart.cart' | t | default: 'Shopping Cart' }}">
+  
+  <!-- Backdrop Overlay -->
+  <div class="cart-drawer__overlay" id="CartDrawerOverlay" tabindex="-1"></div>
+
+  <!-- Sliding Drawer Panel -->
+  <div class="cart-drawer__panel">
+    
+    <!-- Drawer Header -->
+    <div class="cart-drawer__header">
+      <h2 class="cart-drawer__title">
+        {{ 'templates.cart.cart' | t | default: 'Your Bag' }}
+        <span class="cart-drawer__count" data-cart-count-badge>({{ cart.item_count }})</span>
+      </h2>
+      <button type="button" class="cart-drawer__close" id="CartDrawerClose" aria-label="Close cart drawer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="cart-drawer__close-icon" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Free Shipping Goal Progress Bar -->
+    {%- assign free_shipping_threshold = section.settings.free_shipping_threshold | default: 75 | times: 100 -%}
+    {%- assign amount_remaining = free_shipping_threshold | minus: cart.total_price -%}
+    
+    <div class="cart-drawer__shipping-bar" data-shipping-bar data-threshold="{{ free_shipping_threshold }}">
+      {%- if cart.total_price >= free_shipping_threshold -%}
+        <p class="cart-drawer__shipping-text cart-drawer__shipping-text--unlocked">
+          🎉 {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
+        </p>
+        <div class="cart-drawer__progress">
+          <div class="cart-drawer__progress-fill" style="width: 100%;"></div>
+        </div>
+      {%- else -%}
+        {%- assign percent = cart.total_price | times: 100 | divided_by: free_shipping_threshold -%}
+        <p class="cart-drawer__shipping-text">
+          Add <strong>{{ amount_remaining | money }}</strong> more to unlock Free Worldwide Shipping
+        </p>
+        <div class="cart-drawer__progress">
+          <div class="cart-drawer__progress-fill" style="width: {{ percent }}%;"></div>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <!-- Cart Items Scroll Area -->
+    <div class="cart-drawer__body" data-cart-items-container>
+      {%- if cart.empty? -%}
+        <div class="cart-drawer__empty">
+          <p class="cart-drawer__empty-text">{{ 'templates.cart.empty' | t | default: 'Your ritual bag is currently empty.' }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
+            Explore Formulations
+          </a>
+        </div>
+      {%- else -%}
+        <ul class="cart-drawer__items-list" role="list">
+          {%- for item in cart.items -%}
+            <li class="cart-drawer__item" data-line-item-key="{{ item.key }}">
+              
+              <!-- Item Image -->
+              <div class="cart-drawer__item-media">
+                {%- if item.image -%}
+                  <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}" loading="lazy" class="cart-drawer__item-img" width="100" height="100">
+                {%- endif -%}
+              </div>
+
+              <!-- Item Details -->
+              <div class="cart-drawer__item-details">
+                <h3 class="cart-drawer__item-title">
+                  <a href="{{ item.url }}" class="cart-drawer__item-link">{{ item.product.title | escape }}</a>
+                </h3>
+
+                {%- unless item.product.has_only_default_variant -%}
+                  <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
+                {%- endunless -%}
+
+                <div class="cart-drawer__item-price">
+                  {{ item.final_line_price | money }}
+                </div>
+
+                <!-- Quantity Controls -->
+                <div class="cart-drawer__qty-group">
+                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="-1" aria-label="Decrease quantity for {{ item.title | escape }}">&minus;</button>
+                  <span class="cart-drawer__qty-value">{{ item.quantity }}</span>
+                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="1" aria-label="Increase quantity for {{ item.title | escape }}">&plus;</button>
+                  
+                  <button type="button" class="cart-drawer__remove-btn" data-item-remove aria-label="Remove {{ item.title | escape }}">
+                    Remove
+                  </button>
+                </div>
+              </div>
+
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    <!-- Drawer Footer & Checkout -->
+    {%- unless cart.empty? -%}
+      <div class="cart-drawer__footer">
+        <div class="cart-drawer__subtotal">
+          <span class="cart-drawer__subtotal-label">Subtotal</span>
+          <span class="cart-drawer__subtotal-value" data-cart-subtotal>{{ cart.total_price | money }}</span>
+        </div>
+        <p class="cart-drawer__disclaimer">Taxes and shipping calculated at checkout.</p>
+        
+        <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm">
+          <button type="submit" name="checkout" class="btn-primary cart-drawer__checkout-btn">
+            Proceed to Checkout &rarr;
+          </button>
+        </form>
+      </div>
+    {%- endunless -%}
+
+  </div>
+</cart-drawer>
+
+<style>
+  .cart-drawer {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+  }
+  .cart-drawer[aria-hidden="false"] {
+    display: block;
+  }
+  .cart-drawer__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(25, 24, 23, 0.4);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+  }
+  .cart-drawer[aria-hidden="false"] .cart-drawer__overlay {
+    opacity: 1;
+  }
+  .cart-drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    max-width: 440px;
+    height: 100%;
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-drawer);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform var(--transition-smooth);
+    z-index: 2;
+  }
+  .cart-drawer[aria-hidden="false"] .cart-drawer__panel {
+    transform: translateX(0);
+  }
+  .cart-drawer__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .cart-drawer__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    margin: 0;
+  }
+  .cart-drawer__close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text);
+  }
+  .cart-drawer__close-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .cart-drawer__shipping-bar {
+    padding: var(--space-4) var(--space-6);
+    background-color: var(--color-bg-subtle);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--font-size-xs);
+    text-align: center;
+  }
+  .cart-drawer__progress {
+    width: 100%;
+    height: 4px;
+    background-color: var(--color-border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+    margin-top: var(--space-2);
+  }
+  .cart-drawer__progress-fill {
+    height: 100%;
+    background-color: var(--color-accent);
+    transition: width var(--transition-normal);
+  }
+  .cart-drawer__body {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--space-6);
+  }
+  .cart-drawer__empty {
+    text-align: center;
+    padding: var(--space-16) 0;
+    color: var(--color-text-muted);
+  }
+  .cart-drawer__items-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+  .cart-drawer__item {
+    display: flex;
+    gap: var(--space-4);
+  }
+  .cart-drawer__item-media {
+    width: 80px;
+    height: 100px;
+    background-color: var(--color-bg-subtle);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .cart-drawer__item-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .cart-drawer__item-details {
+    flex: 1;
+  }
+  .cart-drawer__item-title {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    margin-bottom: var(--space-1);
+  }
+  .cart-drawer__item-link {
+    color: var(--color-text);
+  }
+  .cart-drawer__item-variant {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2);
+  }
+  .cart-drawer__item-price {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-3);
+  }
+  .cart-drawer__qty-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .cart-drawer__qty-btn {
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+  .cart-drawer__qty-value {
+    font-size: var(--font-size-xs);
+    min-width: 16px;
+    text-align: center;
+  }
+  .cart-drawer__remove-btn {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    margin-left: auto;
+  }
+  .cart-drawer__footer {
+    padding: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    background-color: var(--color-bg);
+  }
+  .cart-drawer__subtotal {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-semibold);
+    margin-bottom: var(--space-2);
+  }
+  .cart-drawer__disclaimer {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+  .cart-drawer__checkout-btn {
+    width: 100%;
+    padding: var(--space-4);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Cart Drawer",
+  "settings": [
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free Shipping Threshold ($)",
+      "default": 75
+    }
+  ]
+}
+{% endschema %}

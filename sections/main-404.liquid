@@ -1,0 +1,24 @@
+<div class="main-404 page-container section-spacing">
+  <div class="main-404__content">
+    <p class="main-404__numeral">404</p>
+    <h1 class="main-404__title">{{ 'templates.404.subtext' | t | default: 'Formulation Not Found' }}</h1>
+    <p class="main-404__text">
+      The botanical ritual or page you are seeking may have been archived, reformulated, or relocated.
+    </p>
+    <div class="main-404__cta">
+      <a href="{{ routes.all_products_collection_url }}" class="btn-primary">
+        {{ 'general.continue_shopping' | t | default: 'Explore Formulations' }}
+      </a>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "404 Page",
+  "tag": "section",
+  "class": "section-main-404",
+  "settings": []
+}
+{% endschema %}
+

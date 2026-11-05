@@ -1,0 +1,194 @@
+{%- paginate collection.products by section.settings.products_per_page -%}
+  <div class="main-collection page-container section-spacing">
+    
+    <!-- Collection Banner & Header -->
+    <header class="main-collection__header">
+      <div class="main-collection__header-content">
+        <h1 class="main-collection__title">{{ collection.title | escape }}</h1>
+        
+        {%- if collection.description != blank -%}
+          <div class="main-collection__description">
+            {{ collection.description }}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Storefront Faceted Filtering & Sorting -->
+      {% render 'facets', results: collection, enable_filtering: section.settings.enable_filtering, enable_sorting: section.settings.enable_sorting %}
+    </header>
+
+    <!-- Product Grid -->
+    <div class="product-grid product-grid--{{ section.settings.columns_desktop }}-col">
+      {%- for product in collection.products -%}
+        <div class="product-grid__item">
+          {% render 'product-card', 
+             product: product, 
+             show_secondary_image: section.settings.show_secondary_image, 
+             show_vendor: section.settings.show_vendor 
+          %}
+        </div>
+      {%- else -%}
+        <div class="main-collection__empty">
+          <p>{{ 'collections.general.no_matches' | t | default: 'No formulations found in this ritual collection.' }}</p>
+          <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
+            View All Formulations
+          </a>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Pagination -->
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+        <ul class="pagination__list" role="list">
+          {%- if paginate.previous -%}
+            <li>
+              <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                &larr;
+              </a>
+            </li>
+          {%- endif -%}
+
+          {%- for part in paginate.parts -%}
+            <li>
+              {%- if part.is_link -%}
+                <a href="{{ part.url }}" class="pagination__item" aria-label="{{ 'general.pagination.page' | t: number: part.title | default: part.title }}">
+                  {{ part.title }}
+                </a>
+              {%- else -%}
+                {%- if part.title == paginate.current_page -%}
+                  <span class="pagination__item pagination__item--current" aria-current="page">
+                    {{ part.title }}
+                  </span>
+                {%- else -%}
+                  <span class="pagination__item pagination__item--gap">&hellip;</span>
+                {%- endif -%}
+              {%- endif -%}
+            </li>
+          {%- endfor -%}
+
+          {%- if paginate.next -%}
+            <li>
+              <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                &rarr;
+              </a>
+            </li>
+          {%- endif -%}
+        </ul>
+      </nav>
+    {%- endif -%}
+
+  </div>
+{%- endpaginate -%}
+
+<style>
+  .main-collection__header {
+    margin-bottom: var(--space-12);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-6);
+  }
+  .main-collection__title {
+    margin-bottom: var(--space-3);
+  }
+  .main-collection__description {
+    font-size: var(--font-size-md);
+    color: var(--color-text-muted);
+    max-width: 680px;
+    margin-bottom: var(--space-6);
+  }
+  .main-collection__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-4);
+  }
+  .main-collection__count {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+  .main-collection__sort-select {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-border-dark);
+    padding: var(--space-2) var(--space-4);
+    border-radius: var(--radius-sm);
+    outline: none;
+    cursor: pointer;
+  }
+  
+  /* The Responsive Product Grid */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+  @media (min-width: 768px) {
+    .product-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+    }
+  }
+  @media (min-width: 1200px) {
+    .product-grid--4-col {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .main-collection__empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: var(--space-20) 0;
+    color: var(--color-text-muted);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection Grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3,
+      "label": "Desktop Columns"
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 6,
+      "max": 24,
+      "step": 3,
+      "default": 12,
+      "label": "Products per Page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "default": true,
+      "label": "Show Secondary Image on Hover"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "default": false,
+      "label": "Show Product Vendor"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "Enable filtering"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable sorting"
+    }
+  ]
+}
+{% endschema %}
+

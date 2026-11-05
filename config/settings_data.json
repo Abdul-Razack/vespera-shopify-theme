@@ -1,12 +1,37 @@
-/*
- * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
 {
-  "current": {}
+  "current": {
+    "color_background": "#FAF8F5",
+    "color_text": "#191817",
+    "color_accent": "#8C5942",
+    "color_border": "#E8E4DD",
+    "logo_width": 130,
+    "type_header_font": "playfair_display_n4",
+    "heading_scale": 100,
+    "type_body_font": "assistant_n4",
+    "body_scale": 100
+  },
+  "presets": {
+    "Botanical": {
+      "color_background": "#FAF8F5",
+      "color_text": "#191817",
+      "color_accent": "#8C5942",
+      "color_border": "#E8E4DD",
+      "logo_width": 130,
+      "type_header_font": "playfair_display_n4",
+      "heading_scale": 100,
+      "type_body_font": "assistant_n4",
+      "body_scale": 100
+    },
+    "Luminous": {
+      "color_background": "#FFFFFF",
+      "color_text": "#121212",
+      "color_accent": "#4D6256",
+      "color_border": "#E5E7EB",
+      "logo_width": 130,
+      "type_header_font": "playfair_display_n4",
+      "heading_scale": 100,
+      "type_body_font": "assistant_n4",
+      "body_scale": 100
+    }
+  }
 }

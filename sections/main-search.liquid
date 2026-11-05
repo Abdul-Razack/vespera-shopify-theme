@@ -1,0 +1,92 @@
+<div class="main-search page-container section-spacing" data-section-id="{{ section.id }}">
+  <header class="main-search__header">
+    <h1 class="main-search__title">{{ 'templates.search.title' | t | default: 'Search Formulations' }}</h1>
+
+    <predictive-search class="predictive-search">
+      <form action="{{ routes.search_url }}" method="get" role="search" class="main-search__form">
+        <div class="main-search__input-wrap">
+          <input 
+            type="search" 
+            name="q" 
+            value="{{ search.terms | escape }}" 
+            placeholder="{{ 'templates.search.placeholder' | t | default: 'Search by botanical active, concern, or product...' }}"
+            class="main-search__input"
+            aria-label="{{ 'templates.search.title' | t | default: 'Search' }}"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-owns="PredictiveSearchResults"
+            aria-controls="PredictiveSearchResults"
+            aria-haspopup="listbox"
+            aria-autocomplete="list"
+          >
+          <button type="submit" class="main-search__submit-btn" aria-label="{{ 'templates.search.submit' | t | default: 'Submit Search' }}">
+            &rarr;
+          </button>
+        </div>
+
+        <div id="PredictiveSearchResults" class="predictive-search__results" tabindex="-1" style="display: none;"></div>
+      </form>
+    </predictive-search>
+
+    {%- if search.performed -%}
+      <p class="main-search__count" role="status">
+        {%- if search.results_count == 0 -%}
+          {{ 'templates.search.no_results' | t: terms: search.terms | default: 'No formulations found matching your query.' }}
+        {%- else -%}
+          {{ 'templates.search.results_with_count' | t: count: search.results_count | default: search.results_count }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </header>
+
+  {%- if search.performed and search.results_count > 0 -%}
+    {% render 'facets', results: search, enable_filtering: true, enable_sorting: true %}
+
+    {%- paginate search.results by 12 -%}
+      <div class="product-grid product-grid--3-col">
+        {%- for item in search.results -%}
+          {%- if item.object_type == 'product' -%}
+            <div class="product-grid__item">
+              {% render 'product-card', product: item, show_secondary_image: true, show_vendor: true %}
+            </div>
+          {%- else -%}
+            <div class="search-result-article product-card">
+              <div class="product-card__content">
+                <p class="product-card__vendor">{{ item.object_type | capitalize }}</p>
+                <h3 class="product-card__title">
+                  <a href="{{ item.url }}" class="product-card__title-link">{{ item.title | escape }}</a>
+                </h3>
+                <p class="search-result-article__summary">{{ item.content | strip_html | truncatewords: 20 }}</p>
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <div class="pagination">
+          {{ paginate | default_pagination: next: '&rarr;', previous: '&larr;' }}
+        </div>
+      {%- endif -%}
+    {%- endpaginate -%}
+  {%- elsif search.performed and search.results_count == 0 -%}
+    <div class="main-search__empty">
+      <p class="main-search__empty-title">Refine your exploration</p>
+      <p class="main-search__empty-sub main-search__empty-text">Try searching for "serum", "cleanse", "botanical", or view all curated rituals.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
+        View All Formulations
+      </a>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Search Results",
+  "tag": "section",
+  "class": "section-main-search",
+  "settings": []
+}
+{% endschema %}
+
