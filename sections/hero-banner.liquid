@@ -54,17 +54,15 @@
                alt: section.settings.heading | escape
             }}
           {%- else -%}
-            <!-- Sophisticated Luxury Placeholder Visual -->
-            <div class="hero-editorial__placeholder">
-              <svg viewBox="0 0 600 750" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-editorial__placeholder-svg" aria-hidden="true">
-                <rect width="600" height="750" fill="#EFECE6"/>
-                <circle cx="300" cy="375" r="180" fill="#E4DFC9" fill-opacity="0.6"/>
-                <path d="M260 220C260 200 340 200 340 220V260H260V220Z" fill="#8C5942"/>
-                <rect x="230" y="260" width="140" height="260" rx="20" fill="#FBF9F5" stroke="#C9C4BC" stroke-width="2"/>
-                <text x="300" y="380" font-family="serif" font-size="22" fill="#191817" text-anchor="middle" letter-spacing="3">AURA</text>
-                <text x="300" y="410" font-family="sans-serif" font-size="11" fill="#6B6661" text-anchor="middle" letter-spacing="2">BOTANICAL SERUM</text>
-              </svg>
-            </div>
+            <img 
+              src="{{ 'hero-editorial.jpg' | asset_url }}" 
+              alt="{{ section.settings.heading | default: 'Aura Botanical Skincare' | escape }}"
+              class="hero-editorial__image"
+              loading="eager"
+              fetchpriority="high"
+              width="1200"
+              height="1800"
+            >
           {%- endif -%}
         </div>
       </div>

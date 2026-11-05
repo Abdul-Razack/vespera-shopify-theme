@@ -17,20 +17,14 @@
                alt: section.settings.image.alt | default: section.settings.heading | escape
             }}
           {%- else -%}
-            <!-- Luxury Clean Botanical Illustration Placeholder -->
-            <div class="image-with-text__placeholder" aria-hidden="true">
-              <svg viewBox="0 0 600 700" fill="none" class="image-with-text__svg">
-                <rect width="600" height="700" fill="#F2EFE9"/>
-                <circle cx="300" cy="350" r="180" fill="#E7E2D8"/>
-                <circle cx="300" cy="350" r="120" stroke="#8C5942" stroke-width="1.5" stroke-dasharray="4 4"/>
-                <path d="M300 210C270 270 240 330 250 420C270 420 330 420 350 420C360 330 330 270 300 210Z" fill="#8C5942" fill-opacity="0.15"/>
-                <path d="M300 240V410" stroke="#8C5942" stroke-width="1.5"/>
-                <path d="M300 300C320 285 335 270 340 260" stroke="#8C5942" stroke-width="1.5"/>
-                <path d="M300 330C280 315 265 300 260 290" stroke="#8C5942" stroke-width="1.5"/>
-                <path d="M300 360C320 345 335 330 340 320" stroke="#8C5942" stroke-width="1.5"/>
-                <text x="300" y="470" font-family="serif" font-size="14" fill="#6B6661" text-anchor="middle" letter-spacing="3">COLD-PRESSED EXTRACTION</text>
-              </svg>
-            </div>
+            <img 
+              src="{{ 'botanical-extraction.jpg' | asset_url }}" 
+              alt="{{ section.settings.heading | default: 'Botanical Extraction Process' | escape }}"
+              class="image-with-text__img"
+              loading="lazy"
+              width="1200"
+              height="1500"
+            >
           {%- endif -%}
         </div>
       </div>
