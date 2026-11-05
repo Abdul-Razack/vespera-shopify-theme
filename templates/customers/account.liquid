@@ -1,0 +1,268 @@
+{%- comment -%}
+  Aura Theme - Customer Account Dashboard
+  Displays order archive, fulfillment status, and profile details.
+{%- endcomment -%}
+
+<div class="customer-dashboard section-spacing">
+  <div class="page-container">
+    
+    <!-- Dashboard Top Header -->
+    <div class="customer-dashboard__header">
+      <div>
+        <span class="eyebrow">{{ 'customers.account.eyebrow' | t }}</span>
+        <h1 class="customer-dashboard__title font-heading">{{ 'customers.account.title' | t }}</h1>
+        <p class="customer-dashboard__welcome">
+          Welcome back, {{ customer.name | default: 'Patron' }} &bull;
+          <a href="{{ routes.account_logout_url }}" class="customer-dashboard__logout-link">
+            {{ 'customers.account.log_out' | t }}
+          </a>
+        </p>
+      </div>
+
+      <div class="customer-dashboard__cta">
+        <a href="{{ routes.all_products_collection_url }}" class="btn-secondary">
+          {{ 'customers.account.return_to_store' | t }} &rarr;
+        </a>
+      </div>
+    </div>
+
+    <!-- 2-Column Layout: Orders & Profile -->
+    <div class="customer-dashboard__grid">
+      
+      <!-- Orders Archive Column (70%) -->
+      <div class="customer-dashboard__orders-col">
+        <h2 class="customer-dashboard__section-title font-heading">
+          {{ 'customers.account.order_history' | t }}
+        </h2>
+
+        {%- paginate customer.orders by 20 -%}
+          {%- if customer.orders.size > 0 -%}
+            <div class="customer-dashboard__table-wrapper">
+              <table class="customer-dashboard__table" role="table">
+                <thead role="rowgroup">
+                  <tr role="row">
+                    <th scope="col" role="columnheader">{{ 'customers.account.order_number' | t }}</th>
+                    <th scope="col" role="columnheader">{{ 'customers.account.date' | t }}</th>
+                    <th scope="col" role="columnheader">{{ 'customers.account.payment_status' | t }}</th>
+                    <th scope="col" role="columnheader">{{ 'customers.account.fulfillment_status' | t }}</th>
+                    <th scope="col" role="columnheader" class="text-right">{{ 'customers.account.total' | t }}</th>
+                  </tr>
+                </thead>
+                <tbody role="rowgroup">
+                  {%- for order in customer.orders -%}
+                    <tr role="row">
+                      <td role="cell">
+                        <a href="{{ order.customer_url }}" class="customer-dashboard__order-link" aria-label="{{ 'customers.account.order_number' | t }} {{ order.name }}">
+                          {{ order.name }}
+                        </a>
+                      </td>
+                      <td role="cell">{{ order.created_at | time_tag: format: 'date' }}</td>
+                      <td role="cell">
+                        <span class="status-badge status-badge--{{ order.financial_status }}">
+                          {{ order.financial_status_label }}
+                        </span>
+                      </td>
+                      <td role="cell">
+                        <span class="status-badge status-badge--{{ order.fulfillment_status }}">
+                          {{ order.fulfillment_status_label }}
+                        </span>
+                      </td>
+                      <td role="cell" class="text-right font-medium">{{ order.total_net_amount | money_with_currency }}</td>
+                    </tr>
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+
+            {%- if paginate.pages > 1 -%}
+              <div class="pagination">
+                {{ paginate | default_pagination }}
+              </div>
+            {%- endif -%}
+          {%- else -%}
+            <div class="customer-dashboard__empty-card">
+              <p class="customer-dashboard__empty-text">{{ 'customers.account.no_orders' | t }}</p>
+              <a href="{{ routes.all_products_collection_url }}" class="btn-primary">
+                {{ 'customers.account.return_to_store' | t }}
+              </a>
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      <!-- Account Profile Card Column (30%) -->
+      <div class="customer-dashboard__profile-col">
+        <div class="customer-dashboard__profile-card">
+          <h2 class="customer-dashboard__card-title font-heading">
+            {{ 'customers.account.account_details' | t }}
+          </h2>
+
+          <div class="customer-dashboard__address-details">
+            {%- if customer.default_address -%}
+              <span class="status-badge status-badge--primary mb-2">Default Location</span>
+              <p class="customer-dashboard__address-line font-medium">{{ customer.default_address.name }}</p>
+              <p class="customer-dashboard__address-line">{{ customer.default_address.company }}</p>
+              <p class="customer-dashboard__address-line">{{ customer.default_address.address1 }}</p>
+              <p class="customer-dashboard__address-line">{{ customer.default_address.address2 }}</p>
+              <p class="customer-dashboard__address-line">
+                {{ customer.default_address.city }}, {{ customer.default_address.province_code }} {{ customer.default_address.zip }}
+              </p>
+              <p class="customer-dashboard__address-line">{{ customer.default_address.country }}</p>
+              <p class="customer-dashboard__address-line">{{ customer.default_address.phone }}</p>
+            {%- else -%}
+              <p class="customer-dashboard__empty-text">No default shipping address saved yet.</p>
+            {%- endif -%}
+          </div>
+
+          <div class="customer-dashboard__profile-actions">
+            <a href="{{ routes.account_addresses_url }}" class="btn-secondary customer-dashboard__btn-full">
+              {{ 'customers.account.view_addresses' | t }} ({{ customer.addresses_count }}) &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .customer-dashboard__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-6);
+    margin-bottom: var(--space-8);
+    gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  .customer-dashboard__title {
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    margin: var(--space-2) 0;
+  }
+  .customer-dashboard__welcome {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+  .customer-dashboard__logout-link {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+  .customer-dashboard__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  @media (min-width: 990px) {
+    .customer-dashboard__grid {
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-10);
+    }
+  }
+  .customer-dashboard__section-title {
+    font-size: var(--font-size-xl);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+  .customer-dashboard__table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+  }
+  .customer-dashboard__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+    text-align: left;
+  }
+  .customer-dashboard__table th {
+    padding: var(--space-4);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-bg-subtle);
+  }
+  .customer-dashboard__table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+  }
+  .customer-dashboard__order-link {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+  .customer-dashboard__empty-card {
+    padding: var(--space-10);
+    text-align: center;
+    background-color: var(--color-surface);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .customer-dashboard__empty-text {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+  }
+  .customer-dashboard__profile-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+  .customer-dashboard__card-title {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-3);
+  }
+  .customer-dashboard__address-details {
+    margin-bottom: var(--space-6);
+  }
+  .customer-dashboard__address-line {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .customer-dashboard__btn-full {
+    width: 100%;
+    justify-content: center;
+    font-size: var(--font-size-xs);
+  }
+  .status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: var(--radius-sm);
+    font-weight: var(--font-weight-semibold);
+    background-color: var(--color-bg-subtle);
+    color: var(--color-text-muted);
+  }
+  .status-badge--paid,
+  .status-badge--fulfilled {
+    background-color: #EBF7EE;
+    color: #1E6B37;
+  }
+  .status-badge--unfulfilled,
+  .status-badge--pending {
+    background-color: #FEF6EB;
+    color: #92510B;
+  }
+  .status-badge--primary {
+    background-color: var(--color-bg-subtle);
+    color: var(--color-accent);
+  }
+</style>
+

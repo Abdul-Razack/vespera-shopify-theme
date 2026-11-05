@@ -1,0 +1,93 @@
+{%- comment -%}
+  Aura Theme - Customer Registration
+  Minimalist editorial member signup for The Aura Circle.
+{%- endcomment -%}
+
+<div class="customer-auth section-spacing">
+  <div class="page-container page-container--narrow">
+    <div class="customer-auth__card">
+      
+      <div class="customer-auth__header text-center">
+        <span class="eyebrow">{{ 'customers.register.eyebrow' | t }}</span>
+        <h1 class="customer-auth__title font-heading">{{ 'customers.register.title' | t }}</h1>
+        <p class="customer-auth__subtext">{{ 'customers.register.subtext' | t }}</p>
+      </div>
+
+      {%- form 'create_customer', class: 'customer-auth__form' -%}
+        {%- if form.errors -%}
+          <div class="customer-auth__errors" tabindex="-1" autofocus role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="customer-auth__field">
+          <label for="RegisterFirstName" class="customer-auth__label">{{ 'customers.register.first_name' | t }}</label>
+          <input
+            type="text"
+            name="customer[first_name]"
+            id="RegisterFirstName"
+            autocomplete="given-name"
+            class="customer-auth__input"
+            {% if form.first_name %}value="{{ form.first_name }}"{% endif %}
+          >
+        </div>
+
+        <div class="customer-auth__field">
+          <label for="RegisterLastName" class="customer-auth__label">{{ 'customers.register.last_name' | t }}</label>
+          <input
+            type="text"
+            name="customer[last_name]"
+            id="RegisterLastName"
+            autocomplete="family-name"
+            class="customer-auth__input"
+            {% if form.last_name %}value="{{ form.last_name }}"{% endif %}
+          >
+        </div>
+
+        <div class="customer-auth__field">
+          <label for="RegisterEmail" class="customer-auth__label">{{ 'customers.register.email' | t }}</label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="RegisterEmail"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            required
+            class="customer-auth__input"
+            {% if form.email %}value="{{ form.email }}"{% endif %}
+            placeholder="you@domain.com"
+          >
+        </div>
+
+        <div class="customer-auth__field">
+          <label for="RegisterPassword" class="customer-auth__label">{{ 'customers.register.password' | t }}</label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="RegisterPassword"
+            autocomplete="new-password"
+            required
+            class="customer-auth__input"
+          >
+        </div>
+
+        <div class="customer-auth__actions">
+          <button type="submit" class="btn-primary customer-auth__submit">
+            {{ 'customers.register.submit' | t }}
+          </button>
+        </div>
+
+        <div class="customer-auth__footer text-center">
+          <p class="customer-auth__footer-text">
+            <a href="{{ routes.account_login_url }}" class="customer-auth__link">
+              {{ 'customers.register.have_account' | t }} &rarr;
+            </a>
+          </p>
+        </div>
+      {%- endform -%}
+
+    </div>
+  </div>
+</div>
+

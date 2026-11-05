@@ -1,0 +1,301 @@
+<section class="section-collection-list section-spacing" aria-labelledby="CollectionListHeading-{{ section.id }}">
+  <div class="page-container">
+
+    <!-- Section Header -->
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+      <div class="section-collection-list__header text-center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+
+        {%- if section.settings.heading != blank -%}
+          <h2 id="CollectionListHeading-{{ section.id }}" class="section-collection-list__heading font-heading">
+            {{ section.settings.heading | escape }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.description != blank -%}
+          <p class="section-collection-list__description">
+            {{ section.settings.description | escape }}
+          </p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <!-- Collection Grid -->
+    <div class="collection-list-grid collection-list-grid--{{ section.settings.columns_desktop }}-col">
+      {%- for block in section.blocks -%}
+        {%- assign collection = block.settings.collection -%}
+        {%- assign collection_title = block.settings.title | default: collection.title | default: 'Botanical Category' -%}
+        {%- assign collection_url = collection.url | default: routes.all_products_collection_url -%}
+        {%- assign card_image = block.settings.image | default: collection.featured_image | default: collection.products.first.featured_media -%}
+
+        <div class="collection-list-card" {{ block.shopify_attributes }}>
+          <a href="{{ collection_url }}" class="collection-list-card__link" aria-label="{{ collection_title | escape }}">
+            
+            <div class="collection-list-card__media-wrapper">
+              {%- if card_image != blank -%}
+                {{ card_image | image_url: width: 800 | image_tag:
+                   loading: 'lazy',
+                   class: 'collection-list-card__image',
+                   alt: card_image.alt | default: collection_title | escape
+                }}
+              {%- else -%}
+                <div class="collection-list-card__placeholder">
+                  <svg viewBox="0 0 600 750" fill="none" class="collection-list-card__placeholder-svg" aria-hidden="true">
+                    <rect width="600" height="750" fill="#EFECE6"/>
+                    <circle cx="300" cy="375" r="140" fill="#E2DDD5"/>
+                    <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle" letter-spacing="2">AURA RITUAL</text>
+                  </svg>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <div class="collection-list-card__info">
+              <h3 class="collection-list-card__title font-heading">
+                {{ collection_title | escape }}
+              </h3>
+
+              {%- if section.settings.show_product_count -%}
+                <span class="collection-list-card__count">
+                  {%- if collection.products_count != blank -%}
+                    {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
+                  {%- else -%}
+                    Explore Ritual &rarr;
+                  {%- endif -%}
+                </span>
+              {%- endif -%}
+            </div>
+
+          </a>
+        </div>
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <div class="collection-list-card">
+            <div class="collection-list-card__media-wrapper">
+              <div class="collection-list-card__placeholder">
+                <svg viewBox="0 0 600 750" fill="none" class="collection-list-card__placeholder-svg" aria-hidden="true">
+                  <rect width="600" height="750" fill="#EFECE6"/>
+                  <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle">CATEGORY {{ i }}</text>
+                </svg>
+              </div>
+            </div>
+            <div class="collection-list-card__info">
+              <h3 class="collection-list-card__title font-heading">Botanical Category</h3>
+              <span class="collection-list-card__count">Explore Ritual &rarr;</span>
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endfor -%}
+    </div>
+
+    <!-- View All Link -->
+    {%- if section.settings.show_view_all -%}
+      <div class="section-collection-list__footer text-center">
+        <a href="{{ routes.collections_url }}" class="btn-secondary">
+          {{ section.settings.view_all_label | default: 'Explore All Categories' | escape }} &rarr;
+        </a>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+<style>
+  .section-collection-list {
+    background-color: var(--color-bg);
+  }
+  .section-collection-list__header {
+    max-width: 680px;
+    margin: 0 auto var(--space-12);
+  }
+  .section-collection-list__heading {
+    margin-bottom: var(--space-3);
+  }
+  .section-collection-list__description {
+    font-size: var(--font-size-md);
+    color: var(--color-text-muted);
+  }
+
+  /* Collection Grid */
+  .collection-list-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-6);
+  }
+  @media (min-width: 768px) {
+    .collection-list-grid--3-col {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-8);
+    }
+    .collection-list-grid--4-col {
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  /* Card Component */
+  .collection-list-card {
+    position: relative;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background-color: var(--color-bg-subtle);
+    box-shadow: var(--shadow-subtle);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  }
+  .collection-list-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-elevated);
+  }
+  .collection-list-card__link {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+  }
+  .collection-list-card__media-wrapper {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background-color: var(--color-bg-subtle);
+  }
+  .collection-list-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+  }
+  .collection-list-card:hover .collection-list-card__image {
+    transform: scale(1.05);
+  }
+  .collection-list-card__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .collection-list-card__placeholder-svg {
+    width: 100%;
+    height: 100%;
+  }
+  .collection-list-card__info {
+    padding: var(--space-4) var(--space-5);
+    background-color: var(--color-surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    border-top: 1px solid var(--color-border);
+  }
+  .collection-list-card__title {
+    font-size: var(--font-size-md);
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin: 0;
+  }
+  .collection-list-card__count {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .section-collection-list__footer {
+    margin-top: var(--space-12);
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Collection list",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Subtitle",
+      "default": "Targeted Rituals"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop by Category"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Curated collections formulated to nourish, balance, and rejuvenate your skin barrier."
+    },
+    {
+      "type": "range",
+      "id": "columns_desktop",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Desktop Columns"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_product_count",
+      "label": "Show Product Count",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show 'View All' Button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "'View All' Button Label",
+      "default": "Explore All Categories"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Alternative Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Alternative Heading"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection list",
+      "blocks": [
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        },
+        {
+          "type": "collection"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,216 @@
+{%- comment -%}
+  Aura Theme - Single Order Detail Page
+  Displays line items, tax, shipping, and fulfillment breakdown.
+{%- endcomment -%}
+
+<div class="customer-order section-spacing">
+  <div class="page-container">
+    
+    <!-- Top Breadcrumb & Actions -->
+    <div class="customer-order__nav mb-4">
+      <a href="{{ routes.account_url }}" class="customer-order__back-link">
+        &larr; Return to Account Archive
+      </a>
+    </div>
+
+    <div class="customer-order__header">
+      <div>
+        <span class="eyebrow">Order Archive</span>
+        <h1 class="customer-order__title font-heading">
+          {{ 'customers.order.title' | t: name: order.name }}
+        </h1>
+        <p class="customer-order__date">
+          {{ 'customers.order.placed_at' | t: date: order.created_at | time_tag: format: 'date_at_time' }}
+        </p>
+
+        {%- if order.cancelled -%}
+          <div class="customer-order__cancelled-banner" role="alert">
+            <p>{{ 'customers.order.cancelled_at' | t: date: order.cancelled_at | time_tag: format: 'date_at_time' }}</p>
+            <p>{{ 'customers.order.cancelled_reason' | t: reason: order.cancel_reason_label }}</p>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <!-- Order Content Layout -->
+    <div class="customer-order__grid">
+      
+      <!-- Line Items (70%) -->
+      <div class="customer-order__items-col">
+        <div class="customer-order__table-wrapper">
+          <table class="customer-order__table" role="table">
+            <thead role="rowgroup">
+              <tr role="row">
+                <th scope="col" role="columnheader">{{ 'customers.order.product' | t }}</th>
+                <th scope="col" role="columnheader">{{ 'customers.order.sku' | t }}</th>
+                <th scope="col" role="columnheader" class="text-right">{{ 'customers.order.price' | t }}</th>
+                <th scope="col" role="columnheader" class="text-center">{{ 'customers.order.quantity' | t }}</th>
+                <th scope="col" role="columnheader" class="text-right">{{ 'customers.order.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody role="rowgroup">
+              {%- for line_item in order.line_items -%}
+                <tr role="row">
+                  <td role="cell">
+                    <div class="customer-order__product-info">
+                      <span class="font-medium">{{ line_item.title }}</span>
+                      {%- if line_item.fulfillment -%}
+                        <div class="customer-order__fulfillment-note">
+                          Fulfilled {{ line_item.fulfillment.created_at | time_tag: format: 'date' }}
+                          {%- if line_item.fulfillment.tracking_number -%}
+                            <a href="{{ line_item.fulfillment.tracking_url }}" target="_blank" rel="noopener">
+                              #{{ line_item.fulfillment.tracking_number }}
+                            </a>
+                          {%- endif -%}
+                        </div>
+                      {%- endif -%}
+                    </div>
+                  </td>
+                  <td role="cell" class="text-muted">{{ line_item.sku | default: '—' }}</td>
+                  <td role="cell" class="text-right">{{ line_item.original_price | money }}</td>
+                  <td role="cell" class="text-center">{{ line_item.quantity }}</td>
+                  <td role="cell" class="text-right font-medium">{{ line_item.final_line_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+            <tfoot role="rowgroup">
+              <tr role="row">
+                <td colspan="4" role="rowheader">{{ 'customers.order.subtotal' | t }}</td>
+                <td class="text-right" role="cell">{{ order.line_items_subtotal_price | money }}</td>
+              </tr>
+              {%- for shipping_method in order.shipping_methods -%}
+                <tr role="row">
+                  <td colspan="4" role="rowheader">{{ 'customers.order.shipping' | t }} ({{ shipping_method.title }})</td>
+                  <td class="text-right" role="cell">{{ shipping_method.price | money }}</td>
+                </tr>
+              {%- endfor -%}
+              {%- for tax_line in order.tax_lines -%}
+                <tr role="row">
+                  <td colspan="4" role="rowheader">{{ 'customers.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td>
+                  <td class="text-right" role="cell">{{ tax_line.price | money }}</td>
+                </tr>
+              {%- endfor -%}
+              <tr role="row" class="customer-order__total-row">
+                <td colspan="4" role="rowheader"><strong>{{ 'customers.order.total' | t }}</strong></td>
+                <td class="text-right" role="cell"><strong>{{ order.total_net_amount | money_with_currency }}</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <!-- Address Cards (30%) -->
+      <div class="customer-order__addresses-col">
+        <div class="customer-order__card mb-6">
+          <h2 class="customer-order__card-title font-heading">{{ 'customers.order.billing_address' | t }}</h2>
+          <span class="status-badge status-badge--{{ order.financial_status }} mb-3">
+            {{ order.financial_status_label }}
+          </span>
+          <div class="customer-order__address-text">
+            {{ order.billing_address | format_address }}
+          </div>
+        </div>
+
+        <div class="customer-order__card">
+          <h2 class="customer-order__card-title font-heading">{{ 'customers.order.shipping_address' | t }}</h2>
+          <span class="status-badge status-badge--{{ order.fulfillment_status }} mb-3">
+            {{ order.fulfillment_status_label }}
+          </span>
+          <div class="customer-order__address-text">
+            {{ order.shipping_address | format_address }}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .customer-order__back-link {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    font-weight: var(--font-weight-semibold);
+  }
+  .customer-order__header {
+    margin-bottom: var(--space-8);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-6);
+  }
+  .customer-order__title {
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    color: var(--color-text);
+    margin: var(--space-2) 0;
+  }
+  .customer-order__date {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+  .customer-order__cancelled-banner {
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+    background-color: #FDF2F2;
+    border-left: 3px solid var(--color-sale);
+    color: var(--color-sale);
+    font-size: var(--font-size-sm);
+  }
+  .customer-order__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+  }
+  @media (min-width: 990px) {
+    .customer-order__grid {
+      grid-template-columns: 2fr 1fr;
+      gap: var(--space-10);
+    }
+  }
+  .customer-order__table-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-surface);
+  }
+  .customer-order__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-sm);
+    text-align: left;
+  }
+  .customer-order__table th,
+  .customer-order__table td {
+    padding: var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .customer-order__table th {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-subtle);
+  }
+  .customer-order__total-row {
+    font-size: var(--font-size-base);
+    background-color: var(--color-bg-subtle);
+  }
+  .customer-order__card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-6);
+  }
+  .customer-order__card-title {
+    font-size: var(--font-size-lg);
+    color: var(--color-text);
+    margin-bottom: var(--space-3);
+  }
+  .customer-order__address-text {
+    font-size: var(--font-size-sm);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+</style>
+

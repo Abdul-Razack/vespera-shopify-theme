@@ -7,7 +7,7 @@
 {%- endcomment -%}
 
 {%- if product and product != empty -%}
-  <article class="product-card" aria-labelledby="ProductTitle-{{ product.id }}">
+  <article class="product-card" aria-labelledby="ProductTitle-{{ product.id }}" data-product-type="{{ product.type | escape }}">
     
     <!-- Product Media Container -->
     <div class="product-card__media-wrapper">
@@ -69,7 +69,9 @@
 
     <!-- Product Info Details -->
     <div class="product-card__info">
-      {%- if show_vendor and product.vendor != blank -%}
+      {%- if product.type != blank -%}
+        <span class="product-card__category">{{ product.type | escape }}</span>
+      {%- elsif show_vendor and product.vendor != blank -%}
         <span class="product-card__vendor">{{ product.vendor | escape }}</span>
       {%- endif -%}
 
@@ -193,6 +195,15 @@
   .product-card__quick-btn:hover {
     background-color: var(--color-text);
     color: var(--color-surface);
+  }
+  .product-card__category {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-accent);
+    margin-bottom: var(--space-1);
+    display: block;
+    font-weight: var(--font-weight-medium);
   }
   .product-card__vendor {
     font-size: var(--font-size-xs);

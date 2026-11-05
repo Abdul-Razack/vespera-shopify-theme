@@ -1,0 +1,287 @@
+{%- comment -%}
+  Aura Theme - Customer Login & Password Recovery
+  Minimalist editorial styling matching luxury skincare branding.
+{%- endcomment -%}
+
+<div class="customer-auth section-spacing">
+  <div class="page-container page-container--narrow">
+    
+    <!-- Login Form Card -->
+    <div id="CustomerLoginForm" class="customer-auth__card">
+      <div class="customer-auth__header text-center">
+        <span class="eyebrow">{{ 'customers.login.eyebrow' | t }}</span>
+        <h1 class="customer-auth__title font-heading">{{ 'customers.login.title' | t }}</h1>
+        <p class="customer-auth__subtext">{{ 'customers.login.subtext' | t }}</p>
+      </div>
+
+      {%- form 'customer_login', class: 'customer-auth__form' -%}
+        {%- if form.errors -%}
+          <div class="customer-auth__errors" tabindex="-1" autofocus role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="customer-auth__field">
+          <label for="CustomerEmail" class="customer-auth__label">{{ 'customers.login.email' | t }}</label>
+          <input
+            type="email"
+            name="customer[email]"
+            id="CustomerEmail"
+            autocomplete="email"
+            autocorrect="off"
+            autocapitalize="off"
+            required
+            class="customer-auth__input"
+            placeholder="you@domain.com"
+          >
+        </div>
+
+        {%- if form.password_needed -%}
+          <div class="customer-auth__field">
+            <div class="customer-auth__field-header">
+              <label for="CustomerPassword" class="customer-auth__label">{{ 'customers.login.password' | t }}</label>
+              <a href="#recover" id="RecoverPasswordTrigger" class="customer-auth__link-subtle">
+                {{ 'customers.login.forgot_password' | t }}
+              </a>
+            </div>
+            <input
+              type="password"
+              value=""
+              name="customer[password]"
+              id="CustomerPassword"
+              autocomplete="current-password"
+              required
+              class="customer-auth__input"
+            >
+          </div>
+        {%- endif -%}
+
+        <div class="customer-auth__actions">
+          <button type="submit" class="btn-primary customer-auth__submit">
+            {{ 'customers.login.submit' | t }}
+          </button>
+        </div>
+
+        <div class="customer-auth__footer text-center">
+          <p class="customer-auth__footer-text">
+            New to Aura? 
+            <a href="{{ routes.account_register_url }}" class="customer-auth__link">
+              {{ 'customers.login.create_account' | t }} &rarr;
+            </a>
+          </p>
+        </div>
+      {%- endform -%}
+    </div>
+
+    <!-- Password Recovery Card (Initially Hidden) -->
+    <div id="RecoverPasswordForm" class="customer-auth__card customer-auth__card--hidden">
+      <div class="customer-auth__header text-center">
+        <span class="eyebrow">{{ 'customers.login.eyebrow' | t }}</span>
+        <h2 class="customer-auth__title font-heading">{{ 'customers.login.reset_password_title' | t }}</h2>
+        <p class="customer-auth__subtext">{{ 'customers.login.reset_password_subtext' | t }}</p>
+      </div>
+
+      {%- form 'recover_customer_password', class: 'customer-auth__form' -%}
+        {%- if form.errors -%}
+          <div class="customer-auth__errors" role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="customer-auth__field">
+          <label for="RecoverEmail" class="customer-auth__label">{{ 'customers.login.email' | t }}</label>
+          <input
+            type="email"
+            value=""
+            name="email"
+            id="RecoverEmail"
+            autocorrect="off"
+            autocapitalize="off"
+            autocomplete="email"
+            required
+            class="customer-auth__input"
+            placeholder="you@domain.com"
+          >
+        </div>
+
+        <div class="customer-auth__actions">
+          <button type="submit" class="btn-primary customer-auth__submit">
+            Submit
+          </button>
+          <button type="button" id="CancelRecoverTrigger" class="btn-secondary customer-auth__cancel">
+            {{ 'customers.login.cancel' | t }}
+          </button>
+        </div>
+      {%- endform -%}
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .customer-auth {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+  .page-container--narrow {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 var(--space-4);
+  }
+  .customer-auth__card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-subtle);
+  }
+  .customer-auth__card--hidden {
+    display: none;
+  }
+  .customer-auth__header {
+    margin-bottom: var(--space-6);
+  }
+  .customer-auth__title {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    letter-spacing: -0.01em;
+    color: var(--color-text);
+    margin: var(--space-2) 0 var(--space-3);
+  }
+  .customer-auth__subtext {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    line-height: var(--line-height-relaxed);
+  }
+  .customer-auth__errors {
+    padding: var(--space-3) var(--space-4);
+    background-color: #FDF2F2;
+    border-left: 3px solid var(--color-sale);
+    color: var(--color-sale);
+    font-size: var(--font-size-xs);
+    margin-bottom: var(--space-4);
+  }
+  .customer-auth__errors ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .customer-auth__field {
+    margin-bottom: var(--space-5);
+  }
+  .customer-auth__field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: var(--space-2);
+  }
+  .customer-auth__label {
+    display: block;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+  }
+  .customer-auth__input {
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    font-size: 16px; /* Prevents iOS Safari auto-zoom */
+    outline: none;
+    transition: border-color var(--transition-fast);
+  }
+  .customer-auth__input:focus {
+    border-color: var(--color-accent);
+  }
+  .customer-auth__actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .customer-auth__submit {
+    width: 100%;
+    justify-content: center;
+    height: 48px;
+    font-size: var(--font-size-sm);
+  }
+  .customer-auth__cancel {
+    width: 100%;
+    justify-content: center;
+    height: 44px;
+    font-size: var(--font-size-xs);
+  }
+  .customer-auth__link-subtle {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast);
+  }
+  .customer-auth__link-subtle:hover {
+    color: var(--color-accent);
+  }
+  .customer-auth__footer {
+    margin-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-4);
+  }
+  .customer-auth__footer-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+  }
+  .customer-auth__link {
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+    transition: color var(--transition-fast);
+  }
+  .customer-auth__link:hover {
+    color: var(--color-accent);
+  }
+</style>
+
+<script>
+  (function() {
+    const loginCard = document.getElementById('CustomerLoginForm');
+    const recoverCard = document.getElementById('RecoverPasswordForm');
+    const recoverTrigger = document.getElementById('RecoverPasswordTrigger');
+    const cancelTrigger = document.getElementById('CancelRecoverTrigger');
+
+    function showRecover() {
+      if (loginCard && recoverCard) {
+        loginCard.classList.add('customer-auth__card--hidden');
+        recoverCard.classList.remove('customer-auth__card--hidden');
+        window.location.hash = '#recover';
+      }
+    }
+
+    function showLogin() {
+      if (loginCard && recoverCard) {
+        recoverCard.classList.add('customer-auth__card--hidden');
+        loginCard.classList.remove('customer-auth__card--hidden');
+        if (window.location.hash === '#recover') {
+          history.replaceState(null, null, ' ');
+        }
+      }
+    }
+
+    if (recoverTrigger) recoverTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      showRecover();
+    });
+
+    if (cancelTrigger) cancelTrigger.addEventListener('click', function(e) {
+      e.preventDefault();
+      showLogin();
+    });
+
+    if (window.location.hash === '#recover') {
+      showRecover();
+    }
+  })();
+</script>

@@ -52,6 +52,50 @@
         "view_all_label": "Explore All Formulations"
       }
     },
+    "collection_list": {
+      "type": "collection-list",
+      "blocks": {
+        "cat_1": {
+          "type": "collection",
+          "settings": {
+            "title": "Bio-Active Serums & Oils"
+          }
+        },
+        "cat_2": {
+          "type": "collection",
+          "settings": {
+            "title": "Gentle Cleansers & Essences"
+          }
+        },
+        "cat_3": {
+          "type": "collection",
+          "settings": {
+            "title": "Cellular Creams & Balms"
+          }
+        },
+        "cat_4": {
+          "type": "collection",
+          "settings": {
+            "title": "Conscious Body Care"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4"
+      ],
+      "settings": {
+        "eyebrow": "Targeted Rituals",
+        "heading": "Shop by Category",
+        "description": "Formulations categorized by treatment focus for a bespoke daily ritual.",
+        "columns_desktop": 4,
+        "show_product_count": true,
+        "show_view_all": true,
+        "view_all_label": "Explore All Categories"
+      }
+    },
     "image_with_text": {
       "type": "image-with-text",
       "settings": {
@@ -158,6 +202,7 @@
   "order": [
     "hero",
     "featured_collection",
+    "collection_list",
     "image_with_text",
     "multicolumn",
     "testimonials"

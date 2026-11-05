@@ -1,0 +1,59 @@
+{%- comment -%}
+  Aura Theme - Activate Customer Account
+{%- endcomment -%}
+
+<div class="customer-auth section-spacing">
+  <div class="page-container page-container--narrow">
+    <div class="customer-auth__card">
+      
+      <div class="customer-auth__header text-center">
+        <span class="eyebrow">The Aura Circle</span>
+        <h1 class="customer-auth__title font-heading">{{ 'customers.activate_account.title' | t }}</h1>
+        <p class="customer-auth__subtext">{{ 'customers.activate_account.subtext' | t }}</p>
+      </div>
+
+      {%- form 'activate_customer_password', class: 'customer-auth__form' -%}
+        {%- if form.errors -%}
+          <div class="customer-auth__errors" tabindex="-1" autofocus role="alert">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        <div class="customer-auth__field">
+          <label for="ActivatePassword" class="customer-auth__label">{{ 'customers.activate_account.password' | t }}</label>
+          <input
+            type="password"
+            name="customer[password]"
+            id="ActivatePassword"
+            autocomplete="new-password"
+            required
+            class="customer-auth__input"
+          >
+        </div>
+
+        <div class="customer-auth__field">
+          <label for="ActivatePasswordConfirmation" class="customer-auth__label">{{ 'customers.activate_account.password_confirm' | t }}</label>
+          <input
+            type="password"
+            name="customer[password_confirmation]"
+            id="ActivatePasswordConfirmation"
+            autocomplete="new-password"
+            required
+            class="customer-auth__input"
+          >
+        </div>
+
+        <div class="customer-auth__actions">
+          <button type="submit" class="btn-primary customer-auth__submit">
+            {{ 'customers.activate_account.submit' | t }}
+          </button>
+          <button type="submit" name="decline" class="btn-secondary customer-auth__cancel">
+            {{ 'customers.activate_account.cancel' | t }}
+          </button>
+        </div>
+      {%- endform -%}
+
+    </div>
+  </div>
+</div>
+

@@ -13,6 +13,49 @@
         {%- endif -%}
       </div>
 
+      <!-- Category Navigation Pills -->
+      {%- if section.settings.show_category_pills and collection.all_types.size > 1 -%}
+        <div class="category-pills" role="region" aria-label="Filter by formulation category">
+          <ul class="category-pills__list" role="tablist">
+            <li role="presentation">
+              <button 
+                type="button" 
+                class="category-pill category-pill--active" 
+                role="tab" 
+                aria-selected="true" 
+                data-category-filter="all"
+              >
+                All Formulations <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
+              </button>
+            </li>
+            {%- for type in collection.all_types -%}
+              {%- if type != blank -%}
+                {%- assign type_count = 0 -%}
+                {%- for prod in collection.products -%}
+                  {%- if prod.type == type -%}
+                    {%- assign type_count = type_count | plus: 1 -%}
+                  {%- endif -%}
+                {%- endfor -%}
+                <li role="presentation">
+                  <button 
+                    type="button" 
+                    class="category-pill" 
+                    role="tab" 
+                    aria-selected="false" 
+                    data-category-filter="{{ type | escape }}"
+                  >
+                    {{ type | escape }}
+                    {%- if type_count > 0 -%}
+                      <span class="category-pill__count">({{ type_count }})</span>
+                    {%- endif -%}
+                  </button>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
       <!-- Storefront Faceted Filtering & Sorting -->
       {% render 'facets', results: collection, enable_filtering: section.settings.enable_filtering, enable_sorting: section.settings.enable_sorting %}
     </header>
@@ -140,7 +183,119 @@
     padding: var(--space-20) 0;
     color: var(--color-text-muted);
   }
+
+  /* Category Navigation Pills */
+  .category-pills {
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-4);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+  .category-pills::-webkit-scrollbar {
+    display: none;
+  }
+  .category-pills__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: nowrap;
+  }
+  @media (min-width: 990px) {
+    .category-pills__list {
+      flex-wrap: wrap;
+    }
+  }
+  .category-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background-color: var(--color-bg-subtle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    text-decoration: none;
+    user-select: none;
+  }
+  .category-pill:hover {
+    color: var(--color-text);
+    border-color: var(--color-border-dark);
+  }
+  .category-pill--active,
+  .category-pill[aria-selected="true"] {
+    color: var(--color-surface);
+    background-color: var(--color-text);
+    border-color: var(--color-text);
+  }
+  .category-pill__count {
+    font-size: 11px;
+    opacity: 0.75;
+  }
 </style>
+
+<script>
+  (function() {
+    const pills = document.querySelectorAll('.category-pill');
+    const items = document.querySelectorAll('.product-grid__item');
+    if (!pills.length || !items.length) return;
+
+    function filterByCategory(category, updateHistory) {
+      pills.forEach(p => {
+        const isMatch = (p.getAttribute('data-category-filter') === category);
+        p.classList.toggle('category-pill--active', isMatch);
+        p.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+      });
+
+      let visible = 0;
+      items.forEach(item => {
+        const card = item.querySelector('.product-card');
+        const cardType = card ? card.getAttribute('data-product-type') : '';
+        if (category === 'all' || cardType === category) {
+          item.style.display = '';
+          visible++;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      if (updateHistory) {
+        const url = new URL(window.location.href);
+        if (category === 'all') {
+          url.searchParams.delete('category');
+        } else {
+          url.searchParams.set('category', category);
+        }
+        window.history.replaceState({}, '', url.toString());
+      }
+    }
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', function(e) {
+        e.preventDefault();
+        const cat = this.getAttribute('data-category-filter');
+        filterByCategory(cat, true);
+      });
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const initialCat = params.get('category');
+    if (initialCat) {
+      filterByCategory(initialCat, false);
+    }
+  })();
+</script>
 
 {% schema %}
 {
@@ -163,6 +318,12 @@
       "step": 3,
       "default": 12,
       "label": "Products per Page"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_category_pills",
+      "default": true,
+      "label": "Show Category Filter Pills"
     },
     {
       "type": "checkbox",
