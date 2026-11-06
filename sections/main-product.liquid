@@ -159,7 +159,7 @@
             </button>
             
             {%- if section.settings.show_dynamic_checkout -%}
-              <div class="main-product__dynamic-checkout">
+              <div class="main-product__dynamic-checkout" id="DynamicCheckoutWrap" {% unless current_variant.available %}style="display: none;"{% endunless %}>
                 {{ form | payment_button }}
               </div>
             {%- endif -%}
@@ -489,12 +489,15 @@
           }
 
           // Availability
+          const dynamicCheckout = document.getElementById('DynamicCheckoutWrap');
           if (matchedVariant.available) {
             addBtn.removeAttribute('disabled');
             addBtn.innerHTML = `Add to Bag &bull; <span>${formattedPrice}</span>`;
+            if (dynamicCheckout) dynamicCheckout.style.display = '';
           } else {
             addBtn.setAttribute('disabled', 'disabled');
             addBtn.textContent = 'Sold Out';
+            if (dynamicCheckout) dynamicCheckout.style.display = 'none';
           }
 
           // Featured image
