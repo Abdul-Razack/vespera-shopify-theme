@@ -112,86 +112,116 @@
 
     </div>
 
-    <!-- Bottom Bar: Copyright, Compliance & Payment Badges -->
+    <!-- Bottom Bar: Dual-Row Architectural Layout (Awwwards / $380 Standard) -->
     <div class="site-footer__bottom">
-      <div class="site-footer__bottom-left">
+      
+      <!-- Upper Utility Row: Country/Currency Selector & Payment Badges -->
+      <div class="site-footer__bottom-row site-footer__bottom-row--utilities">
+        <!-- Shopify Markets Country/Currency & Language Selectors -->
+        <div class="site-footer__localization">
+          {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+            {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+              <div class="localization-selector">
+                <label for="FooterCountrySelect" class="visually-hidden">Country / Currency</label>
+                <select name="country_code" id="FooterCountrySelect" class="localization-selector__select" onchange="this.form.submit()">
+                  {%- for country in localization.available_countries -%}
+                    <option 
+                      value="{{ country.iso_code }}" 
+                      {% if country.iso_code == localization.country.iso_code %}selected="selected"{% endif %}
+                    >
+                      {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                    </option>
+                  {%- endfor -%}
+                </select>
+                <svg class="localization-selector__icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 1L5 5L9 1"></path>
+                </svg>
+              </div>
+            {%- endform -%}
+          {%- endif -%}
+
+          {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+            {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+              <div class="localization-selector">
+                <label for="FooterLanguageSelect" class="visually-hidden">Language</label>
+                <select name="locale_code" id="FooterLanguageSelect" class="localization-selector__select" onchange="this.form.submit()">
+                  {%- for language in localization.available_languages -%}
+                    <option 
+                      value="{{ language.iso_code }}" 
+                      {% if language.iso_code == localization.language.iso_code %}selected="selected"{% endif %}
+                    >
+                      {{ language.endonym_name | capitalize }}
+                    </option>
+                  {%- endfor -%}
+                </select>
+                <svg class="localization-selector__icon" viewBox="0 0 10 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M1 1L5 5L9 1"></path>
+                </svg>
+              </div>
+            {%- endform -%}
+          {%- endif -%}
+        </div>
+
+        <!-- Payment Methods -->
+        {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
+          <div class="site-footer__payments" aria-label="Payment methods">
+            <ul class="site-footer__payment-list" role="list">
+              {%- for type in shop.enabled_payment_types -%}
+                <li class="site-footer__payment-item">
+                  {{ type | payment_type_svg_tag: class: 'payment-icon' }}
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- Lower Legal Row: Policies & Copyright -->
+      <div class="site-footer__bottom-row site-footer__bottom-row--legal">
+        <ul class="site-footer__policies-list" role="list" aria-label="Legal Policies">
+          {%- liquid
+            assign has_privacy = false
+            assign has_terms = false
+            assign has_refund = false
+            assign has_shipping = false
+
+            if shop.policies.size > 0
+              for policy in shop.policies
+                if policy != blank
+                  if policy.handle contains 'privacy'
+                    assign has_privacy = true
+                  elsif policy.handle contains 'terms'
+                    assign has_terms = true
+                  elsif policy.handle contains 'refund'
+                    assign has_refund = true
+                  elsif policy.handle contains 'shipping'
+                    assign has_shipping = true
+                  endif
+                  echo '<li class="site-footer__policy-item"><a href="' | append: policy.url | append: '" class="site-footer__policy-link">' | append: policy.title | append: '</a></li>'
+                endif
+              endfor
+            endif
+
+            unless has_privacy
+              echo '<li class="site-footer__policy-item"><a href="/policies/privacy-policy" class="site-footer__policy-link">Privacy Policy</a></li>'
+            endunless
+            unless has_terms
+              echo '<li class="site-footer__policy-item"><a href="/policies/terms-of-service" class="site-footer__policy-link">Terms of Service</a></li>'
+            endunless
+            unless has_refund
+              echo '<li class="site-footer__policy-item"><a href="/policies/refund-policy" class="site-footer__policy-link">Refund Policy</a></li>'
+            endunless
+            unless has_shipping
+              echo '<li class="site-footer__policy-item"><a href="/policies/shipping-policy" class="site-footer__policy-link">Shipping Policy</a></li>'
+            endunless
+          -%}
+        </ul>
+
         <p class="site-footer__copyright">
           &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved. Powered by Shopify.
         </p>
-
-        <!-- Mandatory E-Commerce Legal Compliance Policies -->
-        {%- if shop.policies.size > 0 -%}
-          <ul class="site-footer__policies-list" role="list" aria-label="Legal Policies">
-            {%- for policy in shop.policies -%}
-              {%- if policy != blank -%}
-                <li class="site-footer__policy-item">
-                  <a href="{{ policy.url }}" class="site-footer__policy-link">{{ policy.title }}</a>
-                </li>
-              {%- endif -%}
-            {%- endfor -%}
-          </ul>
-        {%- else -%}
-          <ul class="site-footer__policies-list" role="list" aria-label="Legal Policies">
-            <li class="site-footer__policy-item"><a href="/policies/privacy-policy" class="site-footer__policy-link">Privacy Policy</a></li>
-            <li class="site-footer__policy-item"><a href="/policies/terms-of-service" class="site-footer__policy-link">Terms of Service</a></li>
-            <li class="site-footer__policy-item"><a href="/policies/refund-policy" class="site-footer__policy-link">Refund Policy</a></li>
-            <li class="site-footer__policy-item"><a href="/policies/shipping-policy" class="site-footer__policy-link">Shipping Policy</a></li>
-          </ul>
-        {%- endif -%}
       </div>
 
-      <!-- Shopify Markets Country/Currency & Language Selectors -->
-      <div class="site-footer__localization">
-        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
-          {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
-            <div class="localization-selector">
-              <label for="FooterCountrySelect" class="visually-hidden">Country / Currency</label>
-              <select name="country_code" id="FooterCountrySelect" class="localization-selector__select" onchange="this.form.submit()">
-                {%- for country in localization.available_countries -%}
-                  <option 
-                    value="{{ country.iso_code }}" 
-                    {% if country.iso_code == localization.country.iso_code %}selected="selected"{% endif %}
-                  >
-                    {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
-                  </option>
-                {%- endfor -%}
-              </select>
-              <span class="localization-selector__arrow" aria-hidden="true">&darr;</span>
-            </div>
-          {%- endform -%}
-        {%- endif -%}
-
-        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
-          {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
-            <div class="localization-selector">
-              <label for="FooterLanguageSelect" class="visually-hidden">Language</label>
-              <select name="locale_code" id="FooterLanguageSelect" class="localization-selector__select" onchange="this.form.submit()">
-                {%- for language in localization.available_languages -%}
-                  <option 
-                    value="{{ language.iso_code }}" 
-                    {% if language.iso_code == localization.language.iso_code %}selected="selected"{% endif %}
-                  >
-                    {{ language.endonym_name | capitalize }}
-                  </option>
-                {%- endfor -%}
-              </select>
-              <span class="localization-selector__arrow" aria-hidden="true">&darr;</span>
-            </div>
-          {%- endform -%}
-        {%- endif -%}
-      </div>
-
-      {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
-        <div class="site-footer__payments" aria-label="Payment methods">
-          <ul class="site-footer__payment-list" role="list">
-            {%- for type in shop.enabled_payment_types -%}
-              <li class="site-footer__payment-item">
-                {{ type | payment_type_svg_tag: class: 'payment-icon' }}
-              </li>
-            {%- endfor -%}
-          </ul>
-        </div>
-      {%- endif -%}
     </div>
 
   </div>
@@ -214,13 +244,14 @@
   .site-footer__grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-10);
-    margin-bottom: var(--space-16);
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
   }
   @media (min-width: 768px) {
     .site-footer__grid {
       grid-template-columns: 1.5fr 1fr 1.5fr;
       gap: var(--space-12);
+      margin-bottom: var(--space-12);
     }
   }
   .site-footer__brand-title {
@@ -324,17 +355,25 @@
     background-color: var(--color-surface, #FFFFFF);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
-    padding: var(--space-2) var(--space-6) var(--space-2) var(--space-3);
+    padding: 8px 32px 8px 12px;
     font-size: var(--font-size-xs);
+    letter-spacing: 0.02em;
     color: var(--color-text);
     cursor: pointer;
     font-family: inherit;
     line-height: 1.4;
+    transition: border-color var(--transition-fast), background-color var(--transition-fast);
   }
-  .localization-selector__arrow {
+  .localization-selector__select:hover,
+  .localization-selector__select:focus {
+    border-color: var(--color-text);
+    outline: none;
+  }
+  .localization-selector__icon {
     position: absolute;
-    right: 8px;
-    font-size: 10px;
+    right: 12px;
+    width: 10px;
+    height: 6px;
     color: var(--color-text-muted);
     pointer-events: none;
   }
@@ -372,30 +411,60 @@
     flex-direction: column;
     gap: var(--space-6);
     border-top: 1px solid var(--color-border);
-    padding-top: var(--space-8);
+    padding-top: var(--space-6);
     font-size: var(--font-size-xs);
     color: var(--color-text-muted);
   }
   @media (min-width: 768px) {
     .site-footer__bottom {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: flex-start;
+      padding-top: var(--space-8);
+      gap: var(--space-6);
     }
   }
-  .site-footer__bottom-left {
+  .site-footer__bottom-row--utilities {
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+  @media (min-width: 768px) {
+    .site-footer__bottom-row--utilities {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+  .site-footer__bottom-row--legal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px dashed rgba(0, 0, 0, 0.08);
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+  @media (min-width: 768px) {
+    .site-footer__bottom-row--legal {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
   }
   .site-footer__policies-list {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-4);
+    gap: var(--space-2) var(--space-3);
     list-style: none;
     margin: 0;
     padding: 0;
+  }
+  .site-footer__policy-item:not(:last-child)::after {
+    content: "·";
+    margin-left: var(--space-3);
+    color: var(--color-text-muted);
+    opacity: 0.6;
   }
   .site-footer__policy-link {
     font-size: var(--font-size-xs);
@@ -407,15 +476,24 @@
     color: var(--color-text);
     text-decoration: underline;
   }
+  .site-footer__payments {
+    display: flex;
+    align-items: center;
+  }
   .site-footer__payment-list {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2);
+    align-items: center;
+    gap: 6px;
     list-style: none;
+    margin: 0;
+    padding: 0;
   }
   .payment-icon {
-    width: 36px;
+    width: 38px;
     height: 24px;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
   }
   .visually-hidden {
     position: absolute !important;

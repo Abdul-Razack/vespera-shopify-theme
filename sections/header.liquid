@@ -578,6 +578,7 @@
 
 <script>
   (function() {
+    const siteHeader = document.querySelector('.site-header');
     // Header Search Toggle & Focus Management
     const searchToggle = document.getElementById('HeaderSearchToggle');
     const searchModal = document.getElementById('HeaderSearchModal');
@@ -649,7 +650,7 @@
 
     function openMobileDrawer() {
       if (!mobileDrawer) return;
-      if (header) header.classList.add('site-header--drawer-open');
+      if (siteHeader) siteHeader.classList.add('site-header--drawer-open');
       mobileDrawer.classList.add('mobile-nav-drawer--open');
       mobileDrawer.setAttribute('aria-hidden', 'false');
       if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
@@ -658,7 +659,7 @@
 
     function closeMobileDrawer() {
       if (!mobileDrawer) return;
-      if (header) header.classList.remove('site-header--drawer-open');
+      if (siteHeader) siteHeader.classList.remove('site-header--drawer-open');
       mobileDrawer.classList.remove('mobile-nav-drawer--open');
       mobileDrawer.setAttribute('aria-hidden', 'true');
       if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
