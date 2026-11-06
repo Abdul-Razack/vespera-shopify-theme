@@ -16,6 +16,7 @@
       "items": "items",
       "free_shipping_unlocked": "You've unlocked Free Worldwide Shipping!",
       "empty": "Your ritual bag is currently empty.",
+      "curated_rituals": "Curated Daily Essentials",
       "remove": "Remove",
       "remove_item": "Remove {{ title }}",
       "note": "Order note or special ritual instructions:",

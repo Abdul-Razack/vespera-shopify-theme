@@ -98,11 +98,19 @@
 
     <!-- Complete Your Ritual: In-Cart Cross-Sell (Awwwards Standard) -->
     {%- assign upsell_collection = section.settings.upsell_collection | default: collections.all -%}
-    {%- if section.settings.enable_upsells and upsell_collection != blank and upsell_collection.products_count > 0 and cart.item_count > 0 -%}
+    {%- if section.settings.enable_upsells and upsell_collection != blank and upsell_collection.products_count > 0 -%}
       <div class="cart-drawer__upsell-wrap">
         <div class="cart-drawer__upsell-header">
-          <span class="cart-drawer__upsell-title">{{ section.settings.upsell_heading | default: 'Complete Your Ritual' | escape }}</span>
-          <span class="cart-drawer__upsell-badge">Pairs Well</span>
+          <span class="cart-drawer__upsell-title">
+            {%- if cart.empty? -%}
+              {{ 'templates.cart.curated_rituals' | t | default: 'Curated Daily Essentials' | escape }}
+            {%- else -%}
+              {{ section.settings.upsell_heading | default: 'Complete Your Ritual' | escape }}
+            {%- endif -%}
+          </span>
+          <span class="cart-drawer__upsell-badge">
+            {%- if cart.empty? -%}Popular{%- else -%}Pairs Well{%- endif -%}
+          </span>
         </div>
         
         <div class="cart-drawer__upsell-list" role="list">
