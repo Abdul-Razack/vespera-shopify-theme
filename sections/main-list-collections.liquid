@@ -1,25 +1,51 @@
 {%- comment -%}
   Aura Theme - Main Collections List Section (Online Store 2.0)
   Luxury portrait card grid showcasing curated skincare collections & rituals.
+  Supports 'All collections' with dynamic sorting and 'Selected collections' via blocks.
 {%- endcomment -%}
 
-{%- paginate collections by section.settings.collections_per_page -%}
-  <div class="main-list-collections page-container section-spacing">
-    
-    <!-- Editorial Section Header -->
-    <header class="main-list-collections__header text-center">
-      <span class="main-list-collections__eyebrow">{{ section.settings.eyebrow | default: 'CURATED RITUALS' }}</span>
-      <h1 class="main-list-collections__title">{{ section.settings.title | default: 'All Collections' }}</h1>
-      {%- if section.settings.subtitle != blank -%}
-        <p class="main-list-collections__subtitle">{{ section.settings.subtitle }}</p>
-      {%- endif -%}
-    </header>
+{%- liquid
+  case section.settings.sort
+    when 'products_high', 'products_low'
+      assign collections_list = collections | sort: 'all_products_count'
+    when 'date', 'date_reversed'
+      assign collections_list = collections | sort: 'published_at'
+    else
+      assign collections_list = collections | sort: 'title'
+  endcase
 
-    <!-- Collections Grid -->
-    <div class="collections-grid collections-grid--{{ section.settings.columns_desktop }}-col">
-      {%- for collection in collections -%}
-        {%- if collection.all_products_count > 0 -%}
+  if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
+    assign collections_list = collections_list | reverse
+  endif
+-%}
+
+{%- if section.settings.display_type == 'all' -%}
+  {%- paginate collections_list by section.settings.collections_per_page -%}
+    <div class="main-list-collections page-container section-spacing">
+      
+      <!-- Editorial Section Header -->
+      <header class="main-list-collections__header text-center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="main-list-collections__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        <h1 class="main-list-collections__title">{{ section.settings.title | default: 'All Collections' | escape }}</h1>
+        {%- if section.settings.subtitle != blank -%}
+          <p class="main-list-collections__subtitle">{{ section.settings.subtitle | escape }}</p>
+        {%- endif -%}
+      </header>
+
+      <!-- Collections Grid -->
+      <div class="collections-grid collections-grid--{{ section.settings.columns_desktop }}-col">
+        {%- for collection in collections_list -%}
           {%- liquid
+            if section.settings.exclude_frontpage and collection.handle == 'frontpage'
+              continue
+            endif
+
+            if section.settings.exclude_empty and collection.all_products_count == 0
+              continue
+            endif
+
             assign featured_img = collection.featured_image
             if featured_img == blank and collection.products.size > 0
               assign featured_img = collection.products.first.featured_image
@@ -46,7 +72,7 @@
 
                 <div class="collection-card__overlay">
                   <span class="collection-card__badge">
-                    {{ 'collections.general.items_with_count.other' | t: count: collection.all_products_count | default: 'formulations' }}
+                    {{ 'collections.general.items_with_count' | t: count: collection.all_products_count }}
                   </span>
                 </div>
               </div>
@@ -62,60 +88,146 @@
               </div>
             </a>
           </div>
+        {%- else -%}
+          <div class="main-list-collections__empty text-center">
+            <p>{{ 'collections.general.no_matches' | t | default: 'No collections found in this store.' }}</p>
+            <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
+              {{ 'general.continue_shopping' | t | default: 'View All Formulations' }}
+            </a>
+          </div>
+        {%- endfor -%}
+      </div>
+
+      <!-- Pagination -->
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+          <ul class="pagination__list" role="list">
+            {%- if paginate.previous -%}
+              <li>
+                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                  &larr;
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="pagination__item" aria-label="{{ 'general.pagination.page' | t: number: part.title | default: part.title }}">
+                    {{ part.title }}
+                  </a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="pagination__item pagination__item--current" aria-current="page">
+                      {{ part.title }}
+                    </span>
+                  {%- else -%}
+                    <span class="pagination__item pagination__item--gap">&hellip;</span>
+                  {%- endif -%}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <li>
+                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                  &rarr;
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+
+    </div>
+  {%- endpaginate -%}
+
+{%- else -%}
+  {%- comment -%} Selected collections via blocks {%- endcomment -%}
+  <div class="main-list-collections page-container section-spacing">
+    <header class="main-list-collections__header text-center">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="main-list-collections__eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      {%- endif -%}
+      <h1 class="main-list-collections__title">{{ section.settings.title | default: 'All Collections' | escape }}</h1>
+      {%- if section.settings.subtitle != blank -%}
+        <p class="main-list-collections__subtitle">{{ section.settings.subtitle | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="collections-grid collections-grid--{{ section.settings.columns_desktop }}-col">
+      {%- for block in section.blocks -%}
+        {%- liquid
+          assign target_collection = block.settings.collection
+          assign custom_img = block.settings.image
+          assign custom_title = block.settings.title
+        -%}
+
+        {%- if target_collection != blank -%}
+          {%- liquid
+            assign featured_img = custom_img | default: target_collection.featured_image
+            if featured_img == blank and target_collection.products.size > 0
+              assign featured_img = target_collection.products.first.featured_image
+            endif
+            assign card_title = custom_title | default: target_collection.title
+          -%}
+
+          <div class="collection-card" {{ block.shopify_attributes }}>
+            <a href="{{ target_collection.url }}" class="collection-card__link">
+              <div class="collection-card__media-wrap collection-card__media-wrap--{{ section.settings.image_ratio }}">
+                {%- if featured_img != blank -%}
+                  <img 
+                    src="{{ featured_img | image_url: width: 800 }}" 
+                    alt="{{ featured_img.alt | default: card_title | escape }}"
+                    loading="lazy"
+                    width="800"
+                    height="1000"
+                    class="collection-card__image"
+                  >
+                {%- else -%}
+                  <div class="collection-card__placeholder">
+                    <span class="collection-card__placeholder-monogram">{{ card_title | slice: 0, 1 }}</span>
+                  </div>
+                {%- endif -%}
+
+                <div class="collection-card__overlay">
+                  <span class="collection-card__badge">
+                    {{ 'collections.general.items_with_count' | t: count: target_collection.all_products_count }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="collection-card__content">
+                <h2 class="collection-card__title">{{ card_title | escape }}</h2>
+                {%- if target_collection.description != blank -%}
+                  <p class="collection-card__desc">{{ target_collection.description | strip_html | truncatewords: 12 }}</p>
+                {%- endif -%}
+                <span class="collection-card__cta">
+                  Explore Ritual &rarr;
+                </span>
+              </div>
+            </a>
+          </div>
+        {%- else -%}
+          <div class="collection-card" {{ block.shopify_attributes }}>
+            <div class="collection-card__media-wrap collection-card__media-wrap--{{ section.settings.image_ratio }}">
+              <div class="collection-card__placeholder">
+                <span class="collection-card__placeholder-monogram">+</span>
+              </div>
+            </div>
+            <div class="collection-card__content">
+              <h2 class="collection-card__title">{{ 'onboarding.collection_title' | t | default: 'Select a Collection' }}</h2>
+            </div>
+          </div>
         {%- endif -%}
       {%- else -%}
         <div class="main-list-collections__empty text-center">
-          <p>{{ 'collections.general.no_matches' | t | default: 'No collections found in this store.' }}</p>
-          <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-            {{ 'general.continue_shopping' | t | default: 'View All Formulations' }}
-          </a>
+          <p>{{ 'collections.general.no_matches' | t | default: 'No collections selected. Add collection blocks in the theme editor.' }}</p>
         </div>
       {%- endfor -%}
     </div>
-
-    <!-- Pagination -->
-    {%- if paginate.pages > 1 -%}
-      <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
-        <ul class="pagination__list" role="list">
-          {%- if paginate.previous -%}
-            <li>
-              <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
-                &larr;
-              </a>
-            </li>
-          {%- endif -%}
-
-          {%- for part in paginate.parts -%}
-            <li>
-              {%- if part.is_link -%}
-                <a href="{{ part.url }}" class="pagination__item" aria-label="{{ 'general.pagination.page' | t: number: part.title | default: part.title }}">
-                  {{ part.title }}
-                </a>
-              {%- else -%}
-                {%- if part.title == paginate.current_page -%}
-                  <span class="pagination__item pagination__item--current" aria-current="page">
-                    {{ part.title }}
-                  </span>
-                {%- else -%}
-                  <span class="pagination__item pagination__item--gap">&hellip;</span>
-                {%- endif -%}
-              {%- endif -%}
-            </li>
-          {%- endfor -%}
-
-          {%- if paginate.next -%}
-            <li>
-              <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
-                &rarr;
-              </a>
-            </li>
-          {%- endif -%}
-        </ul>
-      </nav>
-    {%- endif -%}
-
   </div>
-{%- endpaginate -%}
+{%- endif -%}
 
 {% schema %}
 {
@@ -140,6 +252,66 @@
       "id": "subtitle",
       "label": "Subtitle",
       "default": "Discover thoughtful botanical systems formulated with clinical precision for conscious daily rituals."
+    },
+    {
+      "type": "radio",
+      "id": "display_type",
+      "label": "Select collections to show",
+      "default": "all",
+      "options": [
+        {
+          "value": "all",
+          "label": "All collections"
+        },
+        {
+          "value": "selected",
+          "label": "Selected collections"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "sort",
+      "label": "Sort collections by",
+      "default": "alphabetical",
+      "options": [
+        {
+          "value": "alphabetical",
+          "label": "Alphabetical, A-Z"
+        },
+        {
+          "value": "alphabetical_reversed",
+          "label": "Alphabetical, Z-A"
+        },
+        {
+          "value": "date_reversed",
+          "label": "Date, new to old"
+        },
+        {
+          "value": "date",
+          "label": "Date, old to new"
+        },
+        {
+          "value": "products_high",
+          "label": "Product count, high to low"
+        },
+        {
+          "value": "products_low",
+          "label": "Product count, low to high"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "exclude_frontpage",
+      "label": "Exclude default 'Home page' collection",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "exclude_empty",
+      "label": "Hide collections with 0 products",
+      "default": true
     },
     {
       "type": "select",
@@ -171,7 +343,29 @@
       "label": "Collections per page",
       "default": 9
     }
+  ],
+  "blocks": [
+    {
+      "type": "collection",
+      "name": "Collection",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Custom image (optional)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Custom title (optional)"
+        }
+      ]
+    }
   ]
 }
 {% endschema %}
-
