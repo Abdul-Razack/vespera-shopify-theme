@@ -77,11 +77,11 @@
       grid-template-columns: 1.1fr 1fr;
       gap: var(--space-12);
     }
-    .image-with-text__grid--reverse {
-      direction: rtl;
+    .image-with-text__grid--reverse .image-with-text__media-col {
+      order: 2;
     }
-    .image-with-text__grid--reverse > * {
-      direction: ltr;
+    .image-with-text__grid--reverse .image-with-text__content-col {
+      order: 1;
     }
   }
   .image-with-text__media-frame {

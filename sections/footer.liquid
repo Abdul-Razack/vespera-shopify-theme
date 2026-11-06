@@ -201,9 +201,15 @@
   .site-footer {
     background-color: var(--color-bg-subtle);
     border-top: 1px solid var(--color-border);
-    padding-top: var(--section-padding-desktop);
-    padding-bottom: var(--space-12);
+    padding-top: var(--space-12);
+    padding-bottom: var(--space-8);
     color: var(--color-text);
+  }
+  @media (min-width: 768px) {
+    .site-footer {
+      padding-top: var(--section-padding-desktop);
+      padding-bottom: var(--space-12);
+    }
   }
   .site-footer__grid {
     display: grid;

@@ -289,5 +289,20 @@
     color: var(--color-text-muted);
     text-decoration: line-through;
   }
+  @media (hover: none), (max-width: 768px) {
+    .product-card__quick-actions {
+      opacity: 1;
+      transform: translateY(0);
+      bottom: var(--space-2);
+      left: var(--space-2);
+      right: var(--space-2);
+      gap: 4px;
+    }
+    .product-card__quick-btn {
+      height: 34px;
+      font-size: 11px;
+      padding: 0 var(--space-2);
+    }
+  }
 </style>
 

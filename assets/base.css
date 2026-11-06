@@ -52,6 +52,10 @@
      ========================================================================== */
   --font-serif: "Playfair Display", "Cormorant Garamond", Georgia, serif;
   --font-sans: -apple-system, BlinkMacSystemFont, "Plus Jakarta Sans", "Inter", "Segoe UI", Roboto, sans-serif;
+  --font-heading-family: var(--font-serif);
+  --font-body-family: var(--font-sans);
+  --font-heading-weight: 400;
+  --font-body-weight: 400;
 
   /* Typography Scales (Controlled via Theme Settings) */
   --font-heading-scale: 1;
@@ -147,11 +151,19 @@ body {
 
 /* Headings */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-serif);
+  font-family: var(--font-heading-family, var(--font-serif));
   line-height: var(--line-height-heading);
   letter-spacing: var(--letter-spacing-heading);
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-heading-weight, var(--font-weight-regular));
   color: var(--color-text);
+  margin-bottom: var(--space-4);
+}
+
+.font-heading {
+  font-family: var(--font-heading-family, var(--font-serif));
+  font-weight: var(--font-heading-weight, var(--font-weight-regular));
+  letter-spacing: var(--letter-spacing-heading);
+  line-height: var(--line-height-heading);
 }
 
 h1 { font-size: var(--font-size-3xl); }
@@ -1093,6 +1105,12 @@ button {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    gap: var(--space-3);
+  }
 }
 
 @media (min-width: 768px) {

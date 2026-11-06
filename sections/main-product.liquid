@@ -578,14 +578,21 @@
 
           // Availability
           const dynamicCheckout = document.getElementById('DynamicCheckoutWrap');
+          const stockDot = section.querySelector('.stock-dot');
+          const stockText = section.querySelector('.stock-text');
+
           if (matchedVariant.available) {
             addBtn.removeAttribute('disabled');
             addBtn.innerHTML = `Add to Bag &bull; <span>${formattedPrice}</span>`;
             if (dynamicCheckout) dynamicCheckout.style.display = '';
+            if (stockDot) stockDot.className = 'stock-dot stock-dot--in';
+            if (stockText) stockText.textContent = 'In stock — Small-batch release';
           } else {
             addBtn.setAttribute('disabled', 'disabled');
             addBtn.textContent = 'Sold Out';
             if (dynamicCheckout) dynamicCheckout.style.display = 'none';
+            if (stockDot) stockDot.className = 'stock-dot stock-dot--out';
+            if (stockText) stockText.textContent = 'Currently out of stock';
           }
 
           // Featured image

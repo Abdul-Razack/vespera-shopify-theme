@@ -101,6 +101,11 @@
     gap: var(--space-4);
     margin-bottom: var(--space-8);
   }
+  @media (max-width: 480px) {
+    .featured-collection__grid {
+      gap: var(--space-3);
+    }
+  }
   @media (min-width: 768px) {
     .featured-collection__grid {
       grid-template-columns: repeat(3, 1fr);

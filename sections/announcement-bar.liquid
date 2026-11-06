@@ -110,6 +110,19 @@
   .announcement-bar__nav-btn:hover {
     color: #FFFFFF;
   }
+  @media (max-width: 600px) {
+    .announcement-bar {
+      padding: 8px 0;
+    }
+    .announcement-bar__text,
+    .announcement-bar__link {
+      font-size: 11px;
+      white-space: normal;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+  }
 </style>
 
 <script>

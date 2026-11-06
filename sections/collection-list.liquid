@@ -121,9 +121,23 @@
   .collection-list-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-6);
+    gap: var(--space-4);
+  }
+  @media (max-width: 480px) {
+    .collection-list-grid {
+      gap: var(--space-3);
+    }
+    .collection-list-card__info {
+      padding: var(--space-3);
+    }
+    .collection-list-card__title {
+      font-size: var(--font-size-sm);
+    }
   }
   @media (min-width: 768px) {
+    .collection-list-grid {
+      gap: var(--space-6);
+    }
     .collection-list-grid--3-col {
       grid-template-columns: repeat(3, 1fr);
       gap: var(--space-8);
