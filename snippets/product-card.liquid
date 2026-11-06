@@ -49,22 +49,42 @@
         </span>
       {%- endif -%}
 
-      <!-- Quick Add to Bag Trigger -->
-      {%- if product.available -%}
-        <div class="product-card__quick-add">
-          {%- form 'product', product -%}
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+      <!-- Quick Actions Container (Awwwards Standard) -->
+      <div class="product-card__quick-actions">
+        <button 
+          type="button" 
+          class="btn-secondary product-card__quick-btn product-card__quick-btn--view" 
+          data-quick-view-handle="{{ product.handle }}" 
+          aria-label="Quick View {{ product.title | escape }}"
+        >
+          Quick View
+        </button>
+
+        {%- if product.available -%}
+          {%- if product.has_only_default_variant -%}
+            {%- form 'product', product, class: 'product-card__quick-form' -%}
+              <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+              <button 
+                type="submit" 
+                name="add" 
+                class="btn-primary product-card__quick-btn product-card__quick-btn--add"
+                aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}: {{ product.title | escape }}"
+              >
+                + {{ 'products.product.add_to_cart' | t | default: 'Quick Add' }}
+              </button>
+            {%- endform -%}
+          {%- else -%}
             <button 
-              type="submit" 
-              name="add" 
-              class="btn-primary product-card__quick-btn"
-              aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}: {{ product.title | escape }}"
+              type="button" 
+              class="btn-primary product-card__quick-btn product-card__quick-btn--add"
+              data-quick-view-handle="{{ product.handle }}"
+              aria-label="Choose Size for {{ product.title | escape }}"
             >
-              + {{ 'products.product.add_to_cart' | t | default: 'Quick Add' }}
+              Choose Size
             </button>
-          {%- endform -%}
-        </div>
-      {%- endif -%}
+          {%- endif -%}
+        {%- endif -%}
+      </div>
     </div>
 
     <!-- Product Info Details -->
@@ -169,32 +189,60 @@
     background-color: var(--color-text-muted);
     color: var(--color-surface);
   }
-  .product-card__quick-add {
+  .product-card__quick-actions {
     position: absolute;
     bottom: var(--space-3);
     left: var(--space-3);
     right: var(--space-3);
+    display: flex;
+    gap: var(--space-2);
     opacity: 0;
     transform: translateY(8px);
     transition: opacity var(--transition-normal), transform var(--transition-normal);
     z-index: 2;
   }
-  .product-card:hover .product-card__quick-add,
-  .product-card:focus-within .product-card__quick-add {
+  .product-card:hover .product-card__quick-actions,
+  .product-card:focus-within .product-card__quick-actions {
     opacity: 1;
     transform: translateY(0);
   }
-  .product-card__quick-btn {
-    width: 100%;
-    padding: var(--space-3) var(--space-4);
-    font-size: var(--font-size-xs);
-    background-color: var(--color-surface);
-    color: var(--color-text);
-    box-shadow: var(--shadow-subtle);
+  .product-card__quick-form {
+    flex: 1;
+    display: flex;
+    margin: 0;
   }
-  .product-card__quick-btn:hover {
+  .product-card__quick-btn {
+    flex: 1;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+    letter-spacing: 0.04em;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-subtle);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .product-card__quick-btn--view {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    color: var(--color-text);
+    border: 1px solid var(--color-border);
+  }
+  .product-card__quick-btn--view:hover {
     background-color: var(--color-text);
     color: var(--color-surface);
+  }
+  .product-card__quick-btn--add {
+    background-color: var(--color-text);
+    color: var(--color-surface);
+    border: 1px solid var(--color-text);
+  }
+  .product-card__quick-btn--add:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
   }
   .product-card__category {
     font-size: var(--font-size-xs);

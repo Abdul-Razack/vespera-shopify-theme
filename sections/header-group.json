@@ -4,8 +4,32 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
+      "blocks": {
+        "announcement_1": {
+          "type": "announcement",
+          "settings": {
+            "text": "Complimentary luxury samples & free worldwide shipping on orders over $75"
+          }
+        },
+        "announcement_2": {
+          "type": "announcement",
+          "settings": {
+            "text": "100% Bio-Compatible Clinical Actives in Sustainable Violet Glass"
+          }
+        },
+        "announcement_3": {
+          "type": "announcement",
+          "settings": {
+            "text": "Conscious Botany: Zero Synthetic Fragrance, Parabens, or Mineral Oils"
+          }
+        }
+      },
+      "block_order": [
+        "announcement_1",
+        "announcement_2",
+        "announcement_3"
+      ],
       "settings": {
-        "text": "Complimentary luxury samples & free worldwide shipping on orders over $75",
         "show_announcement": true
       }
     },
@@ -22,4 +46,3 @@
     "header"
   ]
 }
-

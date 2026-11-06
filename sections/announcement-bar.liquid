@@ -1,13 +1,41 @@
-{%- if section.settings.show_announcement and section.settings.text != blank -%}
-  <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement' | t | default: 'Announcement' }}">
+{%- if section.settings.show_announcement -%}
+  <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement' | t | default: 'Announcement' }}" data-section-id="{{ section.id }}">
     <div class="page-container announcement-bar__inner">
-      {%- if section.settings.link != blank -%}
-        <a href="{{ section.settings.link }}" class="announcement-bar__link">
-          {{ section.settings.text | escape }}
-          <span class="announcement-bar__arrow" aria-hidden="true">&rarr;</span>
-        </a>
-      {%- else -%}
-        <p class="announcement-bar__text">{{ section.settings.text | escape }}</p>
+      {%- assign total_slides = section.blocks.size -%}
+      {%- if total_slides > 1 -%}
+        <button type="button" class="announcement-bar__nav-btn announcement-bar__nav-btn--prev" id="AnnouncementPrev" aria-label="Previous announcement">&lsaquo;</button>
+      {%- endif -%}
+
+      <div class="announcement-bar__slider" id="AnnouncementSlider" aria-live="polite">
+        {%- if total_slides > 0 -%}
+          {%- for block in section.blocks -%}
+            <div class="announcement-bar__slide{% if forloop.first %} is-active{% endif %}" {{ block.shopify_attributes }} data-index="{{ forloop.index0 }}">
+              {%- if block.settings.link != blank -%}
+                <a href="{{ block.settings.link }}" class="announcement-bar__link">
+                  {{ block.settings.text | escape }}
+                  <span class="announcement-bar__arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              {%- else -%}
+                <p class="announcement-bar__text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+            </div>
+          {%- endfor -%}
+        {%- else -%}
+          <div class="announcement-bar__slide is-active" data-index="0">
+            {%- if section.settings.link != blank -%}
+              <a href="{{ section.settings.link }}" class="announcement-bar__link">
+                {{ section.settings.text | default: 'Complimentary luxury samples & free worldwide shipping on orders over $75' | escape }}
+                <span class="announcement-bar__arrow" aria-hidden="true">&rarr;</span>
+              </a>
+            {%- else -%}
+              <p class="announcement-bar__text">{{ section.settings.text | default: 'Complimentary luxury samples & free worldwide shipping on orders over $75' | escape }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      {%- if total_slides > 1 -%}
+        <button type="button" class="announcement-bar__nav-btn announcement-bar__nav-btn--next" id="AnnouncementNext" aria-label="Next announcement">&rsaquo;</button>
       {%- endif -%}
     </div>
   </div>
@@ -17,21 +45,51 @@
   .announcement-bar {
     background-color: var(--color-text);
     color: var(--color-surface);
-    padding: var(--space-2) 0;
+    padding: 6px 0;
     font-size: var(--font-size-xs);
     letter-spacing: 0.05em;
     text-align: center;
+    position: relative;
+    z-index: 101;
   }
   .announcement-bar__inner {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-height: 24px;
+    position: relative;
+  }
+  .announcement-bar__slider {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+  }
+  .announcement-bar__slide {
+    display: none;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 350ms ease, transform 350ms ease;
+    width: 100%;
+  }
+  .announcement-bar__slide.is-active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
   }
   .announcement-bar__text,
   .announcement-bar__link {
     color: var(--color-surface);
     text-decoration: none;
     font-weight: var(--font-weight-medium);
+    margin: 0;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .announcement-bar__link:hover {
     text-decoration: underline;
@@ -39,7 +97,73 @@
   .announcement-bar__arrow {
     margin-left: var(--space-2);
   }
+  .announcement-bar__nav-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 10px;
+    transition: color var(--transition-fast);
+  }
+  .announcement-bar__nav-btn:hover {
+    color: #FFFFFF;
+  }
 </style>
+
+<script>
+  (function() {
+    const slider = document.getElementById('AnnouncementSlider');
+    if (!slider) return;
+
+    const slides = Array.from(slider.querySelectorAll('.announcement-bar__slide'));
+    if (slides.length <= 1) return;
+
+    let currentIndex = 0;
+    let timer = null;
+
+    function goToSlide(index) {
+      slides[currentIndex].classList.remove('is-active');
+      currentIndex = (index + slides.length) % slides.length;
+      slides[currentIndex].classList.add('is-active');
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      timer = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, 4500);
+    }
+
+    function stopAutoPlay() {
+      if (timer) clearInterval(timer);
+    }
+
+    const prevBtn = document.getElementById('AnnouncementPrev');
+    const nextBtn = document.getElementById('AnnouncementNext');
+
+    if (prevBtn) {
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+        startAutoPlay();
+      });
+    }
+
+    if (nextBtn) {
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+        startAutoPlay();
+      });
+    }
+
+    slider.addEventListener('mouseenter', stopAutoPlay);
+    slider.addEventListener('mouseleave', startAutoPlay);
+
+    // Initial start
+    startAutoPlay();
+  })();
+</script>
 
 {% schema %}
 {
@@ -54,15 +178,58 @@
     {
       "type": "text",
       "id": "text",
-      "label": "Announcement text",
+      "label": "Fallback announcement text",
       "default": "Complimentary luxury samples & free worldwide shipping on orders over $75"
     },
     {
       "type": "url",
       "id": "link",
-      "label": "Announcement link"
+      "label": "Fallback announcement link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "Announcement Slide",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Complimentary luxury samples & free worldwide shipping on orders over $75"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Announcement Bar",
+      "blocks": [
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Complimentary luxury samples & free worldwide shipping on orders over $75"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "100% Bio-Compatible Clinical Actives in Sustainable Violet Glass"
+          }
+        },
+        {
+          "type": "announcement",
+          "settings": {
+            "text": "Conscious Botany: Zero Synthetic Fragrance, Parabens, or Mineral Oils"
+          }
+        }
+      ]
     }
   ]
 }
 {% endschema %}
-

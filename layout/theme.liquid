@@ -56,8 +56,10 @@
     {% sections 'footer-group' %}
 
     {% section 'cart-drawer' %}
+    {% render 'quick-view-modal' %}
 
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
+    <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
   </body>
 </html>

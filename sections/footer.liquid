@@ -80,11 +80,33 @@
 
     </div>
 
-    <!-- Bottom Bar: Copyright & Payment Badges -->
+    <!-- Bottom Bar: Copyright, Compliance & Payment Badges -->
     <div class="site-footer__bottom">
-      <p class="site-footer__copyright">
-        &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved. Powered by Shopify.
-      </p>
+      <div class="site-footer__bottom-left">
+        <p class="site-footer__copyright">
+          &copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved. Powered by Shopify.
+        </p>
+
+        <!-- Mandatory E-Commerce Legal Compliance Policies -->
+        {%- if shop.policies.size > 0 -%}
+          <ul class="site-footer__policies-list" role="list" aria-label="Legal Policies">
+            {%- for policy in shop.policies -%}
+              {%- if policy != blank -%}
+                <li class="site-footer__policy-item">
+                  <a href="{{ policy.url }}" class="site-footer__policy-link">{{ policy.title }}</a>
+                </li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- else -%}
+          <ul class="site-footer__policies-list" role="list" aria-label="Legal Policies">
+            <li class="site-footer__policy-item"><a href="/policies/privacy-policy" class="site-footer__policy-link">Privacy Policy</a></li>
+            <li class="site-footer__policy-item"><a href="/policies/terms-of-service" class="site-footer__policy-link">Terms of Service</a></li>
+            <li class="site-footer__policy-item"><a href="/policies/refund-policy" class="site-footer__policy-link">Refund Policy</a></li>
+            <li class="site-footer__policy-item"><a href="/policies/shipping-policy" class="site-footer__policy-link">Shipping Policy</a></li>
+          </ul>
+        {%- endif -%}
+      </div>
 
       {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
         <div class="site-footer__payments" aria-label="Payment methods">
@@ -221,8 +243,7 @@
   .site-footer__bottom {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
-    align-items: center;
+    gap: var(--space-6);
     border-top: 1px solid var(--color-border);
     padding-top: var(--space-8);
     font-size: var(--font-size-xs);
@@ -232,7 +253,32 @@
     .site-footer__bottom {
       flex-direction: row;
       justify-content: space-between;
+      align-items: flex-start;
     }
+  }
+  .site-footer__bottom-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .site-footer__policies-list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .site-footer__policy-link {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+  .site-footer__policy-link:hover {
+    color: var(--color-text);
+    text-decoration: underline;
   }
   .site-footer__payment-list {
     display: flex;
