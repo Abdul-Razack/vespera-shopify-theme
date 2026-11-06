@@ -1067,6 +1067,7 @@ button {
 @media (max-width: 768px) {
   .sticky-buy-dock {
     padding: var(--space-2) var(--space-3);
+    padding-bottom: calc(var(--space-2) + env(safe-area-inset-bottom, 0px));
   }
 
   .sticky-buy-dock__inner {

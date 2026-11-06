@@ -1,26 +1,11 @@
 {%- comment -%}
   Aura Theme - Main Collections List Section (Online Store 2.0)
   Luxury portrait card grid showcasing curated skincare collections & rituals.
-  Supports 'All collections' with dynamic sorting and 'Selected collections' via blocks.
+  Supports 'All collections' and 'Selected collections' via blocks.
 {%- endcomment -%}
 
-{%- liquid
-  case section.settings.sort
-    when 'products_high', 'products_low'
-      assign collections_list = collections | sort: 'all_products_count'
-    when 'date', 'date_reversed'
-      assign collections_list = collections | sort: 'published_at'
-    else
-      assign collections_list = collections | sort: 'title'
-  endcase
-
-  if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
-    assign collections_list = collections_list | reverse
-  endif
--%}
-
 {%- if section.settings.display_type == 'all' -%}
-  {%- paginate collections_list by section.settings.collections_per_page -%}
+  {%- paginate collections by section.settings.collections_per_page -%}
     <div class="main-list-collections page-container section-spacing">
       
       <!-- Editorial Section Header -->
@@ -36,7 +21,7 @@
 
       <!-- Collections Grid -->
       <div class="collections-grid collections-grid--{{ section.settings.columns_desktop }}-col">
-        {%- for collection in collections_list -%}
+        {%- for collection in collections -%}
           {%- liquid
             if section.settings.exclude_frontpage and collection.handle == 'frontpage'
               continue
@@ -216,7 +201,7 @@
               </div>
             </div>
             <div class="collection-card__content">
-              <h2 class="collection-card__title">{{ 'onboarding.collection_title' | t | default: 'Select a Collection' }}</h2>
+              <h2 class="collection-card__title">{{ 'onboarding.collection_title' | t }}</h2>
             </div>
           </div>
         {%- endif -%}
@@ -266,38 +251,6 @@
         {
           "value": "selected",
           "label": "Selected collections"
-        }
-      ]
-    },
-    {
-      "type": "select",
-      "id": "sort",
-      "label": "Sort collections by",
-      "default": "alphabetical",
-      "options": [
-        {
-          "value": "alphabetical",
-          "label": "Alphabetical, A-Z"
-        },
-        {
-          "value": "alphabetical_reversed",
-          "label": "Alphabetical, Z-A"
-        },
-        {
-          "value": "date_reversed",
-          "label": "Date, new to old"
-        },
-        {
-          "value": "date",
-          "label": "Date, old to new"
-        },
-        {
-          "value": "products_high",
-          "label": "Product count, high to low"
-        },
-        {
-          "value": "products_low",
-          "label": "Product count, low to high"
         }
       ]
     },

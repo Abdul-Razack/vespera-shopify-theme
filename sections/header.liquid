@@ -221,11 +221,16 @@
     background-color: var(--color-bg);
     border-bottom: 1px solid var(--color-border);
     transition: background-color var(--transition-normal);
+    z-index: 100;
   }
   .site-header--sticky {
     position: sticky;
     top: 0;
     z-index: 100;
+  }
+  .site-header--drawer-open,
+  .site-header:has(.mobile-nav-drawer--open) {
+    z-index: 999;
   }
   .site-header__inner {
     display: flex;
@@ -483,6 +488,8 @@
     transform: translateX(-100%);
     transition: transform var(--transition-smooth);
     padding: var(--space-6);
+    padding-top: calc(var(--space-6) + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -642,6 +649,7 @@
 
     function openMobileDrawer() {
       if (!mobileDrawer) return;
+      if (header) header.classList.add('site-header--drawer-open');
       mobileDrawer.classList.add('mobile-nav-drawer--open');
       mobileDrawer.setAttribute('aria-hidden', 'false');
       if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'true');
@@ -650,6 +658,7 @@
 
     function closeMobileDrawer() {
       if (!mobileDrawer) return;
+      if (header) header.classList.remove('site-header--drawer-open');
       mobileDrawer.classList.remove('mobile-nav-drawer--open');
       mobileDrawer.setAttribute('aria-hidden', 'true');
       if (mobileToggle) mobileToggle.setAttribute('aria-expanded', 'false');
