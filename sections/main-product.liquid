@@ -603,12 +603,27 @@
       stickyQtyPlus.addEventListener('click', () => setQuantity((parseInt(qtyInput ? qtyInput.value : 1, 10) || 1) + 1));
     }
 
-    // Sticky Buy Dock Visibility via IntersectionObserver
+    // Sticky Buy Dock Visibility (Observer + Scroll Listener)
+    function updateStickyDock() {
+      if (!addBtn || !stickyDock) return;
+      const rect = addBtn.getBoundingClientRect();
+      if (rect.bottom < 0) {
+        stickyDock.setAttribute('aria-hidden', 'false');
+        stickyDock.classList.add('is-visible');
+      } else {
+        stickyDock.setAttribute('aria-hidden', 'true');
+        stickyDock.classList.remove('is-visible');
+      }
+    }
+
+    window.addEventListener('scroll', updateStickyDock, { passive: true });
+    window.addEventListener('resize', updateStickyDock, { passive: true });
+    updateStickyDock();
+
     if (stickyDock && addBtn) {
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
-            // When primary Add to Cart button scrolls out above the viewport, show dock
             if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
               stickyDock.setAttribute('aria-hidden', 'false');
               stickyDock.classList.add('is-visible');
