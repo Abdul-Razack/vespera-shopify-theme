@@ -40,37 +40,41 @@
           <input type="hidden" name="contact[tags]" value="newsletter">
           
           {%- if form.posted_successfully? -%}
-            <p class="site-footer__form-success" role="status" tabindex="-1" autofocus>
-              Thank you for subscribing to Aura.
-            </p>
-          {%- endif -%}
+            <div class="site-footer__form-success" role="status" tabindex="-1" autofocus>
+              <span class="site-footer__success-icon" aria-hidden="true">&check;</span>
+              <div>
+                <strong>Welcome to The Aura Circle.</strong>
+                <p class="site-footer__success-text">Your private invitation and formula access details have been dispatched to your inbox.</p>
+              </div>
+            </div>
+          {%- else -%}
+            {%- if form.errors -%}
+              <p class="site-footer__form-error" role="alert">
+                {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
+              </p>
+            {%- endif -%}
 
-          {%- if form.errors -%}
-            <p class="site-footer__form-error" role="alert">
-              {{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}
-            </p>
+            <div class="site-footer__input-group">
+              <label for="NewsletterEmail" class="visually-hidden">Email address</label>
+              <input 
+                id="NewsletterEmail"
+                type="email" 
+                name="contact[email]" 
+                class="site-footer__input" 
+                value="{{ form.email }}" 
+                placeholder="Enter your email" 
+                aria-required="true" 
+                autocorrect="off" 
+                autocapitalize="off" 
+                autocomplete="email"
+                {% if form.errors %}aria-invalid="true"{% endif %}
+                required
+              >
+              <button type="submit" class="site-footer__submit-btn" aria-label="Join - Subscribe to newsletter">
+                Join &rarr;
+              </button>
+            </div>
           {%- endif -%}
-
-          <div class="site-footer__input-group">
-            <label for="NewsletterEmail" class="visually-hidden">Email address</label>
-            <input 
-              id="NewsletterEmail"
-              type="email" 
-              name="contact[email]" 
-              class="site-footer__input" 
-              value="{{ form.email }}" 
-              placeholder="Enter your email" 
-              aria-required="true" 
-              autocorrect="off" 
-              autocapitalize="off" 
-              autocomplete="email"
-              {% if form.errors %}aria-invalid="true"{% endif %}
-              required
-            >
-            <button type="submit" class="site-footer__submit-btn" aria-label="Join - Subscribe to newsletter">
-              Join &rarr;
-            </button>
-          </div>
         {%- endform -%}
       </div>
 
@@ -185,6 +189,35 @@
   .site-footer__submit-btn:hover {
     color: var(--color-accent);
   }
+  .site-footer__form-success {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    background-color: rgba(46, 125, 50, 0.08);
+    border: 1px solid rgba(46, 125, 50, 0.25);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+    line-height: 1.5;
+  }
+  .site-footer__success-icon {
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: var(--font-size-base);
+    line-height: 1.2;
+  }
+  .site-footer__success-text {
+    margin-top: 4px;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+  .site-footer__form-error {
+    font-size: var(--font-size-xs);
+    color: #d32f2f;
+    margin-bottom: var(--space-3);
+  }
   .site-footer__bottom {
     display: flex;
     flex-direction: column;
@@ -222,6 +255,70 @@
     border: 0;
   }
 </style>
+
+<script>
+  (function() {
+    const footerForm = document.getElementById('ContactFooter');
+    if (!footerForm) return;
+
+    footerForm.addEventListener('submit', async function(e) {
+      if (window.Shopify && window.Shopify.designMode) return;
+
+      const submitBtn = footerForm.querySelector('.site-footer__submit-btn');
+      const emailInput = footerForm.querySelector('#NewsletterEmail');
+      if (!emailInput || !emailInput.value) return;
+
+      e.preventDefault();
+      const originalBtnText = submitBtn ? submitBtn.innerHTML : 'Join &rarr;';
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = 'Subscribing...';
+      }
+
+      try {
+        const formData = new FormData(footerForm);
+        const response = await fetch(footerForm.action || '/contact#ContactFooter', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'text/html'
+          }
+        });
+
+        if (response.url && response.url.includes('/challenge')) {
+          footerForm.submit();
+          return;
+        }
+
+        const htmlText = await response.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+        const successMsg = doc.querySelector('.site-footer__form-success');
+        const errorMsg = doc.querySelector('.site-footer__form-error');
+
+        if (successMsg) {
+          footerForm.innerHTML = successMsg.outerHTML;
+        } else if (errorMsg) {
+          let currentErr = footerForm.querySelector('.site-footer__form-error');
+          if (!currentErr) {
+            currentErr = document.createElement('p');
+            currentErr.className = 'site-footer__form-error';
+            footerForm.prepend(currentErr);
+          }
+          currentErr.textContent = errorMsg.textContent;
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalBtnText;
+          }
+        } else {
+          footerForm.submit();
+        }
+      } catch (err) {
+        footerForm.submit();
+      }
+    });
+  })();
+</script>
 
 {% schema %}
 {
