@@ -50,6 +50,7 @@ class CartDrawer extends HTMLElement {
     this.addEventListener("click", (e) => {
       const qtyBtn = e.target.closest("[data-qty-change]");
       const removeBtn = e.target.closest("[data-item-remove]");
+      const upsellBtn = e.target.closest("[data-upsell-add-variant]");
 
       if (qtyBtn) {
         const item = qtyBtn.closest("[data-line-item-key]");
@@ -61,6 +62,13 @@ class CartDrawer extends HTMLElement {
         const item = removeBtn.closest("[data-line-item-key]");
         const key = item.getAttribute("data-line-item-key");
         this.updateItem(key, 0);
+      } else if (upsellBtn) {
+        const variantId = upsellBtn.getAttribute("data-upsell-add-variant");
+        if (variantId) {
+          upsellBtn.setAttribute("disabled", "disabled");
+          upsellBtn.textContent = "Adding...";
+          this.addVariantToCart(variantId);
+        }
       }
     });
   }
@@ -121,6 +129,28 @@ class CartDrawer extends HTMLElement {
       await this.refreshDrawer();
     } catch (err) {
       console.error("Failed to update item:", err);
+    }
+  }
+
+  async addVariantToCart(variantId) {
+    try {
+      const response = await fetch("/cart/add.js", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        body: JSON.stringify({
+          items: [{ id: parseInt(variantId, 10), quantity: 1 }]
+        })
+      });
+
+      if (!response.ok) throw new Error("Add variant failed");
+
+      await this.refreshDrawer();
+    } catch (err) {
+      console.error("Failed to add upsell variant:", err);
+      await this.refreshDrawer();
     }
   }
 

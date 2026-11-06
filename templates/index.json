@@ -38,6 +38,41 @@
         "secondary_button_label": "Our Philosophy"
       }
     },
+    "press_marquee": {
+      "type": "press-marquee",
+      "blocks": {
+        "press_1": {
+          "type": "press_quote",
+          "settings": {
+            "publication": "Vogue International",
+            "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
+          }
+        },
+        "press_2": {
+          "type": "press_quote",
+          "settings": {
+            "publication": "Harper's Bazaar",
+            "quote": "Clinically proven botanical precision without synthetic compromises. The new benchmark for luxury daily ritual."
+          }
+        },
+        "press_3": {
+          "type": "press_quote",
+          "settings": {
+            "publication": "Allure Magazine",
+            "quote": "94% moisture barrier retention backed by independent studies. Pure sustainable luxury in UV-protective glass."
+          }
+        }
+      },
+      "block_order": [
+        "press_1",
+        "press_2",
+        "press_3"
+      ],
+      "settings": {
+        "eyebrow": "Editorial Acclaim",
+        "heading": "Recognized by Industry Connoisseurs"
+      }
+    },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
@@ -201,6 +236,7 @@
   },
   "order": [
     "hero",
+    "press_marquee",
     "featured_collection",
     "collection_list",
     "image_with_text",
