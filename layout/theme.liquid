@@ -60,6 +60,33 @@
 
     <script src="{{ 'cart-drawer.js' | asset_url }}" defer="defer"></script>
     <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
-    <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
+    <script>
+      /* Shopify Theme Store Best Practice: Import Quick View on interaction */
+      (function() {
+        let qvLoaded = false;
+        function loadQuickView(e) {
+          if (qvLoaded) return;
+          qvLoaded = true;
+          const s = document.createElement('script');
+          s.src = "{{ 'quick-view.js' | asset_url }}";
+          s.onload = function() {
+            if (e && e.type === 'click') {
+              const t = e.target.closest('[data-quick-view-handle]');
+              if (t) t.click();
+            }
+          };
+          document.body.appendChild(s);
+        }
+        document.addEventListener('mouseover', function(e) {
+          if (e.target.closest('[data-quick-view-handle]')) loadQuickView(e);
+        }, { passive: true });
+        document.addEventListener('touchstart', function(e) {
+          if (e.target.closest('[data-quick-view-handle]')) loadQuickView(e);
+        }, { passive: true });
+        document.addEventListener('click', function(e) {
+          if (e.target.closest('[data-quick-view-handle]')) loadQuickView(e);
+        });
+      })();
+    </script>
   </body>
 </html>

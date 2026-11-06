@@ -35,6 +35,17 @@
       "heading_scale": 100,
       "type_body_font": "assistant_n4",
       "body_scale": 100
+    },
+    "Nocturne": {
+      "color_background": "#141312",
+      "color_text": "#F5F2EB",
+      "color_accent": "#C5A880",
+      "color_border": "#2A2826",
+      "logo_width": 130,
+      "type_header_font": "playfair_display_n4",
+      "heading_scale": 100,
+      "type_body_font": "assistant_n4",
+      "body_scale": 100
     }
   }
 }
