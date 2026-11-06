@@ -10,6 +10,38 @@
         <p class="site-footer__brand-desc">
           Formulated with intentional botanical extracts and clinical precision. Created for conscious rituals and radiant skin.
         </p>
+
+        <!-- Social Media Links (Quiet Luxury Monochrome SVGs) -->
+        {%- if section.settings.show_social_icons -%}
+          <div class="site-footer__social-list">
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" class="site-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+            {%- endif -%}
+
+            {%- if settings.social_tiktok_link != blank -%}
+              <a href="{{ settings.social_tiktok_link }}" class="site-footer__social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+
+            {%- if settings.social_pinterest_link != blank -%}
+              <a href="{{ settings.social_pinterest_link }}" class="site-footer__social-link" aria-label="Pinterest" target="_blank" rel="noopener noreferrer">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="12" y1="9" x2="12" y2="21"></line>
+                  <path d="M8 12a4 4 0 1 1 8 0c0 3-2 5-4 5s-2-2-2-3"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
 
       <!-- Column 2: Quick Links -->
@@ -105,6 +137,47 @@
             <li class="site-footer__policy-item"><a href="/policies/refund-policy" class="site-footer__policy-link">Refund Policy</a></li>
             <li class="site-footer__policy-item"><a href="/policies/shipping-policy" class="site-footer__policy-link">Shipping Policy</a></li>
           </ul>
+        {%- endif -%}
+      </div>
+
+      <!-- Shopify Markets Country/Currency & Language Selectors -->
+      <div class="site-footer__localization">
+        {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
+          {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
+            <div class="localization-selector">
+              <label for="FooterCountrySelect" class="visually-hidden">Country / Currency</label>
+              <select name="country_code" id="FooterCountrySelect" class="localization-selector__select" onchange="this.form.submit()">
+                {%- for country in localization.available_countries -%}
+                  <option 
+                    value="{{ country.iso_code }}" 
+                    {% if country.iso_code == localization.country.iso_code %}selected="selected"{% endif %}
+                  >
+                    {{ country.name }} ({{ country.currency.iso_code }} {{ country.currency.symbol }})
+                  </option>
+                {%- endfor -%}
+              </select>
+              <span class="localization-selector__arrow" aria-hidden="true">&darr;</span>
+            </div>
+          {%- endform -%}
+        {%- endif -%}
+
+        {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
+          {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
+            <div class="localization-selector">
+              <label for="FooterLanguageSelect" class="visually-hidden">Language</label>
+              <select name="locale_code" id="FooterLanguageSelect" class="localization-selector__select" onchange="this.form.submit()">
+                {%- for language in localization.available_languages -%}
+                  <option 
+                    value="{{ language.iso_code }}" 
+                    {% if language.iso_code == localization.language.iso_code %}selected="selected"{% endif %}
+                  >
+                    {{ language.endonym_name | capitalize }}
+                  </option>
+                {%- endfor -%}
+              </select>
+              <span class="localization-selector__arrow" aria-hidden="true">&darr;</span>
+            </div>
+          {%- endform -%}
         {%- endif -%}
       </div>
 
@@ -210,6 +283,54 @@
   }
   .site-footer__submit-btn:hover {
     color: var(--color-accent);
+  }
+  .site-footer__social-list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-5);
+  }
+  .site-footer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+  .site-footer__social-link:hover {
+    color: var(--color-text);
+    transform: translateY(-2px);
+  }
+  .site-footer__localization {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+  }
+  .localization-selector {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+  .localization-selector__select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: var(--color-surface, #FFFFFF);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-2) var(--space-6) var(--space-2) var(--space-3);
+    font-size: var(--font-size-xs);
+    color: var(--color-text);
+    cursor: pointer;
+    font-family: inherit;
+    line-height: 1.4;
+  }
+  .localization-selector__arrow {
+    position: absolute;
+    right: 8px;
+    font-size: 10px;
+    color: var(--color-text-muted);
+    pointer-events: none;
   }
   .site-footer__form-success {
     display: flex;
@@ -391,6 +512,24 @@
       "type": "checkbox",
       "id": "show_payment_icons",
       "label": "Show Payment Icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social_icons",
+      "label": "Show Social Media Icons",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "label": "Enable Country / Currency Selector",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "label": "Enable Language Selector",
       "default": true
     }
   ]

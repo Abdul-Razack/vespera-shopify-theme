@@ -8,7 +8,10 @@
     "type_header_font": "playfair_display_n4",
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
-    "body_scale": 100
+    "body_scale": 100,
+    "social_instagram_link": "https://instagram.com/aura_skincare",
+    "social_tiktok_link": "https://tiktok.com/@aura_skincare",
+    "social_pinterest_link": "https://pinterest.com/aura_skincare"
   },
   "presets": {
     "Botanical": {

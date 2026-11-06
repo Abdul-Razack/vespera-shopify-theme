@@ -78,7 +78,8 @@
       "decrease_quantity": "Decrease quantity",
       "increase_quantity": "Increase quantity",
       "media": {
-        "load_image": "Load image {{ index }}"
+        "load_image": "Load image {{ index }}",
+        "open_media": "Open full-screen image zoom"
       },
       "sticky_buy_bar": "Quick Buy",
       "select_variant": "Select Variant",

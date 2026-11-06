@@ -179,6 +179,38 @@
           {%- endfor -%}
         </ul>
       </nav>
+
+      <!-- Mobile Navigation Drawer Footer / Socials -->
+      <div class="mobile-nav-drawer__footer">
+        {%- if settings.social_instagram_link != blank or settings.social_tiktok_link != blank or settings.social_pinterest_link != blank -%}
+          <div class="mobile-nav-drawer__socials">
+            {%- if settings.social_instagram_link != blank -%}
+              <a href="{{ settings.social_instagram_link }}" class="mobile-nav-drawer__social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_tiktok_link != blank -%}
+              <a href="{{ settings.social_tiktok_link }}" class="mobile-nav-drawer__social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+            {%- if settings.social_pinterest_link != blank -%}
+              <a href="{{ settings.social_pinterest_link }}" class="mobile-nav-drawer__social-link" aria-label="Pinterest" target="_blank" rel="noopener noreferrer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="12" y1="9" x2="12" y2="21"></line>
+                  <path d="M8 12a4 4 0 1 1 8 0c0 3-2 5-4 5s-2-2-2-3"></path>
+                </svg>
+              </a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 </header>
@@ -513,6 +545,27 @@
   }
   .mobile-nav-drawer__link--active {
     color: var(--color-accent);
+  }
+  .mobile-nav-drawer__footer {
+    margin-top: auto;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+  .mobile-nav-drawer__socials {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+  .mobile-nav-drawer__social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-text-muted);
+    transition: color var(--transition-fast), transform var(--transition-fast);
+  }
+  .mobile-nav-drawer__social-link:hover {
+    color: var(--color-text);
+    transform: translateY(-2px);
   }
 </style>
 

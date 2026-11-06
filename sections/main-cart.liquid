@@ -1,4 +1,4 @@
-{%- assign free_shipping_threshold = 7500 -%}
+{%- assign free_shipping_threshold = section.settings.free_shipping_threshold | default: 75 | times: 100 -%}
 {%- assign amount_remaining = free_shipping_threshold | minus: cart.total_price -%}
 
 <div class="main-cart page-container section-spacing" data-section-id="{{ section.id }}">
@@ -165,6 +165,12 @@
   "tag": "section",
   "class": "section-main-cart",
   "settings": [
+    {
+      "type": "number",
+      "id": "free_shipping_threshold",
+      "label": "Free Shipping Threshold ($)",
+      "default": 75
+    },
     {
       "type": "checkbox",
       "id": "show_cart_note",
