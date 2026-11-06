@@ -12,7 +12,7 @@
     {%- endif -%}
 
     <!-- Press Quotes Grid / Carousel -->
-    <div class="press-marquee__grid" role="list">
+    <div class="press-marquee__grid" id="PressMarqueeGrid-{{ section.id }}" role="list">
       {%- if section.blocks.size > 0 -%}
         {%- for block in section.blocks -%}
           <article class="press-marquee__card" {{ block.shopify_attributes }} role="listitem">
@@ -54,6 +54,17 @@
         </article>
       {%- endif -%}
     </div>
+
+    <!-- Mobile Swipe Indicator Dots ($380 Commercial Luxury Benchmark) -->
+    {%- assign quote_count = section.blocks.size -%}
+    {%- if quote_count == 0 -%}{%- assign quote_count = 3 -%}{%- endif -%}
+    {%- if quote_count > 1 -%}
+      <div class="press-marquee__indicators" id="PressMarqueeDots-{{ section.id }}" aria-hidden="true">
+        {%- for i in (1..quote_count) -%}
+          <span class="press-marquee__indicator{% if forloop.first %} is-active{% endif %}" data-dot-index="{{ forloop.index0 }}"></span>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
   </div>
 </div>
 
@@ -146,22 +157,111 @@
     padding-top: var(--space-2);
   }
 
-  @media (max-width: 900px) {
+  .press-marquee__indicators {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
     .press-marquee {
-      padding-top: var(--space-12);
-      padding-bottom: var(--space-16);
+      padding-top: var(--space-10);
+      padding-bottom: var(--space-12);
+    }
+
+    .press-marquee__header {
+      margin-bottom: var(--space-6);
     }
 
     .press-marquee__grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-5);
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: var(--space-4);
+      padding: var(--space-2) var(--space-4) var(--space-4);
+      margin-left: calc(-1 * var(--container-padding, 16px));
+      margin-right: calc(-1 * var(--container-padding, 16px));
+      scrollbar-width: none;
+    }
+
+    .press-marquee__grid::-webkit-scrollbar {
+      display: none;
     }
 
     .press-marquee__card {
+      flex: 0 0 84%;
+      max-width: 84%;
+      scroll-snap-align: center;
       padding: var(--space-6);
+      min-height: 200px;
+    }
+
+    .press-marquee__quote {
+      font-size: 0.95rem;
+      margin-bottom: var(--space-4);
+    }
+
+    .press-marquee__indicators {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      margin-top: var(--space-3);
+    }
+
+    .press-marquee__indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-border);
+      transition: background-color var(--transition-fast), width var(--transition-fast), border-radius var(--transition-fast);
+      cursor: pointer;
+    }
+
+    .press-marquee__indicator.is-active {
+      background-color: var(--color-accent);
+      width: 18px;
+      border-radius: 9999px;
     }
   }
 </style>
+
+<script>
+  (function() {
+    const grid = document.getElementById('PressMarqueeGrid-{{ section.id }}');
+    const dotsWrap = document.getElementById('PressMarqueeDots-{{ section.id }}');
+    if (!grid || !dotsWrap) return;
+
+    const dots = dotsWrap.querySelectorAll('.press-marquee__indicator');
+    const cards = grid.querySelectorAll('.press-marquee__card');
+    if (!dots.length || !cards.length) return;
+
+    let isScrolling = false;
+
+    grid.addEventListener('scroll', function() {
+      if (isScrolling) return;
+      isScrolling = true;
+      requestAnimationFrame(function() {
+        const scrollLeft = grid.scrollLeft;
+        const cardWidth = cards[0].offsetWidth;
+        const activeIndex = Math.min(cards.length - 1, Math.max(0, Math.round(scrollLeft / (cardWidth + 16))));
+        
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('is-active', idx === activeIndex);
+        });
+        isScrolling = false;
+      });
+    }, { passive: true });
+
+    dots.forEach((dot, idx) => {
+      dot.addEventListener('click', () => {
+        if (cards[idx]) {
+          cards[idx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
