@@ -419,61 +419,6 @@
       });
     });
 
-    // Variant Selection Handling
-    const pillInputs = section.querySelectorAll('[data-option-value]');
-    pillInputs.forEach(input => {
-      input.addEventListener('change', () => {
-        // Update label
-        const group = input.closest('.main-product__option-group');
-        const selectedValEl = group.querySelector('.main-product__option-selected-val');
-        if (selectedValEl) selectedValEl.textContent = input.value;
-
-        // Find selected options
-        const selectedOptions = Array.from(section.querySelectorAll('.main-product__option-group')).map(g => {
-          const checked = g.querySelector('.main-product__pill-input:checked');
-          return checked ? checked.value : null;
-        });
-
-        // Find matching variant
-        const matchedVariant = variants.find(v => {
-          return v.options.every((opt, idx) => opt === selectedOptions[idx]);
-        });
-
-        if (matchedVariant) {
-          if (hiddenIdInput) hiddenIdInput.value = matchedVariant.id;
-          
-          // Format price
-          const formattedPrice = "$" + (matchedVariant.price / 100).toFixed(2);
-          if (regularPriceEl) regularPriceEl.textContent = formattedPrice;
-          if (btnPriceEl) btnPriceEl.textContent = formattedPrice;
-
-          if (matchedVariant.compare_at_price && matchedVariant.compare_at_price > matchedVariant.price) {
-            const formattedCompare = "$" + (matchedVariant.compare_at_price / 100).toFixed(2);
-            if (comparePriceEl) {
-              comparePriceEl.textContent = formattedCompare;
-              comparePriceEl.style.display = 'inline';
-            }
-          } else if (comparePriceEl) {
-            comparePriceEl.style.display = 'none';
-          }
-
-          // Availability
-          if (matchedVariant.available) {
-            addBtn.removeAttribute('disabled');
-            addBtn.innerHTML = `Add to Bag &bull; <span>${formattedPrice}</span>`;
-          } else {
-            addBtn.setAttribute('disabled', 'disabled');
-            addBtn.textContent = 'Sold Out';
-          }
-
-          // Featured image
-          if (matchedVariant.featured_image && mainImg) {
-            mainImg.src = matchedVariant.featured_image.src;
-          }
-        }
-      });
-    });
-
     // Sticky Universal Buy Dock Elements
     const stickyDock = document.getElementById('StickyBuyDock');
     const stickySelect = document.getElementById('StickyVariantSelect');
