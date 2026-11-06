@@ -1,9 +1,13 @@
-<div class="press-marquee section-spacing" data-section-id="{{ section.id }}">
+<div class="press-marquee" data-section-id="{{ section.id }}">
   <div class="page-container">
-    {%- if section.settings.heading != blank -%}
-      <div class="section-header text-center">
-        <span class="section-eyebrow">{{ section.settings.eyebrow | default: 'Editorial Accolades' | escape }}</span>
-        <h2 class="section-title">{{ section.settings.heading | escape }}</h2>
+    {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
+      <div class="press-marquee__header text-center">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow | default: 'Editorial Accolades' | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading != blank -%}
+          <h2 class="press-marquee__title">{{ section.settings.heading | escape }}</h2>
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -55,9 +59,32 @@
 
 <style>
   .press-marquee {
-    background-color: var(--color-bg-subtle);
+    background-color: var(--color-bg-subtle, #FAF8F5);
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
+    padding-top: var(--space-16);
+    padding-bottom: var(--space-20);
+  }
+
+  .press-marquee__header {
+    max-width: 680px;
+    margin: 0 auto var(--space-8);
+  }
+
+  @media (min-width: 768px) {
+    .press-marquee__header {
+      margin-bottom: var(--space-10);
+    }
+  }
+
+  .press-marquee__title {
+    font-family: var(--font-heading-family);
+    font-size: clamp(1.85rem, 3.2vw, 2.5rem);
+    font-weight: var(--font-heading-weight);
+    letter-spacing: var(--letter-spacing-heading);
+    line-height: 1.25;
+    color: var(--color-text);
+    margin: 0;
   }
 
   .press-marquee__grid {
@@ -71,12 +98,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: var(--space-6);
-    background-color: var(--color-surface);
+    padding: var(--space-8);
+    background-color: var(--color-surface, #FFFFFF);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     text-align: center;
-    box-shadow: var(--shadow-subtle);
+    box-shadow: 0 4px 20px rgba(44, 42, 41, 0.04);
     transition: transform var(--transition-normal), box-shadow var(--transition-normal);
   }
 
@@ -88,17 +115,22 @@
   .press-marquee__rating {
     color: var(--color-accent);
     font-size: var(--font-size-sm);
-    letter-spacing: 0.15em;
-    margin-bottom: var(--space-3);
+    letter-spacing: 0.25em;
+    margin-bottom: var(--space-4);
+    line-height: 1;
   }
 
   .press-marquee__quote {
     font-family: var(--font-heading-family);
     font-size: var(--font-size-base);
-    line-height: var(--line-height-relaxed);
+    line-height: var(--line-height-relaxed, 1.6);
     color: var(--color-text);
-    margin: 0 0 var(--space-4) 0;
+    margin: 0 0 var(--space-6) 0;
     font-style: italic;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .press-marquee__publication {
@@ -106,19 +138,27 @@
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     color: var(--color-accent);
     font-style: normal;
+    display: block;
+    margin-top: auto;
+    padding-top: var(--space-2);
   }
 
   @media (max-width: 900px) {
+    .press-marquee {
+      padding-top: var(--space-12);
+      padding-bottom: var(--space-16);
+    }
+
     .press-marquee__grid {
       grid-template-columns: 1fr;
-      gap: var(--space-4);
+      gap: var(--space-5);
     }
 
     .press-marquee__card {
-      padding: var(--space-4);
+      padding: var(--space-6);
     }
   }
 </style>
