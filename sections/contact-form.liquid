@@ -1,0 +1,386 @@
+<div class="contact-section section-spacing" data-section-id="{{ section.id }}">
+  <div class="page-container">
+    <div class="contact-section__grid">
+      
+      <!-- Left Column: Concierge Details & Brand Studio -->
+      <div class="contact-section__concierge">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="section-eyebrow">{{ section.settings.eyebrow | escape }}</span>
+        {%- endif -%}
+        
+        <h2 class="contact-section__title">
+          {{ section.settings.heading | default: 'Customer Care & Formulation Concierge' | escape }}
+        </h2>
+
+        <p class="contact-section__subtext">
+          {{ section.settings.subtext | default: 'Whether you are seeking tailored skincare ritual guidance, batch code verification, or delivery tracking, our botanical team is at your disposal.' | escape }}
+        </p>
+
+        <div class="contact-section__cards">
+          <div class="concierge-card">
+            <span class="concierge-card__label">Concierge Inquiries</span>
+            <a href="mailto:{{ section.settings.email | default: 'concierge@aurabotanicals.com' }}" class="concierge-card__val">
+              {{ section.settings.email | default: 'concierge@aurabotanicals.com' }}
+            </a>
+          </div>
+
+          <div class="concierge-card">
+            <span class="concierge-card__label">Consultation Hours</span>
+            <span class="concierge-card__val">{{ section.settings.hours | default: 'Monday – Friday, 9:00 AM – 6:00 PM EST' }}</span>
+          </div>
+
+          <div class="concierge-card">
+            <span class="concierge-card__label">Response Standard</span>
+            <span class="concierge-card__val">Guaranteed review within 24 business hours</span>
+          </div>
+
+          <div class="concierge-card">
+            <span class="concierge-card__label">Botanical Research Lab</span>
+            <span class="concierge-card__val">{{ section.settings.location | default: 'New York &bull; London &bull; Paris' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Form -->
+      <div class="contact-section__form-wrapper">
+        {%- form 'contact', id: 'ContactForm', class: 'contact-form' -%}
+          
+          {%- if form.posted_successfully? -%}
+            <div class="contact-form__success" role="status" tabindex="-1" autofocus>
+              <span class="contact-form__success-icon" aria-hidden="true">&check;</span>
+              <div>
+                <strong>Message Dispatched.</strong>
+                <p class="contact-form__success-text">
+                  {{ 'templates.contact.form.post_success' | t | default: 'Thank you for contacting Aura. Our formulation concierge will respond within 24 hours.' }}
+                </p>
+              </div>
+            </div>
+          {%- endif -%}
+
+          {%- if form.errors -%}
+            <div class="contact-form__error" role="alert">
+              <strong>{{ 'templates.contact.form.error_heading' | t | default: 'Please adjust the following:' }}</strong>
+              <ul>
+                {%- for field in form.errors -%}
+                  <li>
+                    {{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div class="contact-form__field-row">
+            <!-- Full Name -->
+            <div class="contact-form__field">
+              <label for="ContactForm-name" class="contact-form__label">
+                {{ 'templates.contact.form.name' | t | default: 'Your Name' }} <span aria-hidden="true">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="ContactForm-name" 
+                name="contact[{{ 'templates.contact.form.name' | t | default: 'name' }}]" 
+                class="contact-form__input" 
+                value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                placeholder="Eleanor Vance"
+                required
+                autocomplete="name"
+              >
+            </div>
+
+            <!-- Email Address -->
+            <div class="contact-form__field">
+              <label for="ContactForm-email" class="contact-form__label">
+                {{ 'templates.contact.form.email' | t | default: 'Email Address' }} <span aria-hidden="true">*</span>
+              </label>
+              <input 
+                type="email" 
+                id="ContactForm-email" 
+                name="contact[email]" 
+                class="contact-form__input" 
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                placeholder="eleanor@domain.com"
+                spellcheck="false"
+                autocomplete="email"
+                autocapitalize="off"
+                required
+                {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+              >
+            </div>
+          </div>
+
+          <div class="contact-form__field-row">
+            <!-- Order / Batch Number (Optional) -->
+            <div class="contact-form__field">
+              <label for="ContactForm-order" class="contact-form__label">
+                {{ 'templates.contact.form.phone' | t | default: 'Order Number or Batch Code' }}
+              </label>
+              <input 
+                type="text" 
+                id="ContactForm-order" 
+                name="contact[order_number]" 
+                class="contact-form__input" 
+                placeholder="#AU-10492 (Optional)"
+              >
+            </div>
+
+            <!-- Topic Selector -->
+            <div class="contact-form__field">
+              <label for="ContactForm-topic" class="contact-form__label">
+                {{ 'templates.contact.form.topic' | t | default: 'Nature of Inquiry' }}
+              </label>
+              <select id="ContactForm-topic" name="contact[topic]" class="contact-form__select">
+                <option value="Ritual Guidance">Tailored Skincare Ritual Guidance</option>
+                <option value="Order & Delivery">Order Status & Worldwide Shipping</option>
+                <option value="Glass Refills">Sustainable Packaging & Glass Refills</option>
+                <option value="Press & Partnerships">Press, Editorial & Partnerships</option>
+                <option value="General Inquiry">General Inquiries</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Message -->
+          <div class="contact-form__field">
+            <label for="ContactForm-body" class="contact-form__label">
+              {{ 'templates.contact.form.comment' | t | default: 'How may we assist your ritual?' }} <span aria-hidden="true">*</span>
+            </label>
+            <textarea 
+              rows="6" 
+              id="ContactForm-body" 
+              name="contact[{{ 'templates.contact.form.comment' | t | default: 'body' }}]" 
+              class="contact-form__textarea" 
+              placeholder="Tell us about your skin goals, questions, or ritual needs..."
+              required
+            >{{ form.body }}</textarea>
+          </div>
+
+          <button type="submit" class="btn-primary contact-form__submit-btn">
+            {{ 'templates.contact.form.send' | t | default: 'Send Message' }} &rarr;
+          </button>
+
+        {%- endform -%}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .contact-section {
+    background-color: var(--color-bg);
+  }
+  .contact-section__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-12);
+  }
+  @media (min-width: 990px) {
+    .contact-section__grid {
+      grid-template-columns: 1fr 1.3fr;
+      gap: var(--space-16);
+      align-items: start;
+    }
+  }
+  .contact-section__title {
+    font-family: var(--font-serif);
+    font-size: var(--font-size-2xl);
+    line-height: 1.25;
+    margin-bottom: var(--space-4);
+    color: var(--color-text);
+  }
+  .contact-section__subtext {
+    font-size: var(--font-size-base);
+    color: var(--color-text-muted);
+    line-height: 1.7;
+    margin-bottom: var(--space-8);
+  }
+  .contact-section__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    border-top: 1px solid var(--color-border);
+    padding-top: var(--space-6);
+  }
+  .concierge-card {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .concierge-card__label {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-muted);
+  }
+  .concierge-card__val {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+  }
+  a.concierge-card__val:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+  }
+
+  /* Form Styling */
+  .contact-section__form-wrapper {
+    background-color: var(--color-surface, #FFFFFF);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-8);
+    box-shadow: var(--shadow-subtle);
+  }
+  @media (min-width: 768px) {
+    .contact-section__form-wrapper {
+      padding: var(--space-10);
+    }
+  }
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+  .contact-form__field-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+  }
+  @media (min-width: 600px) {
+    .contact-form__field-row {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .contact-form__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .contact-form__label {
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+  }
+  .contact-form__input,
+  .contact-form__select,
+  .contact-form__textarea {
+    width: 100%;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    font-family: inherit;
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  }
+  .contact-form__input:focus,
+  .contact-form__select:focus,
+  .contact-form__textarea:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
+  }
+  .contact-form__textarea {
+    resize: vertical;
+  }
+  .contact-form__submit-btn {
+    align-self: flex-start;
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--font-size-sm);
+    cursor: pointer;
+  }
+  @media (max-width: 599px) {
+    .contact-form__submit-btn {
+      width: 100%;
+    }
+  }
+  .contact-form__success {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: rgba(46, 125, 50, 0.08);
+    border: 1px solid rgba(46, 125, 50, 0.25);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    line-height: 1.5;
+  }
+  .contact-form__success-icon {
+    color: #2e7d32;
+    font-weight: bold;
+    font-size: var(--font-size-lg);
+  }
+  .contact-form__success-text {
+    margin-top: 4px;
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+  }
+  .contact-form__error {
+    padding: var(--space-4);
+    background-color: rgba(211, 47, 47, 0.08);
+    border: 1px solid rgba(211, 47, 47, 0.25);
+    border-radius: var(--radius-sm);
+    font-size: var(--font-size-xs);
+    color: #d32f2f;
+  }
+  .contact-form__error ul {
+    margin: var(--space-2) 0 0 var(--space-4);
+    padding: 0;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Customer Care Contact",
+  "tag": "section",
+  "class": "section-contact-form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Personalized Guidance"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer Care & Formulation Concierge"
+    },
+    {
+      "type": "textarea",
+      "id": "subtext",
+      "label": "Subtext",
+      "default": "Whether you are seeking tailored skincare ritual guidance, batch code verification, or delivery tracking, our botanical team is at your disposal."
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Concierge Email",
+      "default": "concierge@aurabotanicals.com"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "Hours of Operation",
+      "default": "Monday – Friday, 9:00 AM – 6:00 PM EST"
+    },
+    {
+      "type": "text",
+      "id": "location",
+      "label": "Location Footprint",
+      "default": "New York • London • Paris"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Care Contact"
+    }
+  ]
+}
+{% endschema %}

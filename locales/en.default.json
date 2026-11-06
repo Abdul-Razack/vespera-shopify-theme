@@ -41,6 +41,20 @@
     },
     "404": {
       "subtext": "Formulation Not Found"
+    },
+    "contact": {
+      "form": {
+        "title": "Customer Care & Formulation Concierge",
+        "eyebrow": "Personalized Guidance",
+        "name": "Your name",
+        "email": "Email address",
+        "phone": "Phone or order number",
+        "topic": "Nature of inquiry",
+        "comment": "How may we assist your ritual?",
+        "send": "Send Message",
+        "post_success": "Thank you for contacting Aura. Our formulation concierge will respond within 24 hours.",
+        "error_heading": "Please adjust the following:"
+      }
     }
   },
   "general": {
