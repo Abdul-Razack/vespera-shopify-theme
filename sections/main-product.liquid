@@ -189,39 +189,128 @@
           </div>
         {%- endif -%}
 
-        <!-- Collapsible Ritual Tabs / Accordions -->
+        <!-- Collapsible Ritual Tabs / Clinical Accordions -->
         <div class="main-product__accordions">
-          
-          <details class="main-product__accordion" open>
-            <summary class="main-product__accordion-summary">
-              <span>Clinical Formulation & Efficacy</span>
-              <span class="accordion-icon">+</span>
-            </summary>
-            <div class="main-product__accordion-content">
-              <p>Engineered with cold-pressed botanical actives and pure bio-compatible lipid barriers. Clinically documented to boost barrier moisture retention by 94% within 14 consecutive days of daily morning and evening ritual.</p>
-            </div>
-          </details>
+          {%- if section.blocks.size > 0 -%}
+            {%- for block in section.blocks -%}
+              {%- case block.type -%}
+                {%- when 'clinical_study' -%}
+                  <details class="main-product__accordion" {{ block.shopify_attributes }} {% if forloop.first %}open{% endif %}>
+                    <summary class="main-product__accordion-summary">
+                      <div class="main-product__accordion-header-wrap">
+                        <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                        {%- if block.settings.metric != blank -%}
+                          <span class="clinical-metric-badge">{{ block.settings.metric | escape }}</span>
+                        {%- endif -%}
+                      </div>
+                      <span class="accordion-icon" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="main-product__accordion-content">
+                      {%- if block.settings.summary != blank -%}
+                        <p class="clinical-study-summary"><strong>{{ block.settings.summary | escape }}</strong></p>
+                      {%- endif -%}
+                      <div class="rte">{{ block.settings.content }}</div>
+                    </div>
+                  </details>
 
-          <details class="main-product__accordion">
-            <summary class="main-product__accordion-summary">
-              <span>Conscious Ritual & How to Use</span>
-              <span class="accordion-icon">+</span>
-            </summary>
-            <div class="main-product__accordion-content">
-              <p>Warm 2–3 drops into clean palms. Inhale the natural botanical terpene profile. Press gently into damp face and decolletage using upward sweeps until fully absorbed. Follow with SPF during daytime rituals.</p>
-            </div>
-          </details>
+                {%- when 'ingredients' -%}
+                  <details class="main-product__accordion" {{ block.shopify_attributes }}>
+                    <summary class="main-product__accordion-summary">
+                      <div class="main-product__accordion-header-wrap">
+                        <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                        {%- if block.settings.bioactives_count != blank -%}
+                          <span class="clinical-metric-badge">{{ block.settings.bioactives_count | escape }}</span>
+                        {%- endif -%}
+                      </div>
+                      <span class="accordion-icon" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="main-product__accordion-content">
+                      {%- if block.settings.key_bioactives != blank -%}
+                        <div class="clinical-bioactives-list">
+                          <span class="clinical-bioactives-label">Key Bio-Actives:</span>
+                          <span class="clinical-bioactives-text">{{ block.settings.key_bioactives | escape }}</span>
+                        </div>
+                      {%- endif -%}
+                      <div class="rte">{{ block.settings.content }}</div>
+                    </div>
+                  </details>
 
-          <details class="main-product__accordion">
-            <summary class="main-product__accordion-summary">
-              <span>Conscious Packaging & Earth Standard</span>
-              <span class="accordion-icon">+</span>
-            </summary>
-            <div class="main-product__accordion-content">
-              <p>Housed in 100% recyclable amber UV-filtering glass to preserve potency without synthetic stabilizers. Packaged in FSC-certified post-consumer recycled paper printed with soy ink.</p>
-            </div>
-          </details>
+                {%- when 'ritual' -%}
+                  <details class="main-product__accordion" {{ block.shopify_attributes }}>
+                    <summary class="main-product__accordion-summary">
+                      <div class="main-product__accordion-header-wrap">
+                        <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                      </div>
+                      <span class="accordion-icon" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="main-product__accordion-content">
+                      <div class="rte">{{ block.settings.content }}</div>
+                    </div>
+                  </details>
 
+                {%- when 'collapsible_tab' -%}
+                  <details class="main-product__accordion" {{ block.shopify_attributes }}>
+                    <summary class="main-product__accordion-summary">
+                      <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                      <span class="accordion-icon" aria-hidden="true">+</span>
+                    </summary>
+                    <div class="main-product__accordion-content">
+                      <div class="rte">
+                        {{ block.settings.content }}
+                        {{ block.settings.page.content }}
+                      </div>
+                    </div>
+                  </details>
+              {%- endcase -%}
+            {%- endfor -%}
+          {%- else -%}
+            <!-- Default Clinical Accordions (Awwwards Standard) -->
+            <details class="main-product__accordion" open>
+              <summary class="main-product__accordion-summary">
+                <div class="main-product__accordion-header-wrap">
+                  <span class="main-product__accordion-title">{{ 'products.product.clinical_study' | t | default: 'Clinical Formulation & Efficacy' }}</span>
+                  <span class="clinical-metric-badge">94% Hydration Retained</span>
+                </div>
+                <span class="accordion-icon" aria-hidden="true">+</span>
+              </summary>
+              <div class="main-product__accordion-content">
+                <p class="clinical-study-summary"><strong>Documented Double-Blind Clinical Efficacy:</strong></p>
+                <p>Engineered with cold-pressed botanical bio-actives and lipid barrier reinforcements. Documented to boost barrier moisture retention by 94% within 14 consecutive days of morning and evening ritual.</p>
+              </div>
+            </details>
+
+            <details class="main-product__accordion">
+              <summary class="main-product__accordion-summary">
+                <div class="main-product__accordion-header-wrap">
+                  <span class="main-product__accordion-title">{{ 'products.product.ingredients' | t | default: 'Key Bio-Actives & Full INCI' }}</span>
+                  <span class="clinical-metric-badge">100% Vegan & Bio-Compatible</span>
+                </div>
+                <span class="accordion-icon" aria-hidden="true">+</span>
+              </summary>
+              <div class="main-product__accordion-content">
+                <div class="clinical-bioactives-list">
+                  <span class="clinical-bioactives-label">Key Bio-Actives:</span>
+                  <span class="clinical-bioactives-text">Phyto-Squalane 5%, Cold-Pressed Rosehip Seed Oil, Niacinamide (Vitamin B3), Micro-Algae Ferment, Hyaluronic Acid (Multi-Molecular).</span>
+                </div>
+                <p style="margin-top: var(--space-3); font-size: var(--font-size-xs); color: var(--color-text-muted);">
+                  <strong>Full INCI:</strong> Aqua/Water/Eau, Simmondsia Chinensis (Jojoba) Seed Oil, Rosa Canina (Rosehip) Seed Oil, Squalane, Niacinamide, Glycerin, Sodium Hyaluronate, Tocopherol (Vitamin E), Pelargonium Graveolens Oil, Rosmarinus Officinalis Leaf Extract, Sodium Benzoate, Potassium Sorbate.
+                </p>
+              </div>
+            </details>
+
+            <details class="main-product__accordion">
+              <summary class="main-product__accordion-summary">
+                <div class="main-product__accordion-header-wrap">
+                  <span class="main-product__accordion-title">{{ 'products.product.ritual' | t | default: 'Conscious Ritual & How to Use' }}</span>
+                </div>
+                <span class="accordion-icon" aria-hidden="true">+</span>
+              </summary>
+              <div class="main-product__accordion-content">
+                <p><strong>Morning Ritual:</strong> Warm 2–3 drops between clean palms. Inhale the natural botanical terpene profile. Press gently into cleansed face, neck, and decolletage using upward sweeps until absorbed. Follow with SPF.</p>
+                <p style="margin-top: var(--space-2);"><strong>Evening Ritual:</strong> Apply 3–4 drops following treatment essences as an intensive overnight lipid sealant.</p>
+              </div>
+            </details>
+          {%- endif -%}
         </div>
 
       </div>
@@ -230,21 +319,71 @@
   </div>
 </div>
 
-<!-- Sticky Mobile Add to Cart Bar -->
-<div class="sticky-mobile-buy-bar" id="StickyMobileBuyBar" aria-hidden="true">
-  <div class="sticky-mobile-buy-bar__inner">
-    <div class="sticky-mobile-buy-bar__left">
+<!-- Universal Bottom Sticky Buy Bar (Awwwards Grade) -->
+<div class="sticky-buy-dock" id="StickyBuyDock" aria-hidden="true">
+  <div class="sticky-buy-dock__inner page-container">
+    <!-- Left: Thumbnail & Titles -->
+    <div class="sticky-buy-dock__product">
       {%- if featured_media != blank -%}
-        <img src="{{ featured_media | image_url: width: 100, height: 100, crop: 'center' }}" alt="{{ product.title | escape }}" width="48" height="48" class="sticky-mobile-buy-bar__img">
+        <img 
+          src="{{ featured_media | image_url: width: 120, height: 120, crop: 'center' }}" 
+          alt="{{ product.title | escape }}" 
+          width="48" 
+          height="48" 
+          class="sticky-buy-dock__img"
+          loading="lazy"
+          id="StickyBuyDockImg"
+        >
       {%- endif -%}
-      <div class="sticky-mobile-buy-bar__text">
-        <p class="sticky-mobile-buy-bar__title">{{ product.title | escape }}</p>
-        <p class="sticky-mobile-buy-bar__price">{{ current_variant.price | money }}</p>
+      <div class="sticky-buy-dock__text">
+        <span class="sticky-buy-dock__category">{{ product.type | default: 'Botanical Formulation' }}</span>
+        <p class="sticky-buy-dock__title">{{ product.title | escape }}</p>
       </div>
     </div>
-    <button type="button" class="btn-primary sticky-mobile-buy-bar__btn" data-sticky-buy-btn>
-      {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}
-    </button>
+
+    <!-- Center: Variant Selector & Price -->
+    <div class="sticky-buy-dock__center">
+      {%- unless product.has_only_default_variant -%}
+        <div class="sticky-buy-dock__select-wrap">
+          <select class="sticky-buy-dock__select" id="StickyVariantSelect" aria-label="{{ 'products.product.select_variant' | t | default: 'Select variant' }}">
+            {%- for variant in product.variants -%}
+              <option 
+                value="{{ variant.id }}"
+                {% if variant == current_variant %}selected="selected"{% endif %}
+                {% unless variant.available %}disabled="disabled"{% endunless %}
+              >
+                {{ variant.title }} — {{ variant.price | money }} {%- unless variant.available %} ({{ 'products.product.sold_out' | t | default: 'Sold Out' }}){%- endunless -%}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      {%- endunless -%}
+      <div class="sticky-buy-dock__price" id="StickyBuyDockPrice">
+        {{ current_variant.price | money }}
+      </div>
+    </div>
+
+    <!-- Right: Quantity Stepper & Instant Add to Bag -->
+    <div class="sticky-buy-dock__actions">
+      <div class="sticky-buy-dock__qty">
+        <button type="button" class="sticky-buy-dock__qty-btn" id="StickyQtyMinus" aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease quantity' }}">&minus;</button>
+        <span class="sticky-buy-dock__qty-val" id="StickyQtyVal">1</span>
+        <button type="button" class="sticky-buy-dock__qty-btn" id="StickyQtyPlus" aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase quantity' }}">&plus;</button>
+      </div>
+
+      <button 
+        type="button" 
+        class="btn-primary sticky-buy-dock__btn" 
+        id="StickyBuyBtn"
+        {% unless current_variant.available %}disabled="disabled"{% endunless %}
+      >
+        {%- if current_variant.available -%}
+          {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+        {%- endif -%}
+      </button>
+    </div>
   </div>
 </div>
 
@@ -335,35 +474,147 @@
       });
     });
 
-    // Quantity Stepper
+    // Sticky Universal Buy Dock Elements
+    const stickyDock = document.getElementById('StickyBuyDock');
+    const stickySelect = document.getElementById('StickyVariantSelect');
+    const stickyPrice = document.getElementById('StickyBuyDockPrice');
+    const stickyImg = document.getElementById('StickyBuyDockImg');
+    const stickyBtn = document.getElementById('StickyBuyBtn');
+    const stickyQtyMinus = document.getElementById('StickyQtyMinus');
+    const stickyQtyPlus = document.getElementById('StickyQtyPlus');
+    const stickyQtyVal = document.getElementById('StickyQtyVal');
+
+    function syncStickyBar(variant, formattedPrice) {
+      if (stickySelect && variant) {
+        stickySelect.value = variant.id;
+      }
+      if (stickyPrice) {
+        stickyPrice.textContent = formattedPrice;
+      }
+      if (stickyBtn) {
+        if (variant && variant.available) {
+          stickyBtn.removeAttribute('disabled');
+          stickyBtn.textContent = 'Add to Bag';
+        } else {
+          stickyBtn.setAttribute('disabled', 'disabled');
+          stickyBtn.textContent = 'Sold Out';
+        }
+      }
+      if (stickyImg && variant && variant.featured_image) {
+        stickyImg.src = variant.featured_image.src;
+      }
+    }
+
+    // Variant Selection Handling in Main Form
+    const pillInputs = section.querySelectorAll('[data-option-value]');
+    pillInputs.forEach(input => {
+      input.addEventListener('change', () => {
+        // Update label
+        const group = input.closest('.main-product__option-group');
+        const selectedValEl = group.querySelector('.main-product__option-selected-val');
+        if (selectedValEl) selectedValEl.textContent = input.value;
+
+        // Find selected options
+        const selectedOptions = Array.from(section.querySelectorAll('.main-product__option-group')).map(g => {
+          const checked = g.querySelector('.main-product__pill-input:checked');
+          return checked ? checked.value : null;
+        });
+
+        // Find matching variant
+        const matchedVariant = variants.find(v => {
+          return v.options.every((opt, idx) => opt === selectedOptions[idx]);
+        });
+
+        if (matchedVariant) {
+          if (hiddenIdInput) hiddenIdInput.value = matchedVariant.id;
+          
+          // Format price
+          const formattedPrice = "$" + (matchedVariant.price / 100).toFixed(2);
+          if (regularPriceEl) regularPriceEl.textContent = formattedPrice;
+          if (btnPriceEl) btnPriceEl.textContent = formattedPrice;
+
+          if (matchedVariant.compare_at_price && matchedVariant.compare_at_price > matchedVariant.price) {
+            const formattedCompare = "$" + (matchedVariant.compare_at_price / 100).toFixed(2);
+            if (comparePriceEl) {
+              comparePriceEl.textContent = formattedCompare;
+              comparePriceEl.style.display = 'inline';
+            }
+          } else if (comparePriceEl) {
+            comparePriceEl.style.display = 'none';
+          }
+
+          // Availability
+          if (matchedVariant.available) {
+            addBtn.removeAttribute('disabled');
+            addBtn.innerHTML = `Add to Bag &bull; <span>${formattedPrice}</span>`;
+          } else {
+            addBtn.setAttribute('disabled', 'disabled');
+            addBtn.textContent = 'Sold Out';
+          }
+
+          // Featured image
+          if (matchedVariant.featured_image && mainImg) {
+            mainImg.src = matchedVariant.featured_image.src;
+          }
+
+          // Synchronize Sticky Buy Dock
+          syncStickyBar(matchedVariant, formattedPrice);
+        }
+      });
+    });
+
+    // Synchronize Sticky Variant Selector back to Main Form
+    if (stickySelect) {
+      stickySelect.addEventListener('change', () => {
+        const targetVariantId = parseInt(stickySelect.value, 10);
+        const targetVariant = variants.find(v => v.id === targetVariantId);
+        if (targetVariant) {
+          // Select corresponding radio inputs in main form
+          targetVariant.options.forEach((optVal, optIdx) => {
+            const radio = section.querySelector(`.main-product__option-group[data-option-index="${optIdx}"] input[value="${optVal}"]`);
+            if (radio) {
+              radio.checked = true;
+              radio.dispatchEvent(new Event('change'));
+            }
+          });
+        }
+      });
+    }
+
+    // Quantity Stepper (Synchronized between Main Form and Sticky Dock)
     const minusBtn = section.querySelector('[data-product-qty-minus]');
     const plusBtn = section.querySelector('[data-product-qty-plus]');
     const qtyInput = section.querySelector('[data-product-qty-input]');
 
-    if (minusBtn && plusBtn && qtyInput) {
-      minusBtn.addEventListener('click', () => {
-        const val = parseInt(qtyInput.value, 10) || 1;
-        if (val > 1) qtyInput.value = val - 1;
-      });
-      plusBtn.addEventListener('click', () => {
-        const val = parseInt(qtyInput.value, 10) || 1;
-        qtyInput.value = val + 1;
-      });
+    function setQuantity(val) {
+      const clamped = Math.max(1, parseInt(val, 10) || 1);
+      if (qtyInput) qtyInput.value = clamped;
+      if (stickyQtyVal) stickyQtyVal.textContent = clamped;
     }
 
-    // Sticky Mobile Buy Bar IntersectionObserver
-    const stickyBar = document.getElementById('StickyMobileBuyBar');
-    const stickyBtn = document.querySelector('[data-sticky-buy-btn]');
-    if (stickyBar && addBtn) {
+    if (minusBtn && plusBtn && qtyInput) {
+      minusBtn.addEventListener('click', () => setQuantity((parseInt(qtyInput.value, 10) || 1) - 1));
+      plusBtn.addEventListener('click', () => setQuantity((parseInt(qtyInput.value, 10) || 1) + 1));
+      qtyInput.addEventListener('change', () => setQuantity(qtyInput.value));
+    }
+
+    if (stickyQtyMinus && stickyQtyPlus) {
+      stickyQtyMinus.addEventListener('click', () => setQuantity((parseInt(qtyInput ? qtyInput.value : 1, 10) || 1) - 1));
+      stickyQtyPlus.addEventListener('click', () => setQuantity((parseInt(qtyInput ? qtyInput.value : 1, 10) || 1) + 1));
+    }
+
+    // Sticky Buy Dock Visibility via IntersectionObserver
+    if (stickyDock && addBtn) {
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
+            // When primary Add to Cart button scrolls out above the viewport, show dock
             if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-              stickyBar.setAttribute('aria-hidden', 'false');
-              stickyBar.classList.add('is-visible');
+              stickyDock.setAttribute('aria-hidden', 'false');
+              stickyDock.classList.add('is-visible');
             } else {
-              stickyBar.setAttribute('aria-hidden', 'true');
-              stickyBar.classList.remove('is-visible');
+              stickyDock.setAttribute('aria-hidden', 'true');
+              stickyDock.classList.remove('is-visible');
             }
           });
         }, { threshold: 0 });
@@ -398,9 +649,123 @@
       "default": true
     }
   ],
+  "blocks": [
+    {
+      "type": "clinical_study",
+      "name": "Clinical Study & Efficacy",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Clinical Formulation & Efficacy"
+        },
+        {
+          "type": "text",
+          "id": "metric",
+          "label": "Metric Badge (e.g. 94% Moisture)",
+          "default": "94% Hydration Retained"
+        },
+        {
+          "type": "text",
+          "id": "summary",
+          "label": "Key Study Finding",
+          "default": "Documented Double-Blind Clinical Efficacy:"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Full Study Description",
+          "default": "<p>Engineered with cold-pressed botanical bio-actives and lipid barrier reinforcements. Documented to boost barrier moisture retention by 94% within 14 consecutive days of morning and evening ritual.</p>"
+        }
+      ]
+    },
+    {
+      "type": "ingredients",
+      "name": "Ingredients & Bio-Actives",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Key Bio-Actives & Full INCI"
+        },
+        {
+          "type": "text",
+          "id": "bioactives_count",
+          "label": "Badge Callout",
+          "default": "100% Vegan & Bio-Compatible"
+        },
+        {
+          "type": "text",
+          "id": "key_bioactives",
+          "label": "Key Bio-Actives List",
+          "default": "Phyto-Squalane 5%, Cold-Pressed Rosehip Seed Oil, Niacinamide (Vitamin B3), Micro-Algae Ferment, Hyaluronic Acid."
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Full INCI Formulation",
+          "default": "<p>Aqua/Water/Eau, Simmondsia Chinensis (Jojoba) Seed Oil, Rosa Canina (Rosehip) Seed Oil, Squalane, Niacinamide, Glycerin, Sodium Hyaluronate, Tocopherol (Vitamin E), Pelargonium Graveolens Oil, Rosmarinus Officinalis Leaf Extract.</p>"
+        }
+      ]
+    },
+    {
+      "type": "ritual",
+      "name": "Application Ritual",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Conscious Ritual & How to Use"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Ritual Instructions",
+          "default": "<p><strong>Morning Ritual:</strong> Warm 2–3 drops between clean palms. Inhale the natural botanical terpene profile. Press gently into cleansed face, neck, and decolletage using upward sweeps until absorbed. Follow with SPF.</p><p><strong>Evening Ritual:</strong> Apply 3–4 drops following treatment essences as an intensive overnight lipid sealant.</p>"
+        }
+      ]
+    },
+    {
+      "type": "collapsible_tab",
+      "name": "Collapsible Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Conscious Packaging & Earth Standard"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Housed in 100% recyclable amber UV-filtering glass to preserve potency without synthetic stabilizers. Packaged in FSC-certified post-consumer recycled paper printed with soy ink.</p>"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Optional Page Content"
+        }
+      ]
+    }
+  ],
   "presets": [
     {
-      "name": "Product Information"
+      "name": "Product Information",
+      "blocks": [
+        {
+          "type": "clinical_study"
+        },
+        {
+          "type": "ingredients"
+        },
+        {
+          "type": "ritual"
+        }
+      ]
     }
   ]
 }

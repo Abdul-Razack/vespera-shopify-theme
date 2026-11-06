@@ -595,79 +595,264 @@ button {
   color: var(--color-text-muted);
 }
 
-/* STICKY MOBILE BUY BAR */
-.sticky-mobile-buy-bar {
+.main-product__accordion-summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) 0;
+  cursor: pointer;
+  list-style: none;
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-base);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.main-product__accordion-summary::-webkit-details-marker {
   display: none;
+}
+
+.main-product__accordion-header-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+.main-product__accordion-title {
+  color: var(--color-text);
+  font-size: var(--font-size-base);
+  letter-spacing: -0.01em;
+}
+
+.clinical-metric-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.6875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-accent);
+  background-color: rgba(184, 93, 58, 0.08);
+  border: 1px solid rgba(184, 93, 58, 0.2);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.clinical-study-summary {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+
+.clinical-bioactives-list {
+  background-color: var(--color-bg-subtle);
+  border-left: 3px solid var(--color-accent);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-3);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.clinical-bioactives-label {
+  display: block;
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
+  margin-bottom: var(--space-1);
+}
+
+.clinical-bioactives-text {
+  font-size: var(--font-size-xs);
+  color: var(--color-text);
+  line-height: var(--line-height-normal);
+}
+
+/* ==========================================================================
+   UNIVERSAL BOTTOM STICKY BUY DOCK (AWWWARDS GRADE)
+   ========================================================================== */
+.sticky-buy-dock {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: var(--color-background);
-  border-top: 1px solid var(--color-border);
-  padding: var(--space-3) var(--space-4);
-  z-index: 900;
+  background-color: rgba(250, 248, 245, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 1px solid rgba(229, 224, 216, 0.85);
+  box-shadow: 0 -8px 30px rgba(44, 42, 41, 0.08);
+  padding: var(--space-3) 0;
+  z-index: 850;
   transform: translateY(100%);
-  transition: transform var(--transition-normal);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
 }
 
-@media (max-width: 768px) {
-  .sticky-mobile-buy-bar {
-    display: block;
-  }
-}
-
-.sticky-mobile-buy-bar.is-visible {
+.sticky-buy-dock.is-visible {
   transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
 }
 
-.sticky-mobile-buy-bar__inner {
+.sticky-buy-dock__inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
-  max-width: var(--container-max-width);
-  margin: 0 auto;
+  gap: var(--space-4);
 }
 
-.sticky-mobile-buy-bar__left {
+/* Left: Product Info */
+.sticky-buy-dock__product {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  overflow: hidden;
+  min-width: 0;
+  flex: 1 1 auto;
 }
 
-.sticky-mobile-buy-bar__img {
+.sticky-buy-dock__img {
   width: 44px;
   height: 44px;
   object-fit: cover;
   border-radius: var(--radius-sm);
+  background-color: var(--color-bg-subtle);
   flex-shrink: 0;
 }
 
-.sticky-mobile-buy-bar__text {
-  overflow: hidden;
+.sticky-buy-dock__text {
+  min-width: 0;
 }
 
-.sticky-mobile-buy-bar__title {
-  font-size: var(--font-size-xs);
+.sticky-buy-dock__category {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: 2px;
+}
+
+.sticky-buy-dock__title {
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
+  margin: 0;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin: 0;
+  color: var(--color-text);
 }
 
-.sticky-mobile-buy-bar__price {
-  font-size: var(--font-size-xs);
-  color: var(--color-accent);
-  margin: 0;
-}
-
-.sticky-mobile-buy-bar__btn {
+/* Center: Variants & Price */
+.sticky-buy-dock__center {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
   flex-shrink: 0;
-  padding: var(--space-3) var(--space-4);
+}
+
+.sticky-buy-dock__select-wrap {
+  position: relative;
+}
+
+.sticky-buy-dock__select {
+  padding: var(--space-2) var(--space-4);
   font-size: var(--font-size-xs);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+}
+
+.sticky-buy-dock__select:focus {
+  border-color: var(--color-accent);
+}
+
+.sticky-buy-dock__price {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  white-space: nowrap;
+}
+
+/* Right: Quantity & Actions */
+.sticky-buy-dock__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-shrink: 0;
+}
+
+.sticky-buy-dock__qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+}
+
+.sticky-buy-dock__qty-btn {
+  background: transparent;
+  border: none;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.sticky-buy-dock__qty-val {
+  min-width: 24px;
+  text-align: center;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+}
+
+.sticky-buy-dock__btn {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--font-size-xs);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .sticky-buy-dock {
+    padding: var(--space-2) var(--space-3);
+  }
+
+  .sticky-buy-dock__inner {
+    gap: var(--space-2);
+  }
+
+  .sticky-buy-dock__center,
+  .sticky-buy-dock__qty {
+    display: none;
+  }
+
+  .sticky-buy-dock__category {
+    display: none;
+  }
+
+  .sticky-buy-dock__title {
+    font-size: var(--font-size-xs);
+    max-width: 140px;
+  }
+
+  .sticky-buy-dock__img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .sticky-buy-dock__btn {
+    padding: var(--space-3) var(--space-4);
+    font-size: 0.75rem;
+  }
 }
 
 /* ==========================================================================

@@ -19,7 +19,7 @@
              alt: product.featured_media.alt | default: product.title | escape
           }}
 
-          {%- if show_secondary_image and product.media[1] != blank -%}
+          {%- if show_secondary_image != false and product.media[1] != blank -%}
             {{ product.media[1] | image_url: width: 800 | image_tag:
                loading: 'lazy',
                class: 'product-card__image product-card__image--secondary',

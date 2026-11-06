@@ -64,7 +64,12 @@
       "increase_quantity": "Increase quantity",
       "media": {
         "load_image": "Load image {{ index }}"
-      }
+      },
+      "sticky_buy_bar": "Quick Buy",
+      "select_variant": "Select Variant",
+      "clinical_study": "Clinical Studies & Efficacy",
+      "ingredients": "Ingredients & Bio-Actives",
+      "ritual": "Conscious Ritual & How to Use"
     }
   },
   "404": {
