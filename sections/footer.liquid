@@ -188,13 +188,14 @@
             if shop.policies.size > 0
               for policy in shop.policies
                 if policy != blank
-                  if policy.handle contains 'privacy'
+                  assign policy_str = policy.url | append: ' ' | append: policy.title | downcase
+                  if policy_str contains 'privacy'
                     assign has_privacy = true
-                  elsif policy.handle contains 'terms'
+                  elsif policy_str contains 'terms'
                     assign has_terms = true
-                  elsif policy.handle contains 'refund'
+                  elsif policy_str contains 'refund'
                     assign has_refund = true
-                  elsif policy.handle contains 'shipping'
+                  elsif policy_str contains 'shipping'
                     assign has_shipping = true
                   endif
                   echo '<li class="site-footer__policy-item"><a href="' | append: policy.url | append: '" class="site-footer__policy-link">' | append: policy.title | append: '</a></li>'
