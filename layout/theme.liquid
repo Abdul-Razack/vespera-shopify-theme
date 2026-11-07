@@ -15,7 +15,10 @@
 
     {%- capture seo_title -%}
       {{ page_title }}
-      {%- if current_tags %} &ndash; {{ 'general.meta.tags' | t: tags: (current_tags | join: ', ') }}{% endif -%}
+      {%- if current_tags -%}
+        {%- assign tags_str = current_tags | join: ', ' -%}
+        &ndash; {{ 'general.meta.tags' | t: tags: tags_str }}
+      {%- endif -%}
       {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
     {%- endcapture -%}

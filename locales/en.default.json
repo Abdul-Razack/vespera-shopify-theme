@@ -34,7 +34,8 @@
     "collection_list": {
       "default_title": "Botanical category",
       "explore": "Explore",
-      "category": "Category"
+      "category": "Category",
+      "view_all": "Explore ritual"
     },
     "footer": {
       "all_products": "All formulations",

@@ -30,7 +30,8 @@
         {%- else -%}
           {%- assign percent = cart.total_price | times: 100 | divided_by: free_shipping_threshold -%}
           <p class="main-cart__shipping-text">
-            {{ 'templates.cart.free_shipping_remaining_html' | t: amount: (amount_remaining | money) }}
+            {%- assign remaining_money = amount_remaining | money -%}
+            {{ 'templates.cart.free_shipping_remaining_html' | t: amount: remaining_money }}
           </p>
           <div class="main-cart__progress">
             <div class="main-cart__progress-fill" style="width: {{ percent }}%;"></div>
