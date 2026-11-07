@@ -120,7 +120,7 @@ body {
   font-weight: var(--font-weight-regular);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 /* Accessible Keyboard Focus Ring */
@@ -247,10 +247,6 @@ button {
 @media (max-width: 350px) {
   :root {
     --container-padding: var(--space-3);
-  }
-
-  html, body {
-    overflow-x: hidden;
   }
 }
 
@@ -1924,7 +1920,8 @@ button {
 }
 
 .facet-disclosure__panel--price {
-  min-width: 320px;
+  min-width: min(280px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
 }
 
 .facet-disclosure__header {
