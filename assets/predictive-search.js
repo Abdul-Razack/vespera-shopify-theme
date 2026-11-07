@@ -60,7 +60,10 @@ class PredictiveSearch extends HTMLElement {
     this.abortController = new AbortController();
 
     try {
-      const endpoint = `/search/suggest.json?q=${encodeURIComponent(query)}&resources[type]=product,collection&resources[limit]=5`;
+      const suggestBase = (window.theme && window.theme.routes && window.theme.routes.predictiveSearch)
+        ? window.theme.routes.predictiveSearch
+        : '/search/suggest';
+      const endpoint = `${suggestBase}.json?q=${encodeURIComponent(query)}&resources[type]=product,collection&resources[limit]=5`;
       const response = await fetch(endpoint, { signal: this.abortController.signal });
       if (!response.ok) return;
 
@@ -78,9 +81,12 @@ class PredictiveSearch extends HTMLElement {
     const collections = results.collections || [];
 
     if (products.length === 0 && collections.length === 0) {
+      const noResultsLabel = (window.theme && window.theme.strings && window.theme.strings.noResults)
+        ? window.theme.strings.noResults
+        : 'No formulations found matching your query.';
       this.resultsContainer.innerHTML = `
         <div class="predictive-search__empty">
-          <p class="predictive-search__empty-text">No formulations found for "<strong>${this.escapeHTML(query)}</strong>"</p>
+          <p class="predictive-search__empty-text">${this.escapeHTML(noResultsLabel)}</p>
         </div>
       `;
       this.open();
@@ -92,7 +98,7 @@ class PredictiveSearch extends HTMLElement {
     if (collections.length > 0) {
       html += `
         <div class="predictive-search__section">
-          <span class="predictive-search__heading">Collections & Rituals</span>
+          <span class="predictive-search__heading">Collections</span>
           <ul class="predictive-search__list" role="list">
             ${collections.map(c => `
               <li class="predictive-search__item">
@@ -107,34 +113,45 @@ class PredictiveSearch extends HTMLElement {
     }
 
     if (products.length > 0) {
+      const sym = (window.theme && window.theme.currencySymbol) ? window.theme.currencySymbol : '$';
       html += `
         <div class="predictive-search__section">
-          <span class="predictive-search__heading">Suggested Formulations</span>
+          <span class="predictive-search__heading">Products</span>
           <ul class="predictive-search__list" role="list">
-            ${products.map(p => `
-              <li class="predictive-search__item">
-                <a href="${p.url}" class="predictive-search__product-link">
-                  ${p.image ? `
-                    <div class="predictive-search__thumb-wrap">
-                      <img src="${p.image}" alt="${this.escapeHTML(p.title)}" width="48" height="48" class="predictive-search__thumb">
+            ${products.map(p => {
+              const displayPrice = (typeof p.price !== 'undefined') ? (isNaN(p.price) ? p.price : `${sym}${p.price}`) : '';
+              return `
+                <li class="predictive-search__item">
+                  <a href="${p.url}" class="predictive-search__product-link">
+                    ${p.image ? `
+                      <div class="predictive-search__thumb-wrap">
+                        <img src="${p.image}" alt="${this.escapeHTML(p.title)}" width="48" height="48" class="predictive-search__thumb">
+                      </div>
+                    ` : ''}
+                    <div class="predictive-search__info">
+                      <span class="predictive-search__title">${this.escapeHTML(p.title)}</span>
+                      ${displayPrice ? `<span class="predictive-search__price">${displayPrice}</span>` : ''}
                     </div>
-                  ` : ''}
-                  <div class="predictive-search__info">
-                    <span class="predictive-search__title">${this.escapeHTML(p.title)}</span>
-                    <span class="predictive-search__price">$${p.price}</span>
-                  </div>
-                </a>
-              </li>
-            `).join('')}
+                  </a>
+                </li>
+              `;
+            }).join('')}
           </ul>
         </div>
       `;
     }
 
+    const searchUrl = (window.theme && window.theme.routes && window.theme.routes.root)
+      ? `${window.theme.routes.root.replace(/\/$/, '')}/search?q=${encodeURIComponent(query)}`
+      : `/search?q=${encodeURIComponent(query)}`;
+    const viewAllLabel = (window.theme && window.theme.strings && window.theme.strings.viewAll)
+      ? window.theme.strings.viewAll
+      : 'View all results';
+
     html += `
       <div class="predictive-search__footer">
-        <a href="/search?q=${encodeURIComponent(query)}" class="predictive-search__view-all">
-          View all results for "${this.escapeHTML(query)}" &rarr;
+        <a href="${searchUrl}" class="predictive-search__view-all">
+          ${this.escapeHTML(viewAllLabel)} &rarr;
         </a>
       </div>
     `;

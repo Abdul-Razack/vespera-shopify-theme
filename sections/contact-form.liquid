@@ -18,24 +18,24 @@
 
         <div class="contact-section__cards">
           <div class="concierge-card">
-            <span class="concierge-card__label">Concierge Inquiries</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.inquiries' | t | default: 'Concierge inquiries' }}</span>
             <a href="mailto:{{ section.settings.email | default: 'concierge@vesperabotanicals.com' }}" class="concierge-card__val">
               {{ section.settings.email | default: 'concierge@vesperabotanicals.com' }}
             </a>
           </div>
 
           <div class="concierge-card">
-            <span class="concierge-card__label">Consultation Hours</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.hours' | t | default: 'Consultation hours' }}</span>
             <span class="concierge-card__val">{{ section.settings.hours | default: 'Monday – Friday, 9:00 AM – 6:00 PM EST' }}</span>
           </div>
 
           <div class="concierge-card">
-            <span class="concierge-card__label">Response Standard</span>
-            <span class="concierge-card__val">Guaranteed review within 24 business hours</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.response_standard' | t | default: 'Response standard' }}</span>
+            <span class="concierge-card__val">{{ 'templates.contact.form.response_time' | t | default: 'Guaranteed review within 24 business hours' }}</span>
           </div>
 
           <div class="concierge-card">
-            <span class="concierge-card__label">Botanical Research Lab</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.lab' | t | default: 'Botanical research lab' }}</span>
             <span class="concierge-card__val">{{ section.settings.location | default: 'New York &bull; London &bull; Paris' }}</span>
           </div>
         </div>
@@ -336,7 +336,7 @@
 
 {% schema %}
 {
-  "name": "Customer Care Contact",
+  "name": "Customer care contact",
   "tag": "section",
   "class": "section-contact-form",
   "settings": [
@@ -350,7 +350,7 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "Customer Care & Formulation Concierge"
+      "default": "Customer care and formulation concierge"
     },
     {
       "type": "textarea",
@@ -379,7 +379,7 @@
   ],
   "presets": [
     {
-      "name": "Customer Care Contact"
+      "name": "Customer care contact"
     }
   ]
 }

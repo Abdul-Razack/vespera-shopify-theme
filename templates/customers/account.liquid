@@ -99,7 +99,7 @@
 
           <div class="customer-dashboard__address-details">
             {%- if customer.default_address -%}
-              <span class="status-badge status-badge--primary mb-2">Default Location</span>
+              <span class="status-badge status-badge--primary mb-2">{{ 'customers.addresses.default' | t | default: 'Default address' }}</span>
               <p class="customer-dashboard__address-line font-medium">{{ customer.default_address.name }}</p>
               <p class="customer-dashboard__address-line">{{ customer.default_address.company }}</p>
               <p class="customer-dashboard__address-line">{{ customer.default_address.address1 }}</p>

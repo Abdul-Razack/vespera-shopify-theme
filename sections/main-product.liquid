@@ -385,6 +385,106 @@
     const section = document.querySelector('[data-section-id="{{ section.id }}"]');
     if (!section) return;
 
+    // Media Gallery and Lightbox Controller
+    const gallery = section.querySelector('[data-gallery]');
+    const zoomModal = document.getElementById('ProductZoomModal-{{ section.id }}');
+    const zoomTrigger = section.querySelector('.product-media-gallery__zoom-trigger');
+    const zoomImg = document.getElementById('ProductZoomImg-{{ section.id }}');
+    const zoomCounter = document.getElementById('ProductZoomCounter-{{ section.id }}');
+    const zoomPrev = document.getElementById('ProductZoomPrev-{{ section.id }}');
+    const zoomNext = document.getElementById('ProductZoomNext-{{ section.id }}');
+    const zoomViewport = document.getElementById('ProductZoomViewport-{{ section.id }}');
+    let mediaData = [];
+    try {
+      const mediaEl = document.getElementById('ProductMediaJson-{{ section.id }}');
+      if (mediaEl) mediaData = JSON.parse(mediaEl.textContent);
+    } catch(e) {}
+
+    let currentMediaIndex = 0;
+
+    function setMedia(index) {
+      if (!mediaData || !mediaData.length) return;
+      currentMediaIndex = (index + mediaData.length) % mediaData.length;
+      const media = mediaData[currentMediaIndex];
+      if (!media) return;
+
+      const featuredImg = section.querySelector('[data-featured-image]');
+      if (featuredImg && media.src) {
+        featuredImg.src = media.src;
+        if (media.alt) featuredImg.alt = media.alt;
+      }
+
+      const thumbs = section.querySelectorAll('.product-media-gallery__thumb-btn');
+      thumbs.forEach((thumb, i) => {
+        if (i === currentMediaIndex) {
+          thumb.classList.add('is-active');
+          thumb.setAttribute('aria-current', 'true');
+        } else {
+          thumb.classList.remove('is-active');
+          thumb.removeAttribute('aria-current');
+        }
+      });
+
+      if (zoomImg && media.src) {
+        zoomImg.src = media.src;
+        if (media.alt) zoomImg.alt = media.alt;
+      }
+      if (zoomCounter) {
+        zoomCounter.textContent = `${currentMediaIndex + 1} / ${mediaData.length}`;
+      }
+    }
+
+    if (gallery) {
+      gallery.addEventListener('click', (e) => {
+        const thumb = e.target.closest('.product-media-gallery__thumb-btn');
+        if (!thumb) return;
+        const idx = parseInt(thumb.getAttribute('data-media-index'), 10);
+        if (!isNaN(idx)) setMedia(idx);
+      });
+    }
+
+    if (zoomTrigger && zoomModal) {
+      const openZoom = () => {
+        zoomModal.setAttribute('aria-hidden', 'false');
+        zoomModal.classList.add('is-open');
+        document.body.style.overflow = 'hidden';
+        setMedia(currentMediaIndex);
+        const closeBtn = zoomModal.querySelector('[data-zoom-close]');
+        if (closeBtn) closeBtn.focus();
+      };
+
+      const closeZoom = () => {
+        zoomModal.setAttribute('aria-hidden', 'true');
+        zoomModal.classList.remove('is-open');
+        if (zoomViewport) zoomViewport.classList.remove('is-magnified');
+        document.body.style.overflow = '';
+        zoomTrigger.focus();
+      };
+
+      zoomTrigger.addEventListener('click', openZoom);
+
+      zoomModal.querySelectorAll('[data-zoom-close]').forEach(btn => {
+        btn.addEventListener('click', closeZoom);
+      });
+
+      if (zoomPrev) zoomPrev.addEventListener('click', (e) => { e.stopPropagation(); setMedia(currentMediaIndex - 1); });
+      if (zoomNext) zoomNext.addEventListener('click', (e) => { e.stopPropagation(); setMedia(currentMediaIndex + 1); });
+
+      if (zoomViewport) {
+        zoomViewport.addEventListener('click', () => {
+          zoomViewport.classList.toggle('is-magnified');
+        });
+      }
+
+      window.addEventListener('keydown', (e) => {
+        if (zoomModal.getAttribute('aria-hidden') === 'false') {
+          if (e.key === 'Escape') closeZoom();
+          if (e.key === 'ArrowLeft') setMedia(currentMediaIndex - 1);
+          if (e.key === 'ArrowRight') setMedia(currentMediaIndex + 1);
+        }
+      });
+    }
+
     // Sticky Buy Dock Synchronizer
     const stickyDock = document.getElementById('StickyBuyDock');
     const stickySelect = document.getElementById('StickyVariantSelect');
@@ -540,7 +640,7 @@
     },
     {
       "type": "custom_liquid",
-      "name": "Custom Liquid",
+      "name": "Custom liquid",
       "settings": [
         {
           "type": "liquid",

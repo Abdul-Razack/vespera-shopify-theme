@@ -214,6 +214,28 @@
     {%- unless cart.empty? -%}
       <div class="cart-drawer__footer">
         
+        <!-- Order Notes (Cart Note) -->
+        {%- if section.settings.show_cart_note -%}
+          <details class="cart-drawer__note-details" style="margin-bottom: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3);">
+            <summary class="cart-drawer__note-summary" style="cursor: pointer; font-size: var(--font-size-xs); color: var(--color-text); display: flex; justify-content: space-between; align-items: center; user-select: none;">
+              <span>{{ 'sections.cart.note' | t | default: 'Order special instructions' }}</span>
+              <span class="cart-drawer__note-toggle" aria-hidden="true" style="font-size: 14px;">+</span>
+            </summary>
+            <div class="cart-drawer__note-body" style="margin-top: var(--space-2);">
+              <label for="CartDrawer-note" class="visually-hidden">{{ 'sections.cart.note' | t | default: 'Order special instructions' }}</label>
+              <textarea 
+                name="note" 
+                id="CartDrawer-note" 
+                class="cart-drawer__note-input form-control" 
+                rows="2" 
+                style="width: 100%; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: var(--space-2); font-size: var(--font-size-xs); background: var(--color-surface); color: var(--color-text); font-family: inherit; resize: vertical;"
+                placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Special instructions for seller' }}"
+                data-cart-drawer-note
+              >{{ cart.note }}</textarea>
+            </div>
+          </details>
+        {%- endif -%}
+
         <!-- Automatic Cart-Level Discounts (F-27) -->
         {%- if cart.cart_level_discount_applications.size > 0 -%}
           <div class="cart-drawer__discounts" style="margin-bottom: var(--space-2);">
@@ -590,6 +612,12 @@
       "type": "collection",
       "id": "upsell_collection",
       "label": "Recommendations collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cart_note",
+      "label": "Enable cart notes",
+      "default": true
     }
   ]
 }

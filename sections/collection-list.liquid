@@ -81,8 +81,8 @@
               </div>
             </div>
             <div class="collection-list-card__info">
-              <h3 class="collection-list-card__title font-heading">Botanical Category</h3>
-              <span class="collection-list-card__count">Explore Ritual &rarr;</span>
+              <h3 class="collection-list-card__title font-heading">{{ 'sections.collection_list.default_title' | t | default: 'Botanical category' }}</h3>
+              <span class="collection-list-card__count">{{ 'sections.collection_list.explore' | t | default: 'Explore' }} &rarr;</span>
             </div>
           </div>
         {%- endfor -%}

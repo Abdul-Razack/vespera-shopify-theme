@@ -81,6 +81,32 @@ class CartDrawer extends HTMLElement {
         }
       }
     });
+
+    // Debounced Cart Note Auto-Saving
+    let noteTimer;
+    this.addEventListener("input", (e) => {
+      if (e.target && e.target.matches("[data-cart-drawer-note]")) {
+        clearTimeout(noteTimer);
+        const noteVal = e.target.value;
+        noteTimer = setTimeout(async () => {
+          try {
+            const updateUrl = (window.theme && window.theme.routes && window.theme.routes.cartUpdate)
+              ? window.theme.routes.cartUpdate + '.js'
+              : '/cart/update.js';
+            await fetch(updateUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+              },
+              body: JSON.stringify({ note: noteVal })
+            });
+          } catch (err) {
+            console.error('Note update failed:', err);
+          }
+        }, 500);
+      }
+    });
   }
 
   getFocusableElements() {
@@ -161,7 +187,10 @@ class CartDrawer extends HTMLElement {
 
   async updateItem(key, quantity) {
     try {
-      const response = await fetch("/cart/change.js", {
+      const changeUrl = (window.theme && window.theme.routes && window.theme.routes.cartChange)
+        ? window.theme.routes.cartChange + '.js'
+        : '/cart/change.js';
+      const response = await fetch(changeUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -180,7 +209,10 @@ class CartDrawer extends HTMLElement {
 
   async addVariantToCart(variantId) {
     try {
-      const response = await fetch("/cart/add.js", {
+      const addUrl = (window.theme && window.theme.routes && window.theme.routes.cartAdd)
+        ? window.theme.routes.cartAdd + '.js'
+        : '/cart/add.js';
+      const response = await fetch(addUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -26,6 +26,10 @@
         "quantity": "Quantity",
         "total": "Total"
       }
+    },
+    "collection_list": {
+      "default_title": "Botanical category",
+      "explore": "Explore"
     }
   },
   "templates": {
@@ -56,7 +60,9 @@
       "placeholder": "Search by botanical active, concern, or product...",
       "submit": "Submit Search",
       "no_results": "No formulations found matching your query.",
-      "results_with_count": "{{ count }} formulations found"
+      "results_with_count": "{{ count }} formulations found",
+      "refine_search": "Refine your exploration",
+      "search_tips": "Try searching for specific botanical ingredients, concerns, or products."
     },
     "404": {
       "subtext": "Formulation Not Found"
@@ -72,7 +78,12 @@
         "comment": "How may we assist your ritual?",
         "send": "Send Message",
         "post_success": "Thank you for contacting Vespera. Our formulation concierge will respond within 24 hours.",
-        "error_heading": "Please adjust the following:"
+        "error_heading": "Please adjust the following:",
+        "inquiries": "Concierge inquiries",
+        "hours": "Consultation hours",
+        "response_standard": "Response standard",
+        "response_time": "Guaranteed review within 24 business hours",
+        "lab": "Botanical research lab"
       }
     }
   },
@@ -93,7 +104,8 @@
     "search": {
       "products": "Products",
       "no_results": "No results found",
-      "placeholder": "Search formulations, ingredients..."
+      "placeholder": "Search formulations, ingredients...",
+      "view_all": "View all results"
     },
     "footer": {
       "privacy_policy": "Privacy Policy",
@@ -268,7 +280,9 @@
       "items_with_count": {
         "one": "1 formulation",
         "other": "{{ count }} formulations"
-      }
+      },
+      "all_products": "All formulations",
+      "view_all_products": "View all formulations"
     },
     "sorting": {
       "title": "Sort by"
@@ -322,6 +336,7 @@
     "button_label": "Join"
   },
   "localization": {
-    "country_label": "Country/region"
+    "country_label": "Country/region",
+    "language_label": "Language"
   }
 }

@@ -72,10 +72,10 @@
     {%- endpaginate -%}
   {%- elsif search.performed and search.results_count == 0 -%}
     <div class="main-search__empty">
-      <p class="main-search__empty-title">Refine your exploration</p>
-      <p class="main-search__empty-sub main-search__empty-text">Try searching for "serum", "cleanse", "botanical", or view all curated rituals.</p>
+      <p class="main-search__empty-title">{{ 'templates.search.refine_search' | t | default: 'Refine your exploration' }}</p>
+      <p class="main-search__empty-sub main-search__empty-text">{{ 'templates.search.search_tips' | t | default: 'Try searching for specific botanical ingredients, concerns, or products.' }}</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-        View All Formulations
+        {{ 'collections.general.view_all_products' | t | default: 'View all formulations' }}
       </a>
     </div>
   {%- endif -%}
@@ -83,7 +83,7 @@
 
 {% schema %}
 {
-  "name": "Search Results",
+  "name": "Search results",
   "tag": "section",
   "class": "section-main-search",
   "settings": []

@@ -9,13 +9,13 @@
     <!-- Top Breadcrumb & Actions -->
     <div class="customer-order__nav mb-4">
       <a href="{{ routes.account_url }}" class="customer-order__back-link">
-        &larr; Return to Account Archive
+        &larr; {{ 'customers.account.return_to_store' | t | default: 'Return to account' }}
       </a>
     </div>
 
     <div class="customer-order__header">
       <div>
-        <span class="eyebrow">Order Archive</span>
+        <span class="eyebrow">{{ 'customers.account.order_history' | t | default: 'Order history' }}</span>
         <h1 class="customer-order__title font-heading">
           {{ 'customers.order.title' | t: name: order.name }}
         </h1>

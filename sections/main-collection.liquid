@@ -25,7 +25,7 @@
                 aria-selected="true" 
                 data-category-filter="all"
               >
-                All Formulations <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
+                {{ 'collections.general.all_products' | t | default: 'All formulations' }} <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
               </button>
             </li>
             {%- for type in collection.all_types -%}
@@ -74,7 +74,7 @@
         <div class="main-collection__empty">
           <p>{{ 'collections.general.no_matches' | t | default: 'No formulations found in this ritual collection.' }}</p>
           <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-            View All Formulations
+            {{ 'collections.general.view_all_products' | t | default: 'View all formulations' }}
           </a>
         </div>
       {%- endfor -%}
@@ -305,7 +305,7 @@
 
 {% schema %}
 {
-  "name": "Collection Grid",
+  "name": "Collection grid",
   "settings": [
     {
       "type": "range",

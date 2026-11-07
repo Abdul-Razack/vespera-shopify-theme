@@ -156,7 +156,7 @@
           {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
             {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
               <div class="localization-selector">
-                <label for="FooterLanguageSelect" class="visually-hidden">Language</label>
+                <label for="FooterLanguageSelect" class="visually-hidden">{{ 'localization.language_label' | t | default: 'Language' }}</label>
                 <select name="locale_code" id="FooterLanguageSelect" class="localization-selector__select" onchange="this.form.submit()">
                   {%- for language in localization.available_languages -%}
                     <option 

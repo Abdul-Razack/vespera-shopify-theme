@@ -49,6 +49,7 @@
         predictiveSearch: '{{ routes.predictive_search_url }}',
         productRecommendations: '{{ routes.product_recommendations_url }}'
       };
+      window.theme.currencySymbol = {{ cart.currency.symbol | json }};
       window.theme.strings = {
         addToCart: {{ 'products.product.add_to_cart' | t | default: 'Add to cart' | json }},
         soldOut: {{ 'products.product.sold_out' | t | default: 'Sold out' | json }},
@@ -57,7 +58,9 @@
         backorder: {{ 'products.product.backorder_message' | t | default: 'Available on backorder' | json }},
         quickAdd: {{ 'products.product.quick_add' | t | default: 'Quick add' | json }},
         quickView: {{ 'products.product.quick_view' | t | default: 'Quick view' | json }},
-        cartEmpty: {{ 'sections.cart.empty' | t | default: 'Your cart is empty' | json }}
+        cartEmpty: {{ 'sections.cart.empty' | t | default: 'Your cart is empty' | json }},
+        viewAll: {{ 'general.search.view_all' | t | default: 'View all results' | json }},
+        noResults: {{ 'templates.search.no_results' | t | default: 'No formulations found' | json }}
       };
     </script>
   </head>
