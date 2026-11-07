@@ -33,6 +33,7 @@
                 {% if option.selected_value == value %}checked="checked"{% endif %}
                 class="visually-hidden product-variant-picker__input"
                 data-option-value
+                {% unless is_value_available %}aria-disabled="true"{% endunless %}
               >
               <label 
                 for="{{ option_id }}" 
@@ -52,6 +53,11 @@
                   {%- endif -%}
                 {%- endif -%}
                 <span class="product-variant-picker__pill-text">{{ value }}</span>
+                <span class="visually-hidden product-variant-picker__availability-notice" data-availability-notice>
+                  {%- unless is_value_available -%}
+                    — {{ 'products.product.sold_out' | t }}
+                  {%- endunless -%}
+                </span>
               </label>
             </div>
           {%- endfor -%}

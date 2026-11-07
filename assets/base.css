@@ -743,7 +743,23 @@ button {
   cursor: pointer;
 }
 
+.product-variant-picker__pill-list,
+.main-product__pill-list,
+.quick-view__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.product-variant-picker__pill-item,
+.main-product__pill {
+  cursor: pointer;
+}
+
+.product-variant-picker__pill-btn,
+.quick-view__chip-btn,
 .main-product__pill-btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -753,15 +769,75 @@ button {
   letter-spacing: 0.05em;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
-  background-color: transparent;
+  background-color: var(--color-surface, #FFFFFF);
   color: var(--color-text);
+  cursor: pointer;
   transition: all var(--transition-fast);
 }
 
+.product-variant-picker__pill-btn:hover,
+.quick-view__chip-btn:hover,
+.main-product__pill-btn:hover {
+  border-color: var(--color-border-dark);
+}
+
+.product-variant-picker__input:checked + .product-variant-picker__pill-btn,
+.quick-view__chip-btn.is-selected,
 .main-product__pill-input:checked + .main-product__pill-btn {
   background-color: var(--color-text);
-  color: var(--color-background);
+  color: var(--color-bg, #FAF8F5);
   border-color: var(--color-text);
+}
+
+.product-variant-picker__swatch {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  margin-right: var(--space-2);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Sold Out Variant Cues: Reduced Opacity + Strikethrough + Dashed Border + Diagonal Line (F-34) */
+.product-variant-picker__pill-btn.is-sold-out,
+.quick-view__chip-btn.is-sold-out,
+.main-product__pill-btn.is-sold-out {
+  opacity: 0.65;
+  border-style: dashed;
+}
+
+.product-variant-picker__pill-btn.is-sold-out .product-variant-picker__pill-text,
+.quick-view__chip-btn.is-sold-out .quick-view__chip-text,
+.main-product__pill-btn.is-sold-out {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
+}
+
+.product-variant-picker__pill-btn.is-sold-out .product-variant-picker__swatch::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, transparent calc(50% - 1.5px), var(--color-text-muted) 50%, transparent calc(50% + 1.5px));
+  border-radius: inherit;
+}
+
+/* Unavailable Variant Combination Cues: Lower Opacity + Strikethrough + Not-Allowed Cursor */
+.product-variant-picker__pill-btn.is-unavailable,
+.quick-view__chip-btn.is-unavailable,
+.main-product__pill-btn.is-unavailable {
+  opacity: 0.35;
+  border-style: dotted;
+  cursor: not-allowed;
+}
+
+.product-variant-picker__pill-btn.is-unavailable .product-variant-picker__pill-text,
+.quick-view__chip-btn.is-unavailable .quick-view__chip-text,
+.main-product__pill-btn.is-unavailable {
+  text-decoration: line-through;
+  text-decoration-thickness: 1.5px;
 }
 
 .main-product__qty-group {

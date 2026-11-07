@@ -128,8 +128,10 @@
                       class="quick-view__chip-btn ${isSelected ? 'is-selected' : ''} ${!isAvailable ? 'is-sold-out' : ''}" 
                       data-option-value="${val}" 
                       data-option-idx="${optIdx}"
+                      ${!isAvailable ? 'aria-disabled="true"' : ''}
                     >
-                      ${val}
+                      <span class="quick-view__chip-text">${val}</span>
+                      ${!isAvailable ? `<span class="visually-hidden"> — ${strings.soldOut}</span>` : ''}
                     </button>
                   `;
                 }).join('')}
@@ -227,6 +229,39 @@
 
         const matched = currentProduct.variants.find(v => {
           return v.options.every((val, idx) => val === selectedOptions[idx]);
+        });
+
+        // Dynamically update availability cues across all chips in modal (F-34)
+        bodyEl.querySelectorAll('.quick-view__option-group').forEach((g, gIdx) => {
+          g.querySelectorAll('.quick-view__chip-btn').forEach(btn => {
+            const vVal = btn.getAttribute('data-option-value');
+            const testOpts = [...selectedOptions];
+            testOpts[gIdx] = vVal;
+            const matchTest = currentProduct.variants.find(v => {
+              return v.options.every((optV, i) => testOpts[i] === null || optV === testOpts[i]);
+            });
+            let vhEl = btn.querySelector('.visually-hidden');
+            if (!vhEl) {
+              vhEl = document.createElement('span');
+              vhEl.className = 'visually-hidden';
+              btn.appendChild(vhEl);
+            }
+            if (!matchTest) {
+              btn.classList.add('is-unavailable');
+              btn.classList.remove('is-sold-out');
+              btn.setAttribute('aria-disabled', 'true');
+              vhEl.textContent = ` — ${strings.unavailable}`;
+            } else if (!matchTest.available) {
+              btn.classList.add('is-sold-out');
+              btn.classList.remove('is-unavailable');
+              btn.setAttribute('aria-disabled', 'true');
+              vhEl.textContent = ` — ${strings.soldOut}`;
+            } else {
+              btn.classList.remove('is-sold-out', 'is-unavailable');
+              btn.removeAttribute('aria-disabled');
+              vhEl.textContent = '';
+            }
+          });
         });
 
         if (matched) {

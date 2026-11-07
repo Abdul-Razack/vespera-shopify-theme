@@ -91,15 +91,27 @@
           });
 
           const label = input.closest('label') || group.querySelector(`label[for="${input.id}"]`);
+          const noticeEl = label ? label.querySelector('[data-availability-notice]') : null;
+          const strings = (window.theme && window.theme.strings) ? window.theme.strings : {
+            soldOut: 'Sold out',
+            unavailable: 'Unavailable'
+          };
+
           if (label) {
             if (!matching) {
               label.classList.add('is-unavailable');
               label.classList.remove('is-sold-out');
+              input.setAttribute('aria-disabled', 'true');
+              if (noticeEl) noticeEl.textContent = ` — ${strings.unavailable || 'Unavailable'}`;
             } else if (!matching.available) {
               label.classList.add('is-sold-out');
               label.classList.remove('is-unavailable');
+              input.setAttribute('aria-disabled', 'true');
+              if (noticeEl) noticeEl.textContent = ` — ${strings.soldOut || 'Sold out'}`;
             } else {
               label.classList.remove('is-sold-out', 'is-unavailable');
+              input.removeAttribute('aria-disabled');
+              if (noticeEl) noticeEl.textContent = '';
             }
           }
         });
