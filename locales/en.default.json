@@ -63,6 +63,9 @@
         "vendor": "Vespera • Botanical Formulation",
         "description": "Select a product in the theme editor to showcase this luxury botanical formulation."
       }
+    },
+    "top_bar": {
+      "label": "Top bar"
     }
   },
   "templates": {
@@ -85,7 +88,10 @@
         "product": "Formulation",
         "quantity": "Quantity",
         "total": "Total"
-      }
+      },
+      "free_shipping_remaining_html": "Add <strong>{{ amount }}</strong> more to unlock Free Worldwide Shipping",
+      "popular": "Popular",
+      "pairs_well": "Pairs well"
     },
     "search": {
       "search": "Search Formulations",
@@ -98,7 +104,8 @@
       "search_tips": "Try searching for specific botanical ingredients, concerns, or products."
     },
     "404": {
-      "subtext": "Formulation Not Found"
+      "subtext": "Formulation Not Found",
+      "text": "The botanical ritual or page you are seeking may have been archived, reformulated, or relocated."
     },
     "contact": {
       "form": {
@@ -151,6 +158,10 @@
       "terms_of_service": "Terms of Service",
       "shipping_policy": "Shipping Policy",
       "explore": "Explore"
+    },
+    "meta": {
+      "tags": "tagged \"{{ tags }}\"",
+      "page": "Page {{ page }}"
     }
   },
   "products": {
@@ -198,12 +209,14 @@
       "quick_view": "Quick view",
       "unavailable": "Unavailable",
       "adding": "Adding...",
-      "key_bio_actives": "Key bio-actives:"
+      "key_bio_actives": "Key bio-actives:",
+      "add_to_cart_short": "Add"
     },
     "facets": {
       "selected": "selected",
       "sort_by_label": "Sort",
-      "clear_filter": "Remove {{ filter }} filter"
+      "clear_filter": "Remove {{ filter }} filter",
+      "max_price": "The highest price is {{ price }}"
     }
   },
   "404": {
@@ -406,13 +419,15 @@
   },
   "customer": {
     "login_page": {
-      "email_placeholder": "you@domain.com"
+      "email_placeholder": "you@domain.com",
+      "new_customer_prompt": "New to our store?"
     },
     "register": {
       "email_placeholder": "you@domain.com"
     },
     "account": {
-      "no_default_address": "No default shipping address saved yet."
+      "no_default_address": "No default shipping address saved yet.",
+      "return": "Return to Account Archive"
     }
   }
 }

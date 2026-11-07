@@ -61,7 +61,7 @@
                   {%- if collection.products_count != blank -%}
                     {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
                   {%- else -%}
-                    Explore Ritual &rarr;
+                    {{ 'sections.collection_list.view_all' | t }} &rarr;
                   {%- endif -%}
                 </span>
               {%- endif -%}

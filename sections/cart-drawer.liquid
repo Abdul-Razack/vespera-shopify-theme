@@ -42,7 +42,7 @@
       {%- else -%}
         {%- assign percent = cart.total_price | times: 100 | divided_by: free_shipping_threshold -%}
         <p class="cart-drawer__shipping-text">
-          Add <strong>{{ amount_remaining | money }}</strong> more to unlock Free Worldwide Shipping
+          {{ 'templates.cart.free_shipping_remaining_html' | t: amount: (amount_remaining | money) }}
         </p>
         <div class="cart-drawer__progress">
           <div class="cart-drawer__progress-fill" style="width: {{ percent }}%;"></div>
@@ -157,7 +157,7 @@
             {%- endif -%}
           </h3>
           <span class="cart-drawer__upsell-badge">
-            {%- if cart.empty? -%}Popular{%- else -%}Pairs well{%- endif -%}
+            {%- if cart.empty? -%}{{ 'templates.cart.popular' | t }}{%- else -%}{{ 'templates.cart.pairs_well' | t }}{%- endif -%}
           </span>
         </div>
         
@@ -206,7 +206,7 @@
                     {% unless first_variant.available %}disabled="disabled"{% endunless %}
                   >
                     {%- if first_variant.available -%}
-                      + Add
+                      + {{ 'products.product.add_to_cart_short' | t }}
                     {%- else -%}
                       {{ 'products.product.sold_out' | t }}
                     {%- endif -%}

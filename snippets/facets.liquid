@@ -97,7 +97,7 @@
                     <div class="facet-disclosure__panel facet-disclosure__panel--price">
                       <div class="facet-disclosure__header">
                         <span class="facet-disclosure__selected">
-                          The highest price is {{ filter.range_max | money }}
+                          {{ 'products.facets.max_price' | t: price: (filter.range_max | money) }}
                         </span>
                         {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
                           <a href="{{ filter.url_to_remove }}" class="facet-disclosure__reset" data-facet-reset>

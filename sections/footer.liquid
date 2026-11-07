@@ -14,9 +14,11 @@
       <!-- Column 1: Brand Philosophy -->
       <div class="site-footer__col site-footer__col--brand">
         <h2 class="site-footer__brand-title">{{ shop.name }}</h2>
-        <p class="site-footer__brand-desc">
-          Formulated with intentional botanical extracts and clinical precision. Created for conscious rituals and radiant skin.
-        </p>
+        {%- if section.settings.brand_description != blank -%}
+          <p class="site-footer__brand-desc">
+            {{ section.settings.brand_description | escape }}
+          </p>
+        {%- endif -%}
 
         <!-- Follow on Shop (Shopify Theme Store Requirement - F-16) -->
         {%- if shop.features.follow_on_shop? -%}
@@ -388,6 +390,12 @@
 {
   "name": "Footer",
   "settings": [
+    {
+      "type": "textarea",
+      "id": "brand_description",
+      "label": "Brand description",
+      "default": "Formulated with intentional botanical extracts and clinical precision. Created for conscious rituals and radiant skin."
+    },
     {
       "type": "text",
       "id": "newsletter_heading",
