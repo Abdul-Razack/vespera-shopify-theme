@@ -548,23 +548,35 @@
       stickyQtyPlus.addEventListener('click', () => setQuantity((parseInt(qtyInput ? qtyInput.value : 1, 10) || 1) + 1));
     }
 
-    // Scroll Observer for Sticky Dock
-    if (stickyDock && addBtn && 'IntersectionObserver' in window) {
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-            stickyDock.removeAttribute('inert');
-            stickyDock.classList.add('is-visible');
-          } else {
-            if (document.activeElement && stickyDock.contains(document.activeElement)) {
-              addBtn.focus();
+    // Scroll Observer and Keyboard Handler for Sticky Dock
+    if (stickyDock && addBtn) {
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+              stickyDock.removeAttribute('inert');
+              stickyDock.classList.add('is-visible');
+            } else {
+              if (document.activeElement && stickyDock.contains(document.activeElement)) {
+                addBtn.focus();
+              }
+              stickyDock.setAttribute('inert', '');
+              stickyDock.classList.remove('is-visible');
             }
-            stickyDock.setAttribute('inert', '');
-            stickyDock.classList.remove('is-visible');
+          });
+        }, { threshold: 0 });
+        observer.observe(addBtn);
+      }
+
+      stickyDock.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (document.activeElement && stickyDock.contains(document.activeElement)) {
+            addBtn.focus();
           }
-        });
-      }, { threshold: 0 });
-      observer.observe(addBtn);
+          stickyDock.setAttribute('inert', '');
+          stickyDock.classList.remove('is-visible');
+        }
+      });
     }
   })();
 </script>
