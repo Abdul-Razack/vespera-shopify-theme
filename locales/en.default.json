@@ -91,12 +91,14 @@
     },
     "search": {
       "products": "Products",
-      "no_results": "No results found"
+      "no_results": "No results found",
+      "placeholder": "Search formulations, ingredients..."
     },
     "footer": {
       "privacy_policy": "Privacy Policy",
       "terms_of_service": "Terms of Service",
-      "shipping_policy": "Shipping Policy"
+      "shipping_policy": "Shipping Policy",
+      "explore": "Explore"
     }
   },
   "products": {
@@ -136,7 +138,8 @@
         "ingredients": "Key Ingredients",
         "usage": "How to Use",
         "shipping": "Shipping and Returns"
-      }
+      },
+      "quick_view": "Quick view"
     }
   },
   "404": {

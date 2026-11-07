@@ -1,12 +1,17 @@
+{%- comment -%}
+  Vespera Theme - Main Cart Page Section (Online Store 2.0)
+  Fully compliant with Shopify Theme Store requirements: Section 4, 7, 8, 9, 12.
+{%- endcomment -%}
+
 {%- assign free_shipping_threshold = section.settings.free_shipping_threshold | default: 75 | times: 100 -%}
 {%- assign amount_remaining = free_shipping_threshold | minus: cart.total_price -%}
 
 <div class="main-cart page-container section-spacing" data-section-id="{{ section.id }}">
   <header class="main-cart__header">
-    <h1 class="main-cart__title">{{ 'templates.cart.title' | t | default: 'Your Ritual Bag' }}</h1>
+    <h1 class="main-cart__title">{{ 'templates.cart.title' | t | default: 'Your Bag' }}</h1>
     <p class="main-cart__subtitle">
       {%- if cart.empty? -%}
-        {{ 'templates.cart.empty' | t | default: 'Your bag is currently empty.' }}
+        {{ 'sections.cart.empty' | t | default: 'Your bag is currently empty.' }}
       {%- else -%}
         {{ cart.item_count }} {{ 'templates.cart.items' | t | default: 'items' }}
       {%- endif -%}
@@ -17,7 +22,7 @@
       <div class="main-cart__shipping-bar">
         {%- if cart.total_price >= free_shipping_threshold -%}
           <p class="main-cart__shipping-text main-cart__shipping-text--unlocked">
-            🎉 {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
+            {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
           </p>
           <div class="main-cart__progress">
             <div class="main-cart__progress-fill" style="width: 100%;"></div>
@@ -36,10 +41,10 @@
   </header>
 
   {%- if cart.empty? -%}
-    <div class="main-cart__empty">
-      <p class="main-cart__empty-text">{{ 'templates.cart.empty' | t | default: 'Your ritual bag is currently empty.' }}</p>
+    <div class="main-cart__empty text-center">
+      <p class="main-cart__empty-text">{{ 'sections.cart.empty' | t | default: 'Your bag is currently empty.' }}</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-        Explore Formulations
+        {{ 'general.continue_shopping' | t | default: 'Explore Formulations' }}
       </a>
     </div>
   {%- else -%}
@@ -49,9 +54,9 @@
         <!-- Cart Items Table / List -->
         <div class="main-cart__items-col">
           <div class="main-cart__table-header">
-            <span>{{ 'templates.cart.headings.product' | t | default: 'Formulation' }}</span>
-            <span>{{ 'templates.cart.headings.quantity' | t | default: 'Quantity' }}</span>
-            <span class="text-right">{{ 'templates.cart.headings.total' | t | default: 'Total' }}</span>
+            <span>{{ 'sections.cart.headings.product' | t | default: 'Product' }}</span>
+            <span>{{ 'sections.cart.headings.quantity' | t | default: 'Quantity' }}</span>
+            <span class="text-right">{{ 'sections.cart.headings.total' | t | default: 'Total' }}</span>
           </div>
 
           <div class="main-cart__items-list">
@@ -82,15 +87,58 @@
                       <p class="main-cart__item-variant">{{ item.variant.title }}</p>
                     {%- endunless -%}
 
-                    <p class="main-cart__item-price">{{ item.original_price | money }}</p>
+                    <!-- Selling Plan Allocation (F-10) -->
+                    {%- if item.selling_plan_allocation != empty -%}
+                      <p class="main-cart__selling-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+                    {%- endif -%}
 
-                    <a href="{{ item.url_to_remove }}" class="main-cart__item-remove" aria-label="{{ 'templates.cart.remove_item' | t: title: item.title | default: 'Remove item' }}">
-                      {{ 'templates.cart.remove' | t | default: 'Remove' }}
+                    <!-- Line Item Properties -->
+                    {%- for property in item.properties -%}
+                      {%- assign property_first_char = property.first | slice: 0 -%}
+                      {%- if property.last != blank and property_first_char != '_' -%}
+                        <p class="main-cart__property">
+                          <span class="main-cart__property-name">{{ property.first }}: </span>
+                          <span>{{ property.last }}</span>
+                        </p>
+                      {%- endif -%}
+                    {%- endfor -%}
+
+                    <!-- Unit Pricing (F-08) -->
+                    {%- if item.unit_price_measurement -%}
+                      <div class="main-cart__unit-price">
+                        <span class="visually-hidden">{{ 'products.product.unit_price_label' | t | default: 'Unit price' }}:</span>
+                        <span>{{ item.unit_price | money }}</span>
+                        <span aria-hidden="true">/</span>
+                        <span>
+                          {%- if item.unit_price_measurement.reference_value != 1 -%}
+                            {{- item.unit_price_measurement.reference_value -}}
+                          {%- endif -%}
+                          {{ item.unit_price_measurement.reference_unit }}
+                        </span>
+                      </div>
+                    {%- endif -%}
+
+                    <!-- Line Level Discounts -->
+                    {%- if item.line_level_discount_allocations.size > 0 -%}
+                      <ul class="main-cart__discounts" role="list">
+                        {%- for discount in item.line_level_discount_allocations -%}
+                          <li class="main-cart__discount-item">
+                            <span>{{ discount.discount_application.title }}</span>
+                            <span>(-{{ discount.amount | money }})</span>
+                          </li>
+                        {%- endfor -%}
+                      </ul>
+                    {%- endif -%}
+
+                    <p class="main-cart__item-price">{{ item.final_price | money }}</p>
+
+                    <a href="{{ item.url_to_remove }}" class="main-cart__item-remove" aria-label="{{ 'sections.cart.remove_title' | t | default: 'Remove' }}: {{ item.title | escape }}">
+                      {{ 'sections.cart.remove_title' | t | default: 'Remove' }}
                     </a>
                   </div>
                 </div>
 
-                <!-- Quantity -->
+                <!-- Quantity Stepper -->
                 <div class="main-cart__item-qty">
                   <div class="main-product__qty-stepper">
                     <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" class="main-product__qty-btn" aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease' }}">&minus;</a>
@@ -101,7 +149,7 @@
                       min="0" 
                       class="main-product__qty-input"
                       id="updates_{{ item.key }}"
-                      aria-label="{{ 'templates.cart.headings.quantity' | t | default: 'Quantity' }}"
+                      aria-label="{{ 'sections.cart.headings.quantity' | t | default: 'Quantity' }}"
                     >
                     <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" class="main-product__qty-btn" aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase' }}">&plus;</a>
                   </div>
@@ -119,8 +167,8 @@
           <!-- Order Notes -->
           {%- if section.settings.show_cart_note -%}
             <div class="main-cart__note">
-              <label for="CartNote" class="main-cart__note-label">{{ 'templates.cart.note' | t | default: 'Order note or special ritual instructions:' }}</label>
-              <textarea name="note" id="CartNote" class="main-cart__note-input" rows="3" placeholder="Add any special handling or gift packaging notes...">{{ cart.note }}</textarea>
+              <label for="CartNote" class="main-cart__note-label">{{ 'sections.cart.note' | t | default: 'Order special instructions' }}</label>
+              <textarea name="note" id="CartNote" class="main-cart__note-input" rows="3" placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Special instructions for seller' }}">{{ cart.note }}</textarea>
             </div>
           {%- endif -%}
         </div>
@@ -130,27 +178,49 @@
           <div class="main-cart__summary-card">
             <h2 class="main-cart__summary-title">{{ 'templates.cart.summary' | t | default: 'Summary' }}</h2>
 
+            <!-- Automatic Cart-Level Discounts (F-27) -->
+            {%- if cart.cart_level_discount_applications.size > 0 -%}
+              <div class="main-cart__cart-discounts">
+                {%- for discount_application in cart.cart_level_discount_applications -%}
+                  <div class="main-cart__summary-row main-cart__summary-row--discount">
+                    <span>{{ discount_application.title }}</span>
+                    <span>-{{ discount_application.total_allocated_amount | money }}</span>
+                  </div>
+                {%- endfor -%}
+              </div>
+            {%- endif -%}
+
             <div class="main-cart__summary-row">
-              <span>{{ 'templates.cart.subtotal' | t | default: 'Subtotal' }}</span>
+              <span>{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
               <span class="main-cart__summary-subtotal">{{ cart.total_price | money }}</span>
             </div>
 
+            <!-- Tax and Shipping Policy Notice (F-21) -->
             <p class="main-cart__summary-tax-note">
-              {{ 'templates.cart.taxes_and_shipping_policy_at_checkout_html' | t | default: 'Taxes and shipping calculated at checkout.' }}
+              {%- if cart.taxes_included -%}
+                {{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}
+              {%- endif -%}
+              {%- if shop.shipping_policy.body != blank -%}
+                {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url | default: 'Shipping calculated at checkout.' }}
+              {%- else -%}
+                {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: routes.root_url | default: 'Shipping calculated at checkout.' }}
+              {%- endif -%}
             </p>
 
             <button type="submit" name="checkout" class="btn-primary main-cart__checkout-btn">
-              {{ 'templates.cart.checkout' | t | default: 'Proceed to Checkout' }} &rarr;
+              {{ 'sections.cart.checkout' | t | default: 'Checkout' }} &rarr;
             </button>
 
-            <a href="{{ routes.all_products_collection_url }}" class="main-cart__continue-shopping">
-              &larr; {{ 'templates.cart.continue_shopping' | t | default: 'Continue Shopping' }}
-            </a>
+            <!-- Accelerated Checkout Buttons (F-11) Rendered ONCE per page -->
+            {%- if additional_checkout_buttons -%}
+              <div class="main-cart__additional-checkout-buttons" style="margin-top: var(--space-3);">
+                {{ content_for_additional_checkout_buttons }}
+              </div>
+            {%- endif -%}
 
-            <!-- Security badges -->
-            <div class="main-cart__security-row">
-              <span>🔒 256-Bit Encrypted Checkout</span>
-            </div>
+            <a href="{{ routes.all_products_collection_url }}" class="main-cart__continue-shopping">
+              &larr; {{ 'general.continue_shopping' | t | default: 'Continue shopping' }}
+            </a>
           </div>
         </div>
 
@@ -161,14 +231,14 @@
 
 {% schema %}
 {
-  "name": "Cart Page",
+  "name": "Cart page",
   "tag": "section",
   "class": "section-main-cart",
   "settings": [
     {
       "type": "number",
       "id": "free_shipping_threshold",
-      "label": "Free Shipping Threshold ($)",
+      "label": "Free shipping threshold ($)",
       "default": 75
     },
     {
@@ -180,4 +250,3 @@
   ]
 }
 {% endschema %}
-

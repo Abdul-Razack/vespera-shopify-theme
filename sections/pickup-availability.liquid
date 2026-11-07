@@ -1,0 +1,31 @@
+{%- comment -%}
+  Vespera Theme - Local Pickup Availability Section
+  Rendered asynchronously via section rendering API: /variants/{id}/?section_id=pickup-availability
+{%- endcomment -%}
+
+{%- assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true -%}
+
+{%- if pick_up_availabilities.size > 0 -%}
+  <div class="pickup-availability-information">
+    <div class="pickup-availability-header">
+      <span class="pickup-availability-icon" aria-hidden="true">&#10003;</span>
+      <div class="pickup-availability-content">
+        <p class="pickup-availability-title">
+          {{ 'products.product.pickup_available_at_html' | t: location_name: pick_up_availabilities.first.location.name | default: 'Pickup available at ' | append: pick_up_availabilities.first.location.name }}
+        </p>
+        <p class="pickup-availability-time">
+          {{ pick_up_availabilities.first.pick_up_time }}
+        </p>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Pickup availability",
+  "tag": "div",
+  "class": "section-pickup-availability",
+  "settings": []
+}
+{% endschema %}

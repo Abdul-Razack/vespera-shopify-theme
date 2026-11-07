@@ -1,5 +1,5 @@
 {%- comment -%}
-  Renders a luxury product card.
+  Vespera Theme - Luxury Product Card Snippet
   Accepts:
   - product: {Object} Product Liquid object
   - show_secondary_image: {Boolean} Show secondary image on hover
@@ -13,17 +13,31 @@
     <div class="product-card__media-wrapper">
       <a href="{{ product.url }}" class="product-card__media-link" tabindex="-1" aria-hidden="true">
         {%- if product.featured_media != blank -%}
+          {%- assign featured_alt = product.featured_media.alt | default: product.title | escape -%}
+          {%- capture focal_primary -%}
+            {%- if product.featured_media.presentation.focal_point != blank -%}
+              object-position: {{ product.featured_media.presentation.focal_point }};
+            {%- endif -%}
+          {%- endcapture -%}
           {{ product.featured_media | image_url: width: 800 | image_tag:
              loading: 'lazy',
              class: 'product-card__image product-card__image--primary',
-             alt: product.featured_media.alt | default: product.title | escape
+             alt: featured_alt,
+             style: focal_primary
           }}
 
           {%- if show_secondary_image != false and product.media[1] != blank -%}
+            {%- assign secondary_alt = product.media[1].alt | default: product.title | escape -%}
+            {%- capture focal_secondary -%}
+              {%- if product.media[1].presentation.focal_point != blank -%}
+                object-position: {{ product.media[1].presentation.focal_point }};
+              {%- endif -%}
+            {%- endcapture -%}
             {{ product.media[1] | image_url: width: 800 | image_tag:
                loading: 'lazy',
                class: 'product-card__image product-card__image--secondary',
-               alt: product.media[1].alt | default: product.title | escape
+               alt: secondary_alt,
+               style: focal_secondary
             }}
           {%- endif -%}
         {%- else -%}
@@ -49,15 +63,15 @@
         </span>
       {%- endif -%}
 
-      <!-- Quick Actions Container (Awwwards Standard) -->
+      <!-- Quick Actions Container -->
       <div class="product-card__quick-actions">
         <button 
           type="button" 
           class="btn-secondary product-card__quick-btn product-card__quick-btn--view" 
           data-quick-view-handle="{{ product.handle }}" 
-          aria-label="Quick View {{ product.title | escape }}"
+          aria-label="{{ 'products.product.quick_view' | t | default: 'Quick View' }}: {{ product.title | escape }}"
         >
-          Quick View
+          {{ 'products.product.quick_view' | t | default: 'Quick View' }}
         </button>
 
         {%- if product.available -%}
@@ -68,9 +82,9 @@
                 type="submit" 
                 name="add" 
                 class="btn-primary product-card__quick-btn product-card__quick-btn--add"
-                aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}: {{ product.title | escape }}"
+                aria-label="{{ 'products.product.quick_add' | t | default: 'Quick add' }}: {{ product.title | escape }}"
               >
-                + {{ 'products.product.add_to_cart' | t | default: 'Quick Add' }}
+                {{ 'products.product.quick_add' | t | default: 'Quick add' }}
               </button>
             {%- endform -%}
           {%- else -%}
@@ -78,9 +92,9 @@
               type="button" 
               class="btn-primary product-card__quick-btn product-card__quick-btn--add"
               data-quick-view-handle="{{ product.handle }}"
-              aria-label="Choose Size for {{ product.title | escape }}"
+              aria-label="{{ 'products.product.choose_options' | t | default: 'Choose options' }}: {{ product.title | escape }}"
             >
-              Choose Size
+              {{ 'products.product.choose_options' | t | default: 'Choose options' }}
             </button>
           {%- endif -%}
         {%- endif -%}
@@ -101,10 +115,15 @@
         </a>
       </h3>
 
-      <!-- Price Block -->
+      <!-- Price Block (F-22 "From" price) -->
       <div class="product-card__price-wrapper">
         <span class="product-card__price">
-          {{ product.price | money }}
+          {%- if product.price_varies -%}
+            {%- assign formatted_min_price = product.price_min | money -%}
+            {{ 'products.product.from_lowest_price_html' | t: price: formatted_min_price }}
+          {%- else -%}
+            {{ product.price | money }}
+          {%- endif -%}
         </span>
 
         {%- if product.compare_at_price > product.price -%}
@@ -113,6 +132,22 @@
           </span>
         {%- endif -%}
       </div>
+
+      <!-- Unit Pricing (F-08) -->
+      {%- assign first_variant = product.selected_or_first_available_variant -%}
+      {%- if first_variant.unit_price_measurement -%}
+        <div class="product-card__unit-price">
+          <span class="visually-hidden">{{ 'products.product.unit_price_label' | t | default: 'Unit price' }}:</span>
+          <span>{{ first_variant.unit_price | money }}</span>
+          <span aria-hidden="true">/</span>
+          <span>
+            {%- if first_variant.unit_price_measurement.reference_value != 1 -%}
+              {{- first_variant.unit_price_measurement.reference_value -}}
+            {%- endif -%}
+            {{ first_variant.unit_price_measurement.reference_unit }}
+          </span>
+        </div>
+      {%- endif -%}
     </div>
 
   </article>
@@ -289,6 +324,11 @@
     color: var(--color-text-muted);
     text-decoration: line-through;
   }
+  .product-card__unit-price {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+  }
   @media (hover: none), (max-width: 768px) {
     .product-card__quick-actions {
       opacity: 1;
@@ -299,11 +339,22 @@
       gap: 4px;
     }
     .product-card__quick-btn {
-      height: 44px;
-      min-height: 44px;
+      height: 40px;
+      min-height: 40px;
       font-size: 11px;
       padding: 0 var(--space-2);
     }
   }
+  @media (max-width: 430px) {
+    .product-card__quick-actions {
+      flex-direction: column;
+      gap: 4px;
+    }
+    .product-card__quick-btn {
+      width: 100%;
+      height: 36px;
+      min-height: 36px;
+      font-size: 11px;
+    }
+  }
 </style>
-

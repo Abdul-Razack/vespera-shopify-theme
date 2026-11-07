@@ -1,6 +1,7 @@
 /**
  * Vespera Theme - Custom Web Component: <cart-drawer>
- * Fully native, framework-free Vanilla JS Ajax Cart Engine
+ * Fully native, framework-free Vanilla JS Ajax Cart Engine.
+ * Supports keyboard focus trapping, Esc key dismissal, and return-of-focus (F-33).
  */
 
 class CartDrawer extends HTMLElement {
@@ -8,23 +9,32 @@ class CartDrawer extends HTMLElement {
     super();
     this.overlay = this.querySelector("#CartDrawerOverlay");
     this.closeBtn = this.querySelector("#CartDrawerClose");
+    this.panel = this.querySelector(".cart-drawer__panel");
     this.isOpen = false;
+    this.previousActiveElement = null;
 
     this.bindEvents();
   }
 
   bindEvents() {
-    // Close button & Overlay click via delegation (survives innerHTML refreshes)
+    // Close button & Overlay click via delegation
     this.addEventListener("click", (e) => {
       if (e.target.closest("#CartDrawerClose") || e.target.closest("#CartDrawerOverlay")) {
         this.close();
       }
     });
 
-    // Keyboard ESC key
+    // Keyboard ESC key and Focus Trap (F-33)
     document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && this.isOpen) {
+      if (!this.isOpen) return;
+
+      if (e.key === "Escape") {
         this.close();
+        return;
+      }
+
+      if (e.key === "Tab") {
+        this.trapFocus(e);
       }
     });
 
@@ -66,26 +76,63 @@ class CartDrawer extends HTMLElement {
         const variantId = upsellBtn.getAttribute("data-upsell-add-variant");
         if (variantId) {
           upsellBtn.setAttribute("disabled", "disabled");
-          upsellBtn.textContent = "Adding...";
+          upsellBtn.textContent = (window.theme && window.theme.strings && window.theme.strings.adding) ? window.theme.strings.adding : "Adding...";
           this.addVariantToCart(variantId);
         }
       }
     });
   }
 
+  getFocusableElements() {
+    if (!this.panel) return [];
+    return Array.from(this.panel.querySelectorAll(
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+    )).filter(el => el.offsetWidth > 0 || el.offsetHeight > 0);
+  }
+
+  trapFocus(e) {
+    const focusable = this.getFocusableElements();
+    if (focusable.length === 0) return;
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (e.shiftKey) {
+      if (document.activeElement === first || !this.panel.contains(document.activeElement)) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else {
+      if (document.activeElement === last || !this.panel.contains(document.activeElement)) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  }
+
   open() {
+    this.previousActiveElement = document.activeElement;
     this.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
     this.isOpen = true;
-    if (this.closeBtn) {
-      this.closeBtn.focus();
-    }
+
+    requestAnimationFrame(() => {
+      const closeBtn = this.querySelector("#CartDrawerClose");
+      if (closeBtn) {
+        closeBtn.focus();
+      }
+    });
   }
 
   close() {
     this.setAttribute("aria-hidden", "true");
     document.body.style.overflow = "";
     this.isOpen = false;
+
+    if (this.previousActiveElement && typeof this.previousActiveElement.focus === "function") {
+      this.previousActiveElement.focus();
+      this.previousActiveElement = null;
+    }
   }
 
   async handleAddToCart(form) {
@@ -108,7 +155,6 @@ class CartDrawer extends HTMLElement {
       this.open();
     } catch (err) {
       console.error("Cart error:", err);
-      // Fallback: standard submit if Ajax encounters an error
       form.submit();
     }
   }
@@ -167,12 +213,7 @@ class CartDrawer extends HTMLElement {
         this.innerHTML = newDrawer.innerHTML;
         this.overlay = this.querySelector("#CartDrawerOverlay");
         this.closeBtn = this.querySelector("#CartDrawerClose");
-        if (this.closeBtn) {
-          this.closeBtn.addEventListener("click", () => this.close());
-        }
-        if (this.overlay) {
-          this.overlay.addEventListener("click", () => this.close());
-        }
+        this.panel = this.querySelector(".cart-drawer__panel");
       }
 
       // Update cart count badge in header
@@ -193,4 +234,3 @@ class CartDrawer extends HTMLElement {
 if (!customElements.get("cart-drawer")) {
   customElements.define("cart-drawer", CartDrawer);
 }
-

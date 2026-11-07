@@ -80,9 +80,20 @@
         "ritual"
       ],
       "settings": {}
+    },
+    "recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "intent": "related",
+        "eyebrow": "CURATED PAIRINGS",
+        "heading": "Complete your botanical ritual",
+        "products_to_show": 4,
+        "columns_desktop": "4"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "recommendations"
   ]
 }

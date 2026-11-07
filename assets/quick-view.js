@@ -1,9 +1,12 @@
 /**
- * Vespera Theme - Awwwards-Grade Interactive Quick View Engine
- * Vanilla JS, zero dependencies, accessible modal dialog with variant switcher
+ * Vespera Theme - Interactive Quick View Engine
+ * Integrated with Universal Variant Selection & Localization.
+ * Complies with Shopify Theme Store: Section 4, 8, 9, 12.
  */
 
 (function() {
+  'use strict';
+
   const modal = document.getElementById('QuickViewModal');
   const overlay = document.getElementById('QuickViewOverlay');
   const closeBtn = document.getElementById('QuickViewClose');
@@ -16,7 +19,20 @@
   let selectedVariant = null;
   let currentQuantity = 1;
 
+  function getStrings() {
+    return (window.theme && window.theme.strings) ? window.theme.strings : {
+      addToCart: 'Add to Bag',
+      soldOut: 'Sold Out',
+      unavailable: 'Unavailable',
+      adding: 'Adding...',
+      viewDetails: 'View full details'
+    };
+  }
+
   function formatMoney(cents) {
+    if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+      return window.Shopify.formatMoney(cents, window.theme && window.theme.moneyFormat ? window.theme.moneyFormat : '${{amount}}');
+    }
     return '$' + (cents / 100).toFixed(2);
   }
 
@@ -50,7 +66,6 @@
     }
   }
 
-  // Close bindings
   if (closeBtn) closeBtn.addEventListener('click', closeModal);
   if (overlay) overlay.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => {
@@ -59,16 +74,39 @@
     }
   });
 
+  // Focus trap inside Quick View Modal (F-33)
+  modal.addEventListener('keydown', (e) => {
+    if (modal.getAttribute('aria-hidden') !== 'false') return;
+    if (e.key === 'Tab') {
+      const focusable = Array.from(modal.querySelectorAll(
+        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )).filter(el => el.offsetWidth > 0 || el.offsetHeight > 0);
+
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
   // Render product details inside modal
   function renderProduct(product) {
     currentProduct = product;
-    selectedVariant = product.variants[0];
+    selectedVariant = product.variants.find(v => v.available) || product.variants[0];
     currentQuantity = 1;
+    const strings = getStrings();
 
     const formattedPrice = formatMoney(selectedVariant.price);
     const hasCompare = selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price;
     const formattedCompare = hasCompare ? formatMoney(selectedVariant.compare_at_price) : '';
-    const plainDesc = stripHtml(product.description).slice(0, 180) + '...';
+    const plainDesc = stripHtml(product.description).slice(0, 160) + '...';
     const mainImgSrc = selectedVariant.featured_image ? selectedVariant.featured_image.src : (product.featured_image || '');
 
     // Build options markup
@@ -78,18 +116,23 @@
         <div class="quick-view__options">
           ${product.options.map((opt, optIdx) => `
             <div class="quick-view__option-group" data-option-index="${optIdx}">
-              <span class="quick-view__option-title">${opt.name}: <strong>${opt.values[0]}</strong></span>
+              <span class="quick-view__option-title">${opt.name}: <strong>${selectedVariant.options[optIdx]}</strong></span>
               <div class="quick-view__chips">
-                ${opt.values.map((val, valIdx) => `
-                  <button 
-                    type="button" 
-                    class="quick-view__chip-btn ${valIdx === 0 ? 'is-selected' : ''}" 
-                    data-option-value="${val}" 
-                    data-option-idx="${optIdx}"
-                  >
-                    ${val}
-                  </button>
-                `).join('')}
+                ${opt.values.map(val => {
+                  const isSelected = selectedVariant.options[optIdx] === val;
+                  // Check if any variant with this option is available
+                  const isAvailable = product.variants.some(v => v.options[optIdx] === val && v.available);
+                  return `
+                    <button 
+                      type="button" 
+                      class="quick-view__chip-btn ${isSelected ? 'is-selected' : ''} ${!isAvailable ? 'is-sold-out' : ''}" 
+                      data-option-value="${val}" 
+                      data-option-idx="${optIdx}"
+                    >
+                      ${val}
+                    </button>
+                  `;
+                }).join('')}
               </div>
             </div>
           `).join('')}
@@ -131,11 +174,11 @@
               id="QuickViewAddBtn"
               ${selectedVariant.available ? '' : 'disabled="disabled"'}
             >
-              ${selectedVariant.available ? `Add to Bag &bull; <span id="QuickViewBtnPrice">${formattedPrice}</span>` : 'Sold Out'}
+              ${selectedVariant.available ? `${strings.addToCart} &bull; <span id="QuickViewBtnPrice">${formattedPrice}</span>` : strings.soldOut}
             </button>
           </div>
 
-          <a href="${product.url}" class="quick-view__full-details">View Full Formulation &rarr;</a>
+          <a href="${product.url}" class="quick-view__full-details">${strings.viewDetails} &rarr;</a>
         </div>
       </div>
     `;
@@ -152,6 +195,7 @@
     const btnPriceEl = document.getElementById('QuickViewBtnPrice');
     const comparePriceEl = document.getElementById('QuickViewComparePrice');
     const mainImg = document.getElementById('QuickViewMainImg');
+    const strings = getStrings();
 
     if (qtyMinus && qtyPlus && qtyVal) {
       qtyMinus.addEventListener('click', () => {
@@ -164,7 +208,7 @@
       });
     }
 
-    // Option Chips Switching
+    // Option Chips Switching with Unavailable Combination Protection (F-31)
     const chips = bodyEl.querySelectorAll('.quick-view__chip-btn');
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
@@ -202,65 +246,67 @@
 
           if (matched.available) {
             addBtn.removeAttribute('disabled');
-            addBtn.innerHTML = `Add to Bag &bull; <span id="QuickViewBtnPrice">${formatted}</span>`;
+            addBtn.innerHTML = `${strings.addToCart} &bull; <span id="QuickViewBtnPrice">${formatted}</span>`;
           } else {
             addBtn.setAttribute('disabled', 'disabled');
-            addBtn.textContent = 'Sold Out';
+            addBtn.textContent = strings.soldOut;
           }
 
           if (matched.featured_image && mainImg) {
             mainImg.src = matched.featured_image.src;
           }
+        } else {
+          // Unavailable combination (F-31)
+          selectedVariant = null;
+          addBtn.setAttribute('disabled', 'disabled');
+          addBtn.textContent = strings.unavailable;
+          if (priceEl) priceEl.textContent = strings.unavailable;
+          if (comparePriceEl) comparePriceEl.style.display = 'none';
         }
       });
     });
 
-    // Add to Bag Submission
+    // Add to Cart Submission
     if (addBtn) {
       addBtn.addEventListener('click', async () => {
         if (!selectedVariant || !selectedVariant.available) return;
 
         addBtn.setAttribute('disabled', 'disabled');
-        addBtn.textContent = 'Adding to Bag...';
+        addBtn.textContent = strings.adding;
 
         try {
-          const res = await fetch('/cart/add.js', {
+          const response = await fetch('/cart/add.js', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
-              items: [{
-                id: selectedVariant.id,
-                quantity: currentQuantity
-              }]
+              items: [{ id: selectedVariant.id, quantity: currentQuantity }]
             })
           });
 
-          if (!res.ok) throw new Error('Add to cart failed');
+          if (!response.ok) throw new Error('Add to cart failed');
 
-          // Close Quick View
-          closeModal();
-
-          // Refresh and Open Cart Drawer
-          const cartDrawer = document.querySelector('cart-drawer');
-          if (cartDrawer && typeof cartDrawer.refreshDrawer === 'function') {
-            await cartDrawer.refreshDrawer();
-            cartDrawer.open();
+          // Open cart drawer and refresh
+          const drawer = document.querySelector('cart-drawer');
+          if (drawer && typeof drawer.refreshDrawer === 'function') {
+            await drawer.refreshDrawer();
+            closeModal();
+            drawer.open();
           } else {
             window.location.href = '/cart';
           }
         } catch (err) {
-          console.error('Quick View Add Error:', err);
+          console.error('Quick view add error:', err);
           addBtn.removeAttribute('disabled');
-          addBtn.textContent = 'Sold Out or Error';
+          addBtn.textContent = strings.addToCart;
         }
       });
     }
   }
 
-  // Global delegation for opening Quick View
+  // Global Click Trigger Delegation
   document.addEventListener('click', async (e) => {
     const trigger = e.target.closest('[data-quick-view-handle]');
     if (!trigger) return;
@@ -273,15 +319,15 @@
 
     try {
       const response = await fetch(`/products/${handle}.js`);
-      if (!response.ok) throw new Error('Failed to fetch product data');
+      if (!response.ok) throw new Error('Product fetch failed');
       const product = await response.json();
       renderProduct(product);
     } catch (err) {
-      console.error('Failed to load Quick View product:', err);
+      console.error('Failed to load quick view:', err);
       bodyEl.innerHTML = `
         <div style="padding: 40px; text-align: center;">
-          <p style="color: var(--color-text-muted); margin-bottom: 16px;">Unable to load formulation details.</p>
-          <button type="button" class="btn-primary" onclick="document.getElementById('QuickViewModal').setAttribute('aria-hidden', 'true'); document.body.style.overflow='';">Close</button>
+          <p>Failed to load formulation details. Please view full product page.</p>
+          <a href="/products/${handle}" class="btn-primary" style="margin-top: 16px;">View Formulation</a>
         </div>
       `;
     }

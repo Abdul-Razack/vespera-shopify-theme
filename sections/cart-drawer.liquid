@@ -1,3 +1,10 @@
+{%- comment -%}
+  Vespera Theme - Cart Drawer Component (<cart-drawer>)
+  Fully compliant with Shopify Theme Store: Section 4, 7, 8, 9, 12, 14.
+  Supports 100dvh mobile safe area, unit pricing, selling plans, automatic discounts,
+  view cart link, and theme-token styled quantity controls.
+{%- endcomment -%}
+
 <cart-drawer class="cart-drawer" id="CartDrawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'templates.cart.cart' | t | default: 'Shopping Cart' }}">
   
   <!-- Backdrop Overlay -->
@@ -12,7 +19,7 @@
         {{ 'templates.cart.cart' | t | default: 'Your Bag' }}
         <span class="cart-drawer__count" data-cart-count-badge>({{ cart.item_count }})</span>
       </h2>
-      <button type="button" class="cart-drawer__close" id="CartDrawerClose" aria-label="Close cart drawer">
+      <button type="button" class="cart-drawer__close" id="CartDrawerClose" aria-label="{{ 'sections.cart.close_drawer' | t | default: 'Close cart drawer' }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="cart-drawer__close-icon" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -27,7 +34,7 @@
     <div class="cart-drawer__shipping-bar" data-shipping-bar data-threshold="{{ free_shipping_threshold }}">
       {%- if cart.total_price >= free_shipping_threshold -%}
         <p class="cart-drawer__shipping-text cart-drawer__shipping-text--unlocked">
-          🎉 {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
+          {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
         </p>
         <div class="cart-drawer__progress">
           <div class="cart-drawer__progress-fill" style="width: 100%;"></div>
@@ -46,10 +53,13 @@
     <!-- Cart Items Scroll Area -->
     <div class="cart-drawer__body" data-cart-items-container>
       {%- if cart.empty? -%}
-        <div class="cart-drawer__empty">
-          <p class="cart-drawer__empty-text">{{ 'templates.cart.empty' | t | default: 'Your ritual bag is currently empty.' }}</p>
+        <div class="cart-drawer__empty text-center">
+          <p class="cart-drawer__empty-text">{{ 'sections.cart.empty' | t | default: 'Your bag is empty' }}</p>
+          <p class="cart-drawer__empty-subtext" style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
+            {{ 'sections.cart.empty_subtext' | t | default: 'Explore our botanical formulations' }}
+          </p>
           <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-            Explore Formulations
+            {{ 'general.continue_shopping' | t | default: 'Continue shopping' }}
           </a>
         </div>
       {%- else -%}
@@ -74,18 +84,45 @@
                   <p class="cart-drawer__item-variant">{{ item.variant.title }}</p>
                 {%- endunless -%}
 
+                <!-- Selling Plan (F-10) -->
+                {%- if item.selling_plan_allocation != empty -%}
+                  <p class="cart-drawer__selling-plan" style="font-size: var(--font-size-xs); color: var(--color-accent);">
+                    {{ item.selling_plan_allocation.selling_plan.name }}
+                  </p>
+                {%- endif -%}
+
+                <!-- Line Item Discounts -->
+                {%- if item.line_level_discount_allocations.size > 0 -%}
+                  <ul class="cart-drawer__item-discounts" role="list" style="font-size: var(--font-size-xs); color: var(--color-accent); list-style: none;">
+                    {%- for discount in item.line_level_discount_allocations -%}
+                      <li>{{ discount.discount_application.title }} (-{{ discount.amount | money }})</li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+
+                <!-- Unit Pricing (F-08) -->
+                {%- if item.unit_price_measurement -%}
+                  <div class="cart-drawer__unit-price" style="font-size: var(--font-size-xs); color: var(--color-text-muted);">
+                    {{ item.unit_price | money }}/
+                    {%- if item.unit_price_measurement.reference_value != 1 -%}
+                      {{- item.unit_price_measurement.reference_value -}}
+                    {%- endif -%}
+                    {{ item.unit_price_measurement.reference_unit }}
+                  </div>
+                {%- endif -%}
+
                 <div class="cart-drawer__item-price">
                   {{ item.final_line_price | money }}
                 </div>
 
-                <!-- Quantity Controls -->
+                <!-- Quantity Controls (Styled with theme tokens - F-36) -->
                 <div class="cart-drawer__qty-group">
-                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="-1" aria-label="Decrease quantity for {{ item.title | escape }}">&minus;</button>
+                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="-1" aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease' }}: {{ item.title | escape }}">&minus;</button>
                   <span class="cart-drawer__qty-value">{{ item.quantity }}</span>
-                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="1" aria-label="Increase quantity for {{ item.title | escape }}">&plus;</button>
+                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="1" aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase' }}: {{ item.title | escape }}">&plus;</button>
                   
-                  <button type="button" class="cart-drawer__remove-btn" data-item-remove aria-label="Remove {{ item.title | escape }}">
-                    Remove
+                  <button type="button" class="cart-drawer__remove-btn" data-item-remove aria-label="{{ 'sections.cart.remove_title' | t | default: 'Remove' }}: {{ item.title | escape }}">
+                    {{ 'sections.cart.remove_title' | t | default: 'Remove' }}
                   </button>
                 </div>
               </div>
@@ -96,7 +133,7 @@
       {%- endif -%}
     </div>
 
-    <!-- Complete Your Ritual: In-Cart Cross-Sell (Awwwards Standard) -->
+    <!-- Complete Your Ritual: In-Cart Cross-Sell -->
     {%- assign upsell_collection = section.settings.upsell_collection | default: collections.all -%}
     {%- if section.settings.enable_upsells and upsell_collection != blank and upsell_collection.products_count > 0 -%}
       <div class="cart-drawer__upsell-wrap">
@@ -105,18 +142,17 @@
             {%- if cart.empty? -%}
               {{ 'templates.cart.curated_rituals' | t | default: 'Curated Daily Essentials' | escape }}
             {%- else -%}
-              {{ section.settings.upsell_heading | default: 'Complete Your Ritual' | escape }}
+              {{ section.settings.upsell_heading | default: 'Complete your ritual' | escape }}
             {%- endif -%}
           </span>
           <span class="cart-drawer__upsell-badge">
-            {%- if cart.empty? -%}Popular{%- else -%}Pairs Well{%- endif -%}
+            {%- if cart.empty? -%}Popular{%- else -%}Pairs well{%- endif -%}
           </span>
         </div>
         
         <div class="cart-drawer__upsell-list" role="list">
           {%- assign shown_count = 0 -%}
           {%- for product in upsell_collection.products -%}
-            {%- comment -%}Do not recommend items already in the cart{%- endcomment -%}
             {%- assign in_cart = false -%}
             {%- for item in cart.items -%}
               {%- if item.product_id == product.id -%}
@@ -155,13 +191,13 @@
                     type="button" 
                     class="btn-secondary cart-drawer__upsell-btn"
                     data-upsell-add-variant="{{ first_variant.id }}"
-                    aria-label="Add {{ product.title | escape }} to bag"
+                    aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}: {{ product.title | escape }}"
                     {% unless first_variant.available %}disabled="disabled"{% endunless %}
                   >
                     {%- if first_variant.available -%}
                       + Add
                     {%- else -%}
-                      Sold Out
+                      {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
                     {%- endif -%}
                   </button>
                 </div>
@@ -177,17 +213,48 @@
     <!-- Drawer Footer & Checkout -->
     {%- unless cart.empty? -%}
       <div class="cart-drawer__footer">
+        
+        <!-- Automatic Cart-Level Discounts (F-27) -->
+        {%- if cart.cart_level_discount_applications.size > 0 -%}
+          <div class="cart-drawer__discounts" style="margin-bottom: var(--space-2);">
+            {%- for discount_application in cart.cart_level_discount_applications -%}
+              <div class="cart-drawer__subtotal" style="font-size: var(--font-size-xs); color: var(--color-accent); font-weight: normal;">
+                <span>{{ discount_application.title }}</span>
+                <span>-{{ discount_application.total_allocated_amount | money }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+
         <div class="cart-drawer__subtotal">
-          <span class="cart-drawer__subtotal-label">Subtotal</span>
+          <span class="cart-drawer__subtotal-label">{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
           <span class="cart-drawer__subtotal-value" data-cart-subtotal>{{ cart.total_price | money }}</span>
         </div>
-        <p class="cart-drawer__disclaimer">Taxes and shipping calculated at checkout.</p>
+        
+        <!-- Tax and Shipping Policy Notice (F-21) -->
+        <p class="cart-drawer__disclaimer">
+          {%- if cart.taxes_included -%}
+            {{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}
+          {%- endif -%}
+          {%- if shop.shipping_policy.body != blank -%}
+            {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url | default: 'Shipping calculated at checkout.' }}
+          {%- else -%}
+            {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: routes.root_url | default: 'Shipping calculated at checkout.' }}
+          {%- endif -%}
+        </p>
         
         <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm">
           <button type="submit" name="checkout" class="btn-primary cart-drawer__checkout-btn">
-            Proceed to Checkout &rarr;
+            {{ 'sections.cart.checkout' | t | default: 'Checkout' }} &rarr;
           </button>
         </form>
+
+        <!-- View Cart Link (F-40) -->
+        <div class="cart-drawer__view-cart-wrap text-center" style="margin-top: var(--space-3);">
+          <a href="{{ routes.cart_url }}" class="link-underline" style="font-size: var(--font-size-xs); color: var(--color-text-muted);">
+            {{ 'sections.cart.view_cart' | t | default: 'View cart' }}
+          </a>
+        </div>
       </div>
     {%- endunless -%}
 
@@ -198,10 +265,9 @@
   .cart-drawer {
     display: none;
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
+    width: 100%;
+    height: 100dvh;
     z-index: 1000;
   }
   .cart-drawer[aria-hidden="false"] {
@@ -227,6 +293,7 @@
     width: 100%;
     max-width: 440px;
     height: 100%;
+    height: 100dvh;
     background-color: var(--color-bg);
     box-shadow: var(--shadow-drawer);
     display: flex;
@@ -259,6 +326,9 @@
     align-items: center;
     justify-content: center;
     color: var(--color-text);
+    background: transparent;
+    border: none;
+    cursor: pointer;
   }
   .cart-drawer__close-icon {
     width: 20px;
@@ -350,12 +420,17 @@
     min-height: 32px;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
+    background-color: transparent;
+    color: var(--color-text);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
     cursor: pointer;
     touch-action: manipulation;
+  }
+  .cart-drawer__qty-btn:hover {
+    background-color: var(--color-bg-subtle);
   }
   .cart-drawer__qty-value {
     font-size: var(--font-size-xs);
@@ -372,6 +447,8 @@
     align-items: center;
     padding: 0 var(--space-2);
     cursor: pointer;
+    background: transparent;
+    border: none;
   }
   .cart-drawer__footer {
     padding: var(--space-6);
@@ -396,34 +473,33 @@
     padding: var(--space-4);
   }
 
-  /* In-Cart Routine Upsells (Awwwards Grade) */
+  /* In-Cart Routine Upsells */
   .cart-drawer__upsell-wrap {
     padding: var(--space-4) var(--space-6);
-    background-color: var(--color-bg-subtle, #FAF8F5);
+    background-color: var(--color-bg-subtle);
     border-top: 1px solid var(--color-border);
   }
   .cart-drawer__upsell-header {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     margin-bottom: var(--space-3);
   }
   .cart-drawer__upsell-title {
     font-size: var(--font-size-xs);
     font-weight: var(--font-weight-semibold);
-    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--color-text);
+    letter-spacing: 0.08em;
   }
   .cart-drawer__upsell-badge {
     font-size: 10px;
-    letter-spacing: 0.05em;
     text-transform: uppercase;
-    font-weight: var(--font-weight-medium);
-    padding: 2px 6px;
-    background-color: rgba(140, 89, 66, 0.1);
+    letter-spacing: 0.06em;
+    background-color: var(--color-surface);
     color: var(--color-accent);
+    padding: 2px 6px;
     border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
   }
   .cart-drawer__upsell-list {
     display: flex;
@@ -434,29 +510,22 @@
     display: flex;
     align-items: center;
     gap: var(--space-3);
-    padding: var(--space-2) var(--space-3);
-    background-color: var(--color-surface, #FFFFFF);
-    border: 1px solid var(--color-border);
+    background-color: var(--color-surface);
+    padding: var(--space-2);
     border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
   }
   .cart-drawer__upsell-media {
-    flex-shrink: 0;
     width: 44px;
     height: 44px;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-xs);
     overflow: hidden;
-    background-color: var(--color-bg-subtle);
+    flex-shrink: 0;
   }
   .cart-drawer__upsell-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
-  }
-  .cart-drawer__upsell-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: var(--color-border);
   }
   .cart-drawer__upsell-details {
     flex: 1;
@@ -464,8 +533,7 @@
   }
   .cart-drawer__upsell-product-title {
     font-size: var(--font-size-xs);
-    font-weight: var(--font-weight-medium);
-    margin: 0 0 2px 0;
+    margin: 0 0 2px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -498,30 +566,30 @@
 
 {% schema %}
 {
-  "name": "Cart Drawer",
+  "name": "Cart drawer",
   "settings": [
     {
       "type": "number",
       "id": "free_shipping_threshold",
-      "label": "Free Shipping Threshold ($)",
+      "label": "Free shipping threshold ($)",
       "default": 75
     },
     {
       "type": "checkbox",
       "id": "enable_upsells",
-      "label": "Enable In-Cart Routine Upsell",
+      "label": "Enable in-cart recommendations",
       "default": true
     },
     {
       "type": "text",
       "id": "upsell_heading",
-      "label": "Upsell Section Heading",
-      "default": "Complete Your Ritual"
+      "label": "Recommendations heading",
+      "default": "Complete your ritual"
     },
     {
       "type": "collection",
       "id": "upsell_collection",
-      "label": "Upsell Recommendation Collection"
+      "label": "Recommendations collection"
     }
   ]
 }
