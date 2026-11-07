@@ -243,7 +243,7 @@
 </div>
 
 <!-- Universal Bottom Sticky Buy Bar -->
-<div class="sticky-buy-dock" id="StickyBuyDock" aria-hidden="true">
+<div class="sticky-buy-dock" id="StickyBuyDock" inert>
   <div class="sticky-buy-dock__inner page-container">
     <div class="sticky-buy-dock__product">
       {%- if featured_media != blank -%}
@@ -553,10 +553,13 @@
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-            stickyDock.setAttribute('aria-hidden', 'false');
+            stickyDock.removeAttribute('inert');
             stickyDock.classList.add('is-visible');
           } else {
-            stickyDock.setAttribute('aria-hidden', 'true');
+            if (document.activeElement && stickyDock.contains(document.activeElement)) {
+              addBtn.focus();
+            }
+            stickyDock.setAttribute('inert', '');
             stickyDock.classList.remove('is-visible');
           }
         });
