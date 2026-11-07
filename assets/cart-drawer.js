@@ -76,7 +76,7 @@ class CartDrawer extends HTMLElement {
         const variantId = upsellBtn.getAttribute("data-upsell-add-variant");
         if (variantId) {
           upsellBtn.setAttribute("disabled", "disabled");
-          upsellBtn.textContent = (window.theme && window.theme.strings && window.theme.strings.adding) ? window.theme.strings.adding : "Adding...";
+          upsellBtn.textContent = (window.theme && window.theme.strings && window.theme.strings.adding) ? window.theme.strings.adding : "";
           this.addVariantToCart(variantId);
         }
       }

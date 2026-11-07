@@ -16,70 +16,17 @@
     {%- endif -%}
 
     <div class="faq-accordion" role="list">
-      {%- if section.blocks.size > 0 -%}
-        {%- for block in section.blocks -%}
-          <details class="faq-item" {{ block.shopify_attributes }} role="listitem" {% if forloop.first %}open{% endif %}>
-            <summary class="faq-item__summary">
-              <span class="faq-item__question">{{ block.settings.question | escape }}</span>
-              <span class="faq-item__icon" aria-hidden="true">&plus;</span>
-            </summary>
-            <div class="faq-item__answer rte">
-              {{ block.settings.answer }}
-            </div>
-          </details>
-        {%- endfor -%}
-      {%- else -%}
-        <!-- Default Curated Botanical Skincare FAQs -->
-        <details class="faq-item" role="listitem" open>
+      {%- for block in section.blocks -%}
+        <details class="faq-item" {{ block.shopify_attributes }} role="listitem" {% if forloop.first %}open{% endif %}>
           <summary class="faq-item__summary">
-            <span class="faq-item__question">What sets Vespera&rsquo;s Clinical Botany standard apart?</span>
+            <span class="faq-item__question">{{ block.settings.question | escape }}</span>
             <span class="faq-item__icon" aria-hidden="true">&plus;</span>
           </summary>
           <div class="faq-item__answer rte">
-            <p>Every formulation is crafted in small batches combining supercritical CO2 cold-pressed botanical extracts with double-blind verified bio-actives (Multi-Molecular Hyaluronic Acid, Phyto-Squalane, Niacinamide). We never dilute with synthetic fillers, parabens, or artificial fragrance.</p>
+            {{ block.settings.answer }}
           </div>
         </details>
-
-        <details class="faq-item" role="listitem">
-          <summary class="faq-item__summary">
-            <span class="faq-item__question">How does Complimentary Worldwide Shipping work?</span>
-            <span class="faq-item__icon" aria-hidden="true">&plus;</span>
-          </summary>
-          <div class="faq-item__answer rte">
-            <p>We provide complimentary carbon-neutral worldwide shipping on all orders over $75. Orders under $75 ship via express tracked carrier at flat standard rates. Every order includes complimentary deluxe ritual samples.</p>
-          </div>
-        </details>
-
-        <details class="faq-item" role="listitem">
-          <summary class="faq-item__summary">
-            <span class="faq-item__question">Are Vespera glass vessels recyclable and UV-protective?</span>
-            <span class="faq-item__icon" aria-hidden="true">&plus;</span>
-          </summary>
-          <div class="faq-item__answer rte">
-            <p>Yes. We house all formulations in biophotonic UV-protective glass vessels. This shields delicate plant terpene profiles from photodegradation, preserving botanical potency naturally without harsh chemical preservatives. All glass is 100% infinitely recyclable.</p>
-          </div>
-        </details>
-
-        <details class="faq-item" role="listitem">
-          <summary class="faq-item__summary">
-            <span class="faq-item__question">Are formulations safe for sensitive skin barriers?</span>
-            <span class="faq-item__icon" aria-hidden="true">&plus;</span>
-          </summary>
-          <div class="faq-item__answer rte">
-            <p>All formulations undergo independent dermatological safety evaluations and are balanced at optimal barrier pH (5.2&ndash;5.6). Because of our high concentrations of pure botanical actives, we recommend patch testing on clean forearm skin 24 hours prior to ritual integration.</p>
-          </div>
-        </details>
-
-        <details class="faq-item" role="listitem">
-          <summary class="faq-item__summary">
-            <span class="faq-item__question">What is your 30-day conscious return policy?</span>
-            <span class="faq-item__icon" aria-hidden="true">&plus;</span>
-          </summary>
-          <div class="faq-item__answer rte">
-            <p>We offer a 30-day conscious ritual guarantee. If a formulation does not harmonize with your skin barrier, simply contact our concierge team for a seamless return or customized ritual exchange.</p>
-          </div>
-        </details>
-      {%- endif -%}
+      {%- endfor -%}
     </div>
 
   </div>
@@ -216,6 +163,20 @@
           "settings": {
             "question": "Are Vespera glass vessels recyclable and UV-protective?",
             "answer": "<p>Yes. We house all formulations in biophotonic UV-protective glass vessels that shield plant extracts from photodegradation.</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "Are formulations safe for sensitive skin barriers?",
+            "answer": "<p>All formulations undergo independent dermatological safety evaluations and are balanced at optimal barrier pH (5.2-5.6).</p>"
+          }
+        },
+        {
+          "type": "faq_item",
+          "settings": {
+            "question": "What is your 30-day conscious return policy?",
+            "answer": "<p>We offer a 30-day conscious ritual guarantee. If a formulation does not harmonize with your skin barrier, simply contact our concierge team for a seamless return.</p>"
           }
         }
       ]

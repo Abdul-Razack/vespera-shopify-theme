@@ -58,7 +58,7 @@
 
       {%- when 'social_sharing' -%}
         <div class="main-article__share text-center" {{ block.shopify_attributes }}>
-          <span class="main-article__share-label">{{ 'general.share.share_this' | t | default: 'Share article' }}</span>
+          <span class="main-article__share-label">{{ 'general.share.share_this' | t }}</span>
           <ul class="main-article__share-list" role="list">
             <li>
               <a 
@@ -66,7 +66,7 @@
                 target="_blank" 
                 rel="noopener"
                 class="main-article__share-link"
-                aria-label="{{ 'general.share.share_on_twitter' | t | default: 'Share on X (Twitter)' }}"
+                aria-label="{{ 'general.share.share_on_twitter' | t }}"
               >
                 X / Twitter
               </a>
@@ -77,7 +77,7 @@
                 target="_blank" 
                 rel="noopener"
                 class="main-article__share-link"
-                aria-label="{{ 'general.share.share_on_facebook' | t | default: 'Share on Facebook' }}"
+                aria-label="{{ 'general.share.share_on_facebook' | t }}"
               >
                 Facebook
               </a>
@@ -88,7 +88,7 @@
                 target="_blank" 
                 rel="noopener"
                 class="main-article__share-link"
-                aria-label="{{ 'general.share.share_on_pinterest' | t | default: 'Share on Pinterest' }}"
+                aria-label="{{ 'general.share.share_on_pinterest' | t }}"
               >
                 Pinterest
               </a>
@@ -142,7 +142,7 @@
 
           {%- if form.posted_successfully? -%}
             <div class="form-message form-message--success" tabindex="-1" autofocus>
-              <p>{{ 'blog.comment_success' | t | default: 'Your comment was posted successfully.' }}</p>
+              <p>{{ 'blog.comment_success' | t }}</p>
             </div>
           {%- endif -%}
 

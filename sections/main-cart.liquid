@@ -8,12 +8,12 @@
 
 <div class="main-cart page-container section-spacing" data-section-id="{{ section.id }}">
   <header class="main-cart__header">
-    <h1 class="main-cart__title">{{ 'templates.cart.title' | t | default: 'Your cart' }}</h1>
+    <h1 class="main-cart__title">{{ 'templates.cart.title' | t }}</h1>
     <p class="main-cart__subtitle">
       {%- if cart.empty? -%}
-        {{ 'sections.cart.empty' | t | default: 'Your cart is currently empty.' }}
+        {{ 'sections.cart.empty' | t }}
       {%- else -%}
-        {{ cart.item_count }} {{ 'templates.cart.items' | t | default: 'items' }}
+        {{ cart.item_count }} {{ 'templates.cart.items' | t }}
       {%- endif -%}
     </p>
 
@@ -22,7 +22,7 @@
       <div class="main-cart__shipping-bar">
         {%- if cart.total_price >= free_shipping_threshold -%}
           <p class="main-cart__shipping-text main-cart__shipping-text--unlocked">
-            {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
+            {{ 'templates.cart.free_shipping_unlocked' | t }}
           </p>
           <div class="main-cart__progress">
             <div class="main-cart__progress-fill" style="width: 100%;"></div>
@@ -42,9 +42,9 @@
 
   {%- if cart.empty? -%}
     <div class="main-cart__empty text-center">
-      <p class="main-cart__empty-text">{{ 'sections.cart.empty' | t | default: 'Your cart is empty' }}</p>
+      <p class="main-cart__empty-text">{{ 'sections.cart.empty' | t }}</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-        {{ 'general.continue_shopping' | t | default: 'Explore Formulations' }}
+        {{ 'general.continue_shopping' | t }}
       </a>
     </div>
   {%- else -%}
@@ -54,9 +54,9 @@
         <!-- Cart Items Table / List -->
         <div class="main-cart__items-col">
           <div class="main-cart__table-header">
-            <span>{{ 'sections.cart.headings.product' | t | default: 'Product' }}</span>
-            <span>{{ 'sections.cart.headings.quantity' | t | default: 'Quantity' }}</span>
-            <span class="text-right">{{ 'sections.cart.headings.total' | t | default: 'Total' }}</span>
+            <span>{{ 'sections.cart.headings.product' | t }}</span>
+            <span>{{ 'sections.cart.headings.quantity' | t }}</span>
+            <span class="text-right">{{ 'sections.cart.headings.total' | t }}</span>
           </div>
 
           <div class="main-cart__items-list">
@@ -106,7 +106,7 @@
                     <!-- Unit Pricing (F-08) -->
                     {%- if item.unit_price_measurement -%}
                       <div class="main-cart__unit-price">
-                        <span class="visually-hidden">{{ 'products.product.unit_price_label' | t | default: 'Unit price' }}:</span>
+                        <span class="visually-hidden">{{ 'products.product.unit_price_label' | t }}:</span>
                         <span>{{ item.unit_price | money }}</span>
                         <span aria-hidden="true">/</span>
                         <span>
@@ -132,8 +132,8 @@
 
                     <p class="main-cart__item-price">{{ item.final_price | money }}</p>
 
-                    <a href="{{ item.url_to_remove }}" class="main-cart__item-remove" aria-label="{{ 'sections.cart.remove_title' | t | default: 'Remove' }}: {{ item.title | escape }}">
-                      {{ 'sections.cart.remove_title' | t | default: 'Remove' }}
+                    <a href="{{ item.url_to_remove }}" class="main-cart__item-remove" aria-label="{{ 'sections.cart.remove_title' | t }}: {{ item.title | escape }}">
+                      {{ 'sections.cart.remove_title' | t }}
                     </a>
                   </div>
                 </div>
@@ -141,7 +141,7 @@
                 <!-- Quantity Stepper -->
                 <div class="main-cart__item-qty">
                   <div class="main-product__qty-stepper">
-                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" class="main-product__qty-btn" aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease' }}">&minus;</a>
+                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | minus: 1 }}" class="main-product__qty-btn" aria-label="{{ 'products.product.decrease_quantity' | t }}">&minus;</a>
                     <input 
                       type="number" 
                       name="updates[]" 
@@ -149,9 +149,9 @@
                       min="0" 
                       class="main-product__qty-input"
                       id="updates_{{ item.key }}"
-                      aria-label="{{ 'sections.cart.headings.quantity' | t | default: 'Quantity' }}"
+                      aria-label="{{ 'sections.cart.headings.quantity' | t }}"
                     >
-                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" class="main-product__qty-btn" aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase' }}">&plus;</a>
+                    <a href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity={{ item.quantity | plus: 1 }}" class="main-product__qty-btn" aria-label="{{ 'products.product.increase_quantity' | t }}">&plus;</a>
                   </div>
                 </div>
 
@@ -167,8 +167,8 @@
           <!-- Order Notes -->
           {%- if section.settings.show_cart_note -%}
             <div class="main-cart__note">
-              <label for="CartNote" class="main-cart__note-label">{{ 'sections.cart.note' | t | default: 'Order special instructions' }}</label>
-              <textarea name="note" id="CartNote" class="main-cart__note-input" rows="3" placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Special instructions for seller' }}">{{ cart.note }}</textarea>
+              <label for="CartNote" class="main-cart__note-label">{{ 'sections.cart.note' | t }}</label>
+              <textarea name="note" id="CartNote" class="main-cart__note-input" rows="3" placeholder="{{ 'sections.cart.note_placeholder' | t }}">{{ cart.note }}</textarea>
             </div>
           {%- endif -%}
         </div>
@@ -176,7 +176,7 @@
         <!-- Order Summary Column -->
         <div class="main-cart__summary-col">
           <div class="main-cart__summary-card">
-            <h2 class="main-cart__summary-title">{{ 'templates.cart.summary' | t | default: 'Summary' }}</h2>
+            <h2 class="main-cart__summary-title">{{ 'templates.cart.summary' | t }}</h2>
 
             <!-- Automatic Cart-Level Discounts (F-27) -->
             {%- if cart.cart_level_discount_applications.size > 0 -%}
@@ -191,24 +191,24 @@
             {%- endif -%}
 
             <div class="main-cart__summary-row">
-              <span>{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
+              <span>{{ 'sections.cart.subtotal' | t }}</span>
               <span class="main-cart__summary-subtotal">{{ cart.total_price | money }}</span>
             </div>
 
             <!-- Tax and Shipping Policy Notice (F-21) -->
             <p class="main-cart__summary-tax-note">
               {%- if cart.taxes_included -%}
-                {{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}
+                {{ 'products.product.include_taxes' | t }}
               {%- endif -%}
               {%- if shop.shipping_policy.body != blank -%}
-                {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url | default: 'Shipping calculated at checkout.' }}
+                {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url  }}
               {%- else -%}
-                {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: routes.root_url | default: 'Shipping calculated at checkout.' }}
+                {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: routes.root_url  }}
               {%- endif -%}
             </p>
 
             <button type="submit" name="checkout" class="btn-primary main-cart__checkout-btn">
-              {{ 'sections.cart.checkout' | t | default: 'Checkout' }} &rarr;
+              {{ 'sections.cart.checkout' | t }} &rarr;
             </button>
 
             <!-- Accelerated Checkout Buttons (F-11) Rendered ONCE per page -->
@@ -219,7 +219,7 @@
             {%- endif -%}
 
             <a href="{{ routes.all_products_collection_url }}" class="main-cart__continue-shopping">
-              &larr; {{ 'general.continue_shopping' | t | default: 'Continue shopping' }}
+              &larr; {{ 'general.continue_shopping' | t }}
             </a>
           </div>
         </div>

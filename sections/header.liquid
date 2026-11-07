@@ -13,7 +13,7 @@
       type="button" 
       class="site-header__mobile-toggle" 
       id="MobileNavToggle"
-      aria-label="{{ 'sections.header.menu' | t | default: 'Open Menu' }}"
+      aria-label="{{ 'sections.header.menu' | t }}"
       aria-expanded="false"
       aria-controls="MobileNavDrawer"
     >
@@ -40,7 +40,7 @@
     </div>
 
     <!-- Desktop Navigation Menu (Multi-level Support - F-48) -->
-    <nav class="site-header__nav" role="navigation" aria-label="{{ 'sections.header.main_menu' | t | default: 'Main Menu' }}">
+    <nav class="site-header__nav" role="navigation" aria-label="{{ 'sections.header.main_menu' | t }}">
       <ul class="site-header__nav-list">
         {%- for link in linklists[section.settings.menu].links -%}
           {%- if link.links != blank -%}
@@ -84,9 +84,9 @@
             </li>
           {%- endif -%}
         {%- else -%}
-          <li class="site-header__nav-item"><a href="{{ routes.all_products_collection_url }}" class="site-header__nav-link">Shop Skincare</a></li>
-          <li class="site-header__nav-item"><a href="{{ routes.collections_url }}" class="site-header__nav-link">Collections</a></li>
-          <li class="site-header__nav-item"><a href="{{ pages['contact'].url | default: routes.root_url }}" class="site-header__nav-link">Contact</a></li>
+          <li class="site-header__nav-item"><a href="{{ routes.all_products_collection_url }}" class="site-header__nav-link">{{ 'sections.header.shop' | t }}</a></li>
+          <li class="site-header__nav-item"><a href="{{ routes.collections_url }}" class="site-header__nav-link">{{ 'sections.header.collections' | t }}</a></li>
+          <li class="site-header__nav-item"><a href="{{ pages['contact'].url | default: routes.root_url }}" class="site-header__nav-link">{{ 'sections.header.contact' | t }}</a></li>
         {%- endfor -%}
       </ul>
     </nav>
@@ -99,7 +99,7 @@
         href="{{ routes.search_url }}" 
         class="site-header__icon-link site-header__search-toggle" 
         id="HeaderSearchToggle"
-        aria-label="{{ 'templates.search.search' | t | default: 'Search formulations' }}"
+        aria-label="{{ 'templates.search.search' | t }}"
         aria-expanded="false"
         aria-controls="HeaderSearchModal"
       >
@@ -111,7 +111,7 @@
 
       <!-- Native Shopify Account Component - Visible on Both Mobile & Desktop (F-15) -->
       {%- if shop.customer_accounts_enabled -%}
-        <div class="site-header__account-slot" aria-label="{{ 'templates.cart.cart' | t | default: 'Account' }}">
+        <div class="site-header__account-slot" aria-label="{{ 'templates.cart.cart' | t }}">
           <shopify-account></shopify-account>
         </div>
       {%- endif -%}
@@ -121,7 +121,7 @@
         href="{{ routes.cart_url }}" 
         class="site-header__icon-link site-header__cart-link" 
         id="CartIconBubble"
-        aria-label="{{ cart.item_count }} {{ 'templates.cart.items' | t | default: 'items in cart' }}"
+        aria-label="{{ cart.item_count }} {{ 'templates.cart.items' | t }}"
       >
         <svg class="site-header__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -141,20 +141,20 @@
       <predictive-search class="header-search__predictive">
         <form action="{{ routes.search_url }}" method="get" role="search" class="header-search__form">
           <input type="hidden" name="options[prefix]" value="last">
-          <button type="submit" class="header-search__submit-btn" aria-label="{{ 'templates.search.submit' | t | default: 'Search Formulations' }}">
+          <button type="submit" class="header-search__submit-btn" aria-label="{{ 'templates.search.submit' | t }}">
             <svg class="header-search__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </button>
-          <label for="HeaderSearchInput" class="visually-hidden">{{ 'templates.search.search' | t | default: 'Search formulations' }}</label>
+          <label for="HeaderSearchInput" class="visually-hidden">{{ 'templates.search.search' | t }}</label>
           <input 
             type="search" 
             name="q" 
             id="HeaderSearchInput"
             class="header-search__input" 
-            placeholder="{{ 'general.search.placeholder' | t | default: 'Search formulations, ingredients...' }}" 
-            aria-label="{{ 'templates.search.search' | t | default: 'Search formulations' }}"
+            placeholder="{{ 'general.search.placeholder' | t }}" 
+            aria-label="{{ 'templates.search.search' | t }}"
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
@@ -193,14 +193,14 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
-        <label for="MobileNavSearchInput" class="visually-hidden">{{ 'templates.search.search' | t | default: 'Search formulations' }}</label>
+        <label for="MobileNavSearchInput" class="visually-hidden">{{ 'templates.search.search' | t }}</label>
         <input 
           type="search" 
           name="q" 
           id="MobileNavSearchInput"
           class="mobile-nav-drawer__search-input" 
-          placeholder="{{ 'general.search.placeholder' | t | default: 'Search formulations...' }}" 
-          aria-label="{{ 'templates.search.search' | t | default: 'Search formulations' }}"
+          placeholder="{{ 'general.search.placeholder' | t }}" 
+          aria-label="{{ 'templates.search.search' | t }}"
         >
       </form>
 
@@ -236,9 +236,9 @@
               </li>
             {%- endif -%}
           {%- else -%}
-            <li class="mobile-nav-drawer__item"><a href="{{ routes.all_products_collection_url }}" class="mobile-nav-drawer__link">Shop Skincare</a></li>
-            <li class="mobile-nav-drawer__item"><a href="{{ routes.collections_url }}" class="mobile-nav-drawer__link">Collections</a></li>
-            <li class="mobile-nav-drawer__item"><a href="{{ pages['contact'].url | default: routes.root_url }}" class="mobile-nav-drawer__link">Contact</a></li>
+            <li class="mobile-nav-drawer__item"><a href="{{ routes.all_products_collection_url }}" class="mobile-nav-drawer__link">{{ 'sections.header.shop' | t }}</a></li>
+            <li class="mobile-nav-drawer__item"><a href="{{ routes.collections_url }}" class="mobile-nav-drawer__link">{{ 'sections.header.collections' | t }}</a></li>
+            <li class="mobile-nav-drawer__item"><a href="{{ pages['contact'].url | default: routes.root_url }}" class="mobile-nav-drawer__link">{{ 'sections.header.contact' | t }}</a></li>
           {%- endfor -%}
         </ul>
       </nav>

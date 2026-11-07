@@ -42,9 +42,9 @@
     {%- endif -%}
 
     {%- if product.compare_at_price > product.price -%}
-      <span class="product-badge product-badge--sale">{{ 'products.product.on_sale' | t | default: 'Sale' }}</span>
+      <span class="product-badge product-badge--sale">{{ 'products.product.on_sale' | t }}</span>
     {%- elsif product.available == false -%}
-      <span class="product-badge product-badge--soldout">{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</span>
+      <span class="product-badge product-badge--soldout">{{ 'products.product.sold_out' | t }}</span>
     {%- endif -%}
 
     {%- if enable_zoom and featured_media != blank -%}
@@ -52,7 +52,7 @@
         type="button" 
         class="product-media-gallery__zoom-trigger" 
         id="ProductZoomTrigger-{{ section_id }}" 
-        aria-label="{{ 'products.product.media.open_media' | t | default: 'Open full-screen image zoom' }}"
+        aria-label="{{ 'products.product.media.open_media' | t }}"
         title="Zoom image"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -81,7 +81,7 @@
           data-media-type="{{ media.media_type }}"
           data-target-src="{{ media | image_url: width: 1200 }}"
           data-media-index="{{ forloop.index0 }}"
-          aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load image ' | append: forloop.index }}"
+          aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index  | append: forloop.index }}"
         >
           <img 
             src="{{ media | image_url: width: 160, height: 200, crop: 'center' }}" 

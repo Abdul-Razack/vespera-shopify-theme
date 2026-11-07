@@ -60,26 +60,26 @@
 
       <!-- Column 2: Quick Links -->
       <div class="site-footer__col site-footer__col--links">
-        <h3 class="site-footer__heading">{{ 'general.footer.explore' | t | default: 'Explore' }}</h3>
+        <h3 class="site-footer__heading">{{ 'general.footer.explore' | t }}</h3>
         <ul class="site-footer__link-list">
           {%- if section.settings.menu != blank and linklists[section.settings.menu].links.size > 0 -%}
             {%- for link in linklists[section.settings.menu].links -%}
               <li><a href="{{ link.url }}" class="site-footer__link">{{ link.title }}</a></li>
             {%- endfor -%}
           {%- else -%}
-            <li><a href="{{ routes.all_products_collection_url }}" class="site-footer__link">All Formulations</a></li>
-            <li><a href="{{ routes.collections_url }}" class="site-footer__link">Ritual Sets</a></li>
-            <li><a href="{{ routes.search_url }}" class="site-footer__link">Search Catalog</a></li>
-            <li><a href="{{ pages['contact'].url | default: routes.root_url }}" class="site-footer__link">Customer Care</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" class="site-footer__link">{{ 'sections.footer.all_products' | t }}</a></li>
+            <li><a href="{{ routes.collections_url }}" class="site-footer__link">{{ 'sections.footer.collections' | t }}</a></li>
+            <li><a href="{{ routes.search_url }}" class="site-footer__link">{{ 'sections.footer.search' | t }}</a></li>
+            <li><a href="{{ pages['contact'].url | default: routes.root_url }}" class="site-footer__link">{{ 'sections.footer.customer_care' | t }}</a></li>
           {%- endif -%}
         </ul>
       </div>
 
       <!-- Column 3: Newsletter -->
       <div class="site-footer__col site-footer__col--newsletter">
-        <h3 class="site-footer__heading">{{ section.settings.newsletter_heading | default: 'The Inner Circle' }}</h3>
+        <h3 class="site-footer__heading">{{ section.settings.newsletter_heading | escape }}</h3>
         <p class="site-footer__newsletter-text">
-          {{ section.settings.newsletter_subheading | default: 'Receive private invitations and early formula releases.' }}
+          {{ section.settings.newsletter_subheading | escape }}
         </p>
 
         {%- form 'customer', id: 'ContactFooter', class: 'site-footer__newsletter-form' -%}
@@ -89,8 +89,8 @@
             <div class="site-footer__form-success" role="status" tabindex="-1" autofocus>
               <span class="site-footer__success-icon" aria-hidden="true">&check;</span>
               <div>
-                <strong>Welcome to The Vespera Circle.</strong>
-                <p class="site-footer__success-text">Your private invitation and formula access details have been dispatched to your inbox.</p>
+                <strong>{{ 'newsletter.success_title' | t }}</strong>
+                <p class="site-footer__success-text">{{ 'newsletter.success_text' | t }}</p>
               </div>
             </div>
           {%- else -%}
@@ -101,14 +101,14 @@
             {%- endif -%}
 
             <div class="site-footer__input-group">
-              <label for="NewsletterEmail" class="visually-hidden">{{ 'newsletter.email_placeholder' | t | default: 'Email address' }}</label>
+              <label for="NewsletterEmail" class="visually-hidden">{{ 'newsletter.email_placeholder' | t }}</label>
               <input 
                 id="NewsletterEmail"
                 type="email" 
                 name="contact[email]" 
                 class="site-footer__input" 
                 value="{{ form.email }}" 
-                placeholder="{{ 'newsletter.email_placeholder' | t | default: 'Enter your email' }}" 
+                placeholder="{{ 'newsletter.email_placeholder' | t }}" 
                 aria-required="true" 
                 autocorrect="off" 
                 autocapitalize="off" 
@@ -116,8 +116,8 @@
                 {% if form.errors %}aria-invalid="true"{% endif %}
                 required
               >
-              <button type="submit" class="site-footer__submit-btn" aria-label="{{ 'newsletter.button_label' | t | default: 'Join' }} - Subscribe to newsletter">
-                {{ 'newsletter.button_label' | t | default: 'Join' }} &rarr;
+              <button type="submit" class="site-footer__submit-btn" aria-label="{{ 'newsletter.button_label' | t }} - Subscribe to newsletter">
+                {{ 'newsletter.button_label' | t }} &rarr;
               </button>
             </div>
           {%- endif -%}
@@ -135,7 +135,7 @@
           {%- if section.settings.enable_country_selector and localization.available_countries.size > 1 -%}
             {%- form 'localization', id: 'FooterCountryForm', class: 'localization-form' -%}
               <div class="localization-selector">
-                <label for="FooterCountrySelect" class="visually-hidden">{{ 'localization.country_label' | t | default: 'Country / Currency' }}</label>
+                <label for="FooterCountrySelect" class="visually-hidden">{{ 'localization.country_label' | t }}</label>
                 <select name="country_code" id="FooterCountrySelect" class="localization-selector__select" onchange="this.form.submit()">
                   {%- for country in localization.available_countries -%}
                     <option 
@@ -156,7 +156,7 @@
           {%- if section.settings.enable_language_selector and localization.available_languages.size > 1 -%}
             {%- form 'localization', id: 'FooterLanguageForm', class: 'localization-form' -%}
               <div class="localization-selector">
-                <label for="FooterLanguageSelect" class="visually-hidden">{{ 'localization.language_label' | t | default: 'Language' }}</label>
+                <label for="FooterLanguageSelect" class="visually-hidden">{{ 'localization.language_label' | t }}</label>
                 <select name="locale_code" id="FooterLanguageSelect" class="localization-selector__select" onchange="this.form.submit()">
                   {%- for language in localization.available_languages -%}
                     <option 
@@ -202,13 +202,13 @@
             {%- endfor -%}
           {%- else -%}
             {%- if shop.privacy_policy -%}
-              <li class="site-footer__policy-item"><a href="{{ shop.privacy_policy.url }}" class="site-footer__policy-link">{{ 'general.footer.privacy_policy' | t | default: 'Privacy Policy' }}</a></li>
+              <li class="site-footer__policy-item"><a href="{{ shop.privacy_policy.url }}" class="site-footer__policy-link">{{ 'general.footer.privacy_policy' | t }}</a></li>
             {%- endif -%}
             {%- if shop.terms_of_service -%}
-              <li class="site-footer__policy-item"><a href="{{ shop.terms_of_service.url }}" class="site-footer__policy-link">{{ 'general.footer.terms_of_service' | t | default: 'Terms of Service' }}</a></li>
+              <li class="site-footer__policy-item"><a href="{{ shop.terms_of_service.url }}" class="site-footer__policy-link">{{ 'general.footer.terms_of_service' | t }}</a></li>
             {%- endif -%}
             {%- if shop.shipping_policy -%}
-              <li class="site-footer__policy-item"><a href="{{ shop.shipping_policy.url }}" class="site-footer__policy-link">{{ 'general.footer.shipping_policy' | t | default: 'Shipping Policy' }}</a></li>
+              <li class="site-footer__policy-item"><a href="{{ shop.shipping_policy.url }}" class="site-footer__policy-link">{{ 'general.footer.shipping_policy' | t }}</a></li>
             {%- endif -%}
           {%- endif -%}
         </ul>

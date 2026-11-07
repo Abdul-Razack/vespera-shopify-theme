@@ -26,7 +26,7 @@
     <div class="collection-list-grid collection-list-grid--{{ section.settings.columns_desktop }}-col">
       {%- for block in section.blocks -%}
         {%- assign collection = block.settings.collection -%}
-        {%- assign collection_title = block.settings.title | default: collection.title | default: 'Botanical Category' -%}
+        {%- assign collection_title = block.settings.title | default: collection.title  -%}
         {%- assign collection_url = collection.url | default: routes.all_products_collection_url -%}
         {%- assign card_image = block.settings.image | default: collection.featured_image | default: collection.products.first.featured_media -%}
 
@@ -81,8 +81,8 @@
               </div>
             </div>
             <div class="collection-list-card__info">
-              <h3 class="collection-list-card__title font-heading">{{ 'sections.collection_list.default_title' | t | default: 'Botanical category' }}</h3>
-              <span class="collection-list-card__count">{{ 'sections.collection_list.explore' | t | default: 'Explore' }} &rarr;</span>
+              <h3 class="collection-list-card__title font-heading">{{ 'sections.collection_list.default_title' | t }}</h3>
+              <span class="collection-list-card__count">{{ 'sections.collection_list.explore' | t }} &rarr;</span>
             </div>
           </div>
         {%- endfor -%}
@@ -93,7 +93,7 @@
     {%- if section.settings.show_view_all -%}
       <div class="section-collection-list__footer text-center">
         <a href="{{ routes.collections_url }}" class="btn-secondary">
-          {{ section.settings.view_all_label | default: 'Explore All Categories' | escape }} &rarr;
+          {{ section.settings.view_all_label | escape }} &rarr;
         </a>
       </div>
     {%- endif -%}

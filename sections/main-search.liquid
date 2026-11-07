@@ -1,6 +1,6 @@
 <div class="main-search page-container section-spacing" data-section-id="{{ section.id }}">
   <header class="main-search__header">
-    <h1 class="main-search__title">{{ 'templates.search.title' | t | default: 'Search Formulations' }}</h1>
+    <h1 class="main-search__title">{{ 'templates.search.title' | t }}</h1>
 
     <predictive-search class="predictive-search">
       <form action="{{ routes.search_url }}" method="get" role="search" class="main-search__form">
@@ -9,9 +9,9 @@
             type="search" 
             name="q" 
             value="{{ search.terms | escape }}" 
-            placeholder="{{ 'templates.search.placeholder' | t | default: 'Search by botanical active, concern, or product...' }}"
+            placeholder="{{ 'templates.search.placeholder' | t }}"
             class="main-search__input"
-            aria-label="{{ 'templates.search.title' | t | default: 'Search' }}"
+            aria-label="{{ 'templates.search.title' | t }}"
             autocomplete="off"
             role="combobox"
             aria-expanded="false"
@@ -20,7 +20,7 @@
             aria-haspopup="listbox"
             aria-autocomplete="list"
           >
-          <button type="submit" class="main-search__submit-btn" aria-label="{{ 'templates.search.submit' | t | default: 'Submit Search' }}">
+          <button type="submit" class="main-search__submit-btn" aria-label="{{ 'templates.search.submit' | t }}">
             &rarr;
           </button>
         </div>
@@ -32,7 +32,7 @@
     {%- if search.performed -%}
       <p class="main-search__count" role="status">
         {%- if search.results_count == 0 -%}
-          {{ 'templates.search.no_results' | t: terms: search.terms | default: 'No formulations found matching your query.' }}
+          {{ 'templates.search.no_results' | t: terms: search.terms  }}
         {%- else -%}
           {{ 'templates.search.results_with_count' | t: count: search.results_count | default: search.results_count }}
         {%- endif -%}
@@ -72,10 +72,10 @@
     {%- endpaginate -%}
   {%- elsif search.performed and search.results_count == 0 -%}
     <div class="main-search__empty">
-      <p class="main-search__empty-title">{{ 'templates.search.refine_search' | t | default: 'Refine your exploration' }}</p>
-      <p class="main-search__empty-sub main-search__empty-text">{{ 'templates.search.search_tips' | t | default: 'Try searching for specific botanical ingredients, concerns, or products.' }}</p>
+      <p class="main-search__empty-title">{{ 'templates.search.refine_search' | t }}</p>
+      <p class="main-search__empty-sub main-search__empty-text">{{ 'templates.search.search_tips' | t }}</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-        {{ 'collections.general.view_all_products' | t | default: 'View all formulations' }}
+        {{ 'collections.general.view_all_products' | t }}
       </a>
     </div>
   {%- endif -%}

@@ -20,13 +20,7 @@
   let currentQuantity = 1;
 
   function getStrings() {
-    return (window.theme && window.theme.strings) ? window.theme.strings : {
-      addToCart: 'Add to Bag',
-      soldOut: 'Sold Out',
-      unavailable: 'Unavailable',
-      adding: 'Adding...',
-      viewDetails: 'View full details'
-    };
+    return (window.theme && window.theme.strings) ? window.theme.strings : {};
   }
 
   function formatMoney(cents) {
@@ -131,7 +125,7 @@
                       ${!isAvailable ? 'aria-disabled="true"' : ''}
                     >
                       <span class="quick-view__chip-text">${val}</span>
-                      ${!isAvailable ? `<span class="visually-hidden"> — ${strings.soldOut}</span>` : ''}
+                      ${!isAvailable && strings.soldOut ? `<span class="visually-hidden"> — ${strings.soldOut}</span>` : ''}
                     </button>
                   `;
                 }).join('')}
@@ -149,7 +143,7 @@
         </div>
         
         <div class="quick-view__info">
-          <span class="quick-view__category">${product.type || 'Botanical Formulation'}</span>
+          <span class="quick-view__category">${product.type || ''}</span>
           <h3 class="quick-view__title">
             <a href="${product.url}" class="quick-view__title-link">${product.title}</a>
           </h3>
@@ -165,9 +159,9 @@
 
           <div class="quick-view__cta-row">
             <div class="quick-view__qty-wrap">
-              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyMinus" aria-label="Decrease quantity">&minus;</button>
+              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyMinus" aria-label="${strings.decreaseQuantity || ''}">&minus;</button>
               <span class="quick-view__qty-val" id="QuickViewQtyVal">1</span>
-              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyPlus" aria-label="Increase quantity">&plus;</button>
+              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyPlus" aria-label="${strings.increaseQuantity || ''}">&plus;</button>
             </div>
 
             <button 
@@ -176,11 +170,11 @@
               id="QuickViewAddBtn"
               ${selectedVariant.available ? '' : 'disabled="disabled"'}
             >
-              ${selectedVariant.available ? `${strings.addToCart} &bull; <span id="QuickViewBtnPrice">${formattedPrice}</span>` : strings.soldOut}
+              ${selectedVariant.available ? `${strings.addToCart || ''} &bull; <span id="QuickViewBtnPrice">${formattedPrice}</span>` : (strings.soldOut || '')}
             </button>
           </div>
 
-          <a href="${product.url}" class="quick-view__full-details">${strings.viewDetails} &rarr;</a>
+          <a href="${product.url}" class="quick-view__full-details">${strings.viewDetails || ''} &rarr;</a>
         </div>
       </div>
     `;
@@ -250,12 +244,12 @@
               btn.classList.add('is-unavailable');
               btn.classList.remove('is-sold-out');
               btn.setAttribute('aria-disabled', 'true');
-              vhEl.textContent = ` — ${strings.unavailable}`;
+              vhEl.textContent = strings.unavailable ? ` — ${strings.unavailable}` : '';
             } else if (!matchTest.available) {
               btn.classList.add('is-sold-out');
               btn.classList.remove('is-unavailable');
               btn.setAttribute('aria-disabled', 'true');
-              vhEl.textContent = ` — ${strings.soldOut}`;
+              vhEl.textContent = strings.soldOut ? ` — ${strings.soldOut}` : '';
             } else {
               btn.classList.remove('is-sold-out', 'is-unavailable');
               btn.removeAttribute('aria-disabled');
@@ -281,10 +275,10 @@
 
           if (matched.available) {
             addBtn.removeAttribute('disabled');
-            addBtn.innerHTML = `${strings.addToCart} &bull; <span id="QuickViewBtnPrice">${formatted}</span>`;
+            addBtn.innerHTML = `${strings.addToCart || ''} &bull; <span id="QuickViewBtnPrice">${formatted}</span>`;
           } else {
             addBtn.setAttribute('disabled', 'disabled');
-            addBtn.textContent = strings.soldOut;
+            addBtn.textContent = strings.soldOut || '';
           }
 
           if (matched.featured_image && mainImg) {
@@ -294,8 +288,8 @@
           // Unavailable combination (F-31)
           selectedVariant = null;
           addBtn.setAttribute('disabled', 'disabled');
-          addBtn.textContent = strings.unavailable;
-          if (priceEl) priceEl.textContent = strings.unavailable;
+          addBtn.textContent = strings.unavailable || '';
+          if (priceEl) priceEl.textContent = strings.unavailable || '';
           if (comparePriceEl) comparePriceEl.style.display = 'none';
         }
       });
@@ -307,7 +301,7 @@
         if (!selectedVariant || !selectedVariant.available) return;
 
         addBtn.setAttribute('disabled', 'disabled');
-        addBtn.textContent = strings.adding;
+        addBtn.textContent = strings.adding || '';
 
         try {
           const response = await fetch('/cart/add.js', {
@@ -335,7 +329,7 @@
         } catch (err) {
           console.error('Quick view add error:', err);
           addBtn.removeAttribute('disabled');
-          addBtn.textContent = strings.addToCart;
+          addBtn.textContent = strings.addToCart || '';
         }
       });
     }

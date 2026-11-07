@@ -83,7 +83,7 @@ class PredictiveSearch extends HTMLElement {
     if (products.length === 0 && collections.length === 0) {
       const noResultsLabel = (window.theme && window.theme.strings && window.theme.strings.noResults)
         ? window.theme.strings.noResults
-        : 'No formulations found matching your query.';
+        : '';
       this.resultsContainer.innerHTML = `
         <div class="predictive-search__empty">
           <p class="predictive-search__empty-text">${this.escapeHTML(noResultsLabel)}</p>
@@ -146,7 +146,7 @@ class PredictiveSearch extends HTMLElement {
       : `/search?q=${encodeURIComponent(query)}`;
     const viewAllLabel = (window.theme && window.theme.strings && window.theme.strings.viewAll)
       ? window.theme.strings.viewAll
-      : 'View all results';
+      : '';
 
     html += `
       <div class="predictive-search__footer">

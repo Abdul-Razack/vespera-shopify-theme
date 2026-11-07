@@ -30,7 +30,7 @@
         </header>
 
         {%- if gift_card.enabled == false or gift_card.expired -%}
-          <p class="gift-card__badge gift-card__badge--expired" style="color: var(--color-sale);">{{ 'gift_card.expired' | t | default: 'This gift card has expired or is inactive.' }}</p>
+          <p class="gift-card__badge gift-card__badge--expired" style="color: var(--color-sale);">{{ 'gift_card.expired' | t }}</p>
         {%- endif -%}
 
         {%- if gift_card.expires_on -%}
@@ -43,14 +43,14 @@
         <div class="gift-card__visual" style="margin: var(--space-6) 0;">
           <img
             src="{{ 'gift-card/card.svg' | shopify_asset_url }}"
-            alt="{{ 'gift_card.card' | t | default: 'Gift card' }}"
+            alt="{{ 'gift_card.card' | t }}"
             width="280"
             height="180"
             style="border-radius: var(--radius-sm);"
           >
         </div>
 
-        <p class="gift-card__instruction">{{ 'gift_card.use_at_checkout' | t | default: 'Use this code at checkout to redeem:' }}</p>
+        <p class="gift-card__instruction">{{ 'gift_card.use_at_checkout' | t }}</p>
         
         <div class="gift-card__code-wrap" style="background: var(--color-bg-subtle); padding: var(--space-3); border-radius: var(--radius-sm); margin: var(--space-4) 0; font-family: monospace; font-size: var(--font-size-md); letter-spacing: 0.1em;">
           <input 
@@ -74,7 +74,7 @@
             <a href="{{ gift_card.pass_url }}">
               <img
                 src="{{ 'gift-card/add-to-apple-wallet.svg' | shopify_asset_url }}"
-                alt="{{ 'gift_card.add_to_apple_wallet' | t | default: 'Add to Apple Wallet' }}"
+                alt="{{ 'gift_card.add_to_apple_wallet' | t }}"
                 width="200"
                 height="60"
               >
@@ -84,7 +84,7 @@
 
         <div class="gift-card__actions" style="margin-top: var(--space-6);">
           <a href="{{ shop.url }}" class="btn btn-primary" target="_blank" rel="noopener">
-            {{ 'general.continue_shopping' | t | default: 'Start shopping' }} &rarr;
+            {{ 'general.continue_shopping' | t }} &rarr;
           </a>
         </div>
       </div>

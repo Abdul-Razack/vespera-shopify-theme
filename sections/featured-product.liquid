@@ -41,7 +41,7 @@
 
               {%- when 'vendor' -%}
                 <p class="main-product__vendor" {{ block.shopify_attributes }}>
-                  {{ product.vendor | default: 'VESPERA' | escape }} &bull; {{ 'products.product.clinical_grade' | t | default: 'Clinical Botany' }}
+                  {{ product.vendor | escape }} &bull; {{ 'products.product.clinical_grade' | t }}
                 </p>
 
               {%- when 'title' -%}
@@ -80,20 +80,20 @@
 
                   <!-- Tax Notice -->
                   {%- if cart.taxes_included -%}
-                    <span class="main-product__tax-note">{{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}</span>
+                    <span class="main-product__tax-note">{{ 'products.product.include_taxes' | t }}</span>
                   {%- endif -%}
 
                   <!-- Stock Status (F-32) -->
                   <div class="main-product__stock-status">
                     {%- if current_variant.available and current_variant.inventory_policy == 'continue' and current_variant.inventory_quantity <= 0 -%}
                       <span class="stock-dot stock-dot--backorder" data-stock-dot></span>
-                      <span class="stock-text" data-stock-text>{{ 'products.product.backorder_message' | t | default: 'Available on backorder' }}</span>
+                      <span class="stock-text" data-stock-text>{{ 'products.product.backorder_message' | t }}</span>
                     {%- elsif current_variant.available -%}
                       <span class="stock-dot stock-dot--in" data-stock-dot></span>
-                      <span class="stock-text" data-stock-text>{{ 'products.product.in_stock' | t | default: 'In stock — Small-batch release' }}</span>
+                      <span class="stock-text" data-stock-text>{{ 'products.product.in_stock' | t }}</span>
                     {%- else -%}
                       <span class="stock-dot stock-dot--out" data-stock-dot></span>
-                      <span class="stock-text" data-stock-text>{{ 'products.product.sold_out' | t | default: 'Currently out of stock' }}</span>
+                      <span class="stock-text" data-stock-text>{{ 'products.product.sold_out' | t }}</span>
                     {%- endif -%}
                   </div>
                 </div>
@@ -106,10 +106,10 @@
               {%- when 'quantity' -%}
                 <div class="main-product__qty-group" {{ block.shopify_attributes }}>
                   <label for="Quantity-{{ section.id }}" class="main-product__qty-label">
-                    {{ 'products.product.quantity' | t | default: 'Quantity' }}
+                    {{ 'products.product.quantity' | t }}
                   </label>
                   <div class="main-product__qty-stepper">
-                    <button type="button" class="main-product__qty-btn" data-product-qty-minus aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease quantity' }}">&minus;</button>
+                    <button type="button" class="main-product__qty-btn" data-product-qty-minus aria-label="{{ 'products.product.decrease_quantity' | t }}">&minus;</button>
                     <input 
                       type="number" 
                       id="Quantity-{{ section.id }}" 
@@ -120,7 +120,7 @@
                       data-product-qty-input
                       form="ProductForm-{{ section.id }}"
                     >
-                    <button type="button" class="main-product__qty-btn" data-product-qty-plus aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase quantity' }}">&plus;</button>
+                    <button type="button" class="main-product__qty-btn" data-product-qty-plus aria-label="{{ 'products.product.increase_quantity' | t }}">&plus;</button>
                   </div>
                 </div>
 
@@ -140,7 +140,7 @@
                   <div class="main-product__description rte" {{ block.shopify_attributes }}>
                     {{ product.description | truncatewords: 40 }}
                     <p style="margin-top: var(--space-2);">
-                      <a href="{{ product.url }}" class="link-underline">{{ 'products.product.view_full_details' | t | default: 'View full details' }} &rarr;</a>
+                      <a href="{{ product.url }}" class="link-underline">{{ 'products.product.view_full_details' | t }} &rarr;</a>
                     </p>
                   </div>
                 {%- endif -%}
@@ -170,7 +170,7 @@
       <div class="main-product__info-col">
         <div class="main-product__info-stack">
           <p class="main-product__vendor">VESPERA &bull; Botanical Formulation</p>
-          <h2 class="main-product__title">{{ 'onboarding.product_title' | t | default: 'Featured Botanical Formulation' }}</h2>
+          <h2 class="main-product__title">{{ 'onboarding.product_title' | t }}</h2>
           <div class="main-product__price-wrap">
             <span class="main-product__price">$85.00</span>
           </div>

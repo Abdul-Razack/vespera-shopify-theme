@@ -71,7 +71,7 @@
     {%- if section.settings.show_view_all and target_collection != blank -%}
       <div class="featured-collection__footer text-center">
         <a href="{{ target_collection.url | default: '/collections/all' }}" class="btn-secondary">
-          {{ section.settings.view_all_label | default: 'Explore All Formulations' }} &rarr;
+          {{ section.settings.view_all_label | escape }} &rarr;
         </a>
       </div>
     {%- endif -%}

@@ -5,7 +5,7 @@
   view cart link, and theme-token styled quantity controls.
 {%- endcomment -%}
 
-<cart-drawer class="cart-drawer" id="CartDrawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'templates.cart.cart' | t | default: 'Shopping Cart' }}">
+<cart-drawer class="cart-drawer" id="CartDrawer" aria-hidden="true" role="dialog" aria-modal="true" aria-label="{{ 'templates.cart.cart' | t }}">
   
   <!-- Backdrop Overlay -->
   <div class="cart-drawer__overlay" id="CartDrawerOverlay" tabindex="-1"></div>
@@ -16,10 +16,10 @@
     <!-- Drawer Header -->
     <div class="cart-drawer__header">
       <h2 class="cart-drawer__title">
-        {{ 'templates.cart.cart' | t | default: 'Cart' }}
+        {{ 'templates.cart.cart' | t }}
         <span class="cart-drawer__count" data-cart-count-badge>({{ cart.item_count }})</span>
       </h2>
-      <button type="button" class="cart-drawer__close" id="CartDrawerClose" aria-label="{{ 'sections.cart.close_drawer' | t | default: 'Close cart drawer' }}">
+      <button type="button" class="cart-drawer__close" id="CartDrawerClose" aria-label="{{ 'sections.cart.close_drawer' | t }}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="cart-drawer__close-icon" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -34,7 +34,7 @@
     <div class="cart-drawer__shipping-bar" data-shipping-bar data-threshold="{{ free_shipping_threshold }}">
       {%- if cart.total_price >= free_shipping_threshold -%}
         <p class="cart-drawer__shipping-text cart-drawer__shipping-text--unlocked">
-          {{ 'templates.cart.free_shipping_unlocked' | t | default: "You've unlocked Free Worldwide Shipping!" }}
+          {{ 'templates.cart.free_shipping_unlocked' | t }}
         </p>
         <div class="cart-drawer__progress">
           <div class="cart-drawer__progress-fill" style="width: 100%;"></div>
@@ -54,12 +54,12 @@
     <div class="cart-drawer__body" data-cart-items-container>
       {%- if cart.empty? -%}
         <div class="cart-drawer__empty text-center">
-          <p class="cart-drawer__empty-text">{{ 'sections.cart.empty' | t | default: 'Your cart is empty' }}</p>
+          <p class="cart-drawer__empty-text">{{ 'sections.cart.empty' | t }}</p>
           <p class="cart-drawer__empty-subtext" style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
-            {{ 'sections.cart.empty_subtext' | t | default: 'Explore our botanical formulations' }}
+            {{ 'sections.cart.empty_subtext' | t }}
           </p>
           <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-            {{ 'general.continue_shopping' | t | default: 'Continue shopping' }}
+            {{ 'general.continue_shopping' | t }}
           </a>
         </div>
       {%- else -%}
@@ -117,12 +117,12 @@
 
                 <!-- Quantity Controls (Styled with theme tokens - F-36) -->
                 <div class="cart-drawer__qty-group">
-                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="-1" aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease' }}: {{ item.title | escape }}">&minus;</button>
+                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="-1" aria-label="{{ 'products.product.decrease_quantity' | t }}: {{ item.title | escape }}">&minus;</button>
                   <span class="cart-drawer__qty-value">{{ item.quantity }}</span>
-                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="1" aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase' }}: {{ item.title | escape }}">&plus;</button>
+                  <button type="button" class="cart-drawer__qty-btn" data-qty-change="1" aria-label="{{ 'products.product.increase_quantity' | t }}: {{ item.title | escape }}">&plus;</button>
                   
-                  <button type="button" class="cart-drawer__remove-btn" data-item-remove aria-label="{{ 'sections.cart.remove_title' | t | default: 'Remove' }}: {{ item.title | escape }}">
-                    {{ 'sections.cart.remove_title' | t | default: 'Remove' }}
+                  <button type="button" class="cart-drawer__remove-btn" data-item-remove aria-label="{{ 'sections.cart.remove_title' | t }}: {{ item.title | escape }}">
+                    {{ 'sections.cart.remove_title' | t }}
                   </button>
                 </div>
               </div>
@@ -140,9 +140,9 @@
         <div class="cart-drawer__upsell-header">
           <span class="cart-drawer__upsell-title">
             {%- if cart.empty? -%}
-              {{ 'templates.cart.curated_rituals' | t | default: 'Curated Daily Essentials' | escape }}
+              {{ 'templates.cart.curated_rituals' | t | escape }}
             {%- else -%}
-              {{ section.settings.upsell_heading | default: 'Complete your ritual' | escape }}
+              {{ section.settings.upsell_heading | escape }}
             {%- endif -%}
           </span>
           <span class="cart-drawer__upsell-badge">
@@ -191,13 +191,13 @@
                     type="button" 
                     class="btn-secondary cart-drawer__upsell-btn"
                     data-upsell-add-variant="{{ first_variant.id }}"
-                    aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}: {{ product.title | escape }}"
+                    aria-label="{{ 'products.product.add_to_cart' | t }}: {{ product.title | escape }}"
                     {% unless first_variant.available %}disabled="disabled"{% endunless %}
                   >
                     {%- if first_variant.available -%}
                       + Add
                     {%- else -%}
-                      {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+                      {{ 'products.product.sold_out' | t }}
                     {%- endif -%}
                   </button>
                 </div>
@@ -218,18 +218,18 @@
         {%- if section.settings.show_cart_note -%}
           <details class="cart-drawer__note-details" style="margin-bottom: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-3);">
             <summary class="cart-drawer__note-summary" style="cursor: pointer; font-size: var(--font-size-xs); color: var(--color-text); display: flex; justify-content: space-between; align-items: center; user-select: none;">
-              <span>{{ 'sections.cart.note' | t | default: 'Order special instructions' }}</span>
+              <span>{{ 'sections.cart.note' | t }}</span>
               <span class="cart-drawer__note-toggle" aria-hidden="true" style="font-size: 14px;">+</span>
             </summary>
             <div class="cart-drawer__note-body" style="margin-top: var(--space-2);">
-              <label for="CartDrawer-note" class="visually-hidden">{{ 'sections.cart.note' | t | default: 'Order special instructions' }}</label>
+              <label for="CartDrawer-note" class="visually-hidden">{{ 'sections.cart.note' | t }}</label>
               <textarea 
                 name="note" 
                 id="CartDrawer-note" 
                 class="cart-drawer__note-input form-control" 
                 rows="2" 
                 style="width: 100%; border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: var(--space-2); font-size: var(--font-size-xs); background: var(--color-surface); color: var(--color-text); font-family: inherit; resize: vertical;"
-                placeholder="{{ 'sections.cart.note_placeholder' | t | default: 'Special instructions for seller' }}"
+                placeholder="{{ 'sections.cart.note_placeholder' | t }}"
                 data-cart-drawer-note
               >{{ cart.note }}</textarea>
             </div>
@@ -249,32 +249,32 @@
         {%- endif -%}
 
         <div class="cart-drawer__subtotal">
-          <span class="cart-drawer__subtotal-label">{{ 'sections.cart.subtotal' | t | default: 'Subtotal' }}</span>
+          <span class="cart-drawer__subtotal-label">{{ 'sections.cart.subtotal' | t }}</span>
           <span class="cart-drawer__subtotal-value" data-cart-subtotal>{{ cart.total_price | money }}</span>
         </div>
         
         <!-- Tax and Shipping Policy Notice (F-21) -->
         <p class="cart-drawer__disclaimer">
           {%- if cart.taxes_included -%}
-            {{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}
+            {{ 'products.product.include_taxes' | t }}
           {%- endif -%}
           {%- if shop.shipping_policy.body != blank -%}
-            {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url | default: 'Shipping calculated at checkout.' }}
+            {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: shop.shipping_policy.url  }}
           {%- else -%}
-            {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: routes.root_url | default: 'Shipping calculated at checkout.' }}
+            {{ 'sections.cart.taxes_and_shipping_policy_at_checkout_html' | t: link: routes.root_url  }}
           {%- endif -%}
         </p>
         
         <form action="{{ routes.cart_url }}" method="post" id="CartDrawerForm">
           <button type="submit" name="checkout" class="btn-primary cart-drawer__checkout-btn">
-            {{ 'sections.cart.checkout' | t | default: 'Checkout' }} &rarr;
+            {{ 'sections.cart.checkout' | t }} &rarr;
           </button>
         </form>
 
         <!-- View Cart Link (F-40) -->
         <div class="cart-drawer__view-cart-wrap text-center" style="margin-top: var(--space-3);">
           <a href="{{ routes.cart_url }}" class="link-underline" style="font-size: var(--font-size-xs); color: var(--color-text-muted);">
-            {{ 'sections.cart.view_cart' | t | default: 'View cart' }}
+            {{ 'sections.cart.view_cart' | t }}
           </a>
         </div>
       </div>

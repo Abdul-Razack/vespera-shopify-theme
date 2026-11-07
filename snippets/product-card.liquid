@@ -55,11 +55,11 @@
       <!-- Product Badges (Sale / Sold Out) -->
       {%- if product.available == false -%}
         <span class="product-card__badge product-card__badge--soldout">
-          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+          {{ 'products.product.sold_out' | t }}
         </span>
       {%- elsif product.compare_at_price > product.price -%}
         <span class="product-card__badge product-card__badge--sale">
-          {{ 'products.product.on_sale' | t | default: 'Sale' }}
+          {{ 'products.product.on_sale' | t }}
         </span>
       {%- endif -%}
 
@@ -69,9 +69,9 @@
           type="button" 
           class="btn-secondary product-card__quick-btn product-card__quick-btn--view" 
           data-quick-view-handle="{{ product.handle }}" 
-          aria-label="{{ 'products.product.quick_view' | t | default: 'Quick View' }}: {{ product.title | escape }}"
+          aria-label="{{ 'products.product.quick_view' | t }}: {{ product.title | escape }}"
         >
-          {{ 'products.product.quick_view' | t | default: 'Quick View' }}
+          {{ 'products.product.quick_view' | t }}
         </button>
 
         {%- if product.available -%}
@@ -82,9 +82,9 @@
                 type="submit" 
                 name="add" 
                 class="btn-primary product-card__quick-btn product-card__quick-btn--add"
-                aria-label="{{ 'products.product.quick_add' | t | default: 'Quick add' }}: {{ product.title | escape }}"
+                aria-label="{{ 'products.product.quick_add' | t }}: {{ product.title | escape }}"
               >
-                {{ 'products.product.quick_add' | t | default: 'Quick add' }}
+                {{ 'products.product.quick_add' | t }}
               </button>
             {%- endform -%}
           {%- else -%}
@@ -92,9 +92,9 @@
               type="button" 
               class="btn-primary product-card__quick-btn product-card__quick-btn--add"
               data-quick-view-handle="{{ product.handle }}"
-              aria-label="{{ 'products.product.choose_options' | t | default: 'Choose options' }}: {{ product.title | escape }}"
+              aria-label="{{ 'products.product.choose_options' | t }}: {{ product.title | escape }}"
             >
-              {{ 'products.product.choose_options' | t | default: 'Choose options' }}
+              {{ 'products.product.choose_options' | t }}
             </button>
           {%- endif -%}
         {%- endif -%}
@@ -137,7 +137,7 @@
       {%- assign first_variant = product.selected_or_first_available_variant -%}
       {%- if first_variant.unit_price_measurement -%}
         <div class="product-card__unit-price">
-          <span class="visually-hidden">{{ 'products.product.unit_price_label' | t | default: 'Unit price' }}:</span>
+          <span class="visually-hidden">{{ 'products.product.unit_price_label' | t }}:</span>
           <span>{{ first_variant.unit_price | money }}</span>
           <span aria-hidden="true">/</span>
           <span>

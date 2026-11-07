@@ -92,22 +92,19 @@
 
           const label = input.closest('label') || group.querySelector(`label[for="${input.id}"]`);
           const noticeEl = label ? label.querySelector('[data-availability-notice]') : null;
-          const strings = (window.theme && window.theme.strings) ? window.theme.strings : {
-            soldOut: 'Sold out',
-            unavailable: 'Unavailable'
-          };
+          const strings = (window.theme && window.theme.strings) || {};
 
           if (label) {
             if (!matching) {
               label.classList.add('is-unavailable');
               label.classList.remove('is-sold-out');
               input.setAttribute('aria-disabled', 'true');
-              if (noticeEl) noticeEl.textContent = ` — ${strings.unavailable || 'Unavailable'}`;
+              if (noticeEl) noticeEl.textContent = strings.unavailable ? ` — ${strings.unavailable}` : '';
             } else if (!matching.available) {
               label.classList.add('is-sold-out');
               label.classList.remove('is-unavailable');
               input.setAttribute('aria-disabled', 'true');
-              if (noticeEl) noticeEl.textContent = ` — ${strings.soldOut || 'Sold out'}`;
+              if (noticeEl) noticeEl.textContent = strings.soldOut ? ` — ${strings.soldOut}` : '';
             } else {
               label.classList.remove('is-sold-out', 'is-unavailable');
               input.removeAttribute('aria-disabled');
@@ -133,13 +130,7 @@
       // Update visual availability cues across pills/swatches
       this.updateOptionAvailabilityCues(selectedOptions);
 
-      const strings = (window.theme && window.theme.strings) ? window.theme.strings : {
-        addToCart: 'Add to cart',
-        soldOut: 'Sold out',
-        unavailable: 'Unavailable',
-        inStock: 'In stock',
-        backorder: 'Available on backorder'
-      };
+      const strings = (window.theme && window.theme.strings) || {};
 
       if (!variant) {
         // CASE: Unavailable combination (F-31)
@@ -149,7 +140,7 @@
         }
         if (this.addBtn) {
           this.addBtn.setAttribute('disabled', 'disabled');
-          this.addBtn.textContent = strings.unavailable || 'Unavailable';
+          this.addBtn.textContent = strings.unavailable || '';
         }
         if (this.dynamicCheckoutEl) {
           this.dynamicCheckoutEl.style.display = 'none';
@@ -158,7 +149,7 @@
           this.stockDotEl.className = 'stock-dot stock-dot--out';
         }
         if (this.stockTextEl) {
-          this.stockTextEl.textContent = strings.unavailable || 'Unavailable';
+          this.stockTextEl.textContent = strings.unavailable || '';
         }
         return;
       }
@@ -202,7 +193,7 @@
       if (variant.available) {
         if (this.addBtn) {
           this.addBtn.removeAttribute('disabled');
-          const addLabel = strings.addToCart || 'Add to cart';
+          const addLabel = strings.addToCart || '';
           this.addBtn.innerHTML = `<span>${addLabel}</span>`;
         }
         if (this.dynamicCheckoutEl) {
@@ -213,15 +204,15 @@
         const isBackorder = (variant.inventory_policy === 'continue' && variant.inventory_quantity <= 0);
         if (isBackorder) {
           if (this.stockDotEl) this.stockDotEl.className = 'stock-dot stock-dot--backorder';
-          if (this.stockTextEl) this.stockTextEl.textContent = strings.backorder || 'Available on backorder';
+          if (this.stockTextEl) this.stockTextEl.textContent = strings.backorder || '';
         } else {
           if (this.stockDotEl) this.stockDotEl.className = 'stock-dot stock-dot--in';
-          if (this.stockTextEl) this.stockTextEl.textContent = strings.inStock || 'In stock';
+          if (this.stockTextEl) this.stockTextEl.textContent = strings.inStock || '';
         }
       } else {
         if (this.addBtn) {
           this.addBtn.setAttribute('disabled', 'disabled');
-          this.addBtn.textContent = strings.soldOut || 'Sold Out';
+          this.addBtn.textContent = strings.soldOut || '';
         }
         if (this.dynamicCheckoutEl) {
           this.dynamicCheckoutEl.style.display = 'none';
@@ -230,7 +221,7 @@
           this.stockDotEl.className = 'stock-dot stock-dot--out';
         }
         if (this.stockTextEl) {
-          this.stockTextEl.textContent = strings.soldOut || 'Currently out of stock';
+          this.stockTextEl.textContent = strings.soldOut || '';
         }
       }
 

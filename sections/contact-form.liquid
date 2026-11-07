@@ -9,34 +9,34 @@
         {%- endif -%}
         
         <h2 class="contact-section__title">
-          {{ section.settings.heading | default: 'Customer Care & Formulation Concierge' | escape }}
+          {{ section.settings.heading | escape }}
         </h2>
 
         <p class="contact-section__subtext">
-          {{ section.settings.subtext | default: 'Whether you are seeking tailored skincare ritual guidance, batch code verification, or delivery tracking, our botanical team is at your disposal.' | escape }}
+          {{ section.settings.subtext | escape }}
         </p>
 
         <div class="contact-section__cards">
           <div class="concierge-card">
-            <span class="concierge-card__label">{{ 'templates.contact.form.inquiries' | t | default: 'Concierge inquiries' }}</span>
-            <a href="mailto:{{ section.settings.email | default: 'concierge@vesperabotanicals.com' }}" class="concierge-card__val">
-              {{ section.settings.email | default: 'concierge@vesperabotanicals.com' }}
+            <span class="concierge-card__label">{{ 'templates.contact.form.inquiries' | t }}</span>
+            <a href="mailto:{{ section.settings.email }}" class="concierge-card__val">
+              {{ section.settings.email }}
             </a>
           </div>
 
           <div class="concierge-card">
-            <span class="concierge-card__label">{{ 'templates.contact.form.hours' | t | default: 'Consultation hours' }}</span>
-            <span class="concierge-card__val">{{ section.settings.hours | default: 'Monday – Friday, 9:00 AM – 6:00 PM EST' }}</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.hours' | t }}</span>
+            <span class="concierge-card__val">{{ section.settings.hours }}</span>
           </div>
 
           <div class="concierge-card">
-            <span class="concierge-card__label">{{ 'templates.contact.form.response_standard' | t | default: 'Response standard' }}</span>
-            <span class="concierge-card__val">{{ 'templates.contact.form.response_time' | t | default: 'Guaranteed review within 24 business hours' }}</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.response_standard' | t }}</span>
+            <span class="concierge-card__val">{{ 'templates.contact.form.response_time' | t }}</span>
           </div>
 
           <div class="concierge-card">
-            <span class="concierge-card__label">{{ 'templates.contact.form.lab' | t | default: 'Botanical research lab' }}</span>
-            <span class="concierge-card__val">{{ section.settings.location | default: 'New York &bull; London &bull; Paris' }}</span>
+            <span class="concierge-card__label">{{ 'templates.contact.form.lab' | t }}</span>
+            <span class="concierge-card__val">{{ section.settings.location }}</span>
           </div>
         </div>
       </div>
@@ -49,9 +49,9 @@
             <div class="contact-form__success" role="status" tabindex="-1" autofocus>
               <span class="contact-form__success-icon" aria-hidden="true">&check;</span>
               <div>
-                <strong>Message Dispatched.</strong>
+                <strong>{{ 'templates.contact.form.post_success_title' | t }}</strong>
                 <p class="contact-form__success-text">
-                  {{ 'templates.contact.form.post_success' | t | default: 'Thank you for contacting Vespera. Our formulation concierge will respond within 24 hours.' }}
+                  {{ 'templates.contact.form.post_success' | t }}
                 </p>
               </div>
             </div>
@@ -59,7 +59,7 @@
 
           {%- if form.errors -%}
             <div class="contact-form__error" role="alert">
-              <strong>{{ 'templates.contact.form.error_heading' | t | default: 'Please adjust the following:' }}</strong>
+              <strong>{{ 'templates.contact.form.error_heading' | t }}</strong>
               <ul>
                 {%- for field in form.errors -%}
                   <li>
@@ -74,12 +74,12 @@
             <!-- Full Name -->
             <div class="contact-form__field">
               <label for="ContactForm-name" class="contact-form__label">
-                {{ 'templates.contact.form.name' | t | default: 'Your Name' }} <span aria-hidden="true">*</span>
+                {{ 'templates.contact.form.name' | t }} <span aria-hidden="true">*</span>
               </label>
               <input 
                 type="text" 
                 id="ContactForm-name" 
-                name="contact[{{ 'templates.contact.form.name' | t | default: 'name' }}]" 
+                name="contact[{{ 'templates.contact.form.name' | t }}]" 
                 class="contact-form__input" 
                 value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
                 placeholder="Eleanor Vance"
@@ -91,7 +91,7 @@
             <!-- Email Address -->
             <div class="contact-form__field">
               <label for="ContactForm-email" class="contact-form__label">
-                {{ 'templates.contact.form.email' | t | default: 'Email Address' }} <span aria-hidden="true">*</span>
+                {{ 'templates.contact.form.email' | t }} <span aria-hidden="true">*</span>
               </label>
               <input 
                 type="email" 
@@ -113,7 +113,7 @@
             <!-- Order / Batch Number (Optional) -->
             <div class="contact-form__field">
               <label for="ContactForm-order" class="contact-form__label">
-                {{ 'templates.contact.form.phone' | t | default: 'Order Number or Batch Code' }}
+                {{ 'templates.contact.form.phone' | t }}
               </label>
               <input 
                 type="text" 
@@ -127,7 +127,7 @@
             <!-- Topic Selector -->
             <div class="contact-form__field">
               <label for="ContactForm-topic" class="contact-form__label">
-                {{ 'templates.contact.form.topic' | t | default: 'Nature of Inquiry' }}
+                {{ 'templates.contact.form.topic' | t }}
               </label>
               <select id="ContactForm-topic" name="contact[topic]" class="contact-form__select">
                 <option value="Ritual Guidance">Tailored Skincare Ritual Guidance</option>
@@ -142,12 +142,12 @@
           <!-- Message -->
           <div class="contact-form__field">
             <label for="ContactForm-body" class="contact-form__label">
-              {{ 'templates.contact.form.comment' | t | default: 'How may we assist your ritual?' }} <span aria-hidden="true">*</span>
+              {{ 'templates.contact.form.comment' | t }} <span aria-hidden="true">*</span>
             </label>
             <textarea 
               rows="6" 
               id="ContactForm-body" 
-              name="contact[{{ 'templates.contact.form.comment' | t | default: 'body' }}]" 
+              name="contact[{{ 'templates.contact.form.comment' | t }}]" 
               class="contact-form__textarea" 
               placeholder="Tell us about your skin goals, questions, or ritual needs..."
               required
@@ -155,7 +155,7 @@
           </div>
 
           <button type="submit" class="btn-primary contact-form__submit-btn">
-            {{ 'templates.contact.form.send' | t | default: 'Send Message' }} &rarr;
+            {{ 'templates.contact.form.send' | t }} &rarr;
           </button>
 
         {%- endform -%}

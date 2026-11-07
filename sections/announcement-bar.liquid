@@ -1,5 +1,5 @@
 {%- if section.settings.show_announcement -%}
-  <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement' | t | default: 'Announcement' }}" data-section-id="{{ section.id }}">
+  <div class="announcement-bar" role="region" aria-label="{{ 'sections.header.announcement' | t }}" data-section-id="{{ section.id }}">
     <div class="page-container announcement-bar__inner">
       {%- assign total_slides = section.blocks.size -%}
       {%- if total_slides > 1 -%}
@@ -24,11 +24,11 @@
           <div class="announcement-bar__slide is-active" data-index="0">
             {%- if section.settings.link != blank -%}
               <a href="{{ section.settings.link }}" class="announcement-bar__link">
-                {{ section.settings.text | default: 'Complimentary luxury samples & free worldwide shipping on orders over $75' | escape }}
+                {{ section.settings.text | escape }}
                 <span class="announcement-bar__arrow" aria-hidden="true">&rarr;</span>
               </a>
             {%- else -%}
-              <p class="announcement-bar__text">{{ section.settings.text | default: 'Complimentary luxury samples & free worldwide shipping on orders over $75' | escape }}</p>
+              <p class="announcement-bar__text">{{ section.settings.text | escape }}</p>
             {%- endif -%}
           </div>
         {%- endif -%}

@@ -66,7 +66,7 @@
               {%- endif -%}
 
               <a href="{{ article.url }}" class="main-blog__card-read-more">
-                {{ 'blog.read_more' | t | default: 'Read article' }} &rarr;
+                {{ 'blog.read_more' | t }} &rarr;
               </a>
             </div>
           </article>
@@ -74,11 +74,11 @@
       </div>
 
       {%- if paginate.pages > 1 -%}
-        <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+        <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
           <ul class="pagination__list" role="list">
             {%- if paginate.previous -%}
               <li>
-                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t }}">
                   &larr;
                 </a>
               </li>
@@ -106,7 +106,7 @@
 
             {%- if paginate.next -%}
               <li>
-                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t }}">
                   &rarr;
                 </a>
               </li>
@@ -116,7 +116,7 @@
       {%- endif -%}
     {%- else -%}
       <div class="main-blog__empty text-center">
-        <p>{{ 'blog.empty' | t | default: 'No journal articles have been published yet.' }}</p>
+        <p>{{ 'blog.empty' | t }}</p>
       </div>
     {%- endif -%}
   {%- endpaginate -%}

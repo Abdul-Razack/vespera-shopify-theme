@@ -51,23 +51,28 @@
       };
       window.theme.currencySymbol = {{ cart.currency.symbol | json }};
       window.theme.strings = {
-        addToCart: {{ 'products.product.add_to_cart' | t | default: 'Add to cart' | json }},
-        soldOut: {{ 'products.product.sold_out' | t | default: 'Sold out' | json }},
-        unavailable: {{ 'products.product.unavailable' | t | default: 'Unavailable' | json }},
-        inStock: {{ 'products.product.in_stock' | t | default: 'In stock' | json }},
-        backorder: {{ 'products.product.backorder_message' | t | default: 'Available on backorder' | json }},
-        quickAdd: {{ 'products.product.quick_add' | t | default: 'Quick add' | json }},
-        quickView: {{ 'products.product.quick_view' | t | default: 'Quick view' | json }},
-        cartEmpty: {{ 'sections.cart.empty' | t | default: 'Your cart is empty' | json }},
-        viewAll: {{ 'general.search.view_all' | t | default: 'View all results' | json }},
-        noResults: {{ 'templates.search.no_results' | t | default: 'No formulations found' | json }}
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        inStock: {{ 'products.product.in_stock' | t | json }},
+        backorder: {{ 'products.product.backorder_message' | t | json }},
+        quickAdd: {{ 'products.product.quick_add' | t | json }},
+        quickView: {{ 'products.product.quick_view' | t | json }},
+        chooseOptions: {{ 'products.product.choose_options' | t | json }},
+        viewDetails: {{ 'products.product.view_full_details' | t | json }},
+        adding: {{ 'products.product.adding' | t | json }},
+        decreaseQuantity: {{ 'products.product.decrease_quantity' | t | json }},
+        increaseQuantity: {{ 'products.product.increase_quantity' | t | json }},
+        cartEmpty: {{ 'sections.cart.empty' | t | json }},
+        viewAll: {{ 'general.search.view_all' | t | json }},
+        noResults: {{ 'templates.search.no_results' | t | json }}
       };
     </script>
   </head>
 
   <body class="template-{{ template.name | default: 'index' }}">
     <a class="skip-to-content-link" href="#MainContent">
-      {{ 'accessibility.skip_to_text' | t | default: 'Skip to content' }}
+      {{ 'accessibility.skip_to_text' | t }}
     </a>
 
     {% sections 'header-group' %}

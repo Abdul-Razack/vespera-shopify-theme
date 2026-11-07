@@ -3,7 +3,7 @@
     {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
       <div class="press-marquee__header text-center">
         {%- if section.settings.eyebrow != blank -%}
-          <span class="eyebrow">{{ section.settings.eyebrow | default: 'Editorial Accolades' | escape }}</span>
+          <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
         {%- endif -%}
         {%- if section.settings.heading != blank -%}
           <h2 class="press-marquee__title">{{ section.settings.heading | escape }}</h2>
@@ -13,51 +13,23 @@
 
     <!-- Press Quotes Grid / Carousel -->
     <div class="press-marquee__grid" id="PressMarqueeGrid-{{ section.id }}" role="list">
-      {%- if section.blocks.size > 0 -%}
-        {%- for block in section.blocks -%}
-          <article class="press-marquee__card" {{ block.shopify_attributes }} role="listitem">
-            <div class="press-marquee__rating" aria-label="5 out of 5 stars">
-              ★★★★★
-            </div>
-            <blockquote class="press-marquee__quote">
-              &ldquo;{{ block.settings.quote | escape }}&rdquo;
-            </blockquote>
-            <cite class="press-marquee__publication">
-              {{ block.settings.publication | escape }}
-            </cite>
-          </article>
-        {%- endfor -%}
-      {%- else -%}
-        <!-- Default Editorial Accolades -->
-        <article class="press-marquee__card" role="listitem">
-          <div class="press-marquee__rating" aria-label="5 out of 5 stars">★★★★★</div>
+      {%- for block in section.blocks -%}
+        <article class="press-marquee__card" {{ block.shopify_attributes }} role="listitem">
+          <div class="press-marquee__rating" aria-label="5 out of 5 stars">
+            ★★★★★
+          </div>
           <blockquote class="press-marquee__quote">
-            &ldquo;A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity.&rdquo;
+            &ldquo;{{ block.settings.quote | escape }}&rdquo;
           </blockquote>
-          <cite class="press-marquee__publication">Vogue International</cite>
+          <cite class="press-marquee__publication">
+            {{ block.settings.publication | escape }}
+          </cite>
         </article>
-
-        <article class="press-marquee__card" role="listitem">
-          <div class="press-marquee__rating" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote class="press-marquee__quote">
-            &ldquo;Clinically proven botanical precision without synthetic compromises. The new benchmark for luxury daily ritual.&rdquo;
-          </blockquote>
-          <cite class="press-marquee__publication">Harper&rsquo;s Bazaar</cite>
-        </article>
-
-        <article class="press-marquee__card" role="listitem">
-          <div class="press-marquee__rating" aria-label="5 out of 5 stars">★★★★★</div>
-          <blockquote class="press-marquee__quote">
-            &ldquo;94% moisture barrier retention backed by independent studies. Pure sustainable luxury in UV-protective glass.&rdquo;
-          </blockquote>
-          <cite class="press-marquee__publication">Allure Magazine</cite>
-        </article>
-      {%- endif -%}
+      {%- endfor -%}
     </div>
 
     <!-- Mobile Swipe Indicator Dots ($380 Commercial Luxury Benchmark) -->
     {%- assign quote_count = section.blocks.size -%}
-    {%- if quote_count == 0 -%}{%- assign quote_count = 3 -%}{%- endif -%}
     {%- if quote_count > 1 -%}
       <div class="press-marquee__indicators" id="PressMarqueeDots-{{ section.id }}" aria-hidden="true">
         {%- for i in (1..quote_count) -%}

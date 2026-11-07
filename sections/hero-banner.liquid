@@ -9,11 +9,11 @@
         {%- endif -%}
 
         <h1 id="HeroHeading-{{ section.id }}" class="hero-editorial__heading">
-          {{ section.settings.heading | default: 'Formulated to Elevate Your Natural Radiance' }}
+          {{ section.settings.heading | escape }}
         </h1>
 
         <p class="hero-editorial__subtext">
-          {{ section.settings.subtext | default: 'Pure clinical bio-actives blended with cold-pressed botanical oils. Designed for conscious daily rituals.' }}
+          {{ section.settings.subtext | escape }}
         </p>
 
         <div class="hero-editorial__actions">
@@ -56,7 +56,7 @@
           {%- else -%}
             <img 
               src="{{ 'hero-editorial.jpg' | asset_url }}" 
-              alt="{{ section.settings.heading | default: 'Vespera Botanical Skincare' | escape }}"
+              alt="{{ section.settings.heading | escape | escape }}"
               class="hero-editorial__image"
               loading="eager"
               fetchpriority="high"

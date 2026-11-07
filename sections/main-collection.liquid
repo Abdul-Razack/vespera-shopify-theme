@@ -25,7 +25,7 @@
                 aria-selected="true" 
                 data-category-filter="all"
               >
-                {{ 'collections.general.all_products' | t | default: 'All formulations' }} <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
+                {{ 'collections.general.all_products' | t }} <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
               </button>
             </li>
             {%- for type in collection.all_types -%}
@@ -72,9 +72,9 @@
         </div>
       {%- else -%}
         <div class="main-collection__empty">
-          <p>{{ 'collections.general.no_matches' | t | default: 'No formulations found in this ritual collection.' }}</p>
+          <p>{{ 'collections.general.no_matches' | t }}</p>
           <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-            {{ 'collections.general.view_all_products' | t | default: 'View all formulations' }}
+            {{ 'collections.general.view_all_products' | t }}
           </a>
         </div>
       {%- endfor -%}
@@ -82,11 +82,11 @@
 
     <!-- Pagination -->
     {%- if paginate.pages > 1 -%}
-      <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+      <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
         <ul class="pagination__list" role="list">
           {%- if paginate.previous -%}
             <li>
-              <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+              <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t }}">
                 &larr;
               </a>
             </li>
@@ -112,7 +112,7 @@
 
           {%- if paginate.next -%}
             <li>
-              <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+              <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t }}">
                 &rarr;
               </a>
             </li>

@@ -42,9 +42,9 @@
             {%- when 'vendor' -%}
               <p class="main-product__vendor" {{ block.shopify_attributes }}>
                 {%- if block.settings.show_vendor and product.vendor != blank -%}
-                  {{ product.vendor | escape }} &bull; {{ 'products.product.clinical_grade' | t | default: 'Clinical Botany' }}
+                  {{ product.vendor | escape }} &bull; {{ 'products.product.clinical_grade' | t }}
                 {%- else -%}
-                  VESPERA &bull; {{ 'products.product.clinical_grade' | t | default: 'Conscious Formulation' }}
+                  VESPERA &bull; {{ 'products.product.clinical_grade' | t }}
                 {%- endif -%}
               </p>
 
@@ -71,7 +71,7 @@
                   data-unit-price-wrapper
                   {% unless current_variant.unit_price_measurement %}style="display: none;"{% endunless %}
                 >
-                  <span class="visually-hidden">{{ 'products.product.unit_price_label' | t | default: 'Unit price' }}:</span>
+                  <span class="visually-hidden">{{ 'products.product.unit_price_label' | t }}:</span>
                   <span data-unit-price>{{ current_variant.unit_price | money }}</span>
                   <span aria-hidden="true">/</span>
                   <span data-unit-price-base>
@@ -86,10 +86,10 @@
                 {%- if cart.taxes_included or shop.shipping_policy.body != blank -%}
                   <span class="main-product__tax-note">
                     {%- if cart.taxes_included -%}
-                      {{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}
+                      {{ 'products.product.include_taxes' | t }}
                     {%- endif -%}
                     {%- if shop.shipping_policy.body != blank -%}
-                      {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url | default: 'Shipping calculated at checkout.' }}
+                      {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
                     {%- endif -%}
                   </span>
                 {%- endif -%}
@@ -98,13 +98,13 @@
                 <div class="main-product__stock-status">
                   {%- if current_variant.available and current_variant.inventory_policy == 'continue' and current_variant.inventory_quantity <= 0 -%}
                     <span class="stock-dot stock-dot--backorder" data-stock-dot></span>
-                    <span class="stock-text" data-stock-text>{{ 'products.product.backorder_message' | t | default: 'Available on backorder' }}</span>
+                    <span class="stock-text" data-stock-text>{{ 'products.product.backorder_message' | t }}</span>
                   {%- elsif current_variant.available -%}
                     <span class="stock-dot stock-dot--in" data-stock-dot></span>
-                    <span class="stock-text" data-stock-text>{{ 'products.product.in_stock' | t | default: 'In stock — Small-batch release' }}</span>
+                    <span class="stock-text" data-stock-text>{{ 'products.product.in_stock' | t }}</span>
                   {%- else -%}
                     <span class="stock-dot stock-dot--out" data-stock-dot></span>
-                    <span class="stock-text" data-stock-text>{{ 'products.product.sold_out' | t | default: 'Currently out of stock' }}</span>
+                    <span class="stock-text" data-stock-text>{{ 'products.product.sold_out' | t }}</span>
                   {%- endif -%}
                 </div>
               </div>
@@ -120,10 +120,10 @@
             {%- when 'quantity' -%}
               <div class="main-product__qty-group" {{ block.shopify_attributes }}>
                 <label for="Quantity-{{ section.id }}" class="main-product__qty-label">
-                  {{ 'products.product.quantity' | t | default: 'Quantity' }}
+                  {{ 'products.product.quantity' | t }}
                 </label>
                 <div class="main-product__qty-stepper">
-                  <button type="button" class="main-product__qty-btn" data-product-qty-minus aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease quantity' }}">&minus;</button>
+                  <button type="button" class="main-product__qty-btn" data-product-qty-minus aria-label="{{ 'products.product.decrease_quantity' | t }}">&minus;</button>
                   <input 
                     type="number" 
                     id="Quantity-{{ section.id }}" 
@@ -134,7 +134,7 @@
                     data-product-qty-input
                     form="ProductForm-{{ section.id }}"
                   >
-                  <button type="button" class="main-product__qty-btn" data-product-qty-plus aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase quantity' }}">&plus;</button>
+                  <button type="button" class="main-product__qty-btn" data-product-qty-plus aria-label="{{ 'products.product.increase_quantity' | t }}">&plus;</button>
                 </div>
               </div>
 
@@ -199,7 +199,7 @@
                 <div class="main-product__accordion-content">
                   {%- if block.settings.key_bioactives != blank -%}
                     <div class="clinical-bioactives-list">
-                      <span class="clinical-bioactives-label">Key Bio-Actives:</span>
+                      <span class="clinical-bioactives-label">{{ 'products.product.key_bio_actives' | t }}</span>
                       <span class="clinical-bioactives-text">{{ block.settings.key_bioactives | escape }}</span>
                     </div>
                   {%- endif -%}
@@ -258,7 +258,7 @@
         >
       {%- endif -%}
       <div class="sticky-buy-dock__text">
-        <span class="sticky-buy-dock__category">{{ product.type | default: 'Botanical Formulation' }}</span>
+        <span class="sticky-buy-dock__category">{{ product.type }}</span>
         <p class="sticky-buy-dock__title">{{ product.title | escape }}</p>
       </div>
     </div>
@@ -266,14 +266,14 @@
     <div class="sticky-buy-dock__center">
       {%- unless product.has_only_default_variant -%}
         <div class="sticky-buy-dock__select-wrap">
-          <select class="sticky-buy-dock__select" id="StickyVariantSelect" aria-label="{{ 'products.product.select_variant' | t | default: 'Select variant' }}">
+          <select class="sticky-buy-dock__select" id="StickyVariantSelect" aria-label="{{ 'products.product.select_variant' | t }}">
             {%- for variant in product.variants -%}
               <option 
                 value="{{ variant.id }}"
                 {% if variant == current_variant %}selected="selected"{% endif %}
                 {% unless variant.available %}disabled="disabled"{% endunless %}
               >
-                {{ variant.title }} &bull; {{ variant.price | money }} {%- unless variant.available %} ({{ 'products.product.sold_out' | t | default: 'Sold Out' }}){%- endunless -%}
+                {{ variant.title }} &bull; {{ variant.price | money }} {%- unless variant.available %} ({{ 'products.product.sold_out' | t }}){%- endunless -%}
               </option>
             {%- endfor -%}
           </select>
@@ -286,9 +286,9 @@
 
     <div class="sticky-buy-dock__actions">
       <div class="sticky-buy-dock__qty">
-        <button type="button" class="sticky-buy-dock__qty-btn" id="StickyQtyMinus" aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease quantity' }}">&minus;</button>
+        <button type="button" class="sticky-buy-dock__qty-btn" id="StickyQtyMinus" aria-label="{{ 'products.product.decrease_quantity' | t }}">&minus;</button>
         <span class="sticky-buy-dock__qty-val" id="StickyQtyVal">1</span>
-        <button type="button" class="sticky-buy-dock__qty-btn" id="StickyQtyPlus" aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase quantity' }}">&plus;</button>
+        <button type="button" class="sticky-buy-dock__qty-btn" id="StickyQtyPlus" aria-label="{{ 'products.product.increase_quantity' | t }}">&plus;</button>
       </div>
 
       <button 
@@ -298,9 +298,9 @@
         {% unless current_variant.available %}disabled="disabled"{% endunless %}
       >
         {%- if current_variant.available -%}
-          {{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}
+          {{ 'products.product.add_to_cart' | t }}
         {%- else -%}
-          {{ 'products.product.sold_out' | t | default: 'Sold out' }}
+          {{ 'products.product.sold_out' | t }}
         {%- endif -%}
       </button>
     </div>

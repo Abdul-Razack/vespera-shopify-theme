@@ -46,7 +46,7 @@
                         <span class="facet-disclosure__selected">{{ filter.active_values.size }} selected</span>
                         {%- if filter.active_values.size > 0 -%}
                           <a href="{{ filter.url_to_remove }}" class="facet-disclosure__reset" data-facet-reset>
-                            {{ 'collections.filtering.reset' | t | default: 'Reset' }}
+                            {{ 'collections.filtering.reset' | t }}
                           </a>
                         {%- endif -%}
                       </div>
@@ -101,7 +101,7 @@
                         </span>
                         {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
                           <a href="{{ filter.url_to_remove }}" class="facet-disclosure__reset" data-facet-reset>
-                            {{ 'collections.filtering.reset' | t | default: 'Reset' }}
+                            {{ 'collections.filtering.reset' | t }}
                           </a>
                         {%- endif -%}
                       </div>
@@ -148,7 +148,7 @@
                         </div>
 
                         <button type="submit" class="btn-secondary facet-price-submit">
-                          {{ 'collections.filtering.apply' | t | default: 'Apply' }}
+                          {{ 'collections.filtering.apply' | t }}
                         </button>
                       </div>
                     </div>
@@ -217,7 +217,7 @@
 
     <!-- Active Filters Chips Bar -->
     {%- if total_active_values > 0 -%}
-      <div class="facets__active-chips" role="region" aria-label="{{ 'collections.filtering.active_filters' | t | default: 'Active filters' }}">
+      <div class="facets__active-chips" role="region" aria-label="{{ 'collections.filtering.active_filters' | t }}">
         {%- for filter in results.filters -%}
           {%- for value in filter.active_values -%}
             <a href="{{ value.url_to_remove }}" class="facet-chip" aria-label="Remove {{ filter.label }}: {{ value.label }}">
@@ -239,7 +239,7 @@
         {%- endfor -%}
 
         <a href="{{ results.url }}" class="facets__clear-all">
-          {{ 'collections.filtering.clear_all' | t | default: 'Clear all' }}
+          {{ 'collections.filtering.clear_all' | t }}
         </a>
       </div>
     {%- endif -%}

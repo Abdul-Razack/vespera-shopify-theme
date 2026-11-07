@@ -13,7 +13,7 @@
         {%- if section.settings.eyebrow != blank -%}
           <span class="main-list-collections__eyebrow">{{ section.settings.eyebrow | escape }}</span>
         {%- endif -%}
-        <h1 class="main-list-collections__title">{{ section.settings.title | default: 'All Collections' | escape }}</h1>
+        <h1 class="main-list-collections__title">{{ section.settings.title | escape }}</h1>
         {%- if section.settings.subtitle != blank -%}
           <p class="main-list-collections__subtitle">{{ section.settings.subtitle | escape }}</p>
         {%- endif -%}
@@ -75,9 +75,9 @@
           </div>
         {%- else -%}
           <div class="main-list-collections__empty text-center">
-            <p>{{ 'collections.general.no_matches' | t | default: 'No collections found in this store.' }}</p>
+            <p>{{ 'collections.general.no_matches' | t }}</p>
             <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-              {{ 'general.continue_shopping' | t | default: 'View All Formulations' }}
+              {{ 'general.continue_shopping' | t }}
             </a>
           </div>
         {%- endfor -%}
@@ -85,11 +85,11 @@
 
       <!-- Pagination -->
       {%- if paginate.pages > 1 -%}
-        <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+        <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
           <ul class="pagination__list" role="list">
             {%- if paginate.previous -%}
               <li>
-                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t }}">
                   &larr;
                 </a>
               </li>
@@ -115,7 +115,7 @@
 
             {%- if paginate.next -%}
               <li>
-                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t }}">
                   &rarr;
                 </a>
               </li>
@@ -134,7 +134,7 @@
       {%- if section.settings.eyebrow != blank -%}
         <span class="main-list-collections__eyebrow">{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
-      <h1 class="main-list-collections__title">{{ section.settings.title | default: 'All Collections' | escape }}</h1>
+      <h1 class="main-list-collections__title">{{ section.settings.title | escape }}</h1>
       {%- if section.settings.subtitle != blank -%}
         <p class="main-list-collections__subtitle">{{ section.settings.subtitle | escape }}</p>
       {%- endif -%}
@@ -207,7 +207,7 @@
         {%- endif -%}
       {%- else -%}
         <div class="main-list-collections__empty text-center">
-          <p>{{ 'collections.general.no_matches' | t | default: 'No collections selected. Add collection blocks in the theme editor.' }}</p>
+          <p>{{ 'collections.general.no_matches' | t }}</p>
         </div>
       {%- endfor -%}
     </div>

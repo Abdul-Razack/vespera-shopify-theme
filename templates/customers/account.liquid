@@ -12,7 +12,7 @@
         <span class="eyebrow">{{ 'customers.account.eyebrow' | t }}</span>
         <h1 class="customer-dashboard__title font-heading">{{ 'customers.account.title' | t }}</h1>
         <p class="customer-dashboard__welcome">
-          Welcome back, {{ customer.name | default: 'Patron' }} &bull;
+          {{ 'customers.account.welcome' | t: name: customer.name }} &bull;
           <a href="{{ routes.account_logout_url }}" class="customer-dashboard__logout-link">
             {{ 'customers.account.log_out' | t }}
           </a>
@@ -99,7 +99,7 @@
 
           <div class="customer-dashboard__address-details">
             {%- if customer.default_address -%}
-              <span class="status-badge status-badge--primary mb-2">{{ 'customers.addresses.default' | t | default: 'Default address' }}</span>
+              <span class="status-badge status-badge--primary mb-2">{{ 'customers.addresses.default' | t }}</span>
               <p class="customer-dashboard__address-line font-medium">{{ customer.default_address.name }}</p>
               <p class="customer-dashboard__address-line">{{ customer.default_address.company }}</p>
               <p class="customer-dashboard__address-line">{{ customer.default_address.address1 }}</p>

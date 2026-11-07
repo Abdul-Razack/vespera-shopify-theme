@@ -15,7 +15,7 @@
         <span class="section-eyebrow">{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
       <h2 class="section-title">
-        {{ section.settings.heading | default: 'Recommended Formulations' | escape }}
+        {{ section.settings.heading | escape }}
       </h2>
       {%- if section.settings.subtitle != blank -%}
         <p class="section-subtitle">{{ section.settings.subtitle | escape }}</p>

@@ -7,7 +7,10 @@
     "header": {
       "announcement": "Announcement",
       "menu": "Menu",
-      "main_menu": "Main menu"
+      "main_menu": "Main menu",
+      "shop": "Shop skincare",
+      "collections": "Collections",
+      "contact": "Contact"
     },
     "cart": {
       "close_drawer": "Close cart drawer",
@@ -30,6 +33,12 @@
     "collection_list": {
       "default_title": "Botanical category",
       "explore": "Explore"
+    },
+    "footer": {
+      "all_products": "All formulations",
+      "collections": "Ritual sets",
+      "search": "Search catalog",
+      "customer_care": "Customer care"
     }
   },
   "templates": {
@@ -83,7 +92,8 @@
         "hours": "Consultation hours",
         "response_standard": "Response standard",
         "response_time": "Guaranteed review within 24 business hours",
-        "lab": "Botanical research lab"
+        "lab": "Botanical research lab",
+        "post_success_title": "Message dispatched."
       }
     }
   },
@@ -153,7 +163,9 @@
         "shipping": "Shipping and Returns"
       },
       "quick_view": "Quick view",
-      "unavailable": "Unavailable"
+      "unavailable": "Unavailable",
+      "adding": "Adding...",
+      "key_bio_actives": "Key bio-actives:"
     }
   },
   "404": {
@@ -217,7 +229,8 @@
       "account_details": "Account Details",
       "view_addresses": "Manage Addresses",
       "return_to_store": "Explore Formulations",
-      "log_out": "Sign out"
+      "log_out": "Sign out",
+      "welcome": "Welcome back, {{ name }}"
     },
     "order": {
       "title": "Order {{ name }}",
@@ -333,7 +346,9 @@
     "label": "Subscribe",
     "subtext": "Receive our seasonal formulary notes and private invitations.",
     "email_placeholder": "Enter your email",
-    "button_label": "Join"
+    "button_label": "Join",
+    "success_title": "Welcome to the Vespera circle",
+    "success_text": "Your invitation and formula access details have been dispatched to your inbox."
   },
   "localization": {
     "country_label": "Country/region",
