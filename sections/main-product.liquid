@@ -494,7 +494,7 @@
     const stickyQtyMinus = document.getElementById('StickyQtyMinus');
     const stickyQtyPlus = document.getElementById('StickyQtyPlus');
     const stickyQtyVal = document.getElementById('StickyQtyVal');
-    const addBtn = section.querySelector('[data-add-to-cart-btn]');
+    const addBtn = section.querySelector('[data-add-to-cart-btn]') || section.querySelector('button[name="add"]');
     const qtyInput = section.querySelector('[data-product-qty-input]');
 
     section.addEventListener('vespera:variant:change', (e) => {
