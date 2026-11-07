@@ -120,10 +120,13 @@
       // Shopify Theme Editor Integration (Shopify Section 14 - F-25)
       document.addEventListener('shopify:section:load', function(event) {
         const container = event.target;
-        if (container.querySelector('product-variant-picker')) {
-          const picker = container.querySelector('product-variant-picker');
-          if (picker && typeof picker.init === 'function') picker.init();
-        }
+        // Re-init Variant Picker
+        container.querySelectorAll('[data-variant-picker-container]').forEach(el => {
+          if (window.Vespera && window.Vespera.VariantPicker) {
+            new window.Vespera.VariantPicker(el);
+          }
+        });
+        // Re-fetch Product Recommendations if section reloaded in editor
         const recSection = container.querySelector('.product-recommendations');
         if (recSection && recSection.dataset.url) {
           fetch(recSection.dataset.url)
@@ -137,11 +140,46 @@
             .catch(() => {});
         }
       });
+
+      document.addEventListener('shopify:section:unload', function(event) {
+        const container = event.target;
+        // Teardown Variant Picker instances
+        container.querySelectorAll('[data-variant-picker-container]').forEach(el => {
+          if (el._variantPickerInstance && typeof el._variantPickerInstance.destroy === 'function') {
+            el._variantPickerInstance.destroy();
+          }
+        });
+        // Close Cart Drawer if unloaded
+        const cartDrawer = container.querySelector('cart-drawer');
+        if (cartDrawer && typeof cartDrawer.close === 'function') {
+          cartDrawer.close();
+        }
+        // Close Quick View if open
+        const quickViewModal = document.getElementById('QuickViewModal');
+        if (quickViewModal && quickViewModal.getAttribute('aria-hidden') === 'false') {
+          const closeBtn = document.getElementById('QuickViewClose');
+          if (closeBtn) closeBtn.click();
+        }
+      });
+
       document.addEventListener('shopify:section:select', function(event) {
         event.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
+
+      document.addEventListener('shopify:section:deselect', function(event) {
+        // Clean up any temporary editor outlines or focus states
+      });
+
       document.addEventListener('shopify:block:select', function(event) {
         event.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+
+      document.addEventListener('shopify:block:deselect', function(event) {
+        // Clean up any block-specific focus states
+      });
+
+      document.addEventListener('shopify:section:reorder', function(event) {
+        // Handled via natural DOM tree updates
       });
     </script>
   </body>

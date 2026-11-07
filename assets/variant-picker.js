@@ -42,6 +42,8 @@
       this.dynamicCheckoutEl = container.querySelector('[data-dynamic-checkout]');
       this.mediaGallery = container.querySelector('[data-gallery]');
 
+      container._variantPickerInstance = this;
+      this.boundUpdateState = () => this.updateState();
       this.optionGroups = Array.from(container.querySelectorAll('[data-option-index]'));
       this.bindEvents();
       this.updateState();
@@ -51,9 +53,23 @@
       this.optionGroups.forEach(group => {
         const inputs = group.querySelectorAll('input[type="radio"], select');
         inputs.forEach(input => {
-          input.addEventListener('change', () => this.updateState());
+          input.addEventListener('change', this.boundUpdateState);
         });
       });
+    }
+
+    destroy() {
+      if (this.optionGroups) {
+        this.optionGroups.forEach(group => {
+          const inputs = group.querySelectorAll('input[type="radio"], select');
+          inputs.forEach(input => {
+            input.removeEventListener('change', this.boundUpdateState);
+          });
+        });
+      }
+      if (this.container) {
+        delete this.container._variantPickerInstance;
+      }
     }
 
     getSelectedOptions() {
@@ -296,6 +312,15 @@
   document.addEventListener('shopify:section:load', (e) => {
     e.target.querySelectorAll('[data-variant-picker-container]').forEach(el => {
       new VariantPicker(el);
+    });
+  });
+
+  // Clean up on Shopify Section Unload in Theme Editor (F-25)
+  document.addEventListener('shopify:section:unload', (e) => {
+    e.target.querySelectorAll('[data-variant-picker-container]').forEach(el => {
+      if (el._variantPickerInstance && typeof el._variantPickerInstance.destroy === 'function') {
+        el._variantPickerInstance.destroy();
+      }
     });
   });
 })();
