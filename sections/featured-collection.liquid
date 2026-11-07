@@ -38,7 +38,8 @@
             {% render 'product-card',
                product: product,
                show_secondary_image: section.settings.show_secondary_image,
-               show_vendor: section.settings.show_vendor
+               show_vendor: section.settings.show_vendor,
+               card_heading_level: 'h3'
             %}
           </div>
         {%- endfor -%}

@@ -109,11 +109,12 @@
         <span class="product-card__vendor">{{ product.vendor | escape }}</span>
       {%- endif -%}
 
-      <h3 id="ProductTitle-{{ product.id }}" class="product-card__title">
+      {%- assign card_heading_tag = card_heading_level | default: 'h2' -%}
+      <{{ card_heading_tag }} id="ProductTitle-{{ product.id }}" class="product-card__title">
         <a href="{{ product.url }}" class="product-card__title-link">
           {{ product.title | escape }}
         </a>
-      </h3>
+      </{{ card_heading_tag }}>
 
       <!-- Price Block (F-22 "From" price) -->
       <div class="product-card__price-wrapper">

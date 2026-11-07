@@ -54,9 +54,9 @@
             <div class="search-result-article product-card">
               <div class="product-card__content">
                 <p class="product-card__vendor">{{ item.object_type | capitalize }}</p>
-                <h3 class="product-card__title">
+                <h2 class="product-card__title">
                   <a href="{{ item.url }}" class="product-card__title-link">{{ item.title | escape }}</a>
-                </h3>
+                </h2>
                 <p class="search-result-article__summary">{{ item.content | strip_html | truncatewords: 20 }}</p>
               </div>
             </div>

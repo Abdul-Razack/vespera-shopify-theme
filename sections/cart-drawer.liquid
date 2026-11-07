@@ -149,13 +149,13 @@
     {%- if section.settings.enable_upsells and upsell_collection != blank and upsell_collection.products_count > 0 -%}
       <div class="cart-drawer__upsell-wrap">
         <div class="cart-drawer__upsell-header">
-          <span class="cart-drawer__upsell-title">
+          <h3 class="cart-drawer__upsell-title">
             {%- if cart.empty? -%}
               {{ 'templates.cart.curated_rituals' | t | escape }}
             {%- else -%}
               {{ section.settings.upsell_heading | escape }}
             {%- endif -%}
-          </span>
+          </h3>
           <span class="cart-drawer__upsell-badge">
             {%- if cart.empty? -%}Popular{%- else -%}Pairs well{%- endif -%}
           </span>
@@ -191,9 +191,9 @@
                 </div>
 
                 <div class="cart-drawer__upsell-details">
-                  <h4 class="cart-drawer__upsell-product-title">
+                  <p class="cart-drawer__upsell-product-title">
                     <a href="{{ product.url }}" class="cart-drawer__upsell-link">{{ product.title | escape }}</a>
-                  </h4>
+                  </p>
                   <span class="cart-drawer__upsell-price">{{ first_variant.price | money }}</span>
                 </div>
 

@@ -157,7 +157,7 @@
             {%- when 'description' -%}
               {%- if product.description != blank -%}
                 <div class="main-product__description rte" {{ block.shopify_attributes }}>
-                  {{ product.description }}
+                  {{ product.description | replace: '<h4>', '<h2 class="h4">' | replace: '</h4>', '</h2>' | replace: '<h5>', '<h3 class="h5">' | replace: '</h5>', '</h3>' }}
                 </div>
               {%- endif -%}
 
