@@ -408,7 +408,7 @@ button {
 .main-product__featured-wrapper {
   position: relative;
   aspect-ratio: 3 / 4;
-  background-color: #F4F1EA;
+  background-color: var(--color-bg-subtle, #F4F1EA);
   overflow: hidden;
   border-radius: var(--radius-sm);
   cursor: zoom-in;
@@ -1671,7 +1671,7 @@ button {
 }
 
 .main-cart__summary-card {
-  background-color: #F8F6F2;
+  background-color: var(--color-surface, #F8F6F2);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   padding: var(--space-6);
@@ -2035,7 +2035,7 @@ button {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-sm);
   padding: var(--space-2);
-  background-color: #FFFFFF;
+  background-color: var(--color-surface, #FFFFFF);
 }
 
 .facet-price-currency {
@@ -2234,7 +2234,7 @@ button {
   width: 100%;
   overflow: hidden;
   border-radius: var(--radius-sm);
-  background-color: #FFFFFF;
+  background-color: var(--color-surface, #FFFFFF);
   border: 1px solid var(--color-border);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
   margin-bottom: var(--space-4);

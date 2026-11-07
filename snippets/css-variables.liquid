@@ -13,6 +13,9 @@
     {{ settings.type_header_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
   {%- endif -%}
 
+  {%- assign bg_color = settings.color_background | default: '#FAF8F5' -%}
+  {%- assign bg_brightness = bg_color | color_brightness -%}
+
   :root {
     {%- if settings.type_header_font != blank -%}
       --font-serif: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
@@ -39,11 +42,33 @@
     --font-heading-family: var(--font-serif);
     --font-body-family: var(--font-sans);
 
-    --color-bg: {{ settings.color_background | default: '#FAF8F5' }};
-    --color-background: {{ settings.color_background | default: '#FAF8F5' }};
+    --color-bg: {{ bg_color }};
+    --color-background: {{ bg_color }};
     --color-text: {{ settings.color_text | default: '#191817' }};
     --color-foreground: {{ settings.color_text | default: '#191817' }};
     --color-accent: {{ settings.color_accent | default: '#8C5942' }};
     --color-border: {{ settings.color_border | default: '#E8E4DD' }};
+
+    {%- if bg_brightness < 128 -%}
+      --color-surface: #1E1D1A;
+      --color-bg-subtle: #191816;
+      --color-text-muted: #A8A39D;
+      --color-focus: {{ settings.color_accent | default: '#C5A880' }};
+      --color-border-dark: #76716B;
+      --color-sale: #E07A5F;
+      --color-badge-bg: #2A2826;
+      --color-overlay-text: #FFFFFF;
+      --color-placeholder: #8C8780;
+    {%- else -%}
+      --color-surface: #FFFFFF;
+      --color-bg-subtle: #F2EFE9;
+      --color-text-muted: #6B6661;
+      --color-focus: #191817;
+      --color-border-dark: #76726B;
+      --color-sale: #8E3A2B;
+      --color-badge-bg: #EAE5DC;
+      --color-overlay-text: #FFFFFF;
+      --color-placeholder: #6B6661;
+    {%- endif -%}
   }
 {% endstyle %}
