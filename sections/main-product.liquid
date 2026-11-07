@@ -602,6 +602,13 @@
 
           // Synchronize Sticky Buy Dock
           syncStickyBar(matchedVariant, formattedPrice);
+
+          // Update URL with selected variant parameter
+          if (window.history && window.history.replaceState) {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('variant', matchedVariant.id);
+            window.history.replaceState({ variantId: matchedVariant.id }, '', newUrl.toString());
+          }
         }
       });
     });
