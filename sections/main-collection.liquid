@@ -247,7 +247,12 @@
   }
   .category-pill__count {
     font-size: 11px;
-    opacity: 0.75;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+  .category-pill--active .category-pill__count,
+  .category-pill[aria-selected="true"] .category-pill__count {
+    color: var(--color-surface);
   }
 </style>
 
