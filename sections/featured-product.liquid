@@ -1,0 +1,277 @@
+{%- comment -%}
+  Vespera Theme - Featured Product Section (Online Store 2.0)
+  High-converting hero product showcase built on shared snippets.
+  Supports @app blocks, Custom Liquid, rich media, and modular blocks.
+{%- endcomment -%}
+
+<script src="{{ 'variant-picker.js' | asset_url }}" defer="defer"></script>
+
+{%- assign product = all_products[section.settings.product] -%}
+
+<div class="featured-product page-container section-spacing" data-section-id="{{ section.id }}">
+  {%- if product != empty and product != blank -%}
+    {%- assign current_variant = product.selected_or_first_available_variant -%}
+    {%- assign featured_media = current_variant.featured_media | default: product.featured_media -%}
+
+    <div 
+      class="main-product__layout"
+      data-variant-picker-container
+      data-section-id="{{ section.id }}"
+      data-product-id="{{ product.id }}"
+    >
+      <!-- Media Gallery -->
+      <div class="main-product__media-col">
+        {% render 'product-media-gallery', 
+          product: product, 
+          section_id: section.id, 
+          featured_media: featured_media,
+          enable_zoom: false 
+        %}
+      </div>
+
+      <!-- Info Column with Blocks -->
+      <div class="main-product__info-col">
+        <div class="main-product__info-stack">
+          {%- for block in section.blocks -%}
+            {%- case block.type -%}
+              {%- when '@app' -%}
+                <div class="featured-product__app-block" {{ block.shopify_attributes }}>
+                  {% render block %}
+                </div>
+
+              {%- when 'vendor' -%}
+                <p class="main-product__vendor" {{ block.shopify_attributes }}>
+                  {{ product.vendor | default: 'VESPERA' | escape }} &bull; {{ 'products.product.clinical_grade' | t | default: 'Clinical Botany' }}
+                </p>
+
+              {%- when 'title' -%}
+                <div class="main-product__title-wrap" {{ block.shopify_attributes }}>
+                  <h2 class="main-product__title">
+                    <a href="{{ product.url }}" class="link-unstyled">{{ product.title | escape }}</a>
+                  </h2>
+                </div>
+
+              {%- when 'price' -%}
+                <div class="main-product__price-wrap" id="Price-{{ section.id }}" role="status" {{ block.shopify_attributes }}>
+                  <span class="main-product__price" data-regular-price>{{ current_variant.price | money }}</span>
+                  <span 
+                    class="main-product__compare-price" 
+                    data-compare-price 
+                    {% unless current_variant.compare_at_price > current_variant.price %}style="display: none;"{% endunless %}
+                  >
+                    {{ current_variant.compare_at_price | money }}
+                  </span>
+
+                  <!-- Unit Pricing (F-08) -->
+                  <div 
+                    class="main-product__unit-price" 
+                    data-unit-price-wrapper
+                    {% unless current_variant.unit_price_measurement %}style="display: none;"{% endunless %}
+                  >
+                    <span data-unit-price>{{ current_variant.unit_price | money }}</span>
+                    <span aria-hidden="true">/</span>
+                    <span data-unit-price-base>
+                      {%- if current_variant.unit_price_measurement.reference_value != 1 -%}
+                        {{- current_variant.unit_price_measurement.reference_value -}}
+                      {%- endif -%}
+                      {{ current_variant.unit_price_measurement.reference_unit }}
+                    </span>
+                  </div>
+
+                  <!-- Tax Notice -->
+                  {%- if cart.taxes_included -%}
+                    <span class="main-product__tax-note">{{ 'products.product.include_taxes' | t | default: 'Taxes included.' }}</span>
+                  {%- endif -%}
+
+                  <!-- Stock Status (F-32) -->
+                  <div class="main-product__stock-status">
+                    {%- if current_variant.available and current_variant.inventory_policy == 'continue' and current_variant.inventory_quantity <= 0 -%}
+                      <span class="stock-dot stock-dot--backorder" data-stock-dot></span>
+                      <span class="stock-text" data-stock-text>{{ 'products.product.backorder_message' | t | default: 'Available on backorder' }}</span>
+                    {%- elsif current_variant.available -%}
+                      <span class="stock-dot stock-dot--in" data-stock-dot></span>
+                      <span class="stock-text" data-stock-text>{{ 'products.product.in_stock' | t | default: 'In stock — Small-batch release' }}</span>
+                    {%- else -%}
+                      <span class="stock-dot stock-dot--out" data-stock-dot></span>
+                      <span class="stock-text" data-stock-text>{{ 'products.product.sold_out' | t | default: 'Currently out of stock' }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+              {%- when 'variant_picker' -%}
+                <div class="main-product__variant-picker-wrap" {{ block.shopify_attributes }}>
+                  {% render 'product-variant-picker', product: product, section_id: section.id %}
+                </div>
+
+              {%- when 'quantity' -%}
+                <div class="main-product__qty-group" {{ block.shopify_attributes }}>
+                  <label for="Quantity-{{ section.id }}" class="main-product__qty-label">
+                    {{ 'products.product.quantity' | t | default: 'Quantity' }}
+                  </label>
+                  <div class="main-product__qty-stepper">
+                    <button type="button" class="main-product__qty-btn" data-product-qty-minus aria-label="{{ 'products.product.decrease_quantity' | t | default: 'Decrease quantity' }}">&minus;</button>
+                    <input 
+                      type="number" 
+                      id="Quantity-{{ section.id }}" 
+                      name="quantity" 
+                      value="1" 
+                      min="1" 
+                      class="main-product__qty-input"
+                      data-product-qty-input
+                      form="ProductForm-{{ section.id }}"
+                    >
+                    <button type="button" class="main-product__qty-btn" data-product-qty-plus aria-label="{{ 'products.product.increase_quantity' | t | default: 'Increase quantity' }}">&plus;</button>
+                  </div>
+                </div>
+
+              {%- when 'buy_buttons' -%}
+                <div class="main-product__buy-buttons-wrap" {{ block.shopify_attributes }}>
+                  {% render 'product-buy-buttons', 
+                    product: product, 
+                    section_id: section.id, 
+                    show_dynamic_checkout: block.settings.show_dynamic_checkout,
+                    show_gift_card_recipient: block.settings.show_gift_card_recipient,
+                    block_attributes: block.shopify_attributes 
+                  %}
+                </div>
+
+              {%- when 'description' -%}
+                {%- if product.description != blank -%}
+                  <div class="main-product__description rte" {{ block.shopify_attributes }}>
+                    {{ product.description | truncatewords: 40 }}
+                    <p style="margin-top: var(--space-2);">
+                      <a href="{{ product.url }}" class="link-underline">{{ 'products.product.view_full_details' | t | default: 'View full details' }} &rarr;</a>
+                    </p>
+                  </div>
+                {%- endif -%}
+
+              {%- when 'custom_liquid' -%}
+                <div class="featured-product__custom-liquid" {{ block.shopify_attributes }}>
+                  {{ block.settings.custom_liquid }}
+                </div>
+            {%- endcase -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden Product Variant Data for Variant Picker Controller -->
+    <script type="application/json" data-product-variants-json id="ProductJson-{{ section.id }}">
+      {{ product.variants | json }}
+    </script>
+  {%- else -%}
+    <!-- Onboarding State -->
+    <div class="main-product__layout">
+      <div class="main-product__media-col">
+        <div class="product-media-gallery__placeholder">
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+        </div>
+      </div>
+      <div class="main-product__info-col">
+        <div class="main-product__info-stack">
+          <p class="main-product__vendor">VESPERA &bull; Botanical Formulation</p>
+          <h2 class="main-product__title">{{ 'onboarding.product_title' | t | default: 'Featured Botanical Formulation' }}</h2>
+          <div class="main-product__price-wrap">
+            <span class="main-product__price">$85.00</span>
+          </div>
+          <p class="main-product__description rte">Select a product in the theme editor to showcase this luxury botanical formulation.</p>
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% schema %}
+{
+  "name": "Featured product",
+  "tag": "section",
+  "class": "section-featured-product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "limit": 1
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "limit": 1
+    },
+    {
+      "type": "quantity",
+      "name": "Quantity selector",
+      "limit": 1
+    },
+    {
+      "type": "buy_buttons",
+      "name": "Buy buttons",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_dynamic_checkout",
+          "label": "Show dynamic checkout button",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_gift_card_recipient",
+          "label": "Show recipient information form for gift cards",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1
+    },
+    {
+      "type": "custom_liquid",
+      "name": "Custom Liquid",
+      "settings": [
+        {
+          "type": "liquid",
+          "id": "custom_liquid",
+          "label": "Custom Liquid",
+          "info": "Add custom app integrations or Liquid code."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured product",
+      "blocks": [
+        { "type": "vendor" },
+        { "type": "title" },
+        { "type": "price" },
+        { "type": "variant_picker" },
+        { "type": "quantity" },
+        { "type": "buy_buttons" },
+        { "type": "description" }
+      ]
+    }
+  ]
+}
+{% endschema %}

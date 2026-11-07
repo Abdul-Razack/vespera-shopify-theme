@@ -1,0 +1,150 @@
+{%- comment -%}
+  Vespera Theme - Shared Product Buy Buttons Snippet
+  Handles: Product Form, Selling Plans, Gift Card Recipient, Shop Pay Installments, Dynamic Checkout.
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign product_form_id = 'ProductForm-' | append: section_id -%}
+
+<div class="product-buy-buttons" {{ block_attributes }}>
+  {%- form 'product', product, id: product_form_id, class: 'product-buy-buttons__form' -%}
+    <input type="hidden" name="id" value="{{ current_variant.id }}" data-selected-variant-id>
+
+    {%- comment -%} Selling Plans (Subscriptions - F-10) {%- endcomment -%}
+    {%- if product.selling_plan_groups.size > 0 -%}
+      <div class="product-selling-plans" data-selling-plans-wrapper>
+        <fieldset class="product-selling-plans__fieldset">
+          <legend class="product-selling-plans__legend">{{ 'products.product.purchase_options' | t | default: 'Purchase options' }}</legend>
+          
+          <div class="product-selling-plans__option">
+            <input 
+              type="radio" 
+              name="selling_plan_type_{{ section_id }}" 
+              id="SellingPlanOneTime-{{ section_id }}" 
+              value="one_time" 
+              checked="checked"
+              class="product-selling-plans__radio"
+            >
+            <label for="SellingPlanOneTime-{{ section_id }}" class="product-selling-plans__label">
+              {{ 'products.product.one_time_purchase' | t | default: 'One-time purchase' }}
+            </label>
+          </div>
+
+          {%- for group in product.selling_plan_groups -%}
+            <div class="product-selling-plans__option">
+              <input 
+                type="radio" 
+                name="selling_plan_type_{{ section_id }}" 
+                id="SellingPlanGroup-{{ section_id }}-{{ forloop.index }}" 
+                value="subscription"
+                class="product-selling-plans__radio"
+              >
+              <label for="SellingPlanGroup-{{ section_id }}-{{ forloop.index }}" class="product-selling-plans__label">
+                {{ group.name }}
+              </label>
+
+              <div class="product-selling-plans__select-wrap" style="margin-top: var(--space-2); margin-left: var(--space-5);">
+                <select name="selling_plan" class="form-control" aria-label="{{ group.name }}">
+                  {%- for plan in group.selling_plans -%}
+                    <option value="{{ plan.id }}">{{ plan.name }}</option>
+                  {%- endfor -%}
+                </select>
+              </div>
+            </div>
+          {%- endfor -%}
+        </fieldset>
+      </div>
+    {%- endif -%}
+
+    {%- comment -%} Gift Card Recipient Form (F-20) {%- endcomment -%}
+    {%- if product.gift_card? and show_gift_card_recipient -%}
+      <div class="product-recipient-form">
+        <input type="hidden" name="properties[__shopify_send_gift_card_to_recipient]" value="if_present">
+        
+        <div class="form-group">
+          <label for="Recipient-email-{{ section_id }}" class="form-label">
+            {{ 'recipient.form.email_label' | t | default: 'Recipient email' }} <span aria-hidden="true">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="Recipient-email-{{ section_id }}" 
+            name="properties[Recipient email]" 
+            class="form-control" 
+            value="{{ form.email }}"
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="Recipient-name-{{ section_id }}" class="form-label">
+            {{ 'recipient.form.name_label' | t | default: 'Recipient name (optional)' }}
+          </label>
+          <input 
+            type="text" 
+            id="Recipient-name-{{ section_id }}" 
+            name="properties[Recipient name]" 
+            class="form-control" 
+            value="{{ form.name }}"
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="Recipient-message-{{ section_id }}" class="form-label">
+            {{ 'recipient.form.message_label' | t | default: 'Gift message (optional)' }}
+          </label>
+          <textarea 
+            id="Recipient-message-{{ section_id }}" 
+            name="properties[Recipient message]" 
+            class="form-control" 
+            rows="3"
+            maxlength="200"
+          >{{ form.message }}</textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="Recipient-send-on-{{ section_id }}" class="form-label">
+            {{ 'recipient.form.send_on_label' | t | default: 'Send on (optional)' }}
+          </label>
+          <input 
+            type="date" 
+            id="Recipient-send-on-{{ section_id }}" 
+            name="properties[Send on]" 
+            class="form-control" 
+            value="{{ form.send_on }}"
+          >
+        </div>
+      </div>
+    {%- endif -%}
+
+    <!-- Add to Cart Button -->
+    <div class="product-buy-buttons__actions">
+      <button 
+        type="submit" 
+        name="add" 
+        id="AddToCart-{{ section_id }}"
+        class="btn-primary product-buy-buttons__btn"
+        data-add-to-cart-btn
+        {% unless current_variant.available %}disabled="disabled"{% endunless %}
+      >
+        {%- if current_variant.available -%}
+          {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }} <span class="btn-price-sep">&bull;</span> <span data-btn-price>{{ current_variant.price | money }}</span>
+        {%- else -%}
+          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+        {%- endif -%}
+      </button>
+
+      <!-- Shop Pay Installments (F-19) -->
+      <div class="product-buy-buttons__installments">
+        {{ form | payment_terms }}
+      </div>
+
+      <!-- Dynamic Accelerated Checkout (F-39) -->
+      {%- if show_dynamic_checkout -%}
+        <div class="product-buy-buttons__dynamic" data-dynamic-checkout {% unless current_variant.available %}style="display: none;"{% endunless %}>
+          {{ form | payment_button }}
+        </div>
+      {%- endif -%}
+    </div>
+  {%- endform -%}
+</div>

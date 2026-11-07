@@ -1,0 +1,104 @@
+{%- comment -%}
+  Vespera Theme - Shared Product Media Gallery
+  Handles: Images, Shopify Videos, External Videos (YouTube/Vimeo), 3D Models (model-viewer).
+  Supports: Focal Points (presentation.focal_point), Zoom Modal Lightbox, Thumbnails Strip.
+{%- endcomment -%}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_media = current_variant.featured_media | default: product.featured_media -%}
+
+<div class="product-media-gallery" data-gallery data-section-id="{{ section_id }}">
+  <div class="product-media-gallery__featured-wrapper">
+    {%- if featured_media != blank -%}
+      {%- case featured_media.media_type -%}
+        {%- when 'image' -%}
+          {%- capture focal_style -%}
+            {%- if featured_media.presentation.focal_point != blank -%}
+              style="object-position: {{ featured_media.presentation.focal_point }};"
+            {%- endif -%}
+          {%- endcapture -%}
+          <img 
+            id="ProductFeaturedMedia-{{ section_id }}"
+            src="{{ featured_media | image_url: width: 1200 }}" 
+            alt="{{ featured_media.alt | default: product.title | escape }}"
+            class="product-media-gallery__featured-img"
+            width="{{ featured_media.width | default: 800 }}"
+            height="{{ featured_media.height | default: 1000 }}"
+            loading="eager"
+            data-featured-image
+            {{ focal_style }}
+          >
+        {%- when 'video' -%}
+          {{ featured_media | video_tag: controls: true, image_size: '1200x', class: 'product-media-gallery__video', id: 'ProductFeaturedMedia-' | append: section_id }}
+        {%- when 'external_video' -%}
+          {{ featured_media | external_video_tag: class: 'product-media-gallery__external-video', id: 'ProductFeaturedMedia-' | append: section_id }}
+        {%- when 'model' -%}
+          {{ featured_media | model_viewer_tag: image_size: '1200x', reveal: 'interaction', toggleable: true, class: 'product-media-gallery__model', id: 'ProductFeaturedMedia-' | append: section_id }}
+      {%- endcase -%}
+    {%- else -%}
+      <div class="product-media-gallery__placeholder">
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </div>
+    {%- endif -%}
+
+    {%- if product.compare_at_price > product.price -%}
+      <span class="product-badge product-badge--sale">{{ 'products.product.on_sale' | t | default: 'Sale' }}</span>
+    {%- elsif product.available == false -%}
+      <span class="product-badge product-badge--soldout">{{ 'products.product.sold_out' | t | default: 'Sold Out' }}</span>
+    {%- endif -%}
+
+    {%- if enable_zoom and featured_media != blank -%}
+      <button 
+        type="button" 
+        class="product-media-gallery__zoom-trigger" 
+        id="ProductZoomTrigger-{{ section_id }}" 
+        aria-label="{{ 'products.product.media.open_media' | t | default: 'Open full-screen image zoom' }}"
+        title="Zoom image"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="11" y1="8" x2="11" y2="14"></line>
+          <line x1="8" y1="11" x2="14" y2="11"></line>
+        </svg>
+      </button>
+    {%- endif -%}
+  </div>
+
+  <!-- Thumbnails Strip -->
+  {%- if product.media.size > 1 -%}
+    <div class="product-media-gallery__thumbnails" role="list">
+      {%- for media in product.media -%}
+        {%- capture thumb_focal -%}
+          {%- if media.presentation.focal_point != blank -%}
+            style="object-position: {{ media.presentation.focal_point }};"
+          {%- endif -%}
+        {%- endcapture -%}
+        <button 
+          type="button" 
+          class="product-media-gallery__thumb-btn {% if media == featured_media %}is-active{% endif %}"
+          data-thumbnail-id="{{ media.id }}"
+          data-media-type="{{ media.media_type }}"
+          data-target-src="{{ media | image_url: width: 1200 }}"
+          data-media-index="{{ forloop.index0 }}"
+          aria-label="{{ 'products.product.media.load_image' | t: index: forloop.index | default: 'Load image ' | append: forloop.index }}"
+        >
+          <img 
+            src="{{ media | image_url: width: 160, height: 200, crop: 'center' }}" 
+            alt="{{ media.alt | default: product.title | escape }}"
+            width="80" 
+            height="100" 
+            loading="lazy"
+            class="product-media-gallery__thumb-img"
+            {{ thumb_focal }}
+          >
+          {%- if media.media_type == 'video' or media.media_type == 'external_video' -%}
+            <span class="product-media-gallery__thumb-badge" aria-hidden="true">&#9658;</span>
+          {%- elsif media.media_type == 'model' -%}
+            <span class="product-media-gallery__thumb-badge" aria-hidden="true">&#9634;</span>
+          {%- endif -%}
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+</div>

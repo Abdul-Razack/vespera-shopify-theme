@@ -1,0 +1,270 @@
+{%- comment -%}
+  Vespera Theme - Main Article Section (Online Store 2.0)
+  Editorial long-form reading experience for botanical journals and clinical formulations.
+{%- endcomment -%}
+
+<article class="main-article page-container section-spacing" itemscope itemtype="http://schema.org/BlogPosting">
+  {%- for block in section.blocks -%}
+    {%- case block.type -%}
+      {%- when '@app' -%}
+        <div class="main-article__app-block" {{ block.shopify_attributes }}>
+          {% render block %}
+        </div>
+
+      {%- when 'featured_image' -%}
+        {%- if article.image -%}
+          <div class="main-article__media" {{ block.shopify_attributes }}>
+            {{ article.image | image_url: width: 1400 | image_tag: 
+              loading: 'eager', 
+              class: 'main-article__image',
+              widths: '375, 550, 750, 1100, 1400',
+              sizes: '(min-width: 1200px) 1100px, 90vw',
+              alt: article.image.alt | default: article.title | escape
+            }}
+          </div>
+        {%- endif -%}
+
+      {%- when 'title' -%}
+        <header class="main-article__header text-center" {{ block.shopify_attributes }}>
+          {%- if block.settings.blog_title and blog -%}
+            <span class="main-article__eyebrow">
+              <a href="{{ blog.url }}">{{ blog.title | escape }}</a>
+            </span>
+          {%- endif -%}
+          <h1 class="main-article__title" itemprop="headline">{{ article.title | escape }}</h1>
+          {%- if block.settings.show_date or block.settings.show_author -%}
+            <div class="main-article__meta">
+              {%- if block.settings.show_date -%}
+                <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}" itemprop="datePublished">
+                  {{ article.published_at | time_tag: format: 'date' }}
+                </time>
+              {%- endif -%}
+              {%- if block.settings.show_date and block.settings.show_author -%}
+                <span class="main-article__meta-sep">&bull;</span>
+              {%- endif -%}
+              {%- if block.settings.show_author -%}
+                <span itemprop="author" itemscope itemtype="http://schema.org/Person">
+                  <span itemprop="name">{{ article.author | escape }}</span>
+                </span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </header>
+
+      {%- when 'content' -%}
+        <div class="main-article__content rte" itemprop="articleBody" {{ block.shopify_attributes }}>
+          {{ article.content }}
+        </div>
+
+      {%- when 'social_sharing' -%}
+        <div class="main-article__share text-center" {{ block.shopify_attributes }}>
+          <span class="main-article__share-label">{{ 'general.share.share_this' | t | default: 'Share article' }}</span>
+          <ul class="main-article__share-list" role="list">
+            <li>
+              <a 
+                href="//twitter.com/intent/tweet?text={{ article.title | url_param_escape }}&amp;url={{ shop.url | append: article.url }}" 
+                target="_blank" 
+                rel="noopener"
+                class="main-article__share-link"
+                aria-label="{{ 'general.share.share_on_twitter' | t | default: 'Share on X (Twitter)' }}"
+              >
+                X / Twitter
+              </a>
+            </li>
+            <li>
+              <a 
+                href="//www.facebook.com/sharer.php?u={{ shop.url | append: article.url }}" 
+                target="_blank" 
+                rel="noopener"
+                class="main-article__share-link"
+                aria-label="{{ 'general.share.share_on_facebook' | t | default: 'Share on Facebook' }}"
+              >
+                Facebook
+              </a>
+            </li>
+            <li>
+              <a 
+                href="//pinterest.com/pin/create/button/?url={{ shop.url | append: article.url }}&amp;media={{ article.image | image_url: width: 1024 }}&amp;description={{ article.title | url_param_escape }}" 
+                target="_blank" 
+                rel="noopener"
+                class="main-article__share-link"
+                aria-label="{{ 'general.share.share_on_pinterest' | t | default: 'Share on Pinterest' }}"
+              >
+                Pinterest
+              </a>
+            </li>
+          </ul>
+        </div>
+    {%- endcase -%}
+  {%- endfor -%}
+
+  {%- if blog.comments_enabled? -%}
+    <section class="main-article__comments" id="comments">
+      {%- if article.comments_count > 0 -%}
+        <h2 class="main-article__comments-heading text-center">
+          {{ 'blog.article_comments' | t }} ({{ article.comments_count }})
+        </h2>
+
+        {%- paginate article.comments by 10 -%}
+          <div class="main-article__comments-list">
+            {%- for comment in article.comments -%}
+              <div class="main-article__comment" id="{{ comment.id }}">
+                <div class="main-article__comment-header">
+                  <span class="main-article__comment-author">{{ comment.author | escape }}</span>
+                  <time datetime="{{ comment.created_at | date: '%Y-%m-%d' }}" class="main-article__comment-date">
+                    {{ comment.created_at | time_tag: format: 'date' }}
+                  </time>
+                </div>
+                <div class="main-article__comment-body rte">
+                  {{ comment.content }}
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+
+          {%- if paginate.pages > 1 -%}
+            <div class="main-article__pagination">
+              {{ paginate | default_pagination: anchor: 'comments' }}
+            </div>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
+
+      <div class="main-article__comment-form-wrap">
+        {%- form 'new_comment', article -%}
+          <h2 class="main-article__form-heading text-center">{{ 'blog.comment_form_title' | t }}</h2>
+
+          {%- if form.errors -%}
+            <div class="form-message form-message--error" tabindex="-1" autofocus>
+              {{ form.errors | default_errors }}
+            </div>
+          {%- endif -%}
+
+          {%- if form.posted_successfully? -%}
+            <div class="form-message form-message--success" tabindex="-1" autofocus>
+              <p>{{ 'blog.comment_success' | t | default: 'Your comment was posted successfully.' }}</p>
+            </div>
+          {%- endif -%}
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="CommentForm-author" class="form-label">{{ 'blog.comment_form_name' | t }} <span aria-hidden="true">*</span></label>
+              <input 
+                type="text" 
+                name="comment[author]" 
+                id="CommentForm-author" 
+                class="form-control" 
+                value="{{ form.author }}" 
+                autocomplete="name" 
+                required
+                aria-required="true"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="CommentForm-email" class="form-label">{{ 'blog.comment_form_email' | t }} <span aria-hidden="true">*</span></label>
+              <input 
+                type="email" 
+                name="comment[email]" 
+                id="CommentForm-email" 
+                class="form-control" 
+                value="{{ form.email }}" 
+                autocomplete="email" 
+                required
+                aria-required="true"
+              >
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="CommentForm-body" class="form-label">{{ 'blog.comment_form_body' | t }} <span aria-hidden="true">*</span></label>
+            <textarea 
+              name="comment[body]" 
+              id="CommentForm-body" 
+              class="form-control" 
+              rows="5" 
+              required
+              aria-required="true"
+            >{{ form.body }}</textarea>
+          </div>
+
+          <div class="form-actions text-center">
+            <button type="submit" class="btn btn-primary">
+              {{ 'blog.comment_form_submit' | t }}
+            </button>
+          </div>
+        {%- endform -%}
+      </div>
+    </section>
+  {%- endif -%}
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "section",
+  "class": "section-main-article",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "featured_image",
+      "name": "Featured image",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "Title and header",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "blog_title",
+          "label": "Show blog title",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_date",
+          "label": "Show published date",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "label": "Show author name",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "Article content",
+      "limit": 1
+    },
+    {
+      "type": "social_sharing",
+      "name": "Social sharing",
+      "limit": 1
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "featured_image"
+      },
+      {
+        "type": "title"
+      },
+      {
+        "type": "content"
+      },
+      {
+        "type": "social_sharing"
+      }
+    ]
+  }
+}
+{% endschema %}

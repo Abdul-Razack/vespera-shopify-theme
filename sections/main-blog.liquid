@@ -1,0 +1,187 @@
+{%- comment -%}
+  Vespera Theme - Main Blog Section (Online Store 2.0)
+  Editorial journal layout showcasing clinical botanical formulations and skincare rituals.
+{%- endcomment -%}
+
+<div class="main-blog page-container section-spacing">
+  <header class="main-blog__header text-center">
+    <h1 class="main-blog__title">{{ blog.title | escape }}</h1>
+    {%- if section.settings.subtitle != blank -%}
+      <p class="main-blog__subtitle">{{ section.settings.subtitle | escape }}</p>
+    {%- endif -%}
+  </header>
+
+  {%- paginate blog.articles by section.settings.articles_per_page -%}
+    {%- if blog.articles.size > 0 -%}
+      <div class="main-blog__grid main-blog__grid--{{ section.settings.columns_desktop }}-col">
+        {%- for article in blog.articles -%}
+          <article class="main-blog__card">
+            <a href="{{ article.url }}" class="main-blog__card-media-link">
+              <div class="main-blog__card-media main-blog__card-media--{{ section.settings.image_ratio }}">
+                {%- if article.image -%}
+                  {{ article.image | image_url: width: 800 | image_tag: 
+                    loading: 'lazy', 
+                    class: 'main-blog__card-image',
+                    widths: '360, 540, 720, 800',
+                    sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                    alt: article.image.alt | default: article.title | escape
+                  }}
+                {%- else -%}
+                  <div class="main-blog__card-placeholder">
+                    <span>{{ article.title | slice: 0, 1 }}</span>
+                  </div>
+                {%- endif -%}
+              </div>
+            </a>
+
+            <div class="main-blog__card-content">
+              {%- if section.settings.show_date or section.settings.show_author -%}
+                <div class="main-blog__card-meta">
+                  {%- if section.settings.show_date -%}
+                    <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                      {{ article.published_at | time_tag: format: 'date' }}
+                    </time>
+                  {%- endif -%}
+                  {%- if section.settings.show_date and section.settings.show_author -%}
+                    <span class="main-blog__card-meta-sep">&bull;</span>
+                  {%- endif -%}
+                  {%- if section.settings.show_author -%}
+                    <span>{{ article.author | escape }}</span>
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              <h2 class="main-blog__card-title">
+                <a href="{{ article.url }}">{{ article.title | escape }}</a>
+              </h2>
+
+              {%- if section.settings.show_excerpt and article.excerpt != blank or article.content != blank -%}
+                <p class="main-blog__card-excerpt">
+                  {%- if article.excerpt.size > 0 -%}
+                    {{ article.excerpt | strip_html | truncatewords: 25 }}
+                  {%- else -%}
+                    {{ article.content | strip_html | truncatewords: 25 }}
+                  {%- endif -%}
+                </p>
+              {%- endif -%}
+
+              <a href="{{ article.url }}" class="main-blog__card-read-more">
+                {{ 'blog.read_more' | t | default: 'Read article' }} &rarr;
+              </a>
+            </div>
+          </article>
+        {%- endfor -%}
+      </div>
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="pagination" role="navigation" aria-label="{{ 'general.pagination.label' | t | default: 'Pagination' }}">
+          <ul class="pagination__list" role="list">
+            {%- if paginate.previous -%}
+              <li>
+                <a href="{{ paginate.previous.url }}" class="pagination__item pagination__item--prev" aria-label="{{ 'general.pagination.previous' | t | default: 'Previous page' }}">
+                  &larr;
+                </a>
+              </li>
+            {%- endif -%}
+
+            {%- for part in paginate.parts -%}
+              <li>
+                {%- if part.is_link -%}
+                  <a href="{{ part.url }}" class="pagination__item" aria-label="{{ 'general.pagination.page' | t: number: part.title | default: part.title }}">
+                    {{ part.title }}
+                  </a>
+                {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                    <span class="pagination__item pagination__item--current" aria-current="page">
+                      {{ part.title }}
+                    </span>
+                  {%- else -%}
+                    <span class="pagination__item pagination__item--gap">
+                      {{ part.title }}
+                    </span>
+                  {%- endif -%}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+
+            {%- if paginate.next -%}
+              <li>
+                <a href="{{ paginate.next.url }}" class="pagination__item pagination__item--next" aria-label="{{ 'general.pagination.next' | t | default: 'Next page' }}">
+                  &rarr;
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </nav>
+      {%- endif -%}
+    {%- else -%}
+      <div class="main-blog__empty text-center">
+        <p>{{ 'blog.empty' | t | default: 'No journal articles have been published yet.' }}</p>
+      </div>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "tag": "section",
+  "class": "section-main-blog",
+  "settings": [
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Perspectives on botanical science, mindful rituals, and cellular longevity."
+    },
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 3,
+      "max": 18,
+      "step": 3,
+      "label": "Posts per page",
+      "default": 6
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        { "value": "2", "label": "2 columns" },
+        { "value": "3", "label": "3 columns" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "label": "Image aspect ratio",
+      "options": [
+        { "value": "portrait", "label": "Portrait (4:5)" },
+        { "value": "square", "label": "Square (1:1)" },
+        { "value": "landscape", "label": "Landscape (16:9)" }
+      ],
+      "default": "portrait"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show published date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author name",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show article excerpt",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

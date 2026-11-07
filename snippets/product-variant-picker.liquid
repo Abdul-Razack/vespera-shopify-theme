@@ -1,0 +1,62 @@
+{%- comment -%}
+  Vespera Theme - Shared Product Variant Picker Snippet
+  Accessible radio inputs with unique IDs, labels, Category Swatches, and sold-out visual cues.
+{%- endcomment -%}
+
+{%- unless product.has_only_default_variant -%}
+  <div class="product-variant-picker">
+    {%- for option in product.options_with_values -%}
+      <fieldset class="product-variant-picker__group" data-option-index="{{ forloop.index0 }}">
+        <legend class="product-variant-picker__label">
+          {{ option.name }}: <span class="product-variant-picker__selected-val" data-selected-option-value>{{ option.selected_value }}</span>
+        </legend>
+
+        <div class="product-variant-picker__pill-list" role="radiogroup">
+          {%- for value in option.values -%}
+            {%- assign option_id = 'Option-' | append: section_id | append: '-' | append: option.position | append: '-' | append: forloop.index0 -%}
+            
+            {%- comment -%} Check if any variant with this option is available {%- endcomment -%}
+            {%- assign is_value_available = false -%}
+            {%- for variant in product.variants -%}
+              {%- if variant.options[forloop.parentloop.index0] == value and variant.available -%}
+                {%- assign is_value_available = true -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            <div class="product-variant-picker__pill-item">
+              <input 
+                type="radio" 
+                id="{{ option_id }}"
+                name="option-{{ section_id }}-{{ option.name | handleize }}" 
+                value="{{ value | escape }}"
+                {% if option.selected_value == value %}checked="checked"{% endif %}
+                class="visually-hidden product-variant-picker__input"
+                data-option-value
+              >
+              <label 
+                for="{{ option_id }}" 
+                class="product-variant-picker__pill-btn {% unless is_value_available %}is-sold-out{% endunless %}"
+              >
+                {%- if value.swatch != blank -%}
+                  {%- if value.swatch.image != blank -%}
+                    <span 
+                      class="product-variant-picker__swatch" 
+                      style="background-image: url('{{ value.swatch.image | image_url: width: 48 }}'); background-size: cover;"
+                    ></span>
+                  {%- elsif value.swatch.color != blank -%}
+                    <span 
+                      class="product-variant-picker__swatch" 
+                      style="background-color: {{ value.swatch.color }};"
+                    ></span>
+                  {%- endif -%}
+                {%- endif -%}
+                <span class="product-variant-picker__pill-text">{{ value }}</span>
+              </label>
+            </div>
+          {%- endfor -%}
+        </div>
+      </fieldset>
+    {%- endfor -%}
+  </div>
+{%- endunless -%}

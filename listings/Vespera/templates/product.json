@@ -2,14 +2,87 @@
   "sections": {
     "main": {
       "type": "main-product",
-      "settings": {
-        "show_vendor": true,
-        "show_dynamic_checkout": true
-      }
+      "blocks": {
+        "vendor": {
+          "type": "vendor",
+          "settings": {
+            "show_vendor": true
+          }
+        },
+        "title": {
+          "type": "title",
+          "settings": {}
+        },
+        "price": {
+          "type": "price",
+          "settings": {}
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {}
+        },
+        "quantity": {
+          "type": "quantity",
+          "settings": {}
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_gift_card_recipient": true
+          }
+        },
+        "pickup_availability": {
+          "type": "pickup_availability",
+          "settings": {}
+        },
+        "description": {
+          "type": "description",
+          "settings": {}
+        },
+        "clinical_study": {
+          "type": "clinical_study",
+          "settings": {
+            "heading": "Clinical Formulation & Efficacy",
+            "metric": "94% Hydration Retained",
+            "summary": "Documented Double-Blind Clinical Efficacy:",
+            "content": "<p>Engineered with cold-pressed botanical bio-actives and lipid barrier reinforcements. Documented to boost barrier moisture retention by 94% within 14 consecutive days of morning and evening ritual.</p>"
+          }
+        },
+        "ingredients": {
+          "type": "ingredients",
+          "settings": {
+            "heading": "Key Bio-Actives & Full INCI",
+            "bioactives_count": "100% Vegan & Bio-Compatible",
+            "key_bioactives": "Phyto-Squalane 5%, Cold-Pressed Rosehip Seed Oil, Niacinamide (Vitamin B3), Micro-Algae Ferment, Hyaluronic Acid.",
+            "content": "<p>Aqua/Water/Eau, Simmondsia Chinensis (Jojoba) Seed Oil, Rosa Canina (Rosehip) Seed Oil, Squalane, Niacinamide, Glycerin, Sodium Hyaluronate, Tocopherol (Vitamin E), Pelargonium Graveolens Oil, Rosmarinus Officinalis Leaf Extract.</p>"
+          }
+        },
+        "ritual": {
+          "type": "ritual",
+          "settings": {
+            "heading": "Conscious Ritual & How to Use",
+            "content": "<p><strong>Morning Ritual:</strong> Warm 2–3 drops between clean palms. Inhale the natural botanical terpene profile. Press gently into cleansed face, neck, and decolletage using upward sweeps until absorbed. Follow with SPF.</p><p><strong>Evening Ritual:</strong> Apply 3–4 drops following treatment essences as an intensive overnight lipid sealant.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "vendor",
+        "title",
+        "price",
+        "variant_picker",
+        "quantity",
+        "buy_buttons",
+        "pickup_availability",
+        "description",
+        "clinical_study",
+        "ingredients",
+        "ritual"
+      ],
+      "settings": {}
     }
   },
   "order": [
     "main"
   ]
 }
-

@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "eyebrow": "CURATED RITUALS",
+        "title": "All Collections",
+        "subtitle": "Discover thoughtful botanical systems formulated with clinical precision for conscious daily rituals.",
+        "display_type": "all",
+        "exclude_frontpage": true,
+        "exclude_empty": true,
+        "columns_desktop": "3",
+        "image_ratio": "portrait",
+        "collections_per_page": 9
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
