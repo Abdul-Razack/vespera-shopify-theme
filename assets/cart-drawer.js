@@ -1,5 +1,5 @@
 /**
- * Aura Theme - Custom Web Component: <cart-drawer>
+ * Vespera Theme - Custom Web Component: <cart-drawer>
  * Fully native, framework-free Vanilla JS Ajax Cart Engine
  */
 

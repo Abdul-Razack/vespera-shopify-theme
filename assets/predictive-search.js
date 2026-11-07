@@ -1,5 +1,5 @@
 /**
- * Aura Theme - Predictive Search Component (<predictive-search>)
+ * Vespera Theme - Predictive Search Component (<predictive-search>)
  * Live Instant Search-As-You-Type via Shopify Suggest API
  */
 

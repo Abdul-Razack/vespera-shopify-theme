@@ -1,12 +1,12 @@
 /**
- * Aura Theme - Base Design System
+ * Vespera Theme - Base Design System
  * Aesthetic: Clean Beauty, Skincare & Cosmetics (Luxury Editorial)
  * Compliance: Strict 8px grid, WCAG 2.1 AA Contrast, Fluid Typography
  */
 
 :root {
   /* ==========================================================================
-     1. COLOR TOKENS (Aura Botanical Default - Contrast Verified >= 4.5:1)
+     1. COLOR TOKENS (Vespera Botanical Default - Contrast Verified >= 4.5:1)
      ========================================================================== */
   --color-bg: #FAF8F5;              /* Warm luxury cream canvas */
   --color-background: #FAF8F5;      /* Canonical background alias */

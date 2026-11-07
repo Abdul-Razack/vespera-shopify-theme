@@ -19,8 +19,8 @@
         <div class="contact-section__cards">
           <div class="concierge-card">
             <span class="concierge-card__label">Concierge Inquiries</span>
-            <a href="mailto:{{ section.settings.email | default: 'concierge@aurabotanicals.com' }}" class="concierge-card__val">
-              {{ section.settings.email | default: 'concierge@aurabotanicals.com' }}
+            <a href="mailto:{{ section.settings.email | default: 'concierge@vesperabotanicals.com' }}" class="concierge-card__val">
+              {{ section.settings.email | default: 'concierge@vesperabotanicals.com' }}
             </a>
           </div>
 
@@ -51,7 +51,7 @@
               <div>
                 <strong>Message Dispatched.</strong>
                 <p class="contact-form__success-text">
-                  {{ 'templates.contact.form.post_success' | t | default: 'Thank you for contacting Aura. Our formulation concierge will respond within 24 hours.' }}
+                  {{ 'templates.contact.form.post_success' | t | default: 'Thank you for contacting Vespera. Our formulation concierge will respond within 24 hours.' }}
                 </p>
               </div>
             </div>
@@ -362,7 +362,7 @@
       "type": "text",
       "id": "email",
       "label": "Concierge Email",
-      "default": "concierge@aurabotanicals.com"
+      "default": "concierge@vesperabotanicals.com"
     },
     {
       "type": "text",

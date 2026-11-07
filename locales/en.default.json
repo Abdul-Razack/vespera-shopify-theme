@@ -52,7 +52,7 @@
         "topic": "Nature of inquiry",
         "comment": "How may we assist your ritual?",
         "send": "Send Message",
-        "post_success": "Thank you for contacting Aura. Our formulation concierge will respond within 24 hours.",
+        "post_success": "Thank you for contacting Vespera. Our formulation concierge will respond within 24 hours.",
         "error_heading": "Please adjust the following:"
       }
     }
@@ -111,7 +111,7 @@
   "customers": {
     "login": {
       "title": "Welcome Back",
-      "eyebrow": "The Aura Circle",
+      "eyebrow": "The Vespera Circle",
       "subtext": "Access your personalized ritual formulations, order archive, and member privileges.",
       "email": "Email address",
       "password": "Password",
@@ -195,7 +195,7 @@
     },
     "activate_account": {
       "title": "Activate Account",
-      "subtext": "Create your password to activate your Aura Circle account.",
+      "subtext": "Create your password to activate your Vespera Circle account.",
       "password": "Password",
       "password_confirm": "Confirm Password",
       "submit": "Activate Account",

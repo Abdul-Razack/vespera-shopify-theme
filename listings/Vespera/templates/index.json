@@ -1,0 +1,246 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero-banner",
+      "blocks": {
+        "metric_1": {
+          "type": "metric",
+          "settings": {
+            "value": "98%",
+            "label": "Bio-Active Plants"
+          }
+        },
+        "metric_2": {
+          "type": "metric",
+          "settings": {
+            "value": "0%",
+            "label": "Synthetic Fragrance"
+          }
+        },
+        "metric_3": {
+          "type": "metric",
+          "settings": {
+            "value": "100%",
+            "label": "Recyclable Glass"
+          }
+        }
+      },
+      "block_order": [
+        "metric_1",
+        "metric_2",
+        "metric_3"
+      ],
+      "settings": {
+        "eyebrow": "Clinical Botany • Conscious Rituals",
+        "heading": "Formulated to Elevate Your Natural Radiance",
+        "subtext": "Pure clinical bio-actives blended with cold-pressed botanical oils. Designed for conscious daily rituals.",
+        "button_label": "Explore Formulations",
+        "secondary_button_label": "Our Philosophy"
+      }
+    },
+    "press_marquee": {
+      "type": "press-marquee",
+      "blocks": {
+        "press_1": {
+          "type": "press_quote",
+          "settings": {
+            "publication": "Vogue International",
+            "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
+          }
+        },
+        "press_2": {
+          "type": "press_quote",
+          "settings": {
+            "publication": "Harper's Bazaar",
+            "quote": "Clinically proven botanical precision without synthetic compromises. The new benchmark for luxury daily ritual."
+          }
+        },
+        "press_3": {
+          "type": "press_quote",
+          "settings": {
+            "publication": "Allure Magazine",
+            "quote": "94% moisture barrier retention backed by independent studies. Pure sustainable luxury in UV-protective glass."
+          }
+        }
+      },
+      "block_order": [
+        "press_1",
+        "press_2",
+        "press_3"
+      ],
+      "settings": {
+        "eyebrow": "Editorial Acclaim",
+        "heading": "Recognized by Industry Connoisseurs"
+      }
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "settings": {
+        "eyebrow": "Bestselling Formulations",
+        "heading": "Curated Daily Rituals",
+        "description": "Potent clinical bio-actives blended with cold-pressed botanical extracts for visible radiance.",
+        "products_to_show": 4,
+        "columns_desktop": 4,
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_view_all": true,
+        "view_all_label": "Explore All Formulations"
+      }
+    },
+    "collection_list": {
+      "type": "collection-list",
+      "blocks": {
+        "cat_1": {
+          "type": "collection",
+          "settings": {
+            "title": "Bio-Active Serums & Oils"
+          }
+        },
+        "cat_2": {
+          "type": "collection",
+          "settings": {
+            "title": "Gentle Cleansers & Essences"
+          }
+        },
+        "cat_3": {
+          "type": "collection",
+          "settings": {
+            "title": "Cellular Creams & Balms"
+          }
+        },
+        "cat_4": {
+          "type": "collection",
+          "settings": {
+            "title": "Conscious Body Care"
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4"
+      ],
+      "settings": {
+        "eyebrow": "Targeted Rituals",
+        "heading": "Shop by Category",
+        "description": "Formulations categorized by treatment focus for a bespoke daily ritual.",
+        "columns_desktop": 4,
+        "show_product_count": true,
+        "show_view_all": true,
+        "view_all_label": "Explore All Categories"
+      }
+    },
+    "image_with_text": {
+      "type": "image-with-text",
+      "settings": {
+        "layout": "image_first",
+        "subtle_bg": false,
+        "eyebrow": "Clinical Extraction",
+        "heading": "Whole-Plant Potency Preserved at Harvest",
+        "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
+        "button_label": "Our Philosophy",
+        "button_link": "/pages/contact"
+      }
+    },
+    "multicolumn": {
+      "type": "multicolumn",
+      "blocks": {
+        "col_1": {
+          "type": "column",
+          "settings": {
+            "icon": "leaf",
+            "title": "Bio-Active Botany",
+            "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>",
+            "link_label": "Learn More",
+            "link": "/collections/all"
+          }
+        },
+        "col_2": {
+          "type": "column",
+          "settings": {
+            "icon": "flask",
+            "title": "Clean Chemistry",
+            "text": "<p>100% free from synthetic perfumes, sulfates, and filler oils. Dermatologically tested for sensitive skin.</p>",
+            "link_label": "Our Standards",
+            "link": "/collections/all"
+          }
+        },
+        "col_3": {
+          "type": "column",
+          "settings": {
+            "icon": "recycle",
+            "title": "Sustainable Glass",
+            "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
+            "link_label": "Sustainability",
+            "link": "/collections/all"
+          }
+        }
+      },
+      "block_order": [
+        "col_1",
+        "col_2",
+        "col_3"
+      ],
+      "settings": {
+        "eyebrow": "Formulation Standards",
+        "heading": "The Conscious Radiance Creed",
+        "description": "Rigorous clinical principles grounded in botanical integrity.",
+        "columns_desktop": 3,
+        "column_alignment": "center",
+        "subtle_bg": true
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "blocks": {
+        "quote_1": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "The gold standard of botanical skincare. Within days, complexion feels visibly balanced and radiant.",
+            "author": "Vogue Editorial",
+            "publication_subtitle": "Annual Clean Beauty Awards"
+          }
+        },
+        "quote_2": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
+            "author": "Dr. Clara Hastings",
+            "publication_subtitle": "Integrative Dermatologist"
+          }
+        },
+        "quote_3": {
+          "type": "testimonial",
+          "settings": {
+            "rating": 5,
+            "quote": "Rarely does a formulation deliver such instant tactile luxury while respecting sensitive skin barriers.",
+            "author": "Harper's Bazaar",
+            "publication_subtitle": "Editor's Pick 2026"
+          }
+        }
+      },
+      "block_order": [
+        "quote_1",
+        "quote_2",
+        "quote_3"
+      ],
+      "settings": {
+        "eyebrow": "Acclaim & Recognition",
+        "heading": "Celebrated by Connoisseurs",
+        "columns_desktop": 3
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "press_marquee",
+    "featured_collection",
+    "collection_list",
+    "image_with_text",
+    "multicolumn",
+    "testimonials"
+  ]
+}

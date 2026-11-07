@@ -1,5 +1,5 @@
 /**
- * Aura Theme - Awwwards-Grade Interactive Quick View Engine
+ * Vespera Theme - Awwwards-Grade Interactive Quick View Engine
  * Vanilla JS, zero dependencies, accessible modal dialog with variant switcher
  */
 

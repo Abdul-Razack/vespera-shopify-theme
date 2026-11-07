@@ -9,9 +9,9 @@
     "heading_scale": 100,
     "type_body_font": "assistant_n4",
     "body_scale": 100,
-    "social_instagram_link": "https://instagram.com/aura_skincare",
-    "social_tiktok_link": "https://tiktok.com/@aura_skincare",
-    "social_pinterest_link": "https://pinterest.com/aura_skincare"
+    "social_instagram_link": "https://instagram.com/vespera_skincare",
+    "social_tiktok_link": "https://tiktok.com/@vespera_skincare",
+    "social_pinterest_link": "https://pinterest.com/vespera_skincare"
   },
   "presets": {
     "Botanical": {
@@ -36,7 +36,7 @@
       "type_body_font": "assistant_n4",
       "body_scale": 100
     },
-    "Nocturne": {
+    "Vespera": {
       "color_background": "#141312",
       "color_text": "#F5F2EB",
       "color_accent": "#C5A880",
