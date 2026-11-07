@@ -340,53 +340,59 @@ button {
 }
 
 /* Dynamic Accelerated Checkout Unbranded Button (Shopify Section 10 - F-39) */
-.shopify-payment-button__button.shopify-payment-button__button--unbranded,
-.shopify-payment-button__button--unbranded,
-.shopify-payment-button [data-testid="Checkout-button"],
+shopify-accelerated-checkout,
+shopify-accelerated-checkout-cart,
+.shopify-payment-button {
+  --shopify-accelerated-checkout-button-block-size: 48px;
+  --shopify-accelerated-checkout-button-border-radius: var(--radius-sm, 2px);
+}
+
+.shopify-payment-button .shopify-payment-button__button--unbranded,
+.product-buy-buttons__dynamic .shopify-payment-button__button--unbranded,
 shopify-buy-it-now-button .shopify-payment-button__button,
 shopify-accelerated-checkout .shopify-payment-button__button--unbranded {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  background-color: var(--color-text) !important;
-  color: var(--color-surface, #ffffff) !important;
-  font-family: var(--font-body-family, inherit) !important;
-  font-size: var(--font-size-sm) !important;
-  font-weight: var(--font-weight-medium) !important;
-  letter-spacing: 0.05em !important;
-  text-transform: uppercase !important;
-  border-radius: var(--radius-sm, 2px) !important;
-  min-height: 48px !important;
-  padding: var(--space-4) var(--space-8) !important;
-  transition: background-color var(--transition-normal), transform var(--transition-fast) !important;
-  box-shadow: none !important;
-  border: 1px solid var(--color-text) !important;
-  width: 100% !important;
-  cursor: pointer !important;
-  text-decoration: none !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-text);
+  color: var(--color-surface, #ffffff);
+  font-family: var(--font-body-family, inherit);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  border-radius: var(--radius-sm, 2px);
+  min-height: 48px;
+  padding: var(--space-4) var(--space-8);
+  transition: background-color var(--transition-normal), transform var(--transition-fast);
+  box-shadow: none;
+  border: 1px solid var(--color-text);
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
 }
 
-.shopify-payment-button__button.shopify-payment-button__button--unbranded:hover:not([disabled]),
-.shopify-payment-button__button--unbranded:hover:not([disabled]),
+.shopify-payment-button .shopify-payment-button__button--unbranded:hover:not([disabled]),
+.product-buy-buttons__dynamic .shopify-payment-button__button--unbranded:hover:not([disabled]),
 shopify-buy-it-now-button .shopify-payment-button__button:hover:not([disabled]) {
-  background-color: var(--color-accent) !important;
-  border-color: var(--color-accent) !important;
-  color: #ffffff !important;
-  transform: translateY(-1px) !important;
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-.shopify-payment-button__button.shopify-payment-button__button--unbranded:focus-visible,
-.shopify-payment-button__button--unbranded:focus-visible,
+.shopify-payment-button .shopify-payment-button__button--unbranded:focus-visible,
+.product-buy-buttons__dynamic .shopify-payment-button__button--unbranded:focus-visible,
 shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
-  outline: 2px solid var(--color-focus, var(--color-text)) !important;
-  outline-offset: 2px !important;
+  outline: 2px solid var(--color-focus, var(--color-text));
+  outline-offset: 2px;
 }
 
 .shopify-payment-button__more-options {
-  color: var(--color-text-muted) !important;
-  font-size: var(--font-size-xs) !important;
-  text-decoration: underline !important;
-  margin-top: var(--space-2) !important;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  text-decoration: underline;
+  margin-top: var(--space-2);
 }
 
 /* ==========================================================================
