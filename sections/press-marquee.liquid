@@ -15,7 +15,7 @@
     <div class="press-marquee__grid" id="PressMarqueeGrid-{{ section.id }}" role="list">
       {%- for block in section.blocks -%}
         <article class="press-marquee__card" {{ block.shopify_attributes }} role="listitem">
-          <div class="press-marquee__rating" aria-label="5 out of 5 stars">
+          <div class="press-marquee__rating" aria-label="{{ 'sections.press_marquee.rating' | t }}">
             ★★★★★
           </div>
           <blockquote class="press-marquee__quote">

@@ -110,7 +110,7 @@
               <p class="customer-dashboard__address-line">{{ customer.default_address.country }}</p>
               <p class="customer-dashboard__address-line">{{ customer.default_address.phone }}</p>
             {%- else -%}
-              <p class="customer-dashboard__empty-text">No default shipping address saved yet.</p>
+              <p class="customer-dashboard__empty-text">{{ 'customer.account.no_default_address' | t }}</p>
             {%- endif -%}
           </div>
 

@@ -15,7 +15,7 @@
 
       <!-- Category Navigation Pills -->
       {%- if section.settings.show_category_pills and collection.all_types.size > 1 -%}
-        <div class="category-pills" role="region" aria-label="Filter by formulation category">
+        <div class="category-pills" role="region" aria-label="{{ 'sections.collection_template.filter_by_category' | t }}">
           <ul class="category-pills__list" role="tablist">
             <li role="presentation">
               <button 

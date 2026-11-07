@@ -177,7 +177,7 @@
 
         <!-- Payment Methods -->
         {%- if section.settings.show_payment_icons and shop.enabled_payment_types != empty -%}
-          <div class="site-footer__payments" aria-label="Payment methods">
+          <div class="site-footer__payments" aria-label="{{ 'sections.footer.payment_methods' | t }}">
             <ul class="site-footer__payment-list" role="list">
               {%- for type in shop.enabled_payment_types -%}
                 <li class="site-footer__payment-item">
@@ -191,7 +191,7 @@
 
       <!-- Lower Legal Row: Policies & Copyright (F-24) -->
       <div class="site-footer__bottom-row site-footer__bottom-row--legal">
-        <ul class="site-footer__policies-list" role="list" aria-label="Legal Policies">
+        <ul class="site-footer__policies-list" role="list" aria-label="{{ 'sections.footer.legal_policies' | t }}">
           {%- if shop.policies.size > 0 -%}
             {%- for policy in shop.policies -%}
               {%- if policy != blank -%}
@@ -214,7 +214,7 @@
         </ul>
 
         <div class="site-footer__copyright">
-          <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</span>
+          <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}{{ 'sections.footer.all_rights_reserved' | t }}</span>
           <span class="site-footer__powered">{{ powered_by_link }}</span>
         </div>
       </div>

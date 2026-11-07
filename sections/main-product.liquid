@@ -314,7 +314,7 @@
     <header class="product-zoom-modal__header">
       <span class="product-zoom-modal__counter" id="ProductZoomCounter-{{ section.id }}">1 / {{ product.media.size | default: 1 | at_least: 1 }}</span>
       <span class="product-zoom-modal__title">{{ product.title | escape }}</span>
-      <button type="button" class="product-zoom-modal__close-btn" data-zoom-close aria-label="Close image zoom (Esc)">
+      <button type="button" class="product-zoom-modal__close-btn" data-zoom-close aria-label="{{ 'products.product.media.close_zoom' | t }}">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"></line>
           <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -324,7 +324,7 @@
 
     <div class="product-zoom-modal__stage">
       {%- if product.media.size > 1 -%}
-        <button type="button" class="product-zoom-modal__arrow product-zoom-modal__arrow--prev" id="ProductZoomPrev-{{ section.id }}" aria-label="Previous image">
+        <button type="button" class="product-zoom-modal__arrow product-zoom-modal__arrow--prev" id="ProductZoomPrev-{{ section.id }}" aria-label="{{ 'products.product.media.previous_image' | t }}">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="15 18 9 12 15 6"></polyline>
           </svg>
@@ -344,7 +344,7 @@
       </div>
 
       {%- if product.media.size > 1 -%}
-        <button type="button" class="product-zoom-modal__arrow product-zoom-modal__arrow--next" id="ProductZoomNext-{{ section.id }}" aria-label="Next image">
+        <button type="button" class="product-zoom-modal__arrow product-zoom-modal__arrow--next" id="ProductZoomNext-{{ section.id }}" aria-label="{{ 'products.product.media.next_image' | t }}">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="9 18 15 12 9 6"></polyline>
           </svg>

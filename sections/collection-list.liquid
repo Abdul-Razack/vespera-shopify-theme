@@ -45,7 +45,7 @@
                   <svg viewBox="0 0 600 750" fill="none" class="collection-list-card__placeholder-svg" aria-hidden="true">
                     <rect width="600" height="750" fill="#EFECE6"/>
                     <circle cx="300" cy="375" r="140" fill="#E2DDD5"/>
-                    <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle" letter-spacing="2">VESPERA RITUAL</text>
+                    <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle" letter-spacing="2">{{ shop.name | escape }}</text>
                   </svg>
                 </div>
               {%- endif -%}
@@ -76,7 +76,7 @@
               <div class="collection-list-card__placeholder">
                 <svg viewBox="0 0 600 750" fill="none" class="collection-list-card__placeholder-svg" aria-hidden="true">
                   <rect width="600" height="750" fill="#EFECE6"/>
-                  <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle">CATEGORY {{ i }}</text>
+                  <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle">{{ 'sections.collection_list.category' | t }} {{ i }}</text>
                 </svg>
               </div>
             </div>

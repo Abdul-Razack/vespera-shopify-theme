@@ -43,7 +43,7 @@
 
                     <div class="facet-disclosure__panel">
                       <div class="facet-disclosure__header">
-                        <span class="facet-disclosure__selected">{{ filter.active_values.size }} selected</span>
+                        <span class="facet-disclosure__selected">{{ filter.active_values.size }} {{ 'products.facets.selected' | t }}</span>
                         {%- if filter.active_values.size > 0 -%}
                           <a href="{{ filter.url_to_remove }}" class="facet-disclosure__reset" data-facet-reset>
                             {{ 'collections.filtering.reset' | t }}
@@ -181,7 +181,7 @@
           <div class="facets__sort-wrap">
             <details class="facet-disclosure facet-disclosure--sort" name="facet-group" id="Details-SortBy">
               <summary class="facet-disclosure__summary">
-                <span class="facet-disclosure__title">Sort: {{ current_sort_name }}</span>
+                <span class="facet-disclosure__title">{{ 'products.facets.sort_by_label' | t }}: {{ current_sort_name }}</span>
                 <span class="facet-disclosure__icon" aria-hidden="true">&darr;</span>
               </summary>
 
@@ -228,7 +228,7 @@
 
           {%- if filter.type == 'price_range' -%}
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
-              <a href="{{ filter.url_to_remove }}" class="facet-chip" aria-label="Remove price filter">
+              <a href="{{ filter.url_to_remove }}" class="facet-chip" aria-label="{{ 'products.facets.clear_filter' | t: filter: filter.label }}">
                 <span class="facet-chip__label">
                   {{ filter.label }}: <strong>{{ filter.min_value.value | default: 0 | money }} - {{ filter.max_value.value | default: filter.range_max | money }}</strong>
                 </span>

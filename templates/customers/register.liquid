@@ -56,7 +56,7 @@
             required
             class="customer-auth__input"
             {% if form.email %}value="{{ form.email }}"{% endif %}
-            placeholder="you@domain.com"
+            placeholder="{{ 'customer.register.email_placeholder' | t }}"
           >
         </div>
 

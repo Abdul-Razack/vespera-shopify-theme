@@ -82,7 +82,7 @@
                 name="contact[{{ 'templates.contact.form.name' | t }}]" 
                 class="contact-form__input" 
                 value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
-                placeholder="Eleanor Vance"
+                placeholder="{{ 'templates.contact.form.name_placeholder' | t }}"
                 required
                 autocomplete="name"
               >
@@ -99,7 +99,7 @@
                 name="contact[email]" 
                 class="contact-form__input" 
                 value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-                placeholder="eleanor@domain.com"
+                placeholder="{{ 'templates.contact.form.email_placeholder' | t }}"
                 spellcheck="false"
                 autocomplete="email"
                 autocapitalize="off"
@@ -120,7 +120,7 @@
                 id="ContactForm-order" 
                 name="contact[order_number]" 
                 class="contact-form__input" 
-                placeholder="#AU-10492 (Optional)"
+                placeholder="{{ 'templates.contact.form.order_number_placeholder' | t }}"
               >
             </div>
 
@@ -130,11 +130,13 @@
                 {{ 'templates.contact.form.topic' | t }}
               </label>
               <select id="ContactForm-topic" name="contact[topic]" class="contact-form__select">
-                <option value="Ritual Guidance">Tailored Skincare Ritual Guidance</option>
-                <option value="Order & Delivery">Order Status & Worldwide Shipping</option>
-                <option value="Glass Refills">Sustainable Packaging & Glass Refills</option>
-                <option value="Press & Partnerships">Press, Editorial & Partnerships</option>
-                <option value="General Inquiry">General Inquiries</option>
+                {%- assign topic_lines = section.settings.topic_options | newline_to_br | split: '<br />' -%}
+                {%- for topic in topic_lines -%}
+                  {%- assign topic_clean = topic | strip -%}
+                  {%- if topic_clean != blank -%}
+                    <option value="{{ topic_clean | escape }}">{{ topic_clean | escape }}</option>
+                  {%- endif -%}
+                {%- endfor -%}
               </select>
             </div>
           </div>
@@ -149,7 +151,7 @@
               id="ContactForm-body" 
               name="contact[{{ 'templates.contact.form.comment' | t }}]" 
               class="contact-form__textarea" 
-              placeholder="Tell us about your skin goals, questions, or ritual needs..."
+              placeholder="{{ 'templates.contact.form.comment_placeholder' | t }}"
               required
             >{{ form.body }}</textarea>
           </div>
@@ -375,6 +377,13 @@
       "id": "location",
       "label": "Location footprint",
       "default": "New York • London • Paris"
+    },
+    {
+      "type": "textarea",
+      "id": "topic_options",
+      "label": "Inquiry topic options",
+      "info": "Enter one option per line",
+      "default": "Tailored Skincare Ritual Guidance\nOrder Status & Worldwide Shipping\nSustainable Packaging & Glass Refills\nPress, Editorial & Partnerships\nGeneral Inquiries"
     }
   ],
   "presets": [

@@ -3,7 +3,7 @@
     <div class="page-container announcement-bar__inner">
       {%- assign total_slides = section.blocks.size -%}
       {%- if total_slides > 1 -%}
-        <button type="button" class="announcement-bar__nav-btn announcement-bar__nav-btn--prev" id="AnnouncementPrev" aria-label="Previous announcement">&lsaquo;</button>
+        <button type="button" class="announcement-bar__nav-btn announcement-bar__nav-btn--prev" id="AnnouncementPrev" aria-label="{{ 'sections.announcements.previous' | t }}">&lsaquo;</button>
       {%- endif -%}
 
       <div class="announcement-bar__slider" id="AnnouncementSlider" aria-live="polite">
@@ -35,7 +35,7 @@
       </div>
 
       {%- if total_slides > 1 -%}
-        <button type="button" class="announcement-bar__nav-btn announcement-bar__nav-btn--next" id="AnnouncementNext" aria-label="Next announcement">&rsaquo;</button>
+        <button type="button" class="announcement-bar__nav-btn announcement-bar__nav-btn--next" id="AnnouncementNext" aria-label="{{ 'sections.announcements.next' | t }}">&rsaquo;</button>
       {%- endif -%}
     </div>
   </div>

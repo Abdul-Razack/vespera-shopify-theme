@@ -52,12 +52,12 @@
                   <svg viewBox="0 0 400 500" fill="none" class="product-card__placeholder-svg" aria-hidden="true">
                     <rect width="400" height="500" fill="#F4F1EB"/>
                     <circle cx="200" cy="250" r="100" fill="#EAE5DC"/>
-                    <text x="200" y="255" font-family="serif" font-size="16" fill="#6B6661" text-anchor="middle" letter-spacing="2">VESPERA BOTANICAL {{ i }}</text>
+                    <text x="200" y="255" font-family="serif" font-size="16" fill="#6B6661" text-anchor="middle" letter-spacing="2">{{ shop.name | escape }} {{ i }}</text>
                   </svg>
                 </div>
               </div>
               <div class="product-card__info">
-                <h3 class="product-card__title">Curated Formulation {{ i }}</h3>
+                <h3 class="product-card__title">{{ 'sections.featured_collection.onboarding_title' | t: count: i }}</h3>
                 <div class="product-card__price-wrapper">
                   <span class="product-card__price">$68.00</span>
                 </div>
