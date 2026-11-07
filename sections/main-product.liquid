@@ -44,7 +44,7 @@
                 {%- if block.settings.show_vendor and product.vendor != blank -%}
                   {{ product.vendor | escape }} &bull; {{ 'products.product.clinical_grade' | t }}
                 {%- else -%}
-                  VESPERA &bull; {{ 'products.product.clinical_grade' | t }}
+                  {{ shop.name | upcase }} &bull; {{ 'products.product.clinical_grade' | t }}
                 {%- endif -%}
               </p>
 
@@ -606,7 +606,7 @@
     },
     {
       "type": "title",
-      "name": "Title",
+      "name": "Heading",
       "limit": 1
     },
     {

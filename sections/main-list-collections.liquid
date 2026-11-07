@@ -68,7 +68,7 @@
                   <p class="collection-card__desc">{{ collection.description | strip_html | truncatewords: 12 }}</p>
                 {%- endif -%}
                 <span class="collection-card__cta">
-                  Explore Ritual &rarr;
+                  {{ 'sections.collection_list.view_all' | t }} &rarr;
                 </span>
               </div>
             </a>
@@ -188,7 +188,7 @@
                   <p class="collection-card__desc">{{ target_collection.description | strip_html | truncatewords: 12 }}</p>
                 {%- endif -%}
                 <span class="collection-card__cta">
-                  Explore Ritual &rarr;
+                  {{ 'sections.collection_list.view_all' | t }} &rarr;
                 </span>
               </div>
             </a>
@@ -229,7 +229,7 @@
     {
       "type": "text",
       "id": "title",
-      "label": "Page title",
+      "label": "Page heading",
       "default": "All Collections"
     },
     {
@@ -330,7 +330,7 @@
         {
           "type": "text",
           "id": "title",
-          "label": "Custom title (optional)"
+          "label": "Custom heading (optional)"
         }
       ]
     }
