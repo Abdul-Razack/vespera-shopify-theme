@@ -91,6 +91,17 @@
                   </p>
                 {%- endif -%}
 
+                <!-- Line Item Properties -->
+                {%- for property in item.properties -%}
+                  {%- assign property_first_char = property.first | slice: 0 -%}
+                  {%- if property.last != blank and property_first_char != '_' -%}
+                    <p class="cart-drawer__item-property" style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin: 2px 0;">
+                      <span class="cart-drawer__property-name">{{ property.first }}: </span>
+                      <span>{{ property.last }}</span>
+                    </p>
+                  {%- endif -%}
+                {%- endfor -%}
+
                 <!-- Line Item Discounts -->
                 {%- if item.line_level_discount_allocations.size > 0 -%}
                   <ul class="cart-drawer__item-discounts" role="list" style="font-size: var(--font-size-xs); color: var(--color-accent); list-style: none;">
