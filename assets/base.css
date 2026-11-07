@@ -340,35 +340,45 @@ button {
 }
 
 /* Dynamic Accelerated Checkout Unbranded Button (Shopify Section 10 - F-39) */
-.shopify-payment-button__button--unbranded {
+.shopify-payment-button__button.shopify-payment-button__button--unbranded,
+.shopify-payment-button__button--unbranded,
+.shopify-payment-button [data-testid="Checkout-button"],
+shopify-buy-it-now-button .shopify-payment-button__button,
+shopify-accelerated-checkout .shopify-payment-button__button--unbranded {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
   background-color: var(--color-text) !important;
-  color: var(--color-surface) !important;
+  color: var(--color-surface, #ffffff) !important;
   font-family: var(--font-body-family, inherit) !important;
   font-size: var(--font-size-sm) !important;
   font-weight: var(--font-weight-medium) !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
-  border-radius: var(--radius-sm) !important;
+  border-radius: var(--radius-sm, 2px) !important;
   min-height: 48px !important;
   padding: var(--space-4) var(--space-8) !important;
   transition: background-color var(--transition-normal), transform var(--transition-fast) !important;
   box-shadow: none !important;
-  border: none !important;
+  border: 1px solid var(--color-text) !important;
   width: 100% !important;
   cursor: pointer !important;
   text-decoration: none !important;
 }
 
-.shopify-payment-button__button--unbranded:hover:not([disabled]) {
+.shopify-payment-button__button.shopify-payment-button__button--unbranded:hover:not([disabled]),
+.shopify-payment-button__button--unbranded:hover:not([disabled]),
+shopify-buy-it-now-button .shopify-payment-button__button:hover:not([disabled]) {
   background-color: var(--color-accent) !important;
+  border-color: var(--color-accent) !important;
+  color: #ffffff !important;
   transform: translateY(-1px) !important;
 }
 
-.shopify-payment-button__button--unbranded:focus-visible {
-  outline: 2px solid var(--color-accent) !important;
+.shopify-payment-button__button.shopify-payment-button__button--unbranded:focus-visible,
+.shopify-payment-button__button--unbranded:focus-visible,
+shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
+  outline: 2px solid var(--color-focus, var(--color-text)) !important;
   outline-offset: 2px !important;
 }
 
