@@ -2455,10 +2455,50 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   select {
     font-size: 16px !important;
   }
+}/* ==========================================================================
+   FORM ACCESSIBILITY & NON-TEXT CONTRAST (WCAG 2.1 SC 1.4.11 >= 3:1)
+   ========================================================================== */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="password"],
+textarea,
+select,
+.contact-form__input,
+.contact-form__textarea,
+.contact-form__select,
+.footer__newsletter-input,
+.header-search__input,
+.main-search__input,
+.main-cart__note-input,
+.facet-price-field {
+  border: 1px solid var(--color-border-dark);
 }
 
+.facet-checkbox__input,
+.facet-radio__input {
+  outline: 1.5px solid var(--color-border-dark);
+  outline-offset: -1px;
+}
 
+input::placeholder,
+textarea::placeholder,
+.contact-form__input::placeholder,
+.contact-form__textarea::placeholder,
+.footer__newsletter-input::placeholder,
+.header-search__input::placeholder,
+.main-search__input::placeholder {
+  color: var(--color-placeholder, var(--color-text-muted));
+  opacity: 1;
+}
 
-
-
-
+:disabled,
+[disabled],
+.btn:disabled,
+.btn[disabled],
+.facet-checkbox--disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
