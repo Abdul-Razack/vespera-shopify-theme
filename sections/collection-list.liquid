@@ -31,7 +31,7 @@
         {%- assign card_image = block.settings.image | default: collection.featured_image | default: collection.products.first.featured_media -%}
 
         <div class="collection-list-card" {{ block.shopify_attributes }}>
-          <a href="{{ collection_url }}" class="collection-list-card__link" aria-label="{{ collection_title | escape }}">
+          <a href="{{ collection_url }}" class="collection-list-card__link">
             
             <div class="collection-list-card__media-wrapper">
               {%- if card_image != blank -%}
