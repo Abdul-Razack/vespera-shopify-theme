@@ -75,7 +75,7 @@
         </button>
 
         {%- if product.available -%}
-          {%- if product.has_only_default_variant -%}
+          {%- if product.has_only_default_variant or product.variants.size == 1 -%}
             {%- form 'product', product, class: 'product-card__quick-form' -%}
               <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
               <button 
