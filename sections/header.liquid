@@ -147,6 +147,7 @@
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
           </button>
+          <label for="HeaderSearchInput" class="visually-hidden">{{ 'templates.search.search' | t | default: 'Search formulations' }}</label>
           <input 
             type="search" 
             name="q" 
@@ -192,9 +193,11 @@
           <circle cx="11" cy="11" r="8"></circle>
           <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
         </svg>
+        <label for="MobileNavSearchInput" class="visually-hidden">{{ 'templates.search.search' | t | default: 'Search formulations' }}</label>
         <input 
           type="search" 
           name="q" 
+          id="MobileNavSearchInput"
           class="mobile-nav-drawer__search-input" 
           placeholder="{{ 'general.search.placeholder' | t | default: 'Search formulations...' }}" 
           aria-label="{{ 'templates.search.search' | t | default: 'Search formulations' }}"

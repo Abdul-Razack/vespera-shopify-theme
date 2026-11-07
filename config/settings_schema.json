@@ -8,12 +8,12 @@
     "theme_support_url": "https://vesperatheme.com/support"
   },
   {
-    "name": "Logo & Favicon",
+    "name": "Logo and favicon",
     "settings": [
       {
         "type": "image_picker",
         "id": "logo",
-        "label": "Logo Image"
+        "label": "Logo image"
       },
       {
         "type": "range",
@@ -22,13 +22,13 @@
         "max": 300,
         "step": 5,
         "unit": "px",
-        "label": "Custom Logo Width",
+        "label": "Custom logo width",
         "default": 130
       },
       {
         "type": "image_picker",
         "id": "favicon",
-        "label": "Favicon Image",
+        "label": "Favicon image",
         "info": "Will be scaled down to 32 x 32px"
       }
     ]
@@ -39,25 +39,25 @@
       {
         "type": "color",
         "id": "color_background",
-        "label": "Background Color",
+        "label": "Background color",
         "default": "#FAF8F5"
       },
       {
         "type": "color",
         "id": "color_text",
-        "label": "Text Color",
+        "label": "Text color",
         "default": "#191817"
       },
       {
         "type": "color",
         "id": "color_accent",
-        "label": "Accent / Highlight Color",
+        "label": "Accent / highlight color",
         "default": "#8C5942"
       },
       {
         "type": "color",
         "id": "color_border",
-        "label": "Border Line Color",
+        "label": "Border line color",
         "default": "#E8E4DD"
       }
     ]
@@ -72,7 +72,7 @@
       {
         "type": "font_picker",
         "id": "type_header_font",
-        "label": "Heading Font",
+        "label": "Heading font",
         "default": "playfair_display_n4"
       },
       {
@@ -82,7 +82,7 @@
         "max": 150,
         "step": 5,
         "unit": "%",
-        "label": "Heading Font Scale",
+        "label": "Heading font scale",
         "default": 100
       },
       {
@@ -92,7 +92,7 @@
       {
         "type": "font_picker",
         "id": "type_body_font",
-        "label": "Body Font",
+        "label": "Body font",
         "default": "assistant_n4"
       },
       {
@@ -102,28 +102,28 @@
         "max": 130,
         "step": 5,
         "unit": "%",
-        "label": "Body Font Scale",
+        "label": "Body font scale",
         "default": 100
       }
     ]
   },
   {
-    "name": "Social Media",
+    "name": "Social media",
     "settings": [
       {
         "type": "text",
         "id": "social_instagram_link",
-        "label": "Instagram Link"
+        "label": "Instagram link"
       },
       {
         "type": "text",
         "id": "social_tiktok_link",
-        "label": "TikTok Link"
+        "label": "TikTok link"
       },
       {
         "type": "text",
         "id": "social_pinterest_link",
-        "label": "Pinterest Link"
+        "label": "Pinterest link"
       }
     ]
   }

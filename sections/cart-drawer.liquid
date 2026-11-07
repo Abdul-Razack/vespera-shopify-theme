@@ -16,7 +16,7 @@
     <!-- Drawer Header -->
     <div class="cart-drawer__header">
       <h2 class="cart-drawer__title">
-        {{ 'templates.cart.cart' | t | default: 'Your Bag' }}
+        {{ 'templates.cart.cart' | t | default: 'Cart' }}
         <span class="cart-drawer__count" data-cart-count-badge>({{ cart.item_count }})</span>
       </h2>
       <button type="button" class="cart-drawer__close" id="CartDrawerClose" aria-label="{{ 'sections.cart.close_drawer' | t | default: 'Close cart drawer' }}">
@@ -54,7 +54,7 @@
     <div class="cart-drawer__body" data-cart-items-container>
       {%- if cart.empty? -%}
         <div class="cart-drawer__empty text-center">
-          <p class="cart-drawer__empty-text">{{ 'sections.cart.empty' | t | default: 'Your bag is empty' }}</p>
+          <p class="cart-drawer__empty-text">{{ 'sections.cart.empty' | t | default: 'Your cart is empty' }}</p>
           <p class="cart-drawer__empty-subtext" style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
             {{ 'sections.cart.empty_subtext' | t | default: 'Explore our botanical formulations' }}
           </p>
@@ -191,7 +191,7 @@
                     type="button" 
                     class="btn-secondary cart-drawer__upsell-btn"
                     data-upsell-add-variant="{{ first_variant.id }}"
-                    aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}: {{ product.title | escape }}"
+                    aria-label="{{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}: {{ product.title | escape }}"
                     {% unless first_variant.available %}disabled="disabled"{% endunless %}
                   >
                     {%- if first_variant.available -%}

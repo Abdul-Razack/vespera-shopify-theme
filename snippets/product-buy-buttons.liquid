@@ -128,9 +128,9 @@
         {% unless current_variant.available %}disabled="disabled"{% endunless %}
       >
         {%- if current_variant.available -%}
-          {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }} <span class="btn-price-sep">&bull;</span> <span data-btn-price>{{ current_variant.price | money }}</span>
+          <span data-btn-text>{{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}</span>
         {%- else -%}
-          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+          <span data-btn-text>{{ 'products.product.sold_out' | t | default: 'Sold out' }}</span>
         {%- endif -%}
       </button>
 

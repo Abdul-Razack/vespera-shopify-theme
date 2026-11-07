@@ -53,12 +53,14 @@
 
                       <ul class="facet-disclosure__list" role="list">
                         {%- for value in filter.values -%}
+                          {%- assign filter_id = 'Filter-' | append: filter.label | handleize | append: '-' | append: forloop.index -%}
                           <li class="facet-disclosure__item">
-                            <label class="facet-checkbox {% if value.count == 0 and value.active == false %}facet-checkbox--disabled{% endif %}">
+                            <label for="{{ filter_id }}" class="facet-checkbox {% if value.count == 0 and value.active == false %}facet-checkbox--disabled{% endif %}">
                               <input 
                                 type="checkbox" 
                                 name="{{ value.param_name }}" 
                                 value="{{ value.value | escape }}"
+                                id="{{ filter_id }}"
                                 {% if value.active %}checked="checked"{% endif %}
                                 {% if value.count == 0 and value.active == false %}disabled="disabled"{% endif %}
                                 class="facet-checkbox__input"
@@ -189,12 +191,14 @@
                     {%- if results.terms == blank and option.value == 'most-relevant' -%}
                       {%- continue -%}
                     {%- endif -%}
+                    {%- assign sort_id = 'SortBy-' | append: forloop.index -%}
                     <li class="facet-disclosure__item">
-                      <label class="facet-radio {% if option.value == sort_by %}facet-radio--active{% endif %}">
+                      <label for="{{ sort_id }}" class="facet-radio {% if option.value == sort_by %}facet-radio--active{% endif %}">
                         <input 
                           type="radio" 
                           name="sort_by" 
                           value="{{ option.value | escape }}"
+                          id="{{ sort_id }}"
                           {% if option.value == sort_by %}checked="checked"{% endif %}
                           class="facet-radio__input"
                           onchange="this.form.submit()"

@@ -1,6 +1,7 @@
 {
   "accessibility": {
-    "skip_to_text": "Skip to content"
+    "skip_to_text": "Skip to content",
+    "close": "Close"
   },
   "sections": {
     "header": {
@@ -10,7 +11,7 @@
     },
     "cart": {
       "close_drawer": "Close cart drawer",
-      "empty": "Your bag is empty",
+      "empty": "Your cart is empty",
       "empty_subtext": "Explore our botanical formulations",
       "remove_title": "Remove",
       "note": "Order special instructions",
@@ -29,11 +30,11 @@
   },
   "templates": {
     "cart": {
-      "title": "Your Ritual Bag",
+      "title": "Your cart",
       "cart": "Cart",
       "items": "items",
       "free_shipping_unlocked": "You've unlocked Free Worldwide Shipping!",
-      "empty": "Your ritual bag is currently empty.",
+      "empty": "Your cart is currently empty.",
       "curated_rituals": "Curated Daily Essentials",
       "remove": "Remove",
       "remove_item": "Remove {{ title }}",
@@ -103,12 +104,12 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "Quick Add",
-      "sold_out": "Sold Out",
+      "add_to_cart": "Add to cart",
+      "sold_out": "Sold out",
       "on_sale": "Sale",
       "clinical_grade": "Clinical Botany",
       "tax_included": "Taxes included. Free worldwide shipping on $75+",
-      "in_stock": "In stock — Small-batch release",
+      "in_stock": "In stock",
       "quantity": "Quantity",
       "decrease_quantity": "Decrease quantity",
       "increase_quantity": "Increase quantity",
@@ -129,7 +130,7 @@
       "shipping_policy_html": "<a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
       "unit_price_label": "Unit price",
       "view_full_details": "View full details",
-      "quick_add": "Quick Add",
+      "quick_add": "Quick add",
       "choose_options": "Choose options",
       "from_lowest_price_html": "From {{ price }}",
       "inventory_in_stock": "In stock — Small-batch release",
@@ -139,7 +140,8 @@
         "usage": "How to Use",
         "shipping": "Shipping and Returns"
       },
-      "quick_view": "Quick view"
+      "quick_view": "Quick view",
+      "unavailable": "Unavailable"
     }
   },
   "404": {

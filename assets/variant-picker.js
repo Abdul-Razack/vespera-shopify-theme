@@ -122,8 +122,8 @@
       this.updateOptionAvailabilityCues(selectedOptions);
 
       const strings = (window.theme && window.theme.strings) ? window.theme.strings : {
-        addToCart: 'Add to Bag',
-        soldOut: 'Sold Out',
+        addToCart: 'Add to cart',
+        soldOut: 'Sold out',
         unavailable: 'Unavailable',
         inStock: 'In stock',
         backorder: 'Available on backorder'
@@ -190,8 +190,8 @@
       if (variant.available) {
         if (this.addBtn) {
           this.addBtn.removeAttribute('disabled');
-          const addLabel = strings.addToCart || 'Add to Bag';
-          this.addBtn.innerHTML = `${addLabel} <span class="btn-price-sep">&bull;</span> <span data-btn-price>${formattedPrice}</span>`;
+          const addLabel = strings.addToCart || 'Add to cart';
+          this.addBtn.innerHTML = `<span>${addLabel}</span>`;
         }
         if (this.dynamicCheckoutEl) {
           this.dynamicCheckoutEl.style.display = '';

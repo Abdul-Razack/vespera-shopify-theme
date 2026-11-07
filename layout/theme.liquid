@@ -39,6 +39,26 @@
 
     <script>
       document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+      window.theme = window.theme || {};
+      window.theme.routes = {
+        root: '{{ routes.root_url }}',
+        cart: '{{ routes.cart_url }}',
+        cartAdd: '{{ routes.cart_add_url }}',
+        cartChange: '{{ routes.cart_change_url }}',
+        cartUpdate: '{{ routes.cart_update_url }}',
+        predictiveSearch: '{{ routes.predictive_search_url }}',
+        productRecommendations: '{{ routes.product_recommendations_url }}'
+      };
+      window.theme.strings = {
+        addToCart: {{ 'products.product.add_to_cart' | t | default: 'Add to cart' | json }},
+        soldOut: {{ 'products.product.sold_out' | t | default: 'Sold out' | json }},
+        unavailable: {{ 'products.product.unavailable' | t | default: 'Unavailable' | json }},
+        inStock: {{ 'products.product.in_stock' | t | default: 'In stock' | json }},
+        backorder: {{ 'products.product.backorder_message' | t | default: 'Available on backorder' | json }},
+        quickAdd: {{ 'products.product.quick_add' | t | default: 'Quick add' | json }},
+        quickView: {{ 'products.product.quick_view' | t | default: 'Quick view' | json }},
+        cartEmpty: {{ 'sections.cart.empty' | t | default: 'Your cart is empty' | json }}
+      };
     </script>
   </head>
 
@@ -87,6 +107,34 @@
           if (e.target.closest('[data-quick-view-handle]')) loadQuickView(e);
         });
       })();
+    </script>
+    <script>
+      // Shopify Theme Editor Integration (Shopify Section 14 - F-25)
+      document.addEventListener('shopify:section:load', function(event) {
+        const container = event.target;
+        if (container.querySelector('product-variant-picker')) {
+          const picker = container.querySelector('product-variant-picker');
+          if (picker && typeof picker.init === 'function') picker.init();
+        }
+        const recSection = container.querySelector('.product-recommendations');
+        if (recSection && recSection.dataset.url) {
+          fetch(recSection.dataset.url)
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+              const newRec = doc.querySelector('.product-recommendations');
+              if (newRec) recSection.innerHTML = newRec.innerHTML;
+            })
+            .catch(() => {});
+        }
+      });
+      document.addEventListener('shopify:section:select', function(event) {
+        event.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+      document.addEventListener('shopify:block:select', function(event) {
+        event.target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
     </script>
   </body>
 </html>

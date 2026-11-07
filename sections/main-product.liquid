@@ -298,9 +298,9 @@
         {% unless current_variant.available %}disabled="disabled"{% endunless %}
       >
         {%- if current_variant.available -%}
-          {{ 'products.product.add_to_cart' | t | default: 'Add to Bag' }}
+          {{ 'products.product.add_to_cart' | t | default: 'Add to cart' }}
         {%- else -%}
-          {{ 'products.product.sold_out' | t | default: 'Sold Out' }}
+          {{ 'products.product.sold_out' | t | default: 'Sold out' }}
         {%- endif -%}
       </button>
     </div>
@@ -404,10 +404,10 @@
       if (stickyBtn) {
         if (variant && variant.available) {
           stickyBtn.removeAttribute('disabled');
-          stickyBtn.textContent = 'Add to Bag';
+          stickyBtn.textContent = 'Add to cart';
         } else {
           stickyBtn.setAttribute('disabled', 'disabled');
-          stickyBtn.textContent = 'Sold Out';
+          stickyBtn.textContent = 'Sold out';
         }
       }
       if (stickyImg && variant && variant.featured_image) {
@@ -545,8 +545,8 @@
         {
           "type": "liquid",
           "id": "custom_liquid",
-          "label": "Custom Liquid",
-          "info": "Add custom app integrations or Liquid code."
+          "label": "Custom liquid",
+          "info": "Add custom app integrations or liquid code."
         }
       ]
     },
@@ -654,17 +654,39 @@
   ],
   "default": {
     "blocks": [
-      { "type": "vendor" },
-      { "type": "title" },
-      { "type": "price" },
-      { "type": "variant_picker" },
-      { "type": "quantity" },
-      { "type": "buy_buttons" },
-      { "type": "pickup_availability" },
-      { "type": "description" },
-      { "type": "clinical_study" },
-      { "type": "ingredients" },
-      { "type": "ritual" }
+      {
+        "type": "vendor"
+      },
+      {
+        "type": "title"
+      },
+      {
+        "type": "price"
+      },
+      {
+        "type": "variant_picker"
+      },
+      {
+        "type": "quantity"
+      },
+      {
+        "type": "buy_buttons"
+      },
+      {
+        "type": "pickup_availability"
+      },
+      {
+        "type": "description"
+      },
+      {
+        "type": "clinical_study"
+      },
+      {
+        "type": "ingredients"
+      },
+      {
+        "type": "ritual"
+      }
     ]
   }
 }

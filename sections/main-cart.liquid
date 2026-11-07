@@ -8,10 +8,10 @@
 
 <div class="main-cart page-container section-spacing" data-section-id="{{ section.id }}">
   <header class="main-cart__header">
-    <h1 class="main-cart__title">{{ 'templates.cart.title' | t | default: 'Your Bag' }}</h1>
+    <h1 class="main-cart__title">{{ 'templates.cart.title' | t | default: 'Your cart' }}</h1>
     <p class="main-cart__subtitle">
       {%- if cart.empty? -%}
-        {{ 'sections.cart.empty' | t | default: 'Your bag is currently empty.' }}
+        {{ 'sections.cart.empty' | t | default: 'Your cart is currently empty.' }}
       {%- else -%}
         {{ cart.item_count }} {{ 'templates.cart.items' | t | default: 'items' }}
       {%- endif -%}
@@ -42,7 +42,7 @@
 
   {%- if cart.empty? -%}
     <div class="main-cart__empty text-center">
-      <p class="main-cart__empty-text">{{ 'sections.cart.empty' | t | default: 'Your bag is currently empty.' }}</p>
+      <p class="main-cart__empty-text">{{ 'sections.cart.empty' | t | default: 'Your cart is empty' }}</p>
       <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
         {{ 'general.continue_shopping' | t | default: 'Explore Formulations' }}
       </a>
