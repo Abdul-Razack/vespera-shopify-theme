@@ -293,6 +293,7 @@
     transition: background-color var(--transition-normal);
     z-index: 100;
   }
+  .shopify-section:has(.site-header--sticky),
   .site-header--sticky {
     position: sticky;
     top: 0;
@@ -472,6 +473,75 @@
     width: 20px;
     height: 1.5px;
     background-color: var(--color-text);
+  }
+
+  /* Narrow Mobile Viewports (≤480px and ≤360px):
+     Eliminates horizontal overflow on 320px–375px screens (iPhone SE, Galaxy A)
+     while preserving WCAG 2.1 touch target minimums (≥24×24px; here 32px–38px).
+     Root fix for R9.2 / CR2 / CR3 */
+  @media screen and (max-width: 480px) {
+    .site-header__inner {
+      padding-left: 12px;
+      padding-right: 12px;
+      gap: 6px;
+    }
+    .site-header__logo-wrapper {
+      min-width: 0;
+      flex: 1 1 auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .site-header__brand-name {
+      max-width: 140px;
+      font-size: 0.95rem;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .site-header__actions {
+      gap: 6px;
+      flex-shrink: 0;
+    }
+    .site-header__icon-link {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      min-height: 38px;
+    }
+    .site-header__mobile-toggle {
+      width: 38px;
+      height: 38px;
+      min-width: 38px;
+      min-height: 38px;
+      flex-shrink: 0;
+    }
+  }
+  @media screen and (max-width: 360px) {
+    .site-header__inner {
+      padding-left: 8px;
+      padding-right: 8px;
+      gap: 4px;
+    }
+    .site-header__brand-name {
+      max-width: 96px;
+      font-size: 0.85rem;
+    }
+    .site-header__actions {
+      gap: 4px;
+    }
+    .site-header__icon-link {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+    }
+    .site-header__mobile-toggle {
+      width: 32px;
+      height: 32px;
+      min-width: 32px;
+      min-height: 32px;
+    }
   }
 
   /* Search Drawer */
