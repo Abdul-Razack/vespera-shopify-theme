@@ -49,6 +49,19 @@
   }
 
   function closeModal() {
+    // Pause any playing videos inside the modal
+    modal.querySelectorAll('video').forEach(v => {
+      try { v.pause(); } catch(err) {}
+    });
+
+    // Reset iframe embeds (YouTube / Vimeo)
+    modal.querySelectorAll('iframe').forEach(iframe => {
+      try {
+        const src = iframe.src;
+        iframe.src = src;
+      } catch(err) {}
+    });
+
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
     currentProduct = null;
@@ -91,7 +104,7 @@
   });
 
   // Render product details inside modal
-  function renderProduct(product) {
+  function renderProduct(product, galleryEl) {
     currentProduct = product;
     selectedVariant = product.variants.find(v => v.available) || product.variants[0];
     currentQuantity = 1;
@@ -138,7 +151,7 @@
 
     bodyEl.innerHTML = `
       <div class="quick-view__grid">
-        <div class="quick-view__media-wrap">
+        <div class="quick-view__media-wrap" id="QuickViewMediaWrap">
           <img src="${mainImgSrc}" alt="${product.title}" class="quick-view__media-img" id="QuickViewMainImg" loading="lazy">
         </div>
         
@@ -178,6 +191,62 @@
         </div>
       </div>
     `;
+
+    // Inject Shared Media Gallery (Image, Video, External Video, 3D Model - R4.15)
+    const mediaWrap = bodyEl.querySelector('#QuickViewMediaWrap');
+    if (mediaWrap && galleryEl) {
+      mediaWrap.innerHTML = '';
+      mediaWrap.appendChild(galleryEl);
+
+      // Lazy-load official Shopify model-viewer script only if needed
+      if (galleryEl.querySelector('model-viewer') && !customElements.get('model-viewer')) {
+        if (!document.querySelector('script[src*="model-viewer-ui"]')) {
+          const script = document.createElement('script');
+          script.type = 'module';
+          script.src = 'https://cdn.shopify.com/shopifycloud/model-viewer-ui/assets/v1.0/model-viewer-ui.en.js';
+          document.head.appendChild(script);
+        }
+      }
+
+      // Thumbnail navigation inside quick view gallery
+      galleryEl.addEventListener('click', (e) => {
+        const thumb = e.target.closest('.product-media-gallery__thumb-btn');
+        if (!thumb) return;
+        const mediaId = thumb.getAttribute('data-thumbnail-id');
+        if (!mediaId) return;
+
+        // Pause any active videos
+        galleryEl.querySelectorAll('video').forEach(v => {
+          try { v.pause(); } catch(err) {}
+        });
+
+        // Toggle active media item
+        const items = galleryEl.querySelectorAll('.product-media-gallery__item');
+        items.forEach(item => {
+          if (item.getAttribute('data-media-id') === mediaId) {
+            item.style.display = 'block';
+            item.classList.add('is-active');
+            item.classList.remove('is-hidden');
+          } else {
+            item.style.display = 'none';
+            item.classList.remove('is-active');
+            item.classList.add('is-hidden');
+          }
+        });
+
+        // Update active thumbnail state
+        const thumbs = galleryEl.querySelectorAll('.product-media-gallery__thumb-btn');
+        thumbs.forEach(t => {
+          if (t === thumb) {
+            t.classList.add('is-active');
+            t.setAttribute('aria-current', 'true');
+          } else {
+            t.classList.remove('is-active');
+            t.removeAttribute('aria-current');
+          }
+        });
+      });
+    }
 
     bindModalControls();
   }
@@ -281,6 +350,39 @@
             addBtn.textContent = strings.soldOut || '';
           }
 
+          // Switch matching media item in shared gallery (R4.15)
+          if (matched.featured_media && matched.featured_media.id) {
+            const galleryEl = bodyEl.querySelector('.product-media-gallery');
+            if (galleryEl) {
+              const mediaId = String(matched.featured_media.id);
+              const items = galleryEl.querySelectorAll('.product-media-gallery__item');
+              let found = false;
+              items.forEach(item => {
+                if (item.getAttribute('data-media-id') === mediaId) {
+                  item.style.display = 'block';
+                  item.classList.add('is-active');
+                  item.classList.remove('is-hidden');
+                  found = true;
+                } else {
+                  item.style.display = 'none';
+                  item.classList.remove('is-active');
+                  item.classList.add('is-hidden');
+                }
+              });
+              if (found) {
+                const thumbs = galleryEl.querySelectorAll('.product-media-gallery__thumb-btn');
+                thumbs.forEach(t => {
+                  if (t.getAttribute('data-thumbnail-id') === mediaId) {
+                    t.classList.add('is-active');
+                    t.setAttribute('aria-current', 'true');
+                  } else {
+                    t.classList.remove('is-active');
+                    t.removeAttribute('aria-current');
+                  }
+                });
+              }
+            }
+          }
           if (matched.featured_image && mainImg) {
             mainImg.src = matched.featured_image.src;
           }
@@ -347,10 +449,23 @@
     openModal(trigger);
 
     try {
-      const response = await fetch(`/products/${handle}.js`);
-      if (!response.ok) throw new Error('Product fetch failed');
-      const product = await response.json();
-      renderProduct(product);
+      // Fetch product data and section media gallery in parallel (R4.15)
+      const [productRes, sectionRes] = await Promise.all([
+        fetch(`/products/${handle}.js`),
+        fetch(`/products/${handle}?section_id=main-product`).catch(() => null)
+      ]);
+
+      if (!productRes.ok) throw new Error('Product fetch failed');
+      const product = await productRes.json();
+
+      let galleryEl = null;
+      if (sectionRes && sectionRes.ok) {
+        const sectionHtml = await sectionRes.text();
+        const doc = new DOMParser().parseFromString(sectionHtml, 'text/html');
+        galleryEl = doc.querySelector('.product-media-gallery');
+      }
+
+      renderProduct(product, galleryEl);
     } catch (err) {
       console.error('Failed to load quick view:', err);
       bodyEl.innerHTML = `

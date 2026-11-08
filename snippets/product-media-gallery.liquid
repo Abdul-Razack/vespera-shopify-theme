@@ -9,32 +9,58 @@
 
 <div class="product-media-gallery" data-gallery data-section-id="{{ section_id }}">
   <div class="product-media-gallery__featured-wrapper">
-    {%- if featured_media != blank -%}
-      {%- case featured_media.media_type -%}
-        {%- when 'image' -%}
-          {%- capture focal_style -%}
-            {%- if featured_media.presentation.focal_point != blank -%}
-              style="object-position: {{ featured_media.presentation.focal_point }};"
-            {%- endif -%}
-          {%- endcapture -%}
-          <img 
-            id="ProductFeaturedMedia-{{ section_id }}"
-            src="{{ featured_media | image_url: width: 1200 }}" 
-            alt="{{ featured_media.alt | default: product.title | escape }}"
-            class="product-media-gallery__featured-img"
-            width="{{ featured_media.width | default: 800 }}"
-            height="{{ featured_media.height | default: 1000 }}"
-            loading="eager"
-            data-featured-image
-            {{ focal_style }}
-          >
-        {%- when 'video' -%}
-          {{ featured_media | video_tag: controls: true, image_size: '1200x', class: 'product-media-gallery__video', id: 'ProductFeaturedMedia-' | append: section_id }}
-        {%- when 'external_video' -%}
-          {{ featured_media | external_video_tag: class: 'product-media-gallery__external-video', id: 'ProductFeaturedMedia-' | append: section_id }}
-        {%- when 'model' -%}
-          {{ featured_media | model_viewer_tag: image_size: '1200x', reveal: 'interaction', toggleable: true, class: 'product-media-gallery__model', id: 'ProductFeaturedMedia-' | append: section_id }}
-      {%- endcase -%}
+    {%- if product.media.size > 0 -%}
+      {%- for media in product.media -%}
+        <div 
+          class="product-media-gallery__item{% if media.id == featured_media.id %} is-active{% else %} is-hidden{% endif %}"
+          data-media-id="{{ media.id }}"
+          data-media-type="{{ media.media_type }}"
+          {% unless media.id == featured_media.id %}style="display: none;"{% endunless %}
+        >
+          {%- case media.media_type -%}
+            {%- when 'image' -%}
+              {%- capture focal_style -%}
+                {%- if media.presentation.focal_point != blank -%}
+                  style="object-position: {{ media.presentation.focal_point }};"
+                {%- endif -%}
+              {%- endcapture -%}
+              <img 
+                id="ProductFeaturedMedia-{{ section_id }}-{{ media.id }}"
+                src="{{ media | image_url: width: 1200 }}" 
+                alt="{{ media.alt | default: product.title | escape }}"
+                class="product-media-gallery__featured-img"
+                width="{{ media.width | default: 800 }}"
+                height="{{ media.height | default: 1000 }}"
+                loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                data-featured-image
+                {{ focal_style }}
+              >
+            {%- when 'video' -%}
+              {{ media | video_tag: controls: true, image_size: '1200x', class: 'product-media-gallery__video', id: 'ProductFeaturedMedia-' | append: section_id | append: '-' | append: media.id }}
+            {%- when 'external_video' -%}
+              {{ media | external_video_tag: class: 'product-media-gallery__external-video', id: 'ProductFeaturedMedia-' | append: section_id | append: '-' | append: media.id }}
+            {%- when 'model' -%}
+              {{ media | model_viewer_tag: image_size: '1200x', reveal: 'interaction', toggleable: true, class: 'product-media-gallery__model', id: 'ProductFeaturedMedia-' | append: section_id | append: '-' | append: media.id }}
+          {%- endcase -%}
+        </div>
+      {%- endfor -%}
+    {%- elsif featured_media != blank -%}
+      <div 
+        class="product-media-gallery__item is-active"
+        data-media-id="{{ featured_media.id }}"
+        data-media-type="{{ featured_media.media_type }}"
+      >
+        <img 
+          id="ProductFeaturedMedia-{{ section_id }}"
+          src="{{ featured_media | image_url: width: 1200 }}" 
+          alt="{{ featured_media.alt | default: product.title | escape }}"
+          class="product-media-gallery__featured-img"
+          width="{{ featured_media.width | default: 800 }}"
+          height="{{ featured_media.height | default: 1000 }}"
+          loading="eager"
+          data-featured-image
+        >
+      </div>
     {%- else -%}
       <div class="product-media-gallery__placeholder">
         {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
