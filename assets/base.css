@@ -1026,7 +1026,7 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   letter-spacing: -0.01em;
 }
 
-.clinical-metric-badge {
+.product-details-badge {
   display: inline-flex;
   align-items: center;
   font-size: 0.6875rem;
@@ -1040,13 +1040,13 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   border-radius: var(--radius-full);
 }
 
-.clinical-study-summary {
+.product-details-summary {
   font-size: var(--font-size-sm);
   color: var(--color-text);
   margin-bottom: var(--space-2);
 }
 
-.clinical-bioactives-list {
+.product-details-list {
   background-color: var(--color-bg-subtle);
   border-left: 3px solid var(--color-accent);
   padding: var(--space-3) var(--space-4);
@@ -1054,7 +1054,7 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
 }
 
-.clinical-bioactives-label {
+.product-details-label {
   display: block;
   font-size: 0.6875rem;
   font-weight: var(--font-weight-bold);
@@ -1064,7 +1064,7 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   margin-bottom: var(--space-1);
 }
 
-.clinical-bioactives-text {
+.product-details-text {
   font-size: var(--font-size-xs);
   color: var(--color-text);
   line-height: var(--line-height-normal);

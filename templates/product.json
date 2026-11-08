@@ -43,18 +43,18 @@
         "clinical_study": {
           "type": "clinical_study",
           "settings": {
-            "heading": "Clinical Formulation & Efficacy",
-            "metric": "94% Hydration Retained",
-            "summary": "Documented Double-Blind Clinical Efficacy:",
-            "content": "<p>Engineered with cold-pressed botanical bio-actives and lipid barrier reinforcements. Documented to boost barrier moisture retention by 94% within 14 consecutive days of morning and evening ritual.</p>"
+            "heading": "Formulation & Details",
+            "metric": "Key Highlights",
+            "summary": "Formulation highlights and notes:",
+            "content": "<p>Crafted with cold-pressed botanical extracts and nourishing plant lipids to support natural radiance and hydration during your daily ritual.</p>"
           }
         },
         "ingredients": {
           "type": "ingredients",
           "settings": {
             "heading": "Key Bio-Actives & Full INCI",
-            "bioactives_count": "100% Vegan & Bio-Compatible",
-            "key_bioactives": "Phyto-Squalane 5%, Cold-Pressed Rosehip Seed Oil, Niacinamide (Vitamin B3), Micro-Algae Ferment, Hyaluronic Acid.",
+            "bioactives_count": "Plant-Based Ingredients",
+            "key_bioactives": "Plant Squalane, Cold-Pressed Rosehip Seed Oil, Niacinamide, Botanical Extracts.",
             "content": "<p>Aqua/Water/Eau, Simmondsia Chinensis (Jojoba) Seed Oil, Rosa Canina (Rosehip) Seed Oil, Squalane, Niacinamide, Glycerin, Sodium Hyaluronate, Tocopherol (Vitamin E), Pelargonium Graveolens Oil, Rosmarinus Officinalis Leaf Extract.</p>"
           }
         },

@@ -6,22 +6,22 @@
         "metric_1": {
           "type": "metric",
           "settings": {
-            "value": "98%",
-            "label": "Bio-Active Plants"
+            "value": "12",
+            "label": "Botanical Extracts"
           }
         },
         "metric_2": {
           "type": "metric",
           "settings": {
-            "value": "0%",
-            "label": "Synthetic Fragrance"
+            "value": "3",
+            "label": "Ritual Steps"
           }
         },
         "metric_3": {
           "type": "metric",
           "settings": {
-            "value": "100%",
-            "label": "Recyclable Glass"
+            "value": "24h",
+            "label": "Nourishing Care"
           }
         }
       },
@@ -31,9 +31,9 @@
         "metric_3"
       ],
       "settings": {
-        "eyebrow": "Clinical Botany • Conscious Rituals",
+        "eyebrow": "Mindful Botany • Conscious Rituals",
         "heading": "Formulated to Elevate Your Natural Radiance",
-        "subtext": "Pure clinical bio-actives blended with cold-pressed botanical oils. Designed for conscious daily rituals.",
+        "subtext": "Selected botanical extracts blended with cold-pressed plant oils. Designed for conscious daily rituals.",
         "button_label": "Explore Formulations",
         "secondary_button_label": "Our Philosophy"
       }
@@ -52,14 +52,14 @@
           "type": "press_quote",
           "settings": {
             "publication": "Harper's Bazaar",
-            "quote": "Clinically proven botanical precision without synthetic compromises. The new benchmark for luxury daily ritual."
+            "quote": "A thoughtful approach to botanical precision without synthetic compromises. The modern benchmark for conscious daily rituals."
           }
         },
         "press_3": {
           "type": "press_quote",
           "settings": {
             "publication": "Allure Magazine",
-            "quote": "94% moisture barrier retention backed by independent studies. Pure sustainable luxury in UV-protective glass."
+            "quote": "Nourishing botanical formulations designed for conscious daily rituals. Pure sustainable luxury in UV-protective glass."
           }
         }
       },
@@ -78,7 +78,7 @@
       "settings": {
         "eyebrow": "Bestselling Formulations",
         "heading": "Curated Daily Rituals",
-        "description": "Potent clinical bio-actives blended with cold-pressed botanical extracts for visible radiance.",
+        "description": "Thoughtfully selected botanical extracts blended for visible radiance and balanced care.",
         "products_to_show": 4,
         "columns_desktop": 4,
         "show_secondary_image": true,
@@ -136,7 +136,7 @@
       "settings": {
         "layout": "image_first",
         "subtle_bg": false,
-        "eyebrow": "Clinical Extraction",
+        "eyebrow": "Botanical Sourcing",
         "heading": "Whole-Plant Potency Preserved at Harvest",
         "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
         "button_label": "Our Philosophy",
@@ -161,7 +161,7 @@
           "settings": {
             "icon": "flask",
             "title": "Clean Chemistry",
-            "text": "<p>100% free from synthetic perfumes, sulfates, and filler oils. Dermatologically tested for sensitive skin.</p>",
+            "text": "<p>Formulated without synthetic perfumes, sulfates, or artificial fillers for sensitive daily rituals.</p>",
             "link_label": "Our Standards",
             "link": "/collections/all"
           }
@@ -185,7 +185,7 @@
       "settings": {
         "eyebrow": "Formulation Standards",
         "heading": "The Conscious Radiance Creed",
-        "description": "Rigorous clinical principles grounded in botanical integrity.",
+        "description": "Mindful formulation standards grounded in botanical integrity.",
         "columns_desktop": 3,
         "column_alignment": "center",
         "subtle_bg": true
@@ -209,7 +209,7 @@
             "rating": 5,
             "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
             "author": "Dr. Clara Hastings",
-            "publication_subtitle": "Integrative Dermatologist"
+            "publication_subtitle": "Skincare Specialist & Aesthetician"
           }
         },
         "quote_3": {

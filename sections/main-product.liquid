@@ -172,14 +172,14 @@
                   <div class="main-product__accordion-header-wrap">
                     <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
                     {%- if block.settings.metric != blank -%}
-                      <span class="clinical-metric-badge">{{ block.settings.metric | escape }}</span>
+                      <span class="product-details-badge">{{ block.settings.metric | escape }}</span>
                     {%- endif -%}
                   </div>
                   <span class="accordion-icon" aria-hidden="true">+</span>
                 </summary>
                 <div class="main-product__accordion-content">
                   {%- if block.settings.summary != blank -%}
-                    <p class="clinical-study-summary"><strong>{{ block.settings.summary | escape }}</strong></p>
+                    <p class="product-details-summary"><strong>{{ block.settings.summary | escape }}</strong></p>
                   {%- endif -%}
                   <div class="rte">{{ block.settings.content }}</div>
                 </div>
@@ -191,16 +191,16 @@
                   <div class="main-product__accordion-header-wrap">
                     <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
                     {%- if block.settings.bioactives_count != blank -%}
-                      <span class="clinical-metric-badge">{{ block.settings.bioactives_count | escape }}</span>
+                      <span class="product-details-badge">{{ block.settings.bioactives_count | escape }}</span>
                     {%- endif -%}
                   </div>
                   <span class="accordion-icon" aria-hidden="true">+</span>
                 </summary>
                 <div class="main-product__accordion-content">
                   {%- if block.settings.key_bioactives != blank -%}
-                    <div class="clinical-bioactives-list">
-                      <span class="clinical-bioactives-label">{{ 'products.product.key_bio_actives' | t }}</span>
-                      <span class="clinical-bioactives-text">{{ block.settings.key_bioactives | escape }}</span>
+                    <div class="product-details-list">
+                      <span class="product-details-label">{{ 'products.product.key_bio_actives' | t }}</span>
+                      <span class="product-details-text">{{ block.settings.key_bioactives | escape }}</span>
                     </div>
                   {%- endif -%}
                   <div class="rte">{{ block.settings.content }}</div>
@@ -667,31 +667,31 @@
     },
     {
       "type": "clinical_study",
-      "name": "Clinical study",
+      "name": "Formulation details",
       "settings": [
         {
           "type": "text",
           "id": "heading",
           "label": "Heading",
-          "default": "Clinical Formulation & Efficacy"
+          "default": "Formulation & Details"
         },
         {
           "type": "text",
           "id": "metric",
-          "label": "Metric badge",
-          "default": "94% Hydration Retained"
+          "label": "Highlight badge",
+          "default": "Key Highlight"
         },
         {
           "type": "text",
           "id": "summary",
-          "label": "Key finding summary",
-          "default": "Documented Double-Blind Clinical Efficacy:"
+          "label": "Summary note",
+          "default": "Formulation highlights and notes:"
         },
         {
           "type": "richtext",
           "id": "content",
           "label": "Study description",
-          "default": "<p>Engineered with cold-pressed botanical bio-actives and lipid barrier reinforcements. Documented to boost barrier moisture retention by 94% within 14 consecutive days of morning and evening ritual.</p>"
+          "default": "<p>Crafted with cold-pressed botanical extracts and nourishing plant lipids to support natural radiance and hydration during your daily ritual.</p>"
         }
       ]
     },
@@ -709,13 +709,13 @@
           "type": "text",
           "id": "bioactives_count",
           "label": "Badge callout",
-          "default": "100% Vegan & Bio-Compatible"
+          "default": "Plant-Based Ingredients"
         },
         {
           "type": "text",
           "id": "key_bioactives",
           "label": "Key bio-actives",
-          "default": "Phyto-Squalane 5%, Cold-Pressed Rosehip Seed Oil, Niacinamide (Vitamin B3), Micro-Algae Ferment, Hyaluronic Acid."
+          "default": "Plant Squalane, Cold-Pressed Rosehip Seed Oil, Niacinamide, Botanical Extracts."
         },
         {
           "type": "richtext",
@@ -757,7 +757,7 @@
           "type": "richtext",
           "id": "content",
           "label": "Tab content",
-          "default": "<p>Housed in 100% recyclable amber UV-filtering glass to preserve potency without synthetic stabilizers. Packaged in FSC-certified post-consumer recycled paper printed with soy ink.</p>"
+          "default": "<p>Housed in recyclable amber UV-filtering glass to preserve potency without synthetic stabilizers. Packaged in FSC-certified post-consumer recycled paper printed with soy ink.</p>"
         },
         {
           "type": "page",
