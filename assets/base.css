@@ -2648,6 +2648,12 @@ select,
   border: 1px solid var(--color-border-dark);
 }
 
+.site-footer__input-group input.site-footer__input {
+  border: none !important;
+  box-shadow: none !important;
+  background-color: transparent !important;
+}
+
 .facet-checkbox__input,
 .facet-radio__input {
   outline: 1.5px solid var(--color-border-dark);
