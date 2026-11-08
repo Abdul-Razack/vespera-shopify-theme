@@ -30,6 +30,28 @@
         {%- assign collection_title = block.settings.title | default: collection.title | default: 'Collection' -%}
         {%- assign card_image = block.settings.image | default: collection.featured_image | default: collection.products.first.featured_media -%}
 
+        {%- assign category_product_count = 0 -%}
+        {%- if card_url contains 'category=' -%}
+          {%- assign target_category = card_url | split: 'category=' | last | split: '&' | first | url_decode | downcase -%}
+          {%- for prod in collections.all.products -%}
+            {%- assign prod_type_lower = prod.type | downcase -%}
+            {%- assign is_match = false -%}
+            {%- if prod_type_lower contains target_category or target_category contains prod_type_lower -%}
+              {%- assign is_match = true -%}
+            {%- elsif target_category contains 'cream' and prod_type_lower contains 'moisturizer' -%}
+              {%- assign is_match = true -%}
+            {%- elsif target_category contains 'body' and prod_type_lower contains 'body' -%}
+              {%- assign is_match = true -%}
+            {%- endif -%}
+            {%- if is_match -%}
+              {%- assign category_product_count = category_product_count | plus: 1 -%}
+              {%- if card_image == blank and prod.featured_media != blank -%}
+                {%- assign card_image = prod.featured_media -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+
         <div class="collection-list-card{% if card_url == blank %} collection-list-card--static{% endif %}" {{ block.shopify_attributes }}>
           {%- if card_url != blank -%}
             <a href="{{ card_url }}" class="collection-list-card__link">
@@ -64,6 +86,8 @@
                 <span class="collection-list-card__count">
                   {%- if collection != blank and collection.products_count != blank -%}
                     {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
+                  {%- elsif category_product_count > 0 -%}
+                    {{ 'collections.general.items_with_count' | t: count: category_product_count }}
                   {%- elsif card_url != blank -%}
                     {{ 'sections.collection_list.view_all' | t }} &rarr;
                   {%- elsif request.design_mode -%}
