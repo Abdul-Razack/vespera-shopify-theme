@@ -37,38 +37,31 @@
         "button_label": "Explore Botanical Rituals",
         "button_link": "/collections/all",
         "secondary_button_label": "Our Philosophy",
-        "secondary_button_link": "/pages/about"
+        "secondary_button_link": "#philosophy"
       }
     },
     "press_marquee": {
       "type": "press-marquee",
+      "disabled": true,
       "blocks": {
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Whole Plant Gazette",
+            "publication": "Editorial Feature",
             "quote": "A masterclass in whole-plant herbal extraction. The unrefined oils deliver unprecedented nutrient density."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Apothecary Quarterly",
+            "publication": "Apothecary Review",
             "quote": "A thoughtful celebration of botanical integrity. Pure plant luxury formulated for everyday longevity."
-          }
-        },
-        "press_3": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Earth & Skin Review",
-            "quote": "Nourishing wildcrafted remedies bottled in recyclable amber glass. Mindful skincare at its highest standard."
           }
         }
       },
       "block_order": [
         "press_1",
-        "press_2",
-        "press_3"
+        "press_2"
       ],
       "settings": {
         "eyebrow": "Botanical Recognition",
@@ -95,29 +88,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Herbal Serums & Elixirs",
-            "link": "/collections/all?category=Serum"
+            "title": "Bio-Active Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Pure Botanical Cleansers",
-            "link": "/collections/all?category=Cleanser"
+            "title": "Gentle Cleansers & Essences",
+            "link": "/collections/all?category=Gentle+Cleansers+%26+Essences"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Restorative Plant Creams",
-            "link": "/collections/all?category=Cream"
+            "title": "Cellular Creams & Balms",
+            "link": "/collections/all?category=Cellular+Creams+%26+Balms"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Whole-Plant Body Care",
-            "link": "/collections/all?category=Body"
+            "title": "Conscious Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -145,8 +138,8 @@
         "eyebrow": "Regenerative Agriculture",
         "heading": "Living Phytonutrients Preserved at Harvest",
         "text": "<p>We source cold-pressed seed oils and wildcrafted plant extracts directly from certified regenerative growers, preserving heat-sensitive antioxidants and active enzymes for deep dermal vitality.</p>",
-        "button_label": "Our Philosophy",
-        "button_link": "/pages/about"
+        "button_label": "Explore Formulations",
+        "button_link": "/collections/all"
       }
     },
     "multicolumn": {
@@ -158,8 +151,8 @@
             "icon": "leaf",
             "title": "Whole-Plant Purity",
             "text": "<p>Unrefined botanical extracts preserved at source without synthetic isolation or chemical solvents.</p>",
-            "link_label": "Learn More",
-            "link": "/pages/about"
+            "link_label": "Explore Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "col_2": {
@@ -168,8 +161,8 @@
             "icon": "flask",
             "title": "Gentle Cold Pressing",
             "text": "<p>Low-temperature seed pressing retains natural tocopherols, essential fatty acids, and active sterols.</p>",
-            "link_label": "Our Standards",
-            "link": "/pages/about"
+            "link_label": "Formulation Standards",
+            "link": "/pages/contact"
           }
         },
         "col_3": {
@@ -178,8 +171,8 @@
             "icon": "recycle",
             "title": "Amber Glass Bottles",
             "text": "<p>Packaged in recyclable amber apothecary glass to shield delicate plant oils from UV oxidation.</p>",
-            "link_label": "Sustainability",
-            "link": "/pages/about"
+            "link_label": "Explore Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -199,13 +192,14 @@
     },
     "testimonials": {
       "type": "testimonials",
+      "disabled": true,
       "blocks": {
         "quote_1": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
             "quote": "The herbal radiance serum completely transformed my dry, reactive skin. Truly feels like nourishment in a bottle.",
-            "author": "Verified Customer",
+            "author": "Sample Reviewer (e.g., Hannah L.)",
             "publication_subtitle": "Botanical Face Oil Ritual"
           }
         },
@@ -214,8 +208,8 @@
           "settings": {
             "rating": 5,
             "quote": "Incredible earthy aroma and instant soothing relief. You can feel the purity of the unrefined botanicals.",
-            "author": "Verified Ritualist",
-            "publication_subtitle": "Verified Purchase • 50ml"
+            "author": "Sample Reviewer (e.g., Marcus T.)",
+            "publication_subtitle": "Purifying Cleansing Oil"
           }
         },
         "quote_3": {
@@ -223,7 +217,7 @@
           "settings": {
             "rating": 5,
             "quote": "My skin has never felt softer or more balanced. The glass packaging and formula quality are second to none.",
-            "author": "Verified Customer",
+            "author": "Sample Reviewer (e.g., Zoe P.)",
             "publication_subtitle": "Daily Herbal Balancing"
           }
         }
@@ -234,7 +228,7 @@
         "quote_3"
       ],
       "settings": {
-        "eyebrow": "Customer Voices",
+        "eyebrow": "Client Impressions",
         "heading": "Loved by Conscious Ritualists",
         "columns_desktop": 3
       }

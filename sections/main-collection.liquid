@@ -347,7 +347,16 @@
       pills.forEach(p => {
         const filter = p.getAttribute('data-category-filter');
         if (filter && filter !== 'all') {
-          if (requestedCategories.includes(filter.toLowerCase())) {
+          const fLow = filter.toLowerCase();
+          const isMatch = requestedCategories.some(req => {
+            if (fLow === req || fLow.includes(req) || req.includes(fLow)) return true;
+            if (req.includes('serum') && fLow.includes('serum')) return true;
+            if (req.includes('cleanser') && fLow.includes('cleanser')) return true;
+            if (req.includes('cream') && (fLow.includes('cream') || fLow.includes('balm') || fLow.includes('moisturizer'))) return true;
+            if (req.includes('body') && fLow.includes('body')) return true;
+            return false;
+          });
+          if (isMatch) {
             activeCategories.add(filter);
           }
         }

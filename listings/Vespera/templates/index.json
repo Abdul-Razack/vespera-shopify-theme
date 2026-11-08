@@ -37,38 +37,31 @@
         "button_label": "Explore Evening Rituals",
         "button_link": "/collections/all",
         "secondary_button_label": "Our Philosophy",
-        "secondary_button_link": "/pages/about"
+        "secondary_button_link": "#philosophy"
       }
     },
     "press_marquee": {
       "type": "press-marquee",
+      "disabled": true,
       "blocks": {
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Nocturnal Beauty Review",
+            "publication": "Editorial Feature",
             "quote": "A masterwork in overnight barrier repair. You awaken with replenished firmness and calm, rested radiance."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Quiet Luxury Skincare Journal",
+            "publication": "Skincare Review",
             "quote": "The evening ritual we have all been waiting for. Unparalleled sensory pleasure meets restorative efficacy."
-          }
-        },
-        "press_3": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Conscious Night Rituals",
-            "quote": "Rich botanical ceramides and bakuchiol blended in obsidian glass. The quintessential evening skincare experience."
           }
         }
       },
       "block_order": [
         "press_1",
-        "press_2",
-        "press_3"
+        "press_2"
       ],
       "settings": {
         "eyebrow": "Evening Acclaim",
@@ -95,29 +88,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Nocturnal Repair Elixirs",
-            "link": "/collections/all?category=Serum"
+            "title": "Bio-Active Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Calming Evening Cleansers",
-            "link": "/collections/all?category=Cleanser"
+            "title": "Gentle Cleansers & Essences",
+            "link": "/collections/all?category=Gentle+Cleansers+%26+Essences"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Rich Overnight Balms",
-            "link": "/collections/all?category=Cream"
+            "title": "Cellular Creams & Balms",
+            "link": "/collections/all?category=Cellular+Creams+%26+Balms"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Restorative Night Care",
-            "link": "/collections/all?category=Body"
+            "title": "Conscious Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -145,8 +138,8 @@
         "eyebrow": "Circadian Science",
         "heading": "Synchronized with Overnight Cellular Repair",
         "text": "<p>During sleep, the skin's cellular regeneration rate doubles while moisture loss increases. Our nocturnal lipid complexes deliver concentrated ceramides and cold-pressed botanical oils when renewal is at its peak.</p>",
-        "button_label": "Our Philosophy",
-        "button_link": "/pages/about"
+        "button_label": "Explore Formulations",
+        "button_link": "/collections/all"
       }
     },
     "multicolumn": {
@@ -158,8 +151,8 @@
             "icon": "leaf",
             "title": "Nocturnal Bakuchiol",
             "text": "<p>Gentle plant-derived retinol alternative supporting collagen renewal without sensitivity.</p>",
-            "link_label": "Learn More",
-            "link": "/pages/about"
+            "link_label": "Explore Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "col_2": {
@@ -168,8 +161,8 @@
             "icon": "flask",
             "title": "Ceramide Complex",
             "text": "<p>Triple phytoceramides lock in hydration and prevent transepidermal water loss through the night.</p>",
-            "link_label": "Our Standards",
-            "link": "/pages/about"
+            "link_label": "Formulation Standards",
+            "link": "/pages/contact"
           }
         },
         "col_3": {
@@ -178,8 +171,8 @@
             "icon": "recycle",
             "title": "Obsidian Glass",
             "text": "<p>Bottled in UV-blocking obsidian glass that preserves photosensitive nocturnal actives.</p>",
-            "link_label": "Sustainability",
-            "link": "/pages/about"
+            "link_label": "Explore Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -199,13 +192,14 @@
     },
     "testimonials": {
       "type": "testimonials",
+      "disabled": true,
       "blocks": {
         "quote_1": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
             "quote": "Applying this before bed has become my sacred ritual. I wake up looking rested, calm, and luminous.",
-            "author": "Verified Customer",
+            "author": "Sample Reviewer (e.g., Natalie R.)",
             "publication_subtitle": "Nocturnal Repair Elixir"
           }
         },
@@ -214,8 +208,8 @@
           "settings": {
             "rating": 5,
             "quote": "Deeply comforting texture without feeling greasy. It has completely eliminated my morning dryness.",
-            "author": "Verified Ritualist",
-            "publication_subtitle": "Verified Purchase • 50ml"
+            "author": "Sample Reviewer (e.g., Julian K.)",
+            "publication_subtitle": "Restorative Barrier Cream"
           }
         },
         "quote_3": {
@@ -223,7 +217,7 @@
           "settings": {
             "rating": 5,
             "quote": "The quiet luxury of this evening balm is unmatched. Exceptional botanical efficacy in every drop.",
-            "author": "Verified Customer",
+            "author": "Sample Reviewer (e.g., Beatrice M.)",
             "publication_subtitle": "Restorative Night Care"
           }
         }

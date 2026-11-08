@@ -13,6 +13,11 @@
       <link rel="icon" type="image/svg+xml" href="{{ 'favicon.svg' | asset_url }}">
     {%- endif -%}
 
+    {%- assign brand_name = shop.name -%}
+    {%- if brand_name contains 'aura-theme-dev' or brand_name contains 'myshopify' -%}
+      {%- assign brand_name = 'Vespera Botanica' -%}
+    {%- endif -%}
+
     {%- capture seo_title -%}
       {{ page_title }}
       {%- if current_tags -%}
@@ -20,7 +25,7 @@
         &ndash; {{ 'general.meta.tags' | t: tags: tags_str }}
       {%- endif -%}
       {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
-      {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- unless page_title contains brand_name %} &ndash; {{ brand_name }}{% endunless -%}
     {%- endcapture -%}
     <title>{{ seo_title }}</title>
 

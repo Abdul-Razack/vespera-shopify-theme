@@ -6,6 +6,11 @@
 
 <script src="{{ 'variant-picker.js' | asset_url }}" defer="defer"></script>
 
+{%- assign brand_name = shop.name -%}
+{%- if brand_name contains 'aura-theme-dev' or brand_name contains 'myshopify' -%}
+  {%- assign brand_name = 'Vespera Botanica' -%}
+{%- endif -%}
+
 {%- assign current_variant = product.selected_or_first_available_variant -%}
 {%- assign featured_media = current_variant.featured_media | default: product.featured_media -%}
 
@@ -44,7 +49,7 @@
                 {%- if block.settings.show_vendor and product.vendor != blank -%}
                   {{ product.vendor | escape }} &bull; {{ 'products.product.clinical_grade' | t }}
                 {%- else -%}
-                  {{ shop.name | upcase }} &bull; {{ 'products.product.clinical_grade' | t }}
+                  {{ brand_name | upcase }} &bull; {{ 'products.product.clinical_grade' | t }}
                 {%- endif -%}
               </p>
 

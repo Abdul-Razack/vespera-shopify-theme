@@ -37,38 +37,31 @@
         "button_label": "Explore Formulations",
         "button_link": "/collections/all",
         "secondary_button_label": "Our Philosophy",
-        "secondary_button_link": "/pages/about"
+        "secondary_button_link": "#philosophy"
       }
     },
     "press_marquee": {
       "type": "press-marquee",
+      "disabled": true,
       "blocks": {
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Clean Beauty Review",
-            "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
+            "publication": "Editorial Feature",
+            "quote": "A thoughtful approach to botanical precision without synthetic compromises. An everyday essential."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "The Skincare Journal",
-            "quote": "A thoughtful approach to botanical precision without synthetic compromises. The modern benchmark for conscious daily rituals."
-          }
-        },
-        "press_3": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Independent Botanical Gazette",
-            "quote": "Nourishing botanical formulations designed for conscious daily rituals. Pure sustainable luxury in UV-protective glass."
+            "publication": "Skincare Review",
+            "quote": "Nourishing formulations designed for conscious daily rituals. Pure restorative care in glass packaging."
           }
         }
       },
       "block_order": [
         "press_1",
-        "press_2",
-        "press_3"
+        "press_2"
       ],
       "settings": {
         "eyebrow": "Editorial Acclaim",
@@ -96,28 +89,28 @@
           "type": "collection",
           "settings": {
             "title": "Bio-Active Serums & Oils",
-            "link": "/collections/all?category=Serum"
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
             "title": "Gentle Cleansers & Essences",
-            "link": "/collections/all?category=Cleanser"
+            "link": "/collections/all?category=Gentle+Cleansers+%26+Essences"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
             "title": "Cellular Creams & Balms",
-            "link": "/collections/all?category=Cream"
+            "link": "/collections/all?category=Cellular+Creams+%26+Balms"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
             "title": "Conscious Body Care",
-            "link": "/collections/all?category=Body"
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -145,8 +138,8 @@
         "eyebrow": "Botanical Sourcing",
         "heading": "Whole-Plant Potency Preserved at Harvest",
         "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
-        "button_label": "Our Philosophy",
-        "button_link": "/pages/about"
+        "button_label": "Explore Formulations",
+        "button_link": "/collections/all"
       }
     },
     "multicolumn": {
@@ -158,8 +151,8 @@
             "icon": "leaf",
             "title": "Bio-Active Botany",
             "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>",
-            "link_label": "Learn More",
-            "link": "/pages/about"
+            "link_label": "Explore Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "col_2": {
@@ -168,8 +161,8 @@
             "icon": "flask",
             "title": "Clean Chemistry",
             "text": "<p>Formulated without synthetic perfumes, sulfates, or artificial fillers for sensitive daily rituals.</p>",
-            "link_label": "Our Standards",
-            "link": "/pages/about"
+            "link_label": "Formulation Standards",
+            "link": "/pages/contact"
           }
         },
         "col_3": {
@@ -178,8 +171,8 @@
             "icon": "recycle",
             "title": "Sustainable Glass",
             "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
-            "link_label": "Sustainability",
-            "link": "/pages/about"
+            "link_label": "Explore Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -199,32 +192,33 @@
     },
     "testimonials": {
       "type": "testimonials",
+      "disabled": true,
       "blocks": {
         "quote_1": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "The gold standard of botanical skincare. Within days, complexion feels visibly balanced and radiant.",
-            "author": "Verified Customer",
-            "publication_subtitle": "Botanical Radiance Ritual"
+            "quote": "A thoughtful addition to my daily skincare ritual. The texture is lightweight and absorbs beautifully.",
+            "author": "Sample Reviewer (e.g., Claire M.)",
+            "publication_subtitle": "Botanical Radiance Serum"
           }
         },
         "quote_2": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
-            "author": "Verified Ritualist",
-            "publication_subtitle": "Verified Purchase • 60ml"
+            "quote": "Richly hydrating without feeling heavy on sensitive skin. My skin barrier has never felt calmer.",
+            "author": "Sample Reviewer (e.g., David S.)",
+            "publication_subtitle": "Restorative Barrier Cream"
           }
         },
         "quote_3": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "Rarely does a formulation deliver such instant tactile luxury while respecting sensitive skin barriers.",
-            "author": "Verified Customer",
-            "publication_subtitle": "Restorative Night Care"
+            "quote": "Gently melts away impurities and leaves the complexion soft and hydrated. Truly delightful formula.",
+            "author": "Sample Reviewer (e.g., Sophia K.)",
+            "publication_subtitle": "Purifying Cleansing Oil"
           }
         }
       },
@@ -234,8 +228,8 @@
         "quote_3"
       ],
       "settings": {
-        "eyebrow": "Acclaim & Recognition",
-        "heading": "Celebrated by Connoisseurs",
+        "eyebrow": "Client Impressions",
+        "heading": "Customer Reviews",
         "columns_desktop": 3
       }
     }

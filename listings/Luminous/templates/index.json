@@ -37,38 +37,31 @@
         "button_label": "Explore Clinical Formulations",
         "button_link": "/collections/all",
         "secondary_button_label": "Our Philosophy",
-        "secondary_button_link": "/pages/about"
+        "secondary_button_link": "#philosophy"
       }
     },
     "press_marquee": {
       "type": "press-marquee",
+      "disabled": true,
       "blocks": {
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Clinical Dermatology Digest",
+            "publication": "Editorial Feature",
             "quote": "A revolutionary union of micro-fermentation and botanical integrity. Noticeable cellular renewal and tone refinement."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Bio-Beauty Forum",
+            "publication": "Beauty Review",
             "quote": "Setting a higher benchmark for clean cosmetic science. Exceptional bioavailability without irritation."
-          }
-        },
-        "press_3": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "The Formulation Report",
-            "quote": "High-potency fermented bio-actives delivered in minimalist, protective glass. A true clinical achievement."
           }
         }
       },
       "block_order": [
         "press_1",
-        "press_2",
-        "press_3"
+        "press_2"
       ],
       "settings": {
         "eyebrow": "Clinical Evaluation",
@@ -95,29 +88,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Concentrated Bio-Actives",
-            "link": "/collections/all?category=Serum"
+            "title": "Bio-Active Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Purifying Enzyme Cleansers",
-            "link": "/collections/all?category=Cleanser"
+            "title": "Gentle Cleansers & Essences",
+            "link": "/collections/all?category=Gentle+Cleansers+%26+Essences"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Barrier Repair Creams",
-            "link": "/collections/all?category=Cream"
+            "title": "Cellular Creams & Balms",
+            "link": "/collections/all?category=Cellular+Creams+%26+Balms"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Cellular Body Emulsions",
-            "link": "/collections/all?category=Body"
+            "title": "Conscious Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -145,8 +138,8 @@
         "eyebrow": "Bio-Fermentation",
         "heading": "High-Bioavailability Fermented Actives",
         "text": "<p>Through gentle low-temperature fermentation, botanical nutrients are broken into low-molecular fractions that absorb rapidly to accelerate cellular renewal and reveal lasting radiance.</p>",
-        "button_label": "Our Philosophy",
-        "button_link": "/pages/about"
+        "button_label": "Explore Formulations",
+        "button_link": "/collections/all"
       }
     },
     "multicolumn": {
@@ -158,8 +151,8 @@
             "icon": "leaf",
             "title": "Micro-Fermentation",
             "text": "<p>Active plant molecules enhanced through fermentation for superior cellular uptake.</p>",
-            "link_label": "Learn More",
-            "link": "/pages/about"
+            "link_label": "Explore Serums & Oils",
+            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
           }
         },
         "col_2": {
@@ -168,8 +161,8 @@
             "icon": "flask",
             "title": "Lipid Barrier Science",
             "text": "<p>Bio-identical phytoceramides and squalane restore the skin's protective lipid matrix.</p>",
-            "link_label": "Our Standards",
-            "link": "/pages/about"
+            "link_label": "Formulation Standards",
+            "link": "/pages/contact"
           }
         },
         "col_3": {
@@ -178,8 +171,8 @@
             "icon": "recycle",
             "title": "Precision Packaging",
             "text": "<p>Airless and UV-protective vessels engineered to keep active ferments at peak potency.</p>",
-            "link_label": "Sustainability",
-            "link": "/pages/about"
+            "link_label": "Explore Body Care",
+            "link": "/collections/all?category=Conscious+Body+Care"
           }
         }
       },
@@ -199,13 +192,14 @@
     },
     "testimonials": {
       "type": "testimonials",
+      "disabled": true,
       "blocks": {
         "quote_1": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
             "quote": "Within two weeks my skin clarity and texture improved dramatically. The formulation absorption is instant.",
-            "author": "Verified Customer",
+            "author": "Sample Reviewer (e.g., Alexandra B.)",
             "publication_subtitle": "Bio-Active Radiance Complex"
           }
         },
@@ -214,8 +208,8 @@
           "settings": {
             "rating": 5,
             "quote": "Finally a high-potency active that doesn't cause redness or irritation. Absolutely essential to my routine.",
-            "author": "Verified Ritualist",
-            "publication_subtitle": "Verified Purchase • 30ml"
+            "author": "Sample Reviewer (e.g., Jonathan W.)",
+            "publication_subtitle": "Restorative Barrier Cream"
           }
         },
         "quote_3": {
@@ -223,7 +217,7 @@
           "settings": {
             "rating": 5,
             "quote": "The texture and clinical efficacy are unlike anything else. Skin feels luminous, calm, and deeply hydrated.",
-            "author": "Verified Customer",
+            "author": "Sample Reviewer (e.g., Serena L.)",
             "publication_subtitle": "Cellular Hydration Care"
           }
         }
@@ -234,7 +228,7 @@
         "quote_3"
       ],
       "settings": {
-        "eyebrow": "Clinical Feedback",
+        "eyebrow": "Client Feedback",
         "heading": "Validated by Everyday Users",
         "columns_desktop": 3
       }

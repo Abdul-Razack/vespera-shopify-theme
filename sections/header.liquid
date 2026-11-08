@@ -5,6 +5,11 @@
   focus-trapped mobile drawer (F-33), accessible predictive search drawer.
 {%- endcomment -%}
 
+{%- assign brand_name = shop.name -%}
+{%- if brand_name contains 'aura-theme-dev' or brand_name contains 'myshopify' -%}
+  {%- assign brand_name = 'Vespera Botanica' -%}
+{%- endif -%}
+
 <header class="site-header{% if section.settings.enable_sticky_header %} site-header--sticky{% endif %}" role="banner">
   <div class="page-container site-header__inner">
     
@@ -27,14 +32,14 @@
         {%- if settings.logo != blank -%}
           <img 
             src="{{ settings.logo | image_url: width: 300 }}" 
-            alt="{{ settings.logo.alt | default: shop.name | escape }}"
+            alt="{{ settings.logo.alt | default: brand_name | escape }}"
             width="{{ settings.logo_width | default: 120 }}"
             height="auto"
             loading="eager"
             class="site-header__logo-img"
           >
         {%- else -%}
-          <span class="site-header__brand-name">{{ shop.name }}</span>
+          <span class="site-header__brand-name">{{ brand_name }}</span>
         {%- endif -%}
       </a>
     </div>
@@ -177,7 +182,7 @@
     <div class="mobile-nav-drawer__overlay" id="MobileNavOverlay" tabindex="-1"></div>
     <div class="mobile-nav-drawer__panel">
       <div class="mobile-nav-drawer__header">
-        <span class="site-header__brand-name">{{ shop.name }}</span>
+        <span class="site-header__brand-name">{{ brand_name }}</span>
         <button type="button" class="mobile-nav-drawer__close" id="MobileNavClose" aria-label="{{ 'sections.header.close_menu' | t }}">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>

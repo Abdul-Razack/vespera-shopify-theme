@@ -5,6 +5,11 @@
   localized policies without broken hardcoded paths (F-24).
 {%- endcomment -%}
 
+{%- assign brand_name = shop.name -%}
+{%- if brand_name contains 'aura-theme-dev' or brand_name contains 'myshopify' -%}
+  {%- assign brand_name = 'Vespera Botanica' -%}
+{%- endif -%}
+
 <footer class="site-footer" role="contentinfo">
   <div class="page-container">
     
@@ -13,7 +18,7 @@
       
       <!-- Column 1: Brand Philosophy -->
       <div class="site-footer__col site-footer__col--brand">
-        <h2 class="site-footer__brand-title">{{ shop.name }}</h2>
+        <h2 class="site-footer__brand-title">{{ brand_name }}</h2>
         {%- if section.settings.brand_description != blank -%}
           <p class="site-footer__brand-desc">
             {{ section.settings.brand_description | escape }}
@@ -196,27 +201,27 @@
         <ul class="site-footer__policies-list" role="list" aria-label="{{ 'sections.footer.legal_policies' | t }}">
           {%- if shop.policies.size > 0 -%}
             {%- for policy in shop.policies -%}
-              {%- if policy != blank -%}
+              {%- if policy != blank and policy.body != blank -%}
                 <li class="site-footer__policy-item">
                   <a href="{{ policy.url }}" class="site-footer__policy-link">{{ policy.title }}</a>
                 </li>
               {%- endif -%}
             {%- endfor -%}
           {%- else -%}
-            {%- if shop.privacy_policy -%}
+            {%- if shop.privacy_policy and shop.privacy_policy.body != blank -%}
               <li class="site-footer__policy-item"><a href="{{ shop.privacy_policy.url }}" class="site-footer__policy-link">{{ 'general.footer.privacy_policy' | t }}</a></li>
             {%- endif -%}
-            {%- if shop.terms_of_service -%}
+            {%- if shop.terms_of_service and shop.terms_of_service.body != blank -%}
               <li class="site-footer__policy-item"><a href="{{ shop.terms_of_service.url }}" class="site-footer__policy-link">{{ 'general.footer.terms_of_service' | t }}</a></li>
             {%- endif -%}
-            {%- if shop.shipping_policy -%}
+            {%- if shop.shipping_policy and shop.shipping_policy.body != blank -%}
               <li class="site-footer__policy-item"><a href="{{ shop.shipping_policy.url }}" class="site-footer__policy-link">{{ 'general.footer.shipping_policy' | t }}</a></li>
             {%- endif -%}
           {%- endif -%}
         </ul>
 
         <div class="site-footer__copyright">
-          <span>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}{{ 'sections.footer.all_rights_reserved' | t }}</span>
+          <span>&copy; {{ 'now' | date: '%Y' }} {{ brand_name }}{{ 'sections.footer.all_rights_reserved' | t }}</span>
           <span class="site-footer__powered">{{ powered_by_link }}</span>
         </div>
       </div>

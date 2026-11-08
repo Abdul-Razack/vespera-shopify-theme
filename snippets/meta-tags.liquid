@@ -2,11 +2,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
+{%- assign brand_name = shop.name -%}
+{%- if brand_name contains 'aura-theme-dev' or brand_name contains 'myshopify' -%}
+  {%- assign brand_name = 'Vespera Botanica' -%}
+{%- endif -%}
+
 {%- liquid
-  assign og_title = page_title | default: shop.name
+  assign og_title = page_title | default: brand_name
   assign og_url = canonical_url | default: request.origin
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign og_description = page_description | default: shop.description | default: brand_name
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -19,7 +24,7 @@
 
 <meta
   property="og:site_name"
-  content="{{ shop.name }}"
+  content="{{ brand_name }}"
 >
 <meta
   property="og:url"
@@ -89,7 +94,7 @@
   {{ page_title }}
   {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
   {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
-  {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+  {%- unless page_title contains brand_name %} &ndash; {{ brand_name }}{% endunless -%}
 </title>
 
 <link
