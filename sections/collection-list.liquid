@@ -25,10 +25,44 @@
     <!-- Collection Grid -->
     <div class="collection-list-grid collection-list-grid--{{ section.settings.columns_desktop }}-col">
       {%- for block in section.blocks -%}
+        {%- assign block_index = forloop.index0 -%}
         {%- assign collection = block.settings.collection -%}
         {%- assign collection_title = block.settings.title | default: collection.title  -%}
         {%- assign collection_url = collection.url | default: routes.all_products_collection_url -%}
         {%- assign card_image = block.settings.image | default: collection.featured_image | default: collection.products.first.featured_media -%}
+
+        {%- if card_image == blank -%}
+          {%- assign title_clean = collection_title | downcase -%}
+          {%- for col in collections -%}
+            {%- if card_image != blank -%}{%- break -%}{%- endif -%}
+            {%- for prod in col.products -%}
+              {%- assign prod_type_clean = prod.type | downcase -%}
+              {%- if prod_type_clean != blank and title_clean contains prod_type_clean and prod.featured_media != blank -%}
+                {%- assign card_image = prod.featured_media -%}
+                {%- if collection_url == routes.all_products_collection_url -%}
+                  {%- assign collection_url = routes.all_products_collection_url | append: '?category=' | append: prod.type | escape -%}
+                {%- endif -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endfor -%}
+        {%- endif -%}
+
+        {%- if card_image == blank -%}
+          {%- for col in collections -%}
+            {%- if col.products.size > 0 -%}
+              {%- assign idx = block_index | modulo: col.products.size -%}
+              {%- assign fallback_product = col.products[idx] | default: col.products.first -%}
+              {%- if fallback_product.featured_media != blank -%}
+                {%- assign card_image = fallback_product.featured_media -%}
+                {%- if collection_url == routes.all_products_collection_url -%}
+                  {%- assign collection_url = fallback_product.url -%}
+                {%- endif -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
 
         <div class="collection-list-card" {{ block.shopify_attributes }}>
           <a href="{{ collection_url }}" class="collection-list-card__link">

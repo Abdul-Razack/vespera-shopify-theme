@@ -16,13 +16,12 @@
       <!-- Category Navigation Pills -->
       {%- if section.settings.show_category_pills and collection.all_types.size > 1 -%}
         <div class="category-pills" role="region" aria-label="{{ 'sections.collection_template.filter_by_category' | t }}">
-          <ul class="category-pills__list" role="tablist">
-            <li role="presentation">
+          <ul class="category-pills__list" role="list">
+            <li>
               <button 
                 type="button" 
                 class="category-pill category-pill--active" 
-                role="tab" 
-                aria-selected="true" 
+                aria-pressed="true" 
                 data-category-filter="all"
               >
                 {{ 'collections.general.all_products' | t }} <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
@@ -36,12 +35,11 @@
                     {%- assign type_count = type_count | plus: 1 -%}
                   {%- endif -%}
                 {%- endfor -%}
-                <li role="presentation">
+                <li>
                   <button 
                     type="button" 
                     class="category-pill" 
-                    role="tab" 
-                    aria-selected="false" 
+                    aria-pressed="false" 
                     data-category-filter="{{ type | escape }}"
                   >
                     {{ type | escape }}
@@ -240,6 +238,7 @@
     border-color: var(--color-border-dark);
   }
   .category-pill--active,
+  .category-pill[aria-pressed="true"],
   .category-pill[aria-selected="true"] {
     color: var(--color-surface);
     background-color: var(--color-text);
@@ -252,6 +251,7 @@
     opacity: 1;
   }
   .category-pill--active .category-pill__count,
+  .category-pill[aria-pressed="true"] .category-pill__count,
   .category-pill[aria-selected="true"] .category-pill__count {
     color: var(--color-surface);
     opacity: 1;
@@ -264,18 +264,24 @@
     const items = document.querySelectorAll('.product-grid__item');
     if (!pills.length || !items.length) return;
 
-    function filterByCategory(category, updateHistory) {
+    const activeCategories = new Set();
+
+    function applyCategoryFilter(updateHistory) {
+      const isAll = (activeCategories.size === 0);
+
       pills.forEach(p => {
-        const isMatch = (p.getAttribute('data-category-filter') === category);
-        p.classList.toggle('category-pill--active', isMatch);
-        p.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+        const filter = p.getAttribute('data-category-filter');
+        const isActive = (filter === 'all' ? isAll : activeCategories.has(filter));
+        p.classList.toggle('category-pill--active', isActive);
+        p.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        p.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
 
       let visible = 0;
       items.forEach(item => {
         const card = item.querySelector('.product-card');
         const cardType = card ? card.getAttribute('data-product-type') : '';
-        if (category === 'all' || cardType === category) {
+        if (isAll || activeCategories.has(cardType)) {
           item.style.display = '';
           visible++;
         } else {
@@ -283,12 +289,21 @@
         }
       });
 
+      const countText = document.querySelector('.facets__count-text');
+      if (countText) {
+        const parts = countText.textContent.trim().split(/\s+/);
+        if (parts.length > 1) {
+          parts[0] = visible;
+          countText.textContent = parts.join(' ');
+        }
+      }
+
       if (updateHistory) {
         const url = new URL(window.location.href);
-        if (category === 'all') {
+        if (isAll) {
           url.searchParams.delete('category');
         } else {
-          url.searchParams.set('category', category);
+          url.searchParams.set('category', Array.from(activeCategories).join(','));
         }
         window.history.replaceState({}, '', url.toString());
       }
@@ -298,14 +313,27 @@
       pill.addEventListener('click', function(e) {
         e.preventDefault();
         const cat = this.getAttribute('data-category-filter');
-        filterByCategory(cat, true);
+        if (cat === 'all') {
+          activeCategories.clear();
+        } else {
+          if (activeCategories.has(cat)) {
+            activeCategories.delete(cat);
+          } else {
+            activeCategories.add(cat);
+          }
+        }
+        applyCategoryFilter(true);
       });
     });
 
     const params = new URLSearchParams(window.location.search);
-    const initialCat = params.get('category');
-    if (initialCat) {
-      filterByCategory(initialCat, false);
+    const initialParam = params.get('category');
+    if (initialParam && initialParam !== 'all') {
+      initialParam.split(',').forEach(c => {
+        const trimmed = c.trim();
+        if (trimmed) activeCategories.add(trimmed);
+      });
+      applyCategoryFilter(false);
     }
   })();
 </script>
