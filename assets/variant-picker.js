@@ -22,7 +22,9 @@
       this.sectionId = container.dataset.sectionId || '';
       this.productId = container.dataset.productId || '';
       
-      const variantDataEl = container.querySelector('[data-product-variants-json]');
+      const variantDataEl = container.querySelector('[data-product-variants-json]') || 
+                            document.getElementById(`ProductJson-${this.sectionId}`) ||
+                            document.querySelector(`[data-product-variants-json][id*="${this.sectionId}"]`);
       if (!variantDataEl) return;
 
       try {

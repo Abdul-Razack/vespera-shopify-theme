@@ -352,33 +352,33 @@
       {%- endif -%}
     </div>
   </div>
-</div>
 
-<!-- Safe JSON Media Data for Zoom Controller -->
-<script type="application/json" id="ProductMediaJson-{{ section.id }}">
-  [
-    {%- if product.media.size > 0 -%}
-      {%- for media in product.media -%}
+  <!-- Safe JSON Media Data for Zoom Controller -->
+  <script type="application/json" id="ProductMediaJson-{{ section.id }}">
+    [
+      {%- if product.media.size > 0 -%}
+        {%- for media in product.media -%}
+          {
+            "id": {{ media.id }},
+            "src": {{ media | image_url: width: 2400 | json }},
+            "alt": {{ media.alt | default: product.title | escape | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      {%- elsif featured_media != blank -%}
         {
-          "id": {{ media.id }},
-          "src": {{ media | image_url: width: 2400 | json }},
-          "alt": {{ media.alt | default: product.title | escape | json }}
-        }{%- unless forloop.last -%},{%- endunless -%}
-      {%- endfor -%}
-    {%- elsif featured_media != blank -%}
-      {
-        "id": 0,
-        "src": {{ featured_media | image_url: width: 2400 | json }},
-        "alt": {{ product.title | escape | json }}
-      }
-    {%- endif -%}
-  ]
-</script>
+          "id": 0,
+          "src": {{ featured_media | image_url: width: 2400 | json }},
+          "alt": {{ product.title | escape | json }}
+        }
+      {%- endif -%}
+    ]
+  </script>
 
-<!-- Safe JSON Variant Data for Controller -->
-<script type="application/json" data-product-variants-json id="ProductJson-{{ section.id }}">
-  {{ product.variants | json }}
-</script>
+  <!-- Safe JSON Variant Data for Controller -->
+  <script type="application/json" data-product-variants-json id="ProductJson-{{ section.id }}">
+    {{ product.variants | json }}
+  </script>
+</div>
 
 <script>
   (function() {
