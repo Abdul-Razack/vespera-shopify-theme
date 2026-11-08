@@ -301,12 +301,20 @@
 
   window.Vespera.VariantPicker = VariantPicker;
 
-  // Auto-initialize on DOM ready
-  document.addEventListener('DOMContentLoaded', () => {
+  function initVariantPickers() {
     document.querySelectorAll('[data-variant-picker-container]').forEach(el => {
-      new VariantPicker(el);
+      if (!el._variantPickerInstance) {
+        new VariantPicker(el);
+      }
     });
-  });
+  }
+
+  // Auto-initialize on DOM ready or immediately if already loaded
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initVariantPickers);
+  } else {
+    initVariantPickers();
+  }
 
   // Re-init on Shopify Section Load in Theme Editor (F-25)
   document.addEventListener('shopify:section:load', (e) => {

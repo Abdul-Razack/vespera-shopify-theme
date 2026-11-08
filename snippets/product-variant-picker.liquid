@@ -6,7 +6,8 @@
 {%- unless product.has_only_default_variant -%}
   <div class="product-variant-picker">
     {%- for option in product.options_with_values -%}
-      <fieldset class="product-variant-picker__group" data-option-index="{{ forloop.index0 }}">
+      {%- assign option_index = forloop.index0 -%}
+      <fieldset class="product-variant-picker__group" data-option-index="{{ option_index }}">
         <legend class="product-variant-picker__label">
           {{ option.name }}: <span class="product-variant-picker__selected-val" data-selected-option-value>{{ option.selected_value }}</span>
         </legend>
@@ -18,7 +19,15 @@
             {%- comment -%} Check if any variant with this option is available {%- endcomment -%}
             {%- assign is_value_available = false -%}
             {%- for variant in product.variants -%}
-              {%- if variant.options[forloop.parentloop.index0] == value and variant.available -%}
+              {%- assign variant_val = null -%}
+              {%- if option_index == 0 -%}
+                {%- assign variant_val = variant.option1 -%}
+              {%- elsif option_index == 1 -%}
+                {%- assign variant_val = variant.option2 -%}
+              {%- elsif option_index == 2 -%}
+                {%- assign variant_val = variant.option3 -%}
+              {%- endif -%}
+              {%- if variant_val == value and variant.available -%}
                 {%- assign is_value_available = true -%}
                 {%- break -%}
               {%- endif -%}
