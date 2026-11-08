@@ -238,8 +238,7 @@
     border-color: var(--color-border-dark);
   }
   .category-pill--active,
-  .category-pill[aria-pressed="true"],
-  .category-pill[aria-selected="true"] {
+  .category-pill[aria-pressed="true"] {
     color: var(--color-surface);
     background-color: var(--color-text);
     border-color: var(--color-text);
@@ -251,8 +250,7 @@
     opacity: 1;
   }
   .category-pill--active .category-pill__count,
-  .category-pill[aria-pressed="true"] .category-pill__count,
-  .category-pill[aria-selected="true"] .category-pill__count {
+  .category-pill[aria-pressed="true"] .category-pill__count {
     color: var(--color-surface);
     opacity: 1;
   }
@@ -266,6 +264,21 @@
 
     const activeCategories = new Set();
 
+    function updatePaginationLinks(isAll) {
+      const paginationLinks = document.querySelectorAll('.pagination a');
+      paginationLinks.forEach(link => {
+        try {
+          const u = new URL(link.href, window.location.origin);
+          if (isAll) {
+            u.searchParams.delete('category');
+          } else {
+            u.searchParams.set('category', Array.from(activeCategories).join(','));
+          }
+          link.href = u.pathname + u.search + u.hash;
+        } catch (e) {}
+      });
+    }
+
     function applyCategoryFilter(updateHistory) {
       const isAll = (activeCategories.size === 0);
 
@@ -274,13 +287,12 @@
         const isActive = (filter === 'all' ? isAll : activeCategories.has(filter));
         p.classList.toggle('category-pill--active', isActive);
         p.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-        p.setAttribute('aria-selected', isActive ? 'true' : 'false');
       });
 
       let visible = 0;
       items.forEach(item => {
         const card = item.querySelector('.product-card');
-        const cardType = card ? card.getAttribute('data-product-type') : '';
+        const cardType = card ? (card.getAttribute('data-product-type') || '').trim() : '';
         if (isAll || activeCategories.has(cardType)) {
           item.style.display = '';
           visible++;
@@ -291,12 +303,14 @@
 
       const countText = document.querySelector('.facets__count-text');
       if (countText) {
-        const parts = countText.textContent.trim().split(/\s+/);
-        if (parts.length > 1) {
-          parts[0] = visible;
-          countText.textContent = parts.join(' ');
+        if (visible === 1) {
+          countText.textContent = '1 formulation';
+        } else {
+          countText.textContent = visible + ' formulations';
         }
       }
+
+      updatePaginationLinks(isAll);
 
       if (updateHistory) {
         const url = new URL(window.location.href);
@@ -329,11 +343,18 @@
     const params = new URLSearchParams(window.location.search);
     const initialParam = params.get('category');
     if (initialParam && initialParam !== 'all') {
-      initialParam.split(',').forEach(c => {
-        const trimmed = c.trim();
-        if (trimmed) activeCategories.add(trimmed);
+      const requestedCategories = initialParam.split(',').map(c => c.trim().toLowerCase()).filter(Boolean);
+      pills.forEach(p => {
+        const filter = p.getAttribute('data-category-filter');
+        if (filter && filter !== 'all') {
+          if (requestedCategories.includes(filter.toLowerCase())) {
+            activeCategories.add(filter);
+          }
+        }
       });
-      applyCategoryFilter(false);
+      if (activeCategories.size > 0) {
+        applyCategoryFilter(false);
+      }
     }
   })();
 </script>

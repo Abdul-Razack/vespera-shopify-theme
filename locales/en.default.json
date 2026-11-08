@@ -100,7 +100,10 @@
       "placeholder": "Search by botanical active, concern, or product...",
       "submit": "Submit Search",
       "no_results": "No formulations found matching your query.",
-      "results_with_count": "{{ count }} formulations found",
+      "results_with_count": {
+        "one": "1 formulation found",
+        "other": "{{ count }} formulations found"
+      },
       "refine_search": "Refine your exploration",
       "search_tips": "Try searching for specific botanical ingredients, concerns, or products."
     },

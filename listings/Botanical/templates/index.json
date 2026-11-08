@@ -6,22 +6,22 @@
         "metric_1": {
           "type": "metric",
           "settings": {
-            "value": "12",
-            "label": "Botanical Extracts"
+            "value": "100%",
+            "label": "Plant-Derived"
           }
         },
         "metric_2": {
           "type": "metric",
           "settings": {
-            "value": "3",
-            "label": "Ritual Steps"
+            "value": "Cold-Pressed",
+            "label": "Extraction Method"
           }
         },
         "metric_3": {
           "type": "metric",
           "settings": {
-            "value": "24h",
-            "label": "Nourishing Care"
+            "value": "Small-Batch",
+            "label": "Apothecary Crafted"
           }
         }
       },
@@ -31,11 +31,13 @@
         "metric_3"
       ],
       "settings": {
-        "eyebrow": "Mindful Botany • Conscious Rituals",
-        "heading": "Formulated to Elevate Your Natural Radiance",
-        "subtext": "Selected botanical extracts blended with cold-pressed plant oils. Designed for conscious daily rituals.",
-        "button_label": "Explore Formulations",
-        "secondary_button_label": "Our Philosophy"
+        "eyebrow": "Whole-Plant Botany • Earth-Grown Radiance",
+        "heading": "Unrefined Botanical Potency for Radiant Longevity",
+        "subtext": "Wildcrafted herbal extracts cold-pressed at source. Pure, restorative skincare formulated without synthetic compromises.",
+        "button_label": "Explore Botanical Rituals",
+        "button_link": "/collections/all",
+        "secondary_button_label": "Our Philosophy",
+        "secondary_button_link": "/pages/about"
       }
     },
     "press_marquee": {
@@ -44,22 +46,22 @@
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Vogue International",
-            "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
+            "publication": "Whole Plant Gazette",
+            "quote": "A masterclass in whole-plant herbal extraction. The unrefined oils deliver unprecedented nutrient density."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Harper's Bazaar",
-            "quote": "A thoughtful approach to botanical precision without synthetic compromises. The modern benchmark for conscious daily rituals."
+            "publication": "Apothecary Quarterly",
+            "quote": "A thoughtful celebration of botanical integrity. Pure plant luxury formulated for everyday longevity."
           }
         },
         "press_3": {
           "type": "press_quote",
           "settings": {
-            "publication": "Allure Magazine",
-            "quote": "Nourishing botanical formulations designed for conscious daily rituals. Pure sustainable luxury in UV-protective glass."
+            "publication": "Earth & Skin Review",
+            "quote": "Nourishing wildcrafted remedies bottled in recyclable amber glass. Mindful skincare at its highest standard."
           }
         }
       },
@@ -69,16 +71,16 @@
         "press_3"
       ],
       "settings": {
-        "eyebrow": "Editorial Acclaim",
-        "heading": "Recognized by Industry Connoisseurs"
+        "eyebrow": "Botanical Recognition",
+        "heading": "Celebrated by Herbalists & Apothecaries"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "eyebrow": "Bestselling Formulations",
-        "heading": "Curated Daily Rituals",
-        "description": "Thoughtfully selected botanical extracts blended for visible radiance and balanced care.",
+        "eyebrow": "Harvest Highlights",
+        "heading": "Curated Botanical Essentials",
+        "description": "Potent herbal concentrates and cold-pressed elixirs designed to nourish and balance your skin barrier.",
         "products_to_show": 4,
         "columns_desktop": 4,
         "show_secondary_image": true,
@@ -93,25 +95,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Bio-Active Serums & Oils"
+            "title": "Herbal Serums & Elixirs",
+            "link": "/collections/all?category=Serum"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Gentle Cleansers & Essences"
+            "title": "Pure Botanical Cleansers",
+            "link": "/collections/all?category=Cleanser"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Cellular Creams & Balms"
+            "title": "Restorative Plant Creams",
+            "link": "/collections/all?category=Cream"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Conscious Body Care"
+            "title": "Whole-Plant Body Care",
+            "link": "/collections/all?category=Body"
           }
         }
       },
@@ -124,7 +130,7 @@
       "settings": {
         "eyebrow": "Targeted Rituals",
         "heading": "Shop by Category",
-        "description": "Formulations categorized by treatment focus for a bespoke daily ritual.",
+        "description": "Herbal preparations categorized by botanical action for a bespoke daily ritual.",
         "columns_desktop": 4,
         "show_product_count": true,
         "show_view_all": true,
@@ -136,11 +142,11 @@
       "settings": {
         "layout": "image_first",
         "subtle_bg": false,
-        "eyebrow": "Botanical Sourcing",
-        "heading": "Whole-Plant Potency Preserved at Harvest",
-        "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
+        "eyebrow": "Regenerative Agriculture",
+        "heading": "Living Phytonutrients Preserved at Harvest",
+        "text": "<p>We source cold-pressed seed oils and wildcrafted plant extracts directly from certified regenerative growers, preserving heat-sensitive antioxidants and active enzymes for deep dermal vitality.</p>",
         "button_label": "Our Philosophy",
-        "button_link": "/pages/contact"
+        "button_link": "/pages/about"
       }
     },
     "multicolumn": {
@@ -150,30 +156,30 @@
           "type": "column",
           "settings": {
             "icon": "leaf",
-            "title": "Bio-Active Botany",
-            "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>",
+            "title": "Whole-Plant Purity",
+            "text": "<p>Unrefined botanical extracts preserved at source without synthetic isolation or chemical solvents.</p>",
             "link_label": "Learn More",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_2": {
           "type": "column",
           "settings": {
             "icon": "flask",
-            "title": "Clean Chemistry",
-            "text": "<p>Formulated without synthetic perfumes, sulfates, or artificial fillers for sensitive daily rituals.</p>",
+            "title": "Gentle Cold Pressing",
+            "text": "<p>Low-temperature seed pressing retains natural tocopherols, essential fatty acids, and active sterols.</p>",
             "link_label": "Our Standards",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_3": {
           "type": "column",
           "settings": {
             "icon": "recycle",
-            "title": "Sustainable Glass",
-            "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
+            "title": "Amber Glass Bottles",
+            "text": "<p>Packaged in recyclable amber apothecary glass to shield delicate plant oils from UV oxidation.</p>",
             "link_label": "Sustainability",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         }
       },
@@ -184,8 +190,8 @@
       ],
       "settings": {
         "eyebrow": "Formulation Standards",
-        "heading": "The Conscious Radiance Creed",
-        "description": "Mindful formulation standards grounded in botanical integrity.",
+        "heading": "The Whole-Plant Promise",
+        "description": "Uncompromising standards rooted in regenerative farming and herbal integrity.",
         "columns_desktop": 3,
         "column_alignment": "center",
         "subtle_bg": true
@@ -198,27 +204,27 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "The gold standard of botanical skincare. Within days, complexion feels visibly balanced and radiant.",
-            "author": "Vogue Editorial",
-            "publication_subtitle": "Annual Clean Beauty Awards"
+            "quote": "The herbal radiance serum completely transformed my dry, reactive skin. Truly feels like nourishment in a bottle.",
+            "author": "Verified Customer",
+            "publication_subtitle": "Botanical Face Oil Ritual"
           }
         },
         "quote_2": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
-            "author": "Dr. Clara Hastings",
-            "publication_subtitle": "Skincare Specialist & Aesthetician"
+            "quote": "Incredible earthy aroma and instant soothing relief. You can feel the purity of the unrefined botanicals.",
+            "author": "Verified Ritualist",
+            "publication_subtitle": "Verified Purchase • 50ml"
           }
         },
         "quote_3": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "Rarely does a formulation deliver such instant tactile luxury while respecting sensitive skin barriers.",
-            "author": "Harper's Bazaar",
-            "publication_subtitle": "Editor's Pick 2026"
+            "quote": "My skin has never felt softer or more balanced. The glass packaging and formula quality are second to none.",
+            "author": "Verified Customer",
+            "publication_subtitle": "Daily Herbal Balancing"
           }
         }
       },
@@ -228,8 +234,8 @@
         "quote_3"
       ],
       "settings": {
-        "eyebrow": "Acclaim & Recognition",
-        "heading": "Celebrated by Connoisseurs",
+        "eyebrow": "Customer Voices",
+        "heading": "Loved by Conscious Ritualists",
         "columns_desktop": 3
       }
     }

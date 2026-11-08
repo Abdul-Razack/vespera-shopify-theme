@@ -48,9 +48,9 @@
             </div>
           {%- endif -%}
 
-          {%- if section.settings.button_label != blank -%}
+          {%- if section.settings.button_label != blank and section.settings.button_link != blank -%}
             <div class="image-with-text__action">
-              <a href="{{ section.settings.button_link | default: '/collections/all' }}" class="btn-primary">
+              <a href="{{ section.settings.button_link }}" class="btn-primary">
                 {{ section.settings.button_label | escape }}
               </a>
             </div>
@@ -190,7 +190,8 @@
     {
       "type": "url",
       "id": "button_link",
-      "label": "Button link"
+      "label": "Button link",
+      "info": "Destination page or collection URL. If left empty, the button is hidden."
     }
   ],
   "presets": [

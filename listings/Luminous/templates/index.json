@@ -6,22 +6,22 @@
         "metric_1": {
           "type": "metric",
           "settings": {
-            "value": "12",
-            "label": "Botanical Extracts"
+            "value": "98.4%",
+            "label": "Bio-Active Complex"
           }
         },
         "metric_2": {
           "type": "metric",
           "settings": {
-            "value": "3",
-            "label": "Ritual Steps"
+            "value": "Clinical",
+            "label": "Efficacy Standards"
           }
         },
         "metric_3": {
           "type": "metric",
           "settings": {
-            "value": "24h",
-            "label": "Nourishing Care"
+            "value": "Micro-Fermented",
+            "label": "Cellular Delivery"
           }
         }
       },
@@ -31,11 +31,13 @@
         "metric_3"
       ],
       "settings": {
-        "eyebrow": "Mindful Botany • Conscious Rituals",
-        "heading": "Formulated to Elevate Your Natural Radiance",
-        "subtext": "Selected botanical extracts blended with cold-pressed plant oils. Designed for conscious daily rituals.",
-        "button_label": "Explore Formulations",
-        "secondary_button_label": "Our Philosophy"
+        "eyebrow": "Cellular Bio-Actives • Fermented Science",
+        "heading": "Clinically Validated Cellular Radiance",
+        "subtext": "Precision bio-ferments and low-molecular plant actives formulated to strengthen the lipid barrier and restore dermal clarity.",
+        "button_label": "Explore Clinical Formulations",
+        "button_link": "/collections/all",
+        "secondary_button_label": "Our Philosophy",
+        "secondary_button_link": "/pages/about"
       }
     },
     "press_marquee": {
@@ -44,22 +46,22 @@
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Vogue International",
-            "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
+            "publication": "Clinical Dermatology Digest",
+            "quote": "A revolutionary union of micro-fermentation and botanical integrity. Noticeable cellular renewal and tone refinement."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Harper's Bazaar",
-            "quote": "A thoughtful approach to botanical precision without synthetic compromises. The modern benchmark for conscious daily rituals."
+            "publication": "Bio-Beauty Forum",
+            "quote": "Setting a higher benchmark for clean cosmetic science. Exceptional bioavailability without irritation."
           }
         },
         "press_3": {
           "type": "press_quote",
           "settings": {
-            "publication": "Allure Magazine",
-            "quote": "Nourishing botanical formulations designed for conscious daily rituals. Pure sustainable luxury in UV-protective glass."
+            "publication": "The Formulation Report",
+            "quote": "High-potency fermented bio-actives delivered in minimalist, protective glass. A true clinical achievement."
           }
         }
       },
@@ -69,16 +71,16 @@
         "press_3"
       ],
       "settings": {
-        "eyebrow": "Editorial Acclaim",
-        "heading": "Recognized by Industry Connoisseurs"
+        "eyebrow": "Clinical Evaluation",
+        "heading": "Recognized by Cosmetic Scientists"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "eyebrow": "Bestselling Formulations",
-        "heading": "Curated Daily Rituals",
-        "description": "Thoughtfully selected botanical extracts blended for visible radiance and balanced care.",
+        "eyebrow": "Targeted Complexes",
+        "heading": "Clinical Formulation Collection",
+        "description": "High-performance fermented concentrates developed to promote cellular turnover and enhance luminous tone.",
         "products_to_show": 4,
         "columns_desktop": 4,
         "show_secondary_image": true,
@@ -93,25 +95,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Bio-Active Serums & Oils"
+            "title": "Concentrated Bio-Actives",
+            "link": "/collections/all?category=Serum"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Gentle Cleansers & Essences"
+            "title": "Purifying Enzyme Cleansers",
+            "link": "/collections/all?category=Cleanser"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Cellular Creams & Balms"
+            "title": "Barrier Repair Creams",
+            "link": "/collections/all?category=Cream"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Conscious Body Care"
+            "title": "Cellular Body Emulsions",
+            "link": "/collections/all?category=Body"
           }
         }
       },
@@ -122,9 +128,9 @@
         "cat_4"
       ],
       "settings": {
-        "eyebrow": "Targeted Rituals",
-        "heading": "Shop by Category",
-        "description": "Formulations categorized by treatment focus for a bespoke daily ritual.",
+        "eyebrow": "Targeted Care",
+        "heading": "Shop by Concern",
+        "description": "Formulations engineered for targeted cellular support and barrier resilience.",
         "columns_desktop": 4,
         "show_product_count": true,
         "show_view_all": true,
@@ -136,11 +142,11 @@
       "settings": {
         "layout": "image_first",
         "subtle_bg": false,
-        "eyebrow": "Botanical Sourcing",
-        "heading": "Whole-Plant Potency Preserved at Harvest",
-        "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
+        "eyebrow": "Bio-Fermentation",
+        "heading": "High-Bioavailability Fermented Actives",
+        "text": "<p>Through gentle low-temperature fermentation, botanical nutrients are broken into low-molecular fractions that absorb rapidly to accelerate cellular renewal and reveal lasting radiance.</p>",
         "button_label": "Our Philosophy",
-        "button_link": "/pages/contact"
+        "button_link": "/pages/about"
       }
     },
     "multicolumn": {
@@ -150,30 +156,30 @@
           "type": "column",
           "settings": {
             "icon": "leaf",
-            "title": "Bio-Active Botany",
-            "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>",
+            "title": "Micro-Fermentation",
+            "text": "<p>Active plant molecules enhanced through fermentation for superior cellular uptake.</p>",
             "link_label": "Learn More",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_2": {
           "type": "column",
           "settings": {
             "icon": "flask",
-            "title": "Clean Chemistry",
-            "text": "<p>Formulated without synthetic perfumes, sulfates, or artificial fillers for sensitive daily rituals.</p>",
+            "title": "Lipid Barrier Science",
+            "text": "<p>Bio-identical phytoceramides and squalane restore the skin's protective lipid matrix.</p>",
             "link_label": "Our Standards",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_3": {
           "type": "column",
           "settings": {
             "icon": "recycle",
-            "title": "Sustainable Glass",
-            "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
+            "title": "Precision Packaging",
+            "text": "<p>Airless and UV-protective vessels engineered to keep active ferments at peak potency.</p>",
             "link_label": "Sustainability",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         }
       },
@@ -183,9 +189,9 @@
         "col_3"
       ],
       "settings": {
-        "eyebrow": "Formulation Standards",
-        "heading": "The Conscious Radiance Creed",
-        "description": "Mindful formulation standards grounded in botanical integrity.",
+        "eyebrow": "Scientific Creed",
+        "heading": "The Luminous Standard",
+        "description": "Where advanced biotechnology converges with mindful botanical efficacy.",
         "columns_desktop": 3,
         "column_alignment": "center",
         "subtle_bg": true
@@ -198,27 +204,27 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "The gold standard of botanical skincare. Within days, complexion feels visibly balanced and radiant.",
-            "author": "Vogue Editorial",
-            "publication_subtitle": "Annual Clean Beauty Awards"
+            "quote": "Within two weeks my skin clarity and texture improved dramatically. The formulation absorption is instant.",
+            "author": "Verified Customer",
+            "publication_subtitle": "Bio-Active Radiance Complex"
           }
         },
         "quote_2": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
-            "author": "Dr. Clara Hastings",
-            "publication_subtitle": "Skincare Specialist & Aesthetician"
+            "quote": "Finally a high-potency active that doesn't cause redness or irritation. Absolutely essential to my routine.",
+            "author": "Verified Ritualist",
+            "publication_subtitle": "Verified Purchase • 30ml"
           }
         },
         "quote_3": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "Rarely does a formulation deliver such instant tactile luxury while respecting sensitive skin barriers.",
-            "author": "Harper's Bazaar",
-            "publication_subtitle": "Editor's Pick 2026"
+            "quote": "The texture and clinical efficacy are unlike anything else. Skin feels luminous, calm, and deeply hydrated.",
+            "author": "Verified Customer",
+            "publication_subtitle": "Cellular Hydration Care"
           }
         }
       },
@@ -228,8 +234,8 @@
         "quote_3"
       ],
       "settings": {
-        "eyebrow": "Acclaim & Recognition",
-        "heading": "Celebrated by Connoisseurs",
+        "eyebrow": "Clinical Feedback",
+        "heading": "Validated by Everyday Users",
         "columns_desktop": 3
       }
     }

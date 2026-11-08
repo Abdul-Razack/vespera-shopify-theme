@@ -23,8 +23,8 @@
             </a>
           {%- endif -%}
 
-          {%- if section.settings.secondary_button_label != blank -%}
-            <a href="{{ section.settings.secondary_button_link | default: routes.collections_url }}" class="btn-secondary hero-banner__btn">
+          {%- if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank -%}
+            <a href="{{ section.settings.secondary_button_link }}" class="btn-secondary hero-banner__btn">
               {{ section.settings.secondary_button_label | escape }}
             </a>
           {%- endif -%}
@@ -203,7 +203,8 @@
     {
       "type": "url",
       "id": "secondary_button_link",
-      "label": "Secondary button link"
+      "label": "Secondary button link",
+      "info": "Destination page or collection URL. If left empty, the button is hidden."
     }
   ],
   "blocks": [

@@ -43,10 +43,10 @@
             %}
           </div>
         {%- endfor -%}
-      {%- else -%}
+      {%- elsif request.design_mode -%}
         {%- for i in (1..section.settings.products_to_show) -%}
           <div class="featured-collection__item">
-            <div class="product-card">
+            <div class="product-card product-card--placeholder">
               <div class="product-card__media-wrapper">
                 <div class="product-card__placeholder">
                   <svg viewBox="0 0 400 500" fill="none" class="product-card__placeholder-svg" aria-hidden="true">
@@ -59,17 +59,21 @@
               <div class="product-card__info">
                 <h3 class="product-card__title">{{ 'sections.featured_collection.onboarding_title' | t: count: i }}</h3>
                 <div class="product-card__price-wrapper">
-                  <span class="product-card__price">$68.00</span>
+                  <span class="product-card__price">{{ 6800 | money }}</span>
                 </div>
               </div>
             </div>
           </div>
         {%- endfor -%}
+      {%- else -%}
+        <div class="featured-collection__empty text-center" style="grid-column: 1 / -1; padding: var(--space-12) 0;">
+          <p style="color: var(--color-text-muted);">{{ 'collections.general.no_matches' | t }}</p>
+        </div>
       {%- endif -%}
     </div>
 
     <!-- Footer View All CTA -->
-    {%- if section.settings.show_view_all and target_collection != blank -%}
+    {%- if section.settings.show_view_all and target_collection != blank and target_collection.products_count > 0 -%}
       <div class="featured-collection__footer text-center">
         <a href="{{ target_collection.url | default: '/collections/all' }}" class="btn-secondary">
           {{ section.settings.view_all_label | escape }} &rarr;
@@ -151,7 +155,8 @@
     {
       "type": "collection",
       "id": "collection",
-      "label": "Collection"
+      "label": "Collection",
+      "info": "Leave blank to display all products."
     },
     {
       "type": "range",

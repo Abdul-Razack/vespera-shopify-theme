@@ -25,47 +25,17 @@
     <!-- Collection Grid -->
     <div class="collection-list-grid collection-list-grid--{{ section.settings.columns_desktop }}-col">
       {%- for block in section.blocks -%}
-        {%- assign block_index = forloop.index0 -%}
         {%- assign collection = block.settings.collection -%}
-        {%- assign collection_title = block.settings.title | default: collection.title  -%}
-        {%- assign collection_url = collection.url | default: routes.all_products_collection_url -%}
+        {%- assign card_url = block.settings.link | default: collection.url -%}
+        {%- assign collection_title = block.settings.title | default: collection.title | default: 'Collection' -%}
         {%- assign card_image = block.settings.image | default: collection.featured_image | default: collection.products.first.featured_media -%}
 
-        {%- if card_image == blank -%}
-          {%- assign title_clean = collection_title | downcase -%}
-          {%- for col in collections -%}
-            {%- if card_image != blank -%}{%- break -%}{%- endif -%}
-            {%- for prod in col.products -%}
-              {%- assign prod_type_clean = prod.type | downcase -%}
-              {%- if prod_type_clean != blank and title_clean contains prod_type_clean and prod.featured_media != blank -%}
-                {%- assign card_image = prod.featured_media -%}
-                {%- if collection_url == routes.all_products_collection_url -%}
-                  {%- assign collection_url = routes.all_products_collection_url | append: '?category=' | append: prod.type | escape -%}
-                {%- endif -%}
-                {%- break -%}
-              {%- endif -%}
-            {%- endfor -%}
-          {%- endfor -%}
-        {%- endif -%}
-
-        {%- if card_image == blank -%}
-          {%- for col in collections -%}
-            {%- if col.products.size > 0 -%}
-              {%- assign idx = block_index | modulo: col.products.size -%}
-              {%- assign fallback_product = col.products[idx] | default: col.products.first -%}
-              {%- if fallback_product.featured_media != blank -%}
-                {%- assign card_image = fallback_product.featured_media -%}
-                {%- if collection_url == routes.all_products_collection_url -%}
-                  {%- assign collection_url = fallback_product.url -%}
-                {%- endif -%}
-                {%- break -%}
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-        {%- endif -%}
-
-        <div class="collection-list-card" {{ block.shopify_attributes }}>
-          <a href="{{ collection_url }}" class="collection-list-card__link">
+        <div class="collection-list-card{% if card_url == blank %} collection-list-card--static{% endif %}" {{ block.shopify_attributes }}>
+          {%- if card_url != blank -%}
+            <a href="{{ card_url }}" class="collection-list-card__link">
+          {%- else -%}
+            <div class="collection-list-card__link collection-list-card__link--static">
+          {%- endif -%}
             
             <div class="collection-list-card__media-wrapper">
               {%- if card_image != blank -%}
@@ -92,34 +62,42 @@
 
               {%- if section.settings.show_product_count -%}
                 <span class="collection-list-card__count">
-                  {%- if collection.products_count != blank -%}
+                  {%- if collection != blank and collection.products_count != blank -%}
                     {{ 'collections.general.items_with_count' | t: count: collection.products_count }}
-                  {%- else -%}
+                  {%- elsif card_url != blank -%}
                     {{ 'sections.collection_list.view_all' | t }} &rarr;
+                  {%- elsif request.design_mode -%}
+                    Configure collection or link
                   {%- endif -%}
                 </span>
               {%- endif -%}
             </div>
 
-          </a>
+          {%- if card_url != blank -%}
+            </a>
+          {%- else -%}
+            </div>
+          {%- endif -%}
         </div>
       {%- else -%}
-        {%- for i in (1..4) -%}
-          <div class="collection-list-card">
-            <div class="collection-list-card__media-wrapper">
-              <div class="collection-list-card__placeholder">
-                <svg viewBox="0 0 600 750" fill="none" class="collection-list-card__placeholder-svg" aria-hidden="true">
-                  <rect width="600" height="750" fill="#EFECE6"/>
-                  <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle">{{ 'sections.collection_list.category' | t }} {{ i }}</text>
-                </svg>
+        {%- if request.design_mode -%}
+          {%- for i in (1..4) -%}
+            <div class="collection-list-card collection-list-card--placeholder">
+              <div class="collection-list-card__media-wrapper">
+                <div class="collection-list-card__placeholder">
+                  <svg viewBox="0 0 600 750" fill="none" class="collection-list-card__placeholder-svg" aria-hidden="true">
+                    <rect width="600" height="750" fill="#EFECE6"/>
+                    <text x="300" y="380" font-family="serif" font-size="20" fill="#191817" text-anchor="middle">{{ 'sections.collection_list.category' | t }} {{ i }}</text>
+                  </svg>
+                </div>
+              </div>
+              <div class="collection-list-card__info">
+                <h3 class="collection-list-card__title font-heading">{{ 'sections.collection_list.default_title' | t }}</h3>
+                <span class="collection-list-card__count">{{ 'sections.collection_list.explore' | t }} &rarr;</span>
               </div>
             </div>
-            <div class="collection-list-card__info">
-              <h3 class="collection-list-card__title font-heading">{{ 'sections.collection_list.default_title' | t }}</h3>
-              <span class="collection-list-card__count">{{ 'sections.collection_list.explore' | t }} &rarr;</span>
-            </div>
-          </div>
-        {%- endfor -%}
+          {%- endfor -%}
+        {%- endif -%}
       {%- endfor -%}
     </div>
 
@@ -195,12 +173,19 @@
     transform: translateY(-4px);
     box-shadow: var(--shadow-elevated);
   }
+  .collection-list-card--static:hover {
+    transform: none;
+    box-shadow: var(--shadow-subtle);
+  }
   .collection-list-card__link {
     display: flex;
     flex-direction: column;
     text-decoration: none;
     color: inherit;
     height: 100%;
+  }
+  .collection-list-card__link--static {
+    cursor: default;
   }
   .collection-list-card__media-wrapper {
     position: relative;
@@ -311,17 +296,26 @@
         {
           "type": "collection",
           "id": "collection",
-          "label": "Collection"
+          "label": "Collection",
+          "info": "Select the destination collection for this category card."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Custom link",
+          "info": "Optional custom URL (e.g. /collections/all?category=Serum). If blank, defaults to collection URL."
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Alternative image"
+          "label": "Alternative image",
+          "info": "Optional custom card image. If blank, uses collection featured image or first product image."
         },
         {
           "type": "text",
           "id": "title",
-          "label": "Alternative heading"
+          "label": "Alternative heading",
+          "info": "Optional custom card title. If blank, uses collection title."
         }
       ]
     }

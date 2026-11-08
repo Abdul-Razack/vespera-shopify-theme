@@ -6,22 +6,22 @@
         "metric_1": {
           "type": "metric",
           "settings": {
-            "value": "12",
-            "label": "Botanical Extracts"
+            "value": "Circadian",
+            "label": "Overnight Science"
           }
         },
         "metric_2": {
           "type": "metric",
           "settings": {
-            "value": "3",
-            "label": "Ritual Steps"
+            "value": "8h",
+            "label": "Lipid Replenishment"
           }
         },
         "metric_3": {
           "type": "metric",
           "settings": {
-            "value": "24h",
-            "label": "Nourishing Care"
+            "value": "Bakuchiol",
+            "label": "Botanical Renewal"
           }
         }
       },
@@ -31,11 +31,13 @@
         "metric_3"
       ],
       "settings": {
-        "eyebrow": "Mindful Botany • Conscious Rituals",
-        "heading": "Formulated to Elevate Your Natural Radiance",
-        "subtext": "Selected botanical extracts blended with cold-pressed plant oils. Designed for conscious daily rituals.",
-        "button_label": "Explore Formulations",
-        "secondary_button_label": "Our Philosophy"
+        "eyebrow": "Circadian Botany • Nocturnal Renewal",
+        "heading": "Formulated for Deep Nocturnal Restoration",
+        "subtext": "Replenishing lipid elixirs and restorative balms engineered to support your skin's natural nocturnal repair cycle while you rest.",
+        "button_label": "Explore Evening Rituals",
+        "button_link": "/collections/all",
+        "secondary_button_label": "Our Philosophy",
+        "secondary_button_link": "/pages/about"
       }
     },
     "press_marquee": {
@@ -44,22 +46,22 @@
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Vogue International",
-            "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
+            "publication": "Nocturnal Beauty Review",
+            "quote": "A masterwork in overnight barrier repair. You awaken with replenished firmness and calm, rested radiance."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Harper's Bazaar",
-            "quote": "A thoughtful approach to botanical precision without synthetic compromises. The modern benchmark for conscious daily rituals."
+            "publication": "Quiet Luxury Skincare Journal",
+            "quote": "The evening ritual we have all been waiting for. Unparalleled sensory pleasure meets restorative efficacy."
           }
         },
         "press_3": {
           "type": "press_quote",
           "settings": {
-            "publication": "Allure Magazine",
-            "quote": "Nourishing botanical formulations designed for conscious daily rituals. Pure sustainable luxury in UV-protective glass."
+            "publication": "Conscious Night Rituals",
+            "quote": "Rich botanical ceramides and bakuchiol blended in obsidian glass. The quintessential evening skincare experience."
           }
         }
       },
@@ -69,16 +71,16 @@
         "press_3"
       ],
       "settings": {
-        "eyebrow": "Editorial Acclaim",
-        "heading": "Recognized by Industry Connoisseurs"
+        "eyebrow": "Evening Acclaim",
+        "heading": "Acclaimed by Evening Connoisseurs"
       }
     },
     "featured_collection": {
       "type": "featured-collection",
       "settings": {
-        "eyebrow": "Bestselling Formulations",
-        "heading": "Curated Daily Rituals",
-        "description": "Thoughtfully selected botanical extracts blended for visible radiance and balanced care.",
+        "eyebrow": "Evening Restoratives",
+        "heading": "Curated Nocturnal Rituals",
+        "description": "Rich botanical concentrates and restorative balms designed to replenish depleted lipids and support overnight recovery.",
         "products_to_show": 4,
         "columns_desktop": 4,
         "show_secondary_image": true,
@@ -93,25 +95,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Bio-Active Serums & Oils"
+            "title": "Nocturnal Repair Elixirs",
+            "link": "/collections/all?category=Serum"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Gentle Cleansers & Essences"
+            "title": "Calming Evening Cleansers",
+            "link": "/collections/all?category=Cleanser"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Cellular Creams & Balms"
+            "title": "Rich Overnight Balms",
+            "link": "/collections/all?category=Cream"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Conscious Body Care"
+            "title": "Restorative Night Care",
+            "link": "/collections/all?category=Body"
           }
         }
       },
@@ -123,8 +129,8 @@
       ],
       "settings": {
         "eyebrow": "Targeted Rituals",
-        "heading": "Shop by Category",
-        "description": "Formulations categorized by treatment focus for a bespoke daily ritual.",
+        "heading": "Shop by Evening Need",
+        "description": "Restorative nocturnal preparations categorized by skin renewal phase.",
         "columns_desktop": 4,
         "show_product_count": true,
         "show_view_all": true,
@@ -136,11 +142,11 @@
       "settings": {
         "layout": "image_first",
         "subtle_bg": false,
-        "eyebrow": "Botanical Sourcing",
-        "heading": "Whole-Plant Potency Preserved at Harvest",
-        "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
+        "eyebrow": "Circadian Science",
+        "heading": "Synchronized with Overnight Cellular Repair",
+        "text": "<p>During sleep, the skin's cellular regeneration rate doubles while moisture loss increases. Our nocturnal lipid complexes deliver concentrated ceramides and cold-pressed botanical oils when renewal is at its peak.</p>",
         "button_label": "Our Philosophy",
-        "button_link": "/pages/contact"
+        "button_link": "/pages/about"
       }
     },
     "multicolumn": {
@@ -150,30 +156,30 @@
           "type": "column",
           "settings": {
             "icon": "leaf",
-            "title": "Bio-Active Botany",
-            "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>",
+            "title": "Nocturnal Bakuchiol",
+            "text": "<p>Gentle plant-derived retinol alternative supporting collagen renewal without sensitivity.</p>",
             "link_label": "Learn More",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_2": {
           "type": "column",
           "settings": {
             "icon": "flask",
-            "title": "Clean Chemistry",
-            "text": "<p>Formulated without synthetic perfumes, sulfates, or artificial fillers for sensitive daily rituals.</p>",
+            "title": "Ceramide Complex",
+            "text": "<p>Triple phytoceramides lock in hydration and prevent transepidermal water loss through the night.</p>",
             "link_label": "Our Standards",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_3": {
           "type": "column",
           "settings": {
             "icon": "recycle",
-            "title": "Sustainable Glass",
-            "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
+            "title": "Obsidian Glass",
+            "text": "<p>Bottled in UV-blocking obsidian glass that preserves photosensitive nocturnal actives.</p>",
             "link_label": "Sustainability",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         }
       },
@@ -183,9 +189,9 @@
         "col_3"
       ],
       "settings": {
-        "eyebrow": "Formulation Standards",
-        "heading": "The Conscious Radiance Creed",
-        "description": "Mindful formulation standards grounded in botanical integrity.",
+        "eyebrow": "Nighttime Standards",
+        "heading": "The Vespera Evening Creed",
+        "description": "Thoughtfully crafted formulations designed to honor the restful magic of sleep.",
         "columns_desktop": 3,
         "column_alignment": "center",
         "subtle_bg": true
@@ -198,27 +204,27 @@
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "The gold standard of botanical skincare. Within days, complexion feels visibly balanced and radiant.",
-            "author": "Vogue Editorial",
-            "publication_subtitle": "Annual Clean Beauty Awards"
+            "quote": "Applying this before bed has become my sacred ritual. I wake up looking rested, calm, and luminous.",
+            "author": "Verified Customer",
+            "publication_subtitle": "Nocturnal Repair Elixir"
           }
         },
         "quote_2": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
-            "author": "Dr. Clara Hastings",
-            "publication_subtitle": "Skincare Specialist & Aesthetician"
+            "quote": "Deeply comforting texture without feeling greasy. It has completely eliminated my morning dryness.",
+            "author": "Verified Ritualist",
+            "publication_subtitle": "Verified Purchase • 50ml"
           }
         },
         "quote_3": {
           "type": "testimonial",
           "settings": {
             "rating": 5,
-            "quote": "Rarely does a formulation deliver such instant tactile luxury while respecting sensitive skin barriers.",
-            "author": "Harper's Bazaar",
-            "publication_subtitle": "Editor's Pick 2026"
+            "quote": "The quiet luxury of this evening balm is unmatched. Exceptional botanical efficacy in every drop.",
+            "author": "Verified Customer",
+            "publication_subtitle": "Restorative Night Care"
           }
         }
       },
@@ -228,8 +234,8 @@
         "quote_3"
       ],
       "settings": {
-        "eyebrow": "Acclaim & Recognition",
-        "heading": "Celebrated by Connoisseurs",
+        "eyebrow": "Evening Reflections",
+        "heading": "Voices from the Night",
         "columns_desktop": 3
       }
     }

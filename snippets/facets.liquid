@@ -163,7 +163,8 @@
       <!-- Right: Formulation Count & Sorting Selector -->
       <div class="facets__right-group">
         <div class="facets__count">
-          <span class="facets__count-text">{{ 'collections.general.items_with_count' | t: count: results.products_count }}</span>
+          {%- assign results_count = results.results_count | default: results.products_count | default: 0 -%}
+          <span class="facets__count-text">{{ 'collections.general.items_with_count' | t: count: results_count }}</span>
         </div>
 
         {%- if enable_sorting -%}

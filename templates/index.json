@@ -35,7 +35,9 @@
         "heading": "Formulated to Elevate Your Natural Radiance",
         "subtext": "Selected botanical extracts blended with cold-pressed plant oils. Designed for conscious daily rituals.",
         "button_label": "Explore Formulations",
-        "secondary_button_label": "Our Philosophy"
+        "button_link": "/collections/all",
+        "secondary_button_label": "Our Philosophy",
+        "secondary_button_link": "/pages/about"
       }
     },
     "press_marquee": {
@@ -44,21 +46,21 @@
         "press_1": {
           "type": "press_quote",
           "settings": {
-            "publication": "Vogue International",
+            "publication": "Clean Beauty Review",
             "quote": "A masterclass in modern conscious formulation. The Botanical Radiance Serum is unmatched in bio-active purity."
           }
         },
         "press_2": {
           "type": "press_quote",
           "settings": {
-            "publication": "Harper's Bazaar",
+            "publication": "The Skincare Journal",
             "quote": "A thoughtful approach to botanical precision without synthetic compromises. The modern benchmark for conscious daily rituals."
           }
         },
         "press_3": {
           "type": "press_quote",
           "settings": {
-            "publication": "Allure Magazine",
+            "publication": "Independent Botanical Gazette",
             "quote": "Nourishing botanical formulations designed for conscious daily rituals. Pure sustainable luxury in UV-protective glass."
           }
         }
@@ -93,25 +95,29 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Bio-Active Serums & Oils"
+            "title": "Bio-Active Serums & Oils",
+            "link": "/collections/all?category=Serum"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Gentle Cleansers & Essences"
+            "title": "Gentle Cleansers & Essences",
+            "link": "/collections/all?category=Cleanser"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Cellular Creams & Balms"
+            "title": "Cellular Creams & Balms",
+            "link": "/collections/all?category=Cream"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Conscious Body Care"
+            "title": "Conscious Body Care",
+            "link": "/collections/all?category=Body"
           }
         }
       },
@@ -140,7 +146,7 @@
         "heading": "Whole-Plant Potency Preserved at Harvest",
         "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
         "button_label": "Our Philosophy",
-        "button_link": "/pages/contact"
+        "button_link": "/pages/about"
       }
     },
     "multicolumn": {
@@ -153,7 +159,7 @@
             "title": "Bio-Active Botany",
             "text": "<p>Cold-pressed botanical extracts preserved at source to deliver unadulterated antioxidant power.</p>",
             "link_label": "Learn More",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_2": {
@@ -163,7 +169,7 @@
             "title": "Clean Chemistry",
             "text": "<p>Formulated without synthetic perfumes, sulfates, or artificial fillers for sensitive daily rituals.</p>",
             "link_label": "Our Standards",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         },
         "col_3": {
@@ -173,7 +179,7 @@
             "title": "Sustainable Glass",
             "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
             "link_label": "Sustainability",
-            "link": "/collections/all"
+            "link": "/pages/about"
           }
         }
       },
@@ -199,8 +205,8 @@
           "settings": {
             "rating": 5,
             "quote": "The gold standard of botanical skincare. Within days, complexion feels visibly balanced and radiant.",
-            "author": "Vogue Editorial",
-            "publication_subtitle": "Annual Clean Beauty Awards"
+            "author": "Verified Customer",
+            "publication_subtitle": "Botanical Radiance Ritual"
           }
         },
         "quote_2": {
@@ -208,8 +214,8 @@
           "settings": {
             "rating": 5,
             "quote": "A masterclass in conscious chemistry. It replaces four steps in my morning ritual effortlessly.",
-            "author": "Dr. Clara Hastings",
-            "publication_subtitle": "Skincare Specialist & Aesthetician"
+            "author": "Verified Ritualist",
+            "publication_subtitle": "Verified Purchase • 60ml"
           }
         },
         "quote_3": {
@@ -217,8 +223,8 @@
           "settings": {
             "rating": 5,
             "quote": "Rarely does a formulation deliver such instant tactile luxury while respecting sensitive skin barriers.",
-            "author": "Harper's Bazaar",
-            "publication_subtitle": "Editor's Pick 2026"
+            "author": "Verified Customer",
+            "publication_subtitle": "Restorative Night Care"
           }
         }
       },
