@@ -19,13 +19,18 @@
     {%- endif -%}
 
     {%- capture seo_title -%}
-      {{ page_title }}
-      {%- if current_tags -%}
-        {%- assign tags_str = current_tags | join: ', ' -%}
-        &ndash; {{ 'general.meta.tags' | t: tags: tags_str }}
+      {%- if request.page_type == 'index' -%}
+        {{ brand_name }} &ndash; {{ 'general.meta.store_tagline' | t | default: 'Conscious Botanical Skincare' }}
+      {%- else -%}
+        {%- assign clean_page_title = page_title | replace: 'aura-theme-dev', brand_name -%}
+        {{ clean_page_title }}
+        {%- if current_tags -%}
+          {%- assign tags_str = current_tags | join: ', ' -%}
+          &ndash; {{ 'general.meta.tags' | t: tags: tags_str }}
+        {%- endif -%}
+        {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
+        {%- unless clean_page_title contains brand_name %} &ndash; {{ brand_name }}{% endunless -%}
       {%- endif -%}
-      {%- if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif -%}
-      {%- unless page_title contains brand_name %} &ndash; {{ brand_name }}{% endunless -%}
     {%- endcapture -%}
     <title>{{ seo_title }}</title>
 

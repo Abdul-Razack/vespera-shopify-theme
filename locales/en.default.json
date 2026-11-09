@@ -23,6 +23,7 @@
       "save_note": "Save Note",
       "subtotal": "Subtotal",
       "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
+      "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout",
       "checkout": "Checkout",
       "view_cart": "View cart",
       "headings": {
@@ -74,7 +75,12 @@
       "title": "Your cart",
       "cart": "Cart",
       "items": "items",
-      "free_shipping_unlocked": "You've unlocked Free Worldwide Shipping!",
+      "item": "item",
+      "item_count": {
+        "one": "1 item in cart",
+        "other": "{{ count }} items in cart"
+      },
+      "free_shipping_unlocked": "You've unlocked Complimentary Shipping!",
       "empty": "Your cart is currently empty.",
       "curated_rituals": "Curated Daily Essentials",
       "remove": "Remove",
@@ -90,7 +96,7 @@
         "quantity": "Quantity",
         "total": "Total"
       },
-      "free_shipping_remaining_html": "Add <strong>{{ amount }}</strong> more to unlock Free Worldwide Shipping",
+      "free_shipping_remaining_html": "Add <strong>{{ amount }}</strong> more to unlock Complimentary Shipping",
       "popular": "Popular",
       "pairs_well": "Pairs well"
     },
@@ -164,6 +170,7 @@
       "explore": "Explore"
     },
     "meta": {
+      "store_tagline": "Conscious Botanical Skincare",
       "tags": "tagged \"{{ tags }}\"",
       "page": "Page {{ page }}"
     }

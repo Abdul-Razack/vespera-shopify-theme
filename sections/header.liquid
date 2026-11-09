@@ -126,7 +126,7 @@
         href="{{ routes.cart_url }}" 
         class="site-header__icon-link site-header__cart-link" 
         id="CartIconBubble"
-        aria-label="{{ cart.item_count }} {{ 'templates.cart.items' | t }}"
+        aria-label="{% if cart.item_count == 1 %}1 {{ 'templates.cart.item' | t }}{% else %}{{ cart.item_count }} {{ 'templates.cart.items' | t }}{% endif %}"
       >
         <svg class="site-header__icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>

@@ -8,13 +8,13 @@
         "announcement_1": {
           "type": "announcement",
           "settings": {
-            "text": "Complimentary luxury samples & free worldwide shipping on orders over $75"
+            "text": "Complimentary luxury samples & free shipping on orders over $75"
           }
         },
         "announcement_2": {
           "type": "announcement",
           "settings": {
-            "text": "Thoughtfully crafted botanical formulations in recyclable violet glass"
+            "text": "Thoughtfully crafted botanical formulations in recyclable amber glass"
           }
         },
         "announcement_3": {

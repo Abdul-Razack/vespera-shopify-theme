@@ -162,10 +162,22 @@ class CartDrawer extends HTMLElement {
   }
 
   async handleAddToCart(form) {
+    if (form.dataset.submitting === "true") return;
+    form.dataset.submitting = "true";
+
+    const submitBtn = form.querySelector('[type="submit"], [name="add"], .product-form__submit');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.setAttribute("aria-busy", "true");
+    }
+
     const formData = new FormData(form);
     
     try {
-      const response = await fetch("/cart/add.js", {
+      const addUrl = (window.theme && window.theme.routes && window.theme.routes.cartAdd)
+        ? window.theme.routes.cartAdd + '.js'
+        : '/cart/add.js';
+      const response = await fetch(addUrl, {
         method: "POST",
         body: formData,
         headers: {
@@ -174,14 +186,25 @@ class CartDrawer extends HTMLElement {
       });
 
       if (!response.ok) {
-        throw new Error("Add to cart failed");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.description || "Add to cart failed");
       }
 
       await this.refreshDrawer();
       this.open();
     } catch (err) {
       console.error("Cart error:", err);
-      form.submit();
+      const errorContainer = form.querySelector('[data-product-error], .product-form__error-message');
+      if (errorContainer) {
+        errorContainer.textContent = err.message || "Could not add formulation to cart. Please try again.";
+        errorContainer.hidden = false;
+      }
+    } finally {
+      form.dataset.submitting = "false";
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.removeAttribute("aria-busy");
+      }
     }
   }
 
@@ -208,6 +231,9 @@ class CartDrawer extends HTMLElement {
   }
 
   async addVariantToCart(variantId) {
+    if (this.isAddingVariant) return;
+    this.isAddingVariant = true;
+
     try {
       const addUrl = (window.theme && window.theme.routes && window.theme.routes.cartAdd)
         ? window.theme.routes.cartAdd + '.js'
@@ -229,6 +255,8 @@ class CartDrawer extends HTMLElement {
     } catch (err) {
       console.error("Failed to add upsell variant:", err);
       await this.refreshDrawer();
+    } finally {
+      this.isAddingVariant = false;
     }
   }
 
@@ -255,7 +283,10 @@ class CartDrawer extends HTMLElement {
       badges.forEach(b => b.innerText = cartData.item_count);
       const cartIcon = document.getElementById("CartIconBubble");
       if (cartIcon) {
-        cartIcon.setAttribute("aria-label", `${cartData.item_count} items in cart`);
+        const countLabel = cartData.item_count === 1
+          ? "1 item in cart"
+          : `${cartData.item_count} items in cart`;
+        cartIcon.setAttribute("aria-label", countLabel);
       }
     } catch (err) {
       console.error("Failed to refresh drawer:", err);
