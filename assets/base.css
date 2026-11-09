@@ -423,11 +423,16 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
     grid-template-columns: 1fr;
     gap: var(--space-8);
   }
+  .main-product__media-col {
+    position: static;
+  }
 }
 
-.main-product__media-col {
-  position: sticky;
-  top: 90px;
+@media (min-width: 991px) {
+  .main-product__media-col {
+    position: sticky;
+    top: 90px;
+  }
 }
 
 .product-media-gallery {
