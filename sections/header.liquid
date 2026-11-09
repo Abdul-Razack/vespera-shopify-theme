@@ -304,6 +304,7 @@
     top: 0;
     z-index: 100;
   }
+  .shopify-section:has(.site-header--drawer-open),
   .site-header--drawer-open,
   .site-header:has(.mobile-nav-drawer--open) {
     z-index: 999;
@@ -675,7 +676,7 @@
     flex-shrink: 0;
     color: var(--color-text-muted);
   }
-  .mobile-nav-drawer__search-input {
+  .mobile-nav-drawer__search .mobile-nav-drawer__search-input {
     flex: 1 1 0%;
     min-width: 0;
     width: 100%;
