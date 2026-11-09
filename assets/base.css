@@ -411,6 +411,13 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 /* ==========================================================================
    LUXURY PRODUCT DETAIL PAGE (PDP)
    ========================================================================== */
+.section-anchor,
+[id="standards"],
+[id="faq"],
+[id="philosophy"] {
+  scroll-margin-top: 120px;
+}
+
 .main-product__layout {
   display: grid;
   grid-template-columns: 1.1fr 1fr;

@@ -232,6 +232,42 @@
         "heading": "Loved by Conscious Ritualists",
         "columns_desktop": 3
       }
+    },
+    "formulation_faq": {
+      "type": "faq-accordion",
+      "blocks": {
+        "ingredients": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where can I find a product’s ingredients?",
+            "answer": "<p>Visit the product page for its ingredient details. Contact us if you have a question about a particular formulation.</p>"
+          }
+        },
+        "suitability": {
+          "type": "faq_item",
+          "settings": {
+            "question": "How do I choose a formulation?",
+            "answer": "<p>Review the product description and ingredient information to find the option that suits your routine. Contact us for help with a product question.</p>"
+          }
+        },
+        "packaging": {
+          "type": "faq_item",
+          "settings": {
+            "question": "Where can I learn about product packaging?",
+            "answer": "<p>Check the individual product details or contact us for information about its packaging and care.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredients",
+        "suitability",
+        "packaging"
+      ],
+      "settings": {
+        "eyebrow": "Formulation Standards",
+        "heading": "Your formulation questions",
+        "subtext": "Explore product details and find answers to common questions."
+      }
     }
   },
   "order": [
@@ -241,6 +277,7 @@
     "collection_list",
     "image_with_text",
     "multicolumn",
+    "formulation_faq",
     "testimonials"
   ]
 }

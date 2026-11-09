@@ -13,7 +13,7 @@
       {%- if cart.empty? -%}
         {{ 'sections.cart.empty' | t }}
       {%- else -%}
-        {{ cart.item_count }} {{ 'templates.cart.items' | t }}
+        {{ 'templates.cart.item_count' | t: count: cart.item_count }}
       {%- endif -%}
     </p>
 
