@@ -139,6 +139,8 @@ class CartDrawer extends HTMLElement {
   open() {
     this.previousActiveElement = document.activeElement;
     this.setAttribute("aria-hidden", "false");
+    this.classList.add("active");
+    this.setAttribute("open", "");
     document.body.style.overflow = "hidden";
     this.isOpen = true;
 
@@ -152,6 +154,8 @@ class CartDrawer extends HTMLElement {
 
   close() {
     this.setAttribute("aria-hidden", "true");
+    this.classList.remove("active");
+    this.removeAttribute("open");
     document.body.style.overflow = "";
     this.isOpen = false;
 
