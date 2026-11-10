@@ -24,8 +24,8 @@
           {%- endif -%}
 
           {%- if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank -%}
-            <a href="{{ section.settings.secondary_button_link }}" class="btn-secondary hero-banner__btn">
-              {{ section.settings.secondary_button_label | escape }}
+            <a href="{{ section.settings.secondary_button_link }}" class="hero-editorial__secondary-link">
+              {{ section.settings.secondary_button_label | escape }} <span aria-hidden="true">&rarr;</span>
             </a>
           {%- endif -%}
         </div>
@@ -81,15 +81,23 @@
     gap: var(--space-10);
     align-items: center;
   }
-  @media (min-width: 990px) {
+  @media (min-width: 991px) {
     .hero-editorial__layout {
-      grid-template-columns: 1.15fr 1fr;
-      gap: var(--space-16);
+      grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+      gap: clamp(32px, 4vw, 64px);
     }
   }
+  .hero-editorial__content,
+  .hero-editorial__media-wrapper {
+    min-width: 0;
+  }
   .hero-editorial__heading {
+    font-size: var(--font-size-display);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    overflow-wrap: anywhere;
     margin-bottom: var(--space-6);
-    max-width: 580px;
+    max-width: 15ch;
   }
   .hero-editorial__subtext {
     font-size: var(--font-size-md);
@@ -101,7 +109,20 @@
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-4);
-    margin-bottom: var(--space-12);
+    margin-bottom: var(--space-6);
+  }
+  .hero-editorial__secondary-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: 44px;
+    padding-block: var(--space-2);
+    font-family: var(--font-sans);
+    font-size: var(--font-size-sm);
+    border-bottom: 1px solid var(--color-border-dark);
+  }
+  .hero-editorial__secondary-link:hover {
+    border-bottom-color: currentColor;
   }
   .hero-editorial__metrics {
     display: grid;
@@ -139,7 +160,8 @@
   }
   .hero-editorial__image {
     width: 100%;
-    height: auto;
+    height: 100%;
+    aspect-ratio: 4 / 5;
     object-fit: cover;
   }
   .hero-editorial__placeholder {

@@ -4,7 +4,7 @@
  * Compliance: Strict 8px grid, WCAG 2.1 AA Contrast, Fluid Typography
  */
 
-:root {
+:where(:root) {
   /* ==========================================================================
      1. COLOR TOKENS (Vespera Botanical Default - Contrast Verified >= 4.5:1)
      ========================================================================== */
@@ -40,8 +40,9 @@
   --space-32: 128px;
 
   /* Standard Section Padding */
-  --section-padding-mobile: var(--space-16);
-  --section-padding-desktop: var(--space-24);
+  --section-padding-mobile: 28px;
+  --section-padding-desktop: clamp(28px, 2.3vw, 36px);
+  --section-editorial-padding: 36px;
 
   /* Container Max Width */
   --container-max-width: 1360px;
@@ -71,6 +72,14 @@
   --font-size-2xl: calc(clamp(1.75rem, 1.4rem + 1vw, 2.25rem) * var(--font-heading-scale, 1));        /* 28-36px - H2 */
   --font-size-3xl: calc(clamp(2rem, 1.6rem + 1.5vw, 3rem) * var(--font-heading-scale, 1));            /* 32-48px - H1 Editorial Title */
 
+  /* Separate display, editorial and product scales; respect merchant scaling. */
+  --type-display: clamp(2.375rem, 10.5vw, 2.625rem);
+  --type-editorial: clamp(1.75rem, 8vw, 2rem);
+  --type-product: clamp(1.75rem, 8vw, 2rem);
+  --font-size-display: calc(var(--type-display) * var(--font-heading-scale, 1));
+  --font-size-editorial: calc(var(--type-editorial) * var(--font-heading-scale, 1));
+  --font-size-product: calc(var(--type-product) * var(--font-heading-scale, 1));
+
   /* Line Heights & Weights */
   --line-height-heading: 1.15;
   --line-height-body: 1.6;
@@ -94,6 +103,15 @@
 
   --shadow-subtle: 0 4px 20px rgba(25, 24, 23, 0.05);
   --shadow-drawer: -4px 0 30px rgba(25, 24, 23, 0.12);
+}
+
+@media (min-width: 991px) {
+  :root {
+    --type-display: clamp(4.25rem, 4.9vw, 4.625rem);
+    --type-editorial: clamp(2.375rem, 3.2vw, 2.875rem);
+    --type-product: clamp(2.375rem, 3.05vw, 2.75rem);
+    --section-editorial-padding: clamp(64px, 5.5vw, 84px);
+  }
 }
 
 /* ==========================================================================
@@ -263,6 +281,10 @@ button {
   }
 }
 
+.section-spacing--editorial {
+  padding-block: var(--section-editorial-padding);
+}
+
 /* Eyebrow Label */
 .eyebrow,
 .section-eyebrow {
@@ -271,7 +293,7 @@ button {
   font-size: var(--font-size-xs);
   text-transform: uppercase;
   letter-spacing: var(--letter-spacing-eyebrow);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-medium);
   color: var(--color-accent);
   margin-bottom: var(--space-3);
 }
@@ -292,7 +314,7 @@ button {
 
 .section-title {
   font-family: var(--font-heading-family);
-  font-size: clamp(1.85rem, 3.2vw, 2.6rem);
+  font-size: var(--font-size-editorial);
   font-weight: var(--font-heading-weight);
   letter-spacing: var(--letter-spacing-heading);
   line-height: 1.25;
@@ -769,7 +791,7 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 .main-product__info-stack {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .main-product__vendor {
@@ -783,13 +805,46 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 
 .main-product__title {
   font-family: var(--font-heading-family);
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
+  font-size: var(--font-size-product);
   font-weight: var(--font-heading-weight);
   letter-spacing: var(--letter-spacing-heading);
   line-height: 1.15;
   margin: 0;
 }
 
+.main-product__highlights {
+  list-style: none;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4) 0;
+  margin: 0;
+  border-block: 1px solid var(--color-border);
+  font-family: var(--font-sans);
+  font-size: var(--font-size-base);
+  line-height: 1.6;
+}
+.main-product__highlights li {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+.main-product__highlight-mark {
+  color: var(--color-accent);
+  flex: 0 0 auto;
+}
+.main-product__highlights span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.main-product__info-col .product-variant-picker {
+  margin-bottom: 0;
+}
+.main-product__info-col .product-variant-picker__group:last-child {
+  margin-bottom: 0 !important;
+}
+.main-product__info-col .main-product__qty-group {
+  margin-bottom: 0;
+}
 .main-product__price-wrap {
   display: flex;
   align-items: baseline;
@@ -798,6 +853,7 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 }
 
 .main-product__price {
+  font-family: var(--font-controls, var(--font-sans));
   font-size: 1.5rem;
   font-weight: var(--font-weight-medium);
   color: var(--color-text);

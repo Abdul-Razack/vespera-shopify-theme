@@ -64,12 +64,21 @@
             "heading": "Conscious Ritual & How to Use",
             "content": "<p><strong>Morning Ritual:</strong> Warm 2–3 drops between clean palms. Inhale the natural botanical terpene profile. Press gently into cleansed face, neck, and decolletage using upward sweeps until absorbed. Follow with SPF.</p><p><strong>Evening Ritual:</strong> Apply 3–4 drops following treatment essences as an intensive overnight lipid sealant.</p>"
           }
+        },
+        "key_benefits": {
+          "type": "key_benefits",
+          "settings": {
+            "highlight_1": "Botanical ingredients",
+            "highlight_2": "Designed for daily rituals",
+            "highlight_3": "Ingredient details below"
+          }
         }
       },
       "block_order": [
         "vendor",
         "title",
         "price",
+        "key_benefits",
         "variant_picker",
         "quantity",
         "buy_buttons",

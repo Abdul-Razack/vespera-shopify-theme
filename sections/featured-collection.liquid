@@ -7,7 +7,7 @@
   <div class="page-container">
     
     <!-- Section Header -->
-    <div class="featured-collection__header text-center">
+    <div class="featured-collection__header">
       {%- if section.settings.eyebrow != blank -%}
         <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
       {%- endif -%}
@@ -74,7 +74,7 @@
 
     <!-- Footer View All CTA -->
     {%- if section.settings.show_view_all and target_collection != blank and target_collection.products_count > 0 -%}
-      <div class="featured-collection__footer text-center">
+      <div class="featured-collection__footer">
         <a href="{{ target_collection.url | default: '/collections/all' }}" class="btn-secondary">
           {{ section.settings.view_all_label | escape }} &rarr;
         </a>
@@ -87,10 +87,10 @@
 <style>
   .featured-collection__header {
     max-width: 680px;
-    margin: 0 auto var(--space-8);
+    margin: 0 0 var(--space-6);
   }
   .featured-collection__title {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-size: var(--font-size-editorial);
     letter-spacing: -0.01em;
     color: var(--color-text);
     margin-bottom: var(--space-3);

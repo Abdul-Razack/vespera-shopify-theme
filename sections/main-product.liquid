@@ -114,6 +114,20 @@
                 </div>
               </div>
 
+            {%- when 'key_benefits' -%}
+              {%- capture highlights -%}
+                {%- for i in (1..4) -%}
+                  {%- assign highlight_key = 'highlight_' | append: i -%}
+                  {%- assign highlight = block.settings[highlight_key] -%}
+                  {%- if highlight != blank -%}
+                    <li><span class="main-product__highlight-mark" aria-hidden="true">&#10003;</span><span>{{ highlight | escape }}</span></li>
+                  {%- endif -%}
+                {%- endfor -%}
+              {%- endcapture -%}
+              {%- if highlights != blank -%}
+                <ul class="main-product__highlights" role="list" {{ block.shopify_attributes }}>{{ highlights }}</ul>
+              {%- endif -%}
+
             {%- when 'variant_picker' -%}
               <div class="main-product__variant-picker-wrap" {{ block.shopify_attributes }}>
                 {% render 'product-variant-picker', 
@@ -620,6 +634,40 @@
       "limit": 1
     },
     {
+      "type": "key_benefits",
+      "name": "Key benefits",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Use verified benefits suitable for every product on this template, or connect product metafields for individual products. Leave a line blank to hide it."
+        },
+        {
+          "type": "text",
+          "id": "highlight_1",
+          "label": "Highlight 1",
+          "default": "Botanical ingredients"
+        },
+        {
+          "type": "text",
+          "id": "highlight_2",
+          "label": "Highlight 2",
+          "default": "Designed for daily rituals"
+        },
+        {
+          "type": "text",
+          "id": "highlight_3",
+          "label": "Highlight 3",
+          "default": "Ingredient details below"
+        },
+        {
+          "type": "text",
+          "id": "highlight_4",
+          "label": "Highlight 4"
+        }
+      ]
+    },
+    {
       "type": "variant_picker",
       "name": "Variant picker",
       "limit": 1
@@ -782,6 +830,9 @@
       },
       {
         "type": "price"
+      },
+      {
+        "type": "key_benefits"
       },
       {
         "type": "variant_picker"

@@ -73,7 +73,7 @@
       "settings": {
         "eyebrow": "Targeted Complexes",
         "heading": "Clinical Formulation Collection",
-        "description": "High-performance fermented concentrates developed to promote cellular turnover and enhance luminous tone.",
+        "description": "",
         "products_to_show": 4,
         "columns_desktop": 4,
         "show_secondary_image": true,
@@ -188,7 +188,8 @@
         "columns_desktop": 3,
         "column_alignment": "center",
         "subtle_bg": true
-      }
+      },
+      "disabled": true
     },
     "testimonials": {
       "type": "testimonials",
@@ -272,12 +273,12 @@
   },
   "order": [
     "hero",
-    "press_marquee",
     "featured_collection",
-    "collection_list",
     "image_with_text",
-    "multicolumn",
+    "collection_list",
     "formulation_faq",
+    "press_marquee",
+    "multicolumn",
     "testimonials"
   ]
 }
