@@ -7,24 +7,29 @@
   <div id="philosophy" class="section-anchor"></div>
   <div class="page-container">
     <div class="image-with-text__grid {% if section.settings.layout == 'text_first' %}image-with-text__grid--reverse{% endif %}">
-      
+
       <!-- Media Column -->
       <div class="image-with-text__media-col">
         <div class="image-with-text__media-frame">
           {%- if section.settings.image != blank -%}
             {{ section.settings.image | image_url: width: 1200 | image_tag:
                loading: 'lazy',
+               widths: '480, 800, 1200',
+               sizes: '(min-width: 1440px) 750px, (min-width: 991px) 58vw, calc(100vw - 32px)',
                class: 'image-with-text__img',
                alt: section.settings.image.alt | default: section.settings.heading | escape
             }}
           {%- else -%}
-            <img 
-              src="{{ 'botanical-extraction.jpg' | asset_url }}" 
+            <img
+              src="{{ 'botanical-extraction-800.webp' | asset_url }}"
+              srcset="{{ 'botanical-extraction-480.webp' | asset_url }} 480w, {{ 'botanical-extraction-800.webp' | asset_url }} 800w, {{ 'botanical-extraction-896.webp' | asset_url }} 896w"
+              sizes="(min-width: 1440px) 750px, (min-width: 991px) 58vw, calc(100vw - 32px)"
+              decoding="async"
               alt="{{ section.settings.heading | escape }}"
               class="image-with-text__img"
               loading="lazy"
-              width="1200"
-              height="1500"
+              width="896"
+              height="1200"
             >
           {%- endif -%}
         </div>

@@ -1,7 +1,7 @@
 <section class="hero-editorial section-spacing" aria-labelledby="HeroHeading-{{ section.id }}">
   <div class="page-container">
     <div class="hero-editorial__layout">
-      
+
       <!-- Content Column (Left on Desktop) -->
       <div class="hero-editorial__content">
         {%- if section.settings.eyebrow != blank -%}
@@ -47,21 +47,25 @@
       <div class="hero-editorial__media-wrapper">
         <div class="hero-editorial__image-card">
           {%- if section.settings.image != blank -%}
-            {{ section.settings.image | image_url: width: 1200 | image_tag: 
+            {{ section.settings.image | image_url: width: 1200 | image_tag:
                loading: 'eager',
                fetchpriority: 'high',
+               widths: '480, 800, 1200',
+               sizes: '(min-width: 1440px) 660px, (min-width: 991px) 50vw, calc(100vw - 32px)',
                class: 'hero-editorial__image',
                alt: section.settings.heading | escape
             }}
           {%- else -%}
-            <img 
-              src="{{ 'hero-editorial.jpg' | asset_url }}" 
-              alt="{{ section.settings.heading | escape | escape }}"
+            <img
+              src="{{ 'hero-editorial-800.webp' | asset_url }}"
+              srcset="{{ 'hero-editorial-480.webp' | asset_url }} 480w, {{ 'hero-editorial-800.webp' | asset_url }} 800w, {{ 'hero-editorial-896.webp' | asset_url }} 896w"
+              sizes="(min-width: 1440px) 660px, (min-width: 991px) 50vw, calc(100vw - 32px)"
+              alt="{{ section.settings.heading | escape }}"
               class="hero-editorial__image"
               loading="eager"
               fetchpriority="high"
-              width="1200"
-              height="1800"
+              width="896"
+              height="1200"
             >
           {%- endif -%}
         </div>
@@ -153,12 +157,14 @@
     position: relative;
   }
   .hero-editorial__image-card {
+    aspect-ratio: 4 / 5;
     border-radius: var(--radius-md);
     overflow: hidden;
     background-color: var(--color-bg-subtle);
     box-shadow: var(--shadow-subtle);
   }
   .hero-editorial__image {
+    display: block;
     width: 100%;
     height: 100%;
     aspect-ratio: 4 / 5;

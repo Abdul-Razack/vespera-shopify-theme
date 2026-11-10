@@ -6,7 +6,7 @@
       {% if section.settings.image != blank %}
         {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '400, 700, 1000, 1400', sizes: '(min-width: 991px) 50vw, 100vw', class: 'ingredient-spotlight__image' }}
       {% else %}
-        <img src="{{ 'ingredient-botanical.jpg' | asset_url }}" alt="{{ 'sections.ingredient.image_alt' | t | escape }}" width="1145" height="1374" loading="lazy" class="ingredient-spotlight__image">
+        <img src="{{ 'ingredient-botanical-800.webp' | asset_url }}" srcset="{{ 'ingredient-botanical-480.webp' | asset_url }} 480w, {{ 'ingredient-botanical-800.webp' | asset_url }} 800w, {{ 'ingredient-botanical-1145.webp' | asset_url }} 1145w" sizes="(min-width: 1440px) 650px, (min-width: 991px) 50vw, calc(100vw - 32px)" decoding="async" alt="{{ 'sections.ingredient.image_alt' | t | escape }}" width="1145" height="1374" loading="lazy" class="ingredient-spotlight__image">
       {% endif %}
       {% if section.settings.caption != blank %}<figcaption>{{ section.settings.caption | escape }}</figcaption>{% endif %}
     </figure>
@@ -14,7 +14,7 @@
       <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
       <h2 class="section-title" id="IngredientHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
       <div class="ingredient-spotlight__intro rte">{{ section.settings.text }}</div>
-      <div class="ingredient-spotlight__tabs" data-ingredient-tabs aria-labelledby="IngredientHeading-{{ section.id }}" hidden>
+      <div class="ingredient-spotlight__tabs" data-ingredient-tabs aria-labelledby="IngredientHeading-{{ section.id }}">
         {% for block in section.blocks %}<button type="button" id="IngredientTab-{{ section.id }}-{{ block.id }}" data-ingredient-tab aria-controls="IngredientPanel-{{ section.id }}-{{ block.id }}">{{ block.settings.label | escape }}</button>{% endfor %}
       </div>
       <div class="ingredient-spotlight__panels">

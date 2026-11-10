@@ -66,3 +66,9 @@ ritual-builder, ingredient-spotlight { display: block; }
 @media (prefers-reduced-motion: reduce) {
   .ritual-product__image, .ingredient-spotlight.is-enhanced .ingredient-spotlight__panel { transition: none; }
 }
+
+/* Reserve tab geometry before deferred enhancement; no stacked-panel flash. */
+.no-js .ingredient-spotlight__tabs { display: none; }
+.js .ingredient-spotlight:not(.is-enhanced) .ingredient-spotlight__panels { display: grid; }
+.js .ingredient-spotlight:not(.is-enhanced) .ingredient-spotlight__panel { grid-area: 1 / 1; }
+.js .ingredient-spotlight:not(.is-enhanced) .ingredient-spotlight__panel:not(:first-child) { visibility: hidden; }
