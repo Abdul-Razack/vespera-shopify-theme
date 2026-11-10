@@ -257,19 +257,42 @@
     const qtyPlus = document.getElementById('QuickViewQtyPlus');
     const addBtn = document.getElementById('QuickViewAddBtn');
     const priceEl = document.getElementById('QuickViewPrice');
-    const btnPriceEl = document.getElementById('QuickViewBtnPrice');
     const comparePriceEl = document.getElementById('QuickViewComparePrice');
     const mainImg = document.getElementById('QuickViewMainImg');
     const strings = getStrings();
 
+    let adding = false;
+
+    function updateAddButton() {
+      if (adding) return;
+      addBtn.disabled = !selectedVariant || !selectedVariant.available;
+      if (!selectedVariant) {
+        addBtn.textContent = strings.unavailable || '';
+      } else if (!selectedVariant.available) {
+        addBtn.textContent = strings.soldOut || '';
+      } else {
+        addBtn.textContent = `${strings.addToCart || ''} • `;
+        const total = document.createElement('span');
+        total.id = 'QuickViewBtnPrice';
+        total.textContent = formatMoney(selectedVariant.price * currentQuantity);
+        addBtn.appendChild(total);
+      }
+      if (qtyMinus) qtyMinus.disabled = currentQuantity <= 1;
+    }
+
+    updateAddButton();
     if (qtyMinus && qtyPlus && qtyVal) {
       qtyMinus.addEventListener('click', () => {
+        if (adding) return;
         currentQuantity = Math.max(1, currentQuantity - 1);
         qtyVal.textContent = currentQuantity;
+        updateAddButton();
       });
       qtyPlus.addEventListener('click', () => {
+        if (adding) return;
         currentQuantity = currentQuantity + 1;
         qtyVal.textContent = currentQuantity;
+        updateAddButton();
       });
     }
 
@@ -277,6 +300,7 @@
     const chips = bodyEl.querySelectorAll('.quick-view__chip-btn');
     chips.forEach(chip => {
       chip.addEventListener('click', () => {
+        if (adding) return;
         const group = chip.closest('.quick-view__option-group');
         group.querySelectorAll('.quick-view__chip-btn').forEach(c => c.classList.remove('is-selected'));
         chip.classList.add('is-selected');
@@ -331,7 +355,6 @@
           selectedVariant = matched;
           const formatted = formatMoney(matched.price);
           if (priceEl) priceEl.textContent = formatted;
-          if (btnPriceEl) btnPriceEl.textContent = formatted;
 
           if (matched.compare_at_price && matched.compare_at_price > matched.price) {
             if (comparePriceEl) {
@@ -342,13 +365,7 @@
             comparePriceEl.style.display = 'none';
           }
 
-          if (matched.available) {
-            addBtn.removeAttribute('disabled');
-            addBtn.innerHTML = `${strings.addToCart || ''} &bull; <span id="QuickViewBtnPrice">${formatted}</span>`;
-          } else {
-            addBtn.setAttribute('disabled', 'disabled');
-            addBtn.textContent = strings.soldOut || '';
-          }
+          updateAddButton();
 
           // Switch matching media item in shared gallery (R4.15)
           if (matched.featured_media && matched.featured_media.id) {
@@ -389,8 +406,7 @@
         } else {
           // Unavailable combination (F-31)
           selectedVariant = null;
-          addBtn.setAttribute('disabled', 'disabled');
-          addBtn.textContent = strings.unavailable || '';
+          updateAddButton();
           if (priceEl) priceEl.textContent = strings.unavailable || '';
           if (comparePriceEl) comparePriceEl.style.display = 'none';
         }
@@ -400,20 +416,22 @@
     // Add to Cart Submission
     if (addBtn) {
       addBtn.addEventListener('click', async () => {
-        if (!selectedVariant || !selectedVariant.available) return;
+        if (adding || !selectedVariant || !selectedVariant.available) return;
+        adding = true;
+        const item = { id: selectedVariant.id, quantity: currentQuantity };
 
         addBtn.setAttribute('disabled', 'disabled');
         addBtn.textContent = strings.adding || '';
 
         try {
-          const response = await fetch('/cart/add.js', {
+          const response = await fetch(`${window.theme.routes.cartAdd}.js`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify({
-              items: [{ id: selectedVariant.id, quantity: currentQuantity }]
+              items: [item]
             })
           });
 
@@ -422,16 +440,20 @@
           // Open cart drawer and refresh
           const drawer = document.querySelector('cart-drawer');
           if (drawer && typeof drawer.refreshDrawer === 'function') {
-            await drawer.refreshDrawer();
+            const refreshed = await drawer.refreshDrawer();
             closeModal();
-            drawer.open();
+            if (refreshed === false) {
+              window.location.href = window.theme.routes.cart;
+            } else {
+              drawer.open();
+            }
           } else {
-            window.location.href = '/cart';
+            window.location.href = window.theme.routes.cart;
           }
         } catch (err) {
           console.error('Quick view add error:', err);
-          addBtn.removeAttribute('disabled');
-          addBtn.textContent = strings.addToCart || '';
+          adding = false;
+          updateAddButton();
         }
       });
     }
