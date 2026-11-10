@@ -1,0 +1,158 @@
+{{ 'signature-commerce.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'ingredient-spotlight.js' | asset_url }}" defer="defer"></script>
+<ingredient-spotlight class="ingredient-spotlight section-spacing section-spacing--editorial" id="Ingredient-{{ section.id }}">
+  <div class="page-container ingredient-spotlight__layout">
+    <figure class="ingredient-spotlight__media">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '400, 700, 1000, 1400', sizes: '(min-width: 991px) 50vw, 100vw', class: 'ingredient-spotlight__image' }}
+      {% else %}
+        <img src="{{ 'ingredient-botanical.jpg' | asset_url }}" alt="{{ 'sections.ingredient.image_alt' | t | escape }}" width="1145" height="1374" loading="lazy" class="ingredient-spotlight__image">
+      {% endif %}
+      {% if section.settings.caption != blank %}<figcaption>{{ section.settings.caption | escape }}</figcaption>{% endif %}
+    </figure>
+    <div class="ingredient-spotlight__story">
+      <span class="eyebrow">{{ section.settings.eyebrow | escape }}</span>
+      <h2 class="section-title" id="IngredientHeading-{{ section.id }}">{{ section.settings.heading | escape }}</h2>
+      <div class="ingredient-spotlight__intro rte">{{ section.settings.text }}</div>
+      <div class="ingredient-spotlight__tabs" data-ingredient-tabs aria-labelledby="IngredientHeading-{{ section.id }}" hidden>
+        {% for block in section.blocks %}<button type="button" id="IngredientTab-{{ section.id }}-{{ block.id }}" data-ingredient-tab aria-controls="IngredientPanel-{{ section.id }}-{{ block.id }}">{{ block.settings.label | escape }}</button>{% endfor %}
+      </div>
+      <div class="ingredient-spotlight__panels">
+        {% for block in section.blocks %}
+          <div class="ingredient-spotlight__panel" id="IngredientPanel-{{ section.id }}-{{ block.id }}" data-ingredient-panel data-block-id="{{ block.id }}" {{ block.shopify_attributes }}>
+            <span class="ingredient-spotlight__index" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+            <h3>{{ block.settings.heading | default: block.settings.label | escape }}</h3>
+            <div class="rte">{{ block.settings.content }}</div>
+            {% if block.settings.link != blank and block.settings.link_label != blank %}<a class="ingredient-spotlight__link" href="{{ block.settings.link }}">{{ block.settings.link_label | escape }} <span aria-hidden="true">→</span></a>{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+      {% if section.settings.cta_link != blank and section.settings.cta_label != blank %}<a class="ingredient-spotlight__link ingredient-spotlight__cta" href="{{ section.settings.cta_link }}">{{ section.settings.cta_label | escape }} <span aria-hidden="true">→</span></a>{% endif %}
+    </div>
+  </div>
+</ingredient-spotlight>
+
+{% schema %}
+{
+  "name": "Ingredient spotlight",
+  "tag": "section",
+  "class": "section-ingredient-spotlight",
+  "disabled_on": {
+    "groups": [
+      "header",
+      "footer"
+    ]
+  },
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Botanical photography"
+    },
+    {
+      "type": "text",
+      "id": "caption",
+      "label": "Image caption",
+      "default": "The botanical notebook"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "An ingredient, considered"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Plant squalane"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Introduction",
+      "default": "<p>A closer look at the ingredients behind your daily ritual.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Explore formulations"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA destination"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Ingredient tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Tab label",
+          "default": "Key bio-active"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Panel heading",
+          "default": "Know your ingredients"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Share verified details about this ingredient and your formulation.</p>",
+          "info": "Only publish substantiated sourcing and benefit claims. Include study references for clinical claims."
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Optional panel link label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Optional panel link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredient spotlight",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Key bio-active"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Botanical origin"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Skin benefits"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "label": "Formulations"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

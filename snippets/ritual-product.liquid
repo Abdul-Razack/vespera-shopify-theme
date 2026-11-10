@@ -1,0 +1,25 @@
+{%- comment -%}A server-rendered choice; scoped IDs keep repeated sections independent.{%- endcomment -%}
+{%- assign choice_variant = ritual_product.selected_or_first_available_variant -%}
+<div class="ritual-product" data-ritual-product="{{ choice_index }}" {% unless choice_index == 0 %}hidden{% endunless %}>
+  <a href="{{ ritual_product.url }}" class="ritual-product__media" tabindex="-1" aria-hidden="true">
+    {%- if ritual_product.featured_image -%}
+      {{ ritual_product.featured_image | image_url: width: 800 | image_tag: loading: 'lazy', widths: '240, 400, 600, 800', sizes: '(min-width: 991px) 30vw, 90vw', class: 'ritual-product__image' }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'ritual-product__image' }}
+    {%- endif -%}
+  </a>
+  <h3 class="ritual-product__title"><a href="{{ ritual_product.url }}">{{ ritual_product.title | escape }}</a></h3>
+  <div class="ritual-product__price" data-ritual-price>{{ choice_variant.price | money_with_currency }}</div>
+  <div class="ritual-product__variant" {% if ritual_product.variants.size == 1 %}hidden{% endif %}>
+    <label for="RitualVariant-{{ choice_id }}">{{ 'sections.ritual.variant' | t }}</label>
+    <select id="RitualVariant-{{ choice_id }}" data-ritual-variant>
+      {%- for variant in ritual_product.variants -%}
+        <option value="{{ variant.id }}" data-price="{{ variant.price }}" data-money="{{ variant.price | money_with_currency | escape }}" data-quantity="{{ variant.quantity_rule.min | default: 1 }}" data-available="{% if variant.available and ritual_product.requires_selling_plan == false %}true{% else %}false{% endif %}" {% if variant.featured_image %}data-image="{{ variant.featured_image | image_url: width: 800 }}"{% endif %} {% if variant.id == choice_variant.id %}selected{% endif %} {% unless variant.available %}disabled{% endunless %}>
+          {{ variant.title | escape }} — {{ variant.price | money_with_currency }}{% unless variant.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
+        </option>
+      {%- endfor -%}
+    </select>
+  </div>
+  {%- if ritual_product.requires_selling_plan -%}<p>{{ 'sections.ritual.subscription' | t }}</p>{%- endif -%}
+  <p class="ritual-product__availability" data-ritual-availability hidden>{{ 'products.product.sold_out' | t }}</p>
+</div>

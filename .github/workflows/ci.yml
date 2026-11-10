@@ -10,3 +10,6 @@ jobs:
         uses: shopify/theme-check-action@v2
         with:
           token: ${{ github.token }}
+
+      - name: Ritual cart regression checks
+        run: node --test tests/ritual-builder.test.cjs

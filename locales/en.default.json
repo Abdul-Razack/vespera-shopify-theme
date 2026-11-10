@@ -68,6 +68,26 @@
     },
     "top_bar": {
       "label": "Top bar"
+    },
+    "ritual": {
+      "variant": "Choose your variant",
+      "include": "Include this step",
+      "swap": "Make it yours — swap formulation",
+      "total": "Your ritual subtotal",
+      "terms": "Before discounts. Taxes and shipping calculated at checkout.",
+      "discount_offer": "Code {{ code }} will be submitted to Shopify. Eligibility and savings are confirmed in your cart.",
+      "add": "Add Ritual to Cart",
+      "empty": "Select at least one available formulation.",
+      "error": "This ritual could not be added. Review your selections and try again.",
+      "uncertain": "We could not confirm the cart response. Check your cart before adding again.",
+      "success": "Your selected ritual has been added to your cart.",
+      "discount_check": "Your ritual was added. Review your cart for eligible discounts; savings are not guaranteed.",
+      "subscription": "Choose a purchase plan on the product page to add this formulation.",
+      "configure": "Choose products for this step in the theme editor.",
+      "no_script": "Enable JavaScript to build a ritual, or follow each product link to shop individually."
+    },
+    "ingredient": {
+      "image_alt": "Illustrative still life of rose foliage, rosehips and a glass dish of botanical oil on limestone"
     }
   },
   "templates": {

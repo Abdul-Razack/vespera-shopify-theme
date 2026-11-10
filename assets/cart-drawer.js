@@ -264,15 +264,20 @@ class CartDrawer extends HTMLElement {
     }
   }
 
-  async refreshDrawer() {
+  async refreshDrawer(sections) {
     try {
-      const res = await fetch(`${window.location.pathname}?section_id=cart-drawer`);
-      const html = await res.text();
+      let html = sections && sections['cart-drawer'];
+      if (!html) {
+        const res = await fetch(`${window.location.pathname}?section_id=cart-drawer`);
+        if (!res.ok) throw new Error('Cart section unavailable');
+        html = await res.text();
+      }
       
       const parser = new DOMParser();
       const doc = parser.parseFromString(html, "text/html");
       const newDrawer = doc.querySelector("cart-drawer");
 
+      if (!newDrawer) throw new Error('Cart drawer missing from response');
       if (newDrawer) {
         this.innerHTML = newDrawer.innerHTML;
         this.overlay = this.querySelector("#CartDrawerOverlay");
@@ -281,7 +286,9 @@ class CartDrawer extends HTMLElement {
       }
 
       // Update cart count badge in header
-      const cartRes = await fetch("/cart.js");
+      const cartUrl = window.theme?.routes?.cart || `${window.Shopify?.routes?.root || '/'}cart`;
+      const cartRes = await fetch(`${cartUrl}.js`);
+      if (!cartRes.ok) throw new Error('Cart count unavailable');
       const cartData = await cartRes.json();
       const badges = document.querySelectorAll("[data-cart-count]");
       badges.forEach(b => b.innerText = cartData.item_count);
@@ -292,8 +299,10 @@ class CartDrawer extends HTMLElement {
           : `${cartData.item_count} items in cart`;
         cartIcon.setAttribute("aria-label", countLabel);
       }
+      return true;
     } catch (err) {
       console.error("Failed to refresh drawer:", err);
+      return false;
     }
   }
 }

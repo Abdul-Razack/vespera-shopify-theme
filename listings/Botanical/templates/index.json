@@ -269,13 +269,117 @@
         "heading": "Your formulation questions",
         "subtext": "Explore product details and find answers to common questions."
       }
+    },
+    "ritual_builder": {
+      "type": "ritual-builder",
+      "settings": {
+        "eyebrow": "The art of daily care",
+        "heading": "Your ritual. Your rhythm.",
+        "text": "<p>Cleanse, prepare, nourish. Choose your textures, tailor each step, and bring your daily ritual together.</p>"
+      },
+      "blocks": {
+        "cleanse": {
+          "type": "step",
+          "settings": {
+            "title": "Purify & cleanse",
+            "text": "A fresh beginning for your daily ritual.",
+            "products": [
+              "vespera-purifying-cleansing-oil",
+              "vespera-botanical-solid-soap"
+            ],
+            "included": true
+          }
+        },
+        "tone": {
+          "type": "step",
+          "settings": {
+            "title": "Tone & balance",
+            "text": "A light layer before your next step.",
+            "products": [
+              "vespera-balancing-toning-mist",
+              "vespera-hydrating-floral-essence"
+            ],
+            "included": true
+          }
+        },
+        "nourish": {
+          "type": "step",
+          "settings": {
+            "title": "Nourish & restore",
+            "text": "Your finishing touch of botanical care.",
+            "products": [
+              "vespera-botanical-radiance-serum",
+              "vespera-soothing-recovery-serum"
+            ],
+            "included": true
+          }
+        }
+      },
+      "block_order": [
+        "cleanse",
+        "tone",
+        "nourish"
+      ]
+    },
+    "ingredient_spotlight": {
+      "type": "ingredient-spotlight",
+      "settings": {
+        "eyebrow": "The botanical notebook / 01",
+        "heading": "Plant squalane.\nQuietly essential.",
+        "text": "<p>Meet the lightweight lipid in our Botanical Radiance Serum. A considered ingredient for a daily moisture ritual.</p>",
+        "caption": "A study in botanical textures",
+        "cta_label": "Explore Botanical Radiance Serum",
+        "cta_link": "shopify://products/vespera-botanical-radiance-serum"
+      },
+      "blocks": {
+        "active": {
+          "type": "tab",
+          "settings": {
+            "label": "Key bio-active",
+            "heading": "A lighter kind of nourishment",
+            "content": "<p>Plant-derived squalane sits alongside cold-pressed rosehip seed oil and botanical lipids in our Botanical Radiance Serum.</p><p>Discover the complete formulation and ingredient details on the product page.</p>"
+          }
+        },
+        "origin": {
+          "type": "tab",
+          "settings": {
+            "label": "Botanical origin",
+            "heading": "Plant-derived. Thoughtfully chosen.",
+            "content": "<p>Our serum lists plant-derived squalane. Explore the product details for the ingredients used in this formulation, or contact us with a sourcing question.</p>"
+          }
+        },
+        "benefit": {
+          "type": "tab",
+          "settings": {
+            "label": "Skin benefits",
+            "heading": "A soft, dewy finish",
+            "content": "<p>The serum is designed for daily moisture care and a dewy finish. Its lightweight squalane complements the botanical oils in the blend.</p><p>Choose products for your individual needs and follow the directions on the product page.</p>"
+          }
+        },
+        "formulas": {
+          "type": "tab",
+          "settings": {
+            "label": "Formulations",
+            "heading": "Bring it into your ritual",
+            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3–4 drops between your palms and gently press into damp skin, following the product directions.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "active",
+        "origin",
+        "benefit",
+        "formulas"
+      ]
     }
   },
   "order": [
     "hero",
     "featured_collection",
+    "ritual_builder",
     "image_with_text",
     "collection_list",
+    "ingredient_spotlight",
     "formulation_faq",
     "press_marquee",
     "multicolumn",
