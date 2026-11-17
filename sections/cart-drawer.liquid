@@ -143,84 +143,84 @@
           {%- endfor -%}
         </ul>
       {%- endif -%}
-    </div>
 
-    <!-- Complete Your Ritual: In-Cart Cross-Sell -->
-    {%- assign upsell_collection = section.settings.upsell_collection | default: collections.all -%}
-    {%- if section.settings.enable_upsells and upsell_collection != blank and upsell_collection.products_count > 0 -%}
-      <div class="cart-drawer__upsell-wrap">
-        <div class="cart-drawer__upsell-header">
-          <h3 class="cart-drawer__upsell-title">
-            {%- if cart.empty? -%}
-              {{ 'templates.cart.curated_rituals' | t | escape }}
-            {%- else -%}
-              {{ section.settings.upsell_heading | escape }}
-            {%- endif -%}
-          </h3>
-          <span class="cart-drawer__upsell-badge">
-            {%- if cart.empty? -%}{{ 'templates.cart.popular' | t }}{%- else -%}{{ 'templates.cart.pairs_well' | t }}{%- endif -%}
-          </span>
-        </div>
-        
-        <div class="cart-drawer__upsell-list" role="list">
-          {%- assign shown_count = 0 -%}
-          {%- for product in upsell_collection.products -%}
-            {%- assign in_cart = false -%}
-            {%- for item in cart.items -%}
-              {%- if item.product_id == product.id -%}
-                {%- assign in_cart = true -%}
-                {%- break -%}
+      <!-- Complete Your Ritual: In-Cart Cross-Sell -->
+      {%- assign upsell_collection = section.settings.upsell_collection | default: collections.all -%}
+      {%- if section.settings.enable_upsells and upsell_collection != blank and upsell_collection.products_count > 0 -%}
+        <div class="cart-drawer__upsell-wrap">
+          <div class="cart-drawer__upsell-header">
+            <h3 class="cart-drawer__upsell-title">
+              {%- if cart.empty? -%}
+                {{ 'templates.cart.curated_rituals' | t | escape }}
+              {%- else -%}
+                {{ section.settings.upsell_heading | escape }}
               {%- endif -%}
-            {%- endfor -%}
+            </h3>
+            <span class="cart-drawer__upsell-badge">
+              {%- if cart.empty? -%}{{ 'templates.cart.popular' | t }}{%- else -%}{{ 'templates.cart.pairs_well' | t }}{%- endif -%}
+            </span>
+          </div>
+          
+          <div class="cart-drawer__upsell-list" role="list">
+            {%- assign shown_count = 0 -%}
+            {%- for product in upsell_collection.products -%}
+              {%- assign in_cart = false -%}
+              {%- for item in cart.items -%}
+                {%- if item.product_id == product.id -%}
+                  {%- assign in_cart = true -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
 
-            {%- unless in_cart -%}
-              {%- assign first_variant = product.first_available_variant | default: product.selected_or_first_available_variant -%}
-              <div class="cart-drawer__upsell-item" role="listitem">
-                <div class="cart-drawer__upsell-media">
-                  {%- if product.featured_media != blank -%}
-                    <img 
-                      src="{{ product.featured_media | image_url: width: 120, height: 120, crop: 'center' }}" 
-                      alt="{{ product.title | escape }}" 
-                      width="48" 
-                      height="48" 
-                      loading="lazy" 
-                      class="cart-drawer__upsell-img"
-                    >
-                  {%- else -%}
-                    <div class="cart-drawer__upsell-placeholder"></div>
-                  {%- endif -%}
-                </div>
-
-                <div class="cart-drawer__upsell-details">
-                  <p class="cart-drawer__upsell-product-title">
-                    <a href="{{ product.url }}" class="cart-drawer__upsell-link">{{ product.title | escape }}</a>
-                  </p>
-                  <span class="cart-drawer__upsell-price">{{ first_variant.price | money }}</span>
-                </div>
-
-                <div class="cart-drawer__upsell-cta">
-                  <button 
-                    type="button" 
-                    class="btn-secondary cart-drawer__upsell-btn"
-                    data-upsell-add-variant="{{ first_variant.id }}"
-                    aria-label="{{ 'products.product.add_to_cart' | t }}: {{ product.title | escape }}"
-                    {% unless first_variant.available %}disabled="disabled"{% endunless %}
-                  >
-                    {%- if first_variant.available -%}
-                      + {{ 'products.product.add_to_cart_short' | t }}
+              {%- unless in_cart -%}
+                {%- assign first_variant = product.first_available_variant | default: product.selected_or_first_available_variant -%}
+                <div class="cart-drawer__upsell-item" role="listitem">
+                  <div class="cart-drawer__upsell-media">
+                    {%- if product.featured_media != blank -%}
+                      <img 
+                        src="{{ product.featured_media | image_url: width: 120, height: 120, crop: 'center' }}" 
+                        alt="{{ product.title | escape }}" 
+                        width="48" 
+                        height="48" 
+                        loading="lazy" 
+                        class="cart-drawer__upsell-img"
+                      >
                     {%- else -%}
-                      {{ 'products.product.sold_out' | t }}
+                      <div class="cart-drawer__upsell-placeholder"></div>
                     {%- endif -%}
-                  </button>
+                  </div>
+
+                  <div class="cart-drawer__upsell-details">
+                    <p class="cart-drawer__upsell-product-title">
+                      <a href="{{ product.url }}" class="cart-drawer__upsell-link">{{ product.title | escape }}</a>
+                    </p>
+                    <span class="cart-drawer__upsell-price">{{ first_variant.price | money }}</span>
+                  </div>
+
+                  <div class="cart-drawer__upsell-cta">
+                    <button 
+                      type="button" 
+                      class="btn-secondary cart-drawer__upsell-btn"
+                      data-upsell-add-variant="{{ first_variant.id }}"
+                      aria-label="{{ 'products.product.add_to_cart' | t }}: {{ product.title | escape }}"
+                      {% unless first_variant.available %}disabled="disabled"{% endunless %}
+                    >
+                      {%- if first_variant.available -%}
+                        + {{ 'products.product.add_to_cart_short' | t }}
+                      {%- else -%}
+                        {{ 'products.product.sold_out' | t }}
+                      {%- endif -%}
+                    </button>
+                  </div>
                 </div>
-              </div>
-              {%- assign shown_count = shown_count | plus: 1 -%}
-              {%- if shown_count >= 2 -%}{%- break -%}{%- endif -%}
-            {%- endunless -%}
-          {%- endfor -%}
+                {%- assign shown_count = shown_count | plus: 1 -%}
+                {%- if shown_count >= 2 -%}{%- break -%}{%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+          </div>
         </div>
-      </div>
-    {%- endif -%}
+      {%- endif -%}
+    </div>
 
     <!-- Drawer Footer & Checkout -->
     {%- unless cart.empty? -%}
@@ -283,9 +283,9 @@
           </button>
         </form>
 
-        <!-- View Cart Link (F-40) -->
-        <div class="cart-drawer__view-cart-wrap text-center" style="margin-top: var(--space-3);">
-          <a href="{{ routes.cart_url }}" class="link-underline" style="font-size: var(--font-size-xs); color: var(--color-text-muted);">
+        <!-- View Cart Button (F-40) -->
+        <div class="cart-drawer__view-cart-wrap" style="margin-top: var(--space-2);">
+          <a href="{{ routes.cart_url }}" class="btn-secondary cart-drawer__view-cart-btn">
             {{ 'sections.cart.view_cart' | t }}
           </a>
         </div>
@@ -485,10 +485,11 @@
     border: none;
   }
   .cart-drawer__footer {
-    padding: var(--space-6);
-    padding-bottom: calc(var(--space-6) + env(safe-area-inset-bottom, 0px));
+    padding: var(--space-4) var(--space-6);
+    padding-bottom: calc(var(--space-4) + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--color-border);
     background-color: var(--color-bg);
+    flex-shrink: 0;
   }
   .cart-drawer__subtotal {
     display: flex;
@@ -506,12 +507,39 @@
     width: 100%;
     padding: var(--space-4);
   }
+  .cart-drawer__view-cart-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 44px;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background-color: transparent;
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+  }
+  .cart-drawer__view-cart-btn:hover {
+    background-color: var(--color-bg-subtle);
+    border-color: var(--color-text);
+    color: var(--color-text);
+  }
+  .cart-drawer__view-cart-btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   /* In-Cart Routine Upsells */
   .cart-drawer__upsell-wrap {
-    padding: var(--space-4) var(--space-6);
+    margin-top: var(--space-6);
+    padding: var(--space-4);
     background-color: var(--color-bg-subtle);
-    border-top: 1px solid var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
   }
   .cart-drawer__upsell-header {
     display: flex;

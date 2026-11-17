@@ -4,7 +4,7 @@
   <div class="page-container page-container--narrow">
     
     {%- if section.settings.heading != blank or section.settings.eyebrow != blank -%}
-      <div class="section-header text-center">
+      <div class="section-header">
         {%- if section.settings.eyebrow != blank -%}
           <span class="section-eyebrow">{{ section.settings.eyebrow | escape }}</span>
         {%- endif -%}
@@ -42,10 +42,13 @@
   .page-container--narrow {
     max-width: 820px;
   }
+  .faq-section .section-header {
+    text-align: left;
+    margin: 0 0 var(--space-8);
+  }
   .faq-accordion {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid var(--color-border);
   }
   .faq-item {
     border-top: 1px solid var(--color-border);
