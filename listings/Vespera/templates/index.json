@@ -2,70 +2,14 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
-      "blocks": {
-        "metric_1": {
-          "type": "metric",
-          "settings": {
-            "value": "Circadian",
-            "label": "Overnight Science"
-          }
-        },
-        "metric_2": {
-          "type": "metric",
-          "settings": {
-            "value": "8h",
-            "label": "Lipid Replenishment"
-          }
-        },
-        "metric_3": {
-          "type": "metric",
-          "settings": {
-            "value": "Bakuchiol",
-            "label": "Botanical Renewal"
-          }
-        }
-      },
-      "block_order": [
-        "metric_1",
-        "metric_2",
-        "metric_3"
-      ],
       "settings": {
-        "eyebrow": "Circadian Botany \u2022 Nocturnal Renewal",
-        "heading": "Formulated for Deep Nocturnal Restoration",
-        "subtext": "Replenishing lipid elixirs and restorative balms engineered to support your skin's natural nocturnal repair cycle while you rest.",
+        "eyebrow": "The evening edit",
+        "heading": "An evening at the dressing table",
+        "subtext": "Set out a cleanser, an oil and a balm. Choose the textures you want for the last ritual of the day.",
         "button_label": "Explore Evening Rituals",
         "button_link": "/collections/all",
         "secondary_button_label": "Our Philosophy",
         "secondary_button_link": "#philosophy"
-      }
-    },
-    "press_marquee": {
-      "type": "press-marquee",
-      "disabled": true,
-      "blocks": {
-        "press_1": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Editorial Feature",
-            "quote": "A masterwork in overnight barrier repair. You awaken with replenished firmness and calm, rested radiance."
-          }
-        },
-        "press_2": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Skincare Review",
-            "quote": "The evening ritual we have all been waiting for. Unparalleled sensory pleasure meets restorative efficacy."
-          }
-        }
-      },
-      "block_order": [
-        "press_1",
-        "press_2"
-      ],
-      "settings": {
-        "eyebrow": "Evening Acclaim",
-        "heading": "Acclaimed by Evening Connoisseurs"
       }
     },
     "featured_collection": {
@@ -135,105 +79,13 @@
       "settings": {
         "layout": "image_first",
         "subtle_bg": false,
-        "eyebrow": "Circadian Science",
-        "heading": "Synchronized with Overnight Cellular Repair",
-        "text": "<p>During sleep, the skin's cellular regeneration rate doubles while moisture loss increases. Our nocturnal lipid complexes deliver concentrated ceramides and cold-pressed botanical oils when renewal is at its peak.</p>",
+        "eyebrow": "After dark",
+        "heading": "An evening with oils and balms",
+        "text": "<p>Explore the products in the evening collection and see how each texture fits into your routine.</p>",
         "button_label": "Explore Formulations",
         "button_link": "/collections/all",
         "secondary_button_label": "Formulation Standards",
         "secondary_button_link": "#standards"
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "col_1": {
-          "type": "column",
-          "settings": {
-            "icon": "leaf",
-            "title": "Nocturnal Bakuchiol",
-            "text": "<p>Gentle plant-derived retinol alternative supporting collagen renewal without sensitivity.</p>",
-            "link_label": "Explore Serums & Oils",
-            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
-          }
-        },
-        "col_2": {
-          "type": "column",
-          "settings": {
-            "icon": "flask",
-            "title": "Ceramide Complex",
-            "text": "<p>Triple phytoceramides lock in hydration and prevent transepidermal water loss through the night.</p>",
-            "link_label": "Formulation Standards",
-            "link": "#standards"
-          }
-        },
-        "col_3": {
-          "type": "column",
-          "settings": {
-            "icon": "recycle",
-            "title": "Obsidian Glass",
-            "text": "<p>Bottled in UV-blocking obsidian glass that preserves photosensitive nocturnal actives.</p>",
-            "link_label": "Explore Body Care",
-            "link": "/collections/all?category=Conscious+Body+Care"
-          }
-        }
-      },
-      "block_order": [
-        "col_1",
-        "col_2",
-        "col_3"
-      ],
-      "settings": {
-        "eyebrow": "Nighttime Standards",
-        "heading": "The Vespera Evening Creed",
-        "description": "Thoughtfully crafted formulations designed to honor the restful magic of sleep.",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "subtle_bg": true
-      },
-      "disabled": true
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "disabled": true,
-      "blocks": {
-        "quote_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Applying this before bed has become my sacred ritual. I wake up looking rested, calm, and luminous.",
-            "author": "Sample Reviewer (e.g., Natalie R.)",
-            "publication_subtitle": "Nocturnal Repair Elixir"
-          }
-        },
-        "quote_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Deeply comforting texture without feeling greasy. It has completely eliminated my morning dryness.",
-            "author": "Sample Reviewer (e.g., Julian K.)",
-            "publication_subtitle": "Restorative Barrier Cream"
-          }
-        },
-        "quote_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "The quiet luxury of this evening balm is unmatched. Exceptional botanical efficacy in every drop.",
-            "author": "Sample Reviewer (e.g., Beatrice M.)",
-            "publication_subtitle": "Restorative Night Care"
-          }
-        }
-      },
-      "block_order": [
-        "quote_1",
-        "quote_2",
-        "quote_3"
-      ],
-      "settings": {
-        "eyebrow": "Evening Reflections",
-        "heading": "Voices from the Night",
-        "columns_desktop": 3
       }
     },
     "formulation_faq": {
@@ -242,7 +94,7 @@
         "ingredients": {
           "type": "faq_item",
           "settings": {
-            "question": "Where can I find a product\u2019s ingredients?",
+            "question": "Where can I find a product’s ingredients?",
             "answer": "<p>Visit the product page for its ingredient details. Contact us if you have a question about a particular formulation.</p>"
           }
         },
@@ -363,7 +215,7 @@
           "settings": {
             "label": "Formulations",
             "heading": "Bring it into your ritual",
-            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3\u20134 drops between your palms and gently press into damp skin, following the product directions.</p>"
+            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3–4 drops between your palms and gently press into damp skin, following the product directions.</p>"
           }
         }
       },
@@ -382,9 +234,6 @@
     "ritual_builder",
     "ingredient_spotlight",
     "collection_list",
-    "formulation_faq",
-    "press_marquee",
-    "multicolumn",
-    "testimonials"
+    "formulation_faq"
   ]
 }

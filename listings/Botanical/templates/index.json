@@ -2,70 +2,14 @@
   "sections": {
     "hero": {
       "type": "hero-banner",
-      "blocks": {
-        "metric_1": {
-          "type": "metric",
-          "settings": {
-            "value": "100%",
-            "label": "Plant-Derived"
-          }
-        },
-        "metric_2": {
-          "type": "metric",
-          "settings": {
-            "value": "Cold-Pressed",
-            "label": "Extraction Method"
-          }
-        },
-        "metric_3": {
-          "type": "metric",
-          "settings": {
-            "value": "Small-Batch",
-            "label": "Apothecary Crafted"
-          }
-        }
-      },
-      "block_order": [
-        "metric_1",
-        "metric_2",
-        "metric_3"
-      ],
       "settings": {
-        "eyebrow": "Whole-Plant Botany \u2022 Earth-Grown Radiance",
-        "heading": "Unrefined Botanical Potency for Radiant Longevity",
-        "subtext": "Wildcrafted herbal extracts cold-pressed at source. Pure, restorative skincare formulated without synthetic compromises.",
+        "eyebrow": "The botanical edit",
+        "heading": "A shelf of botanical essentials",
+        "subtext": "Explore cleansing oils, serums and balms, then choose the steps that suit your day.",
         "button_label": "Explore Botanical Rituals",
         "button_link": "/collections/all",
         "secondary_button_label": "Our Philosophy",
         "secondary_button_link": "#philosophy"
-      }
-    },
-    "press_marquee": {
-      "type": "press-marquee",
-      "disabled": true,
-      "blocks": {
-        "press_1": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Editorial Feature",
-            "quote": "A masterclass in whole-plant herbal extraction. The unrefined oils deliver unprecedented nutrient density."
-          }
-        },
-        "press_2": {
-          "type": "press_quote",
-          "settings": {
-            "publication": "Apothecary Review",
-            "quote": "A thoughtful celebration of botanical integrity. Pure plant luxury formulated for everyday longevity."
-          }
-        }
-      },
-      "block_order": [
-        "press_1",
-        "press_2"
-      ],
-      "settings": {
-        "eyebrow": "Botanical Recognition",
-        "heading": "Celebrated by Herbalists & Apothecaries"
       }
     },
     "featured_collection": {
@@ -135,105 +79,13 @@
       "settings": {
         "layout": "image_first",
         "subtle_bg": false,
-        "eyebrow": "Regenerative Agriculture",
-        "heading": "Living Phytonutrients Preserved at Harvest",
-        "text": "<p>We source cold-pressed seed oils and wildcrafted plant extracts directly from certified regenerative growers, preserving heat-sensitive antioxidants and active enzymes for deep dermal vitality.</p>",
+        "eyebrow": "From the apothecary",
+        "heading": "A closer look at plant oils",
+        "text": "<p>Explore each oil’s texture and read the ingredient list on its product page.</p>",
         "button_label": "Explore Formulations",
         "button_link": "/collections/all",
         "secondary_button_label": "Formulation Standards",
         "secondary_button_link": "#standards"
-      }
-    },
-    "multicolumn": {
-      "type": "multicolumn",
-      "blocks": {
-        "col_1": {
-          "type": "column",
-          "settings": {
-            "icon": "leaf",
-            "title": "Whole-Plant Purity",
-            "text": "<p>Unrefined botanical extracts preserved at source without synthetic isolation or chemical solvents.</p>",
-            "link_label": "Explore Serums & Oils",
-            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
-          }
-        },
-        "col_2": {
-          "type": "column",
-          "settings": {
-            "icon": "flask",
-            "title": "Gentle Cold Pressing",
-            "text": "<p>Low-temperature seed pressing retains natural tocopherols, essential fatty acids, and active sterols.</p>",
-            "link_label": "Formulation Standards",
-            "link": "#standards"
-          }
-        },
-        "col_3": {
-          "type": "column",
-          "settings": {
-            "icon": "recycle",
-            "title": "Amber Glass Bottles",
-            "text": "<p>Packaged in recyclable amber apothecary glass to shield delicate plant oils from UV oxidation.</p>",
-            "link_label": "Explore Body Care",
-            "link": "/collections/all?category=Conscious+Body+Care"
-          }
-        }
-      },
-      "block_order": [
-        "col_1",
-        "col_2",
-        "col_3"
-      ],
-      "settings": {
-        "eyebrow": "Formulation Standards",
-        "heading": "The Whole-Plant Promise",
-        "description": "Uncompromising standards rooted in regenerative farming and herbal integrity.",
-        "columns_desktop": 3,
-        "column_alignment": "center",
-        "subtle_bg": true
-      },
-      "disabled": true
-    },
-    "testimonials": {
-      "type": "testimonials",
-      "disabled": true,
-      "blocks": {
-        "quote_1": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "The herbal radiance serum completely transformed my dry, reactive skin. Truly feels like nourishment in a bottle.",
-            "author": "Sample Reviewer (e.g., Hannah L.)",
-            "publication_subtitle": "Botanical Face Oil Ritual"
-          }
-        },
-        "quote_2": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "Incredible earthy aroma and instant soothing relief. You can feel the purity of the unrefined botanicals.",
-            "author": "Sample Reviewer (e.g., Marcus T.)",
-            "publication_subtitle": "Purifying Cleansing Oil"
-          }
-        },
-        "quote_3": {
-          "type": "testimonial",
-          "settings": {
-            "rating": 5,
-            "quote": "My skin has never felt softer or more balanced. The glass packaging and formula quality are second to none.",
-            "author": "Sample Reviewer (e.g., Zoe P.)",
-            "publication_subtitle": "Daily Herbal Balancing"
-          }
-        }
-      },
-      "block_order": [
-        "quote_1",
-        "quote_2",
-        "quote_3"
-      ],
-      "settings": {
-        "eyebrow": "Client Impressions",
-        "heading": "Loved by Conscious Ritualists",
-        "columns_desktop": 3
       }
     },
     "formulation_faq": {
@@ -242,7 +94,7 @@
         "ingredients": {
           "type": "faq_item",
           "settings": {
-            "question": "Where can I find a product\u2019s ingredients?",
+            "question": "Where can I find a product’s ingredients?",
             "answer": "<p>Visit the product page for its ingredient details. Contact us if you have a question about a particular formulation.</p>"
           }
         },
@@ -363,7 +215,7 @@
           "settings": {
             "label": "Formulations",
             "heading": "Bring it into your ritual",
-            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3\u20134 drops between your palms and gently press into damp skin, following the product directions.</p>"
+            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3–4 drops between your palms and gently press into damp skin, following the product directions.</p>"
           }
         }
       },
@@ -382,9 +234,6 @@
     "ritual_builder",
     "ingredient_spotlight",
     "collection_list",
-    "formulation_faq",
-    "press_marquee",
-    "multicolumn",
-    "testimonials"
+    "formulation_faq"
   ]
 }
