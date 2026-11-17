@@ -44,25 +44,25 @@
           "type": "clinical_study",
           "settings": {
             "heading": "Formulation & Details",
-            "metric": "Key Highlights",
-            "summary": "Formulation highlights and notes:",
-            "content": "<p>Crafted with cold-pressed botanical extracts and nourishing plant lipids to support natural radiance and hydration during your daily ritual.</p>"
+            "metric": "",
+            "summary": "",
+            "content": ""
           }
         },
         "ingredients": {
           "type": "ingredients",
           "settings": {
             "heading": "Key Bio-Actives & Full INCI",
-            "bioactives_count": "Plant-Based Ingredients",
-            "key_bioactives": "Plant Squalane, Cold-Pressed Rosehip Seed Oil, Niacinamide, Botanical Extracts.",
-            "content": "<p>Aqua/Water/Eau, Simmondsia Chinensis (Jojoba) Seed Oil, Rosa Canina (Rosehip) Seed Oil, Squalane, Niacinamide, Glycerin, Sodium Hyaluronate, Tocopherol (Vitamin E), Pelargonium Graveolens Oil, Rosmarinus Officinalis Leaf Extract.</p>"
+            "bioactives_count": "",
+            "key_bioactives": "",
+            "content": ""
           }
         },
         "ritual": {
           "type": "ritual",
           "settings": {
             "heading": "Conscious Ritual & How to Use",
-            "content": "<p><strong>Morning Ritual:</strong> Warm 2–3 drops between clean palms. Inhale the natural botanical terpene profile. Press gently into cleansed face, neck, and decolletage using upward sweeps until absorbed. Follow with SPF.</p><p><strong>Evening Ritual:</strong> Apply 3–4 drops following treatment essences as an intensive overnight lipid sealant.</p>"
+            "content": ""
           }
         },
         "key_benefits": {

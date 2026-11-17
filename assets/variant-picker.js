@@ -90,6 +90,10 @@
       });
     }
 
+    getCurrentVariant() {
+      return this.currentVariant || this.findMatchingVariant(this.getSelectedOptions());
+    }
+
     selectVariantById(variantId) {
       const id = parseInt(variantId, 10);
       if (!this.variants || isNaN(id)) return;
@@ -188,6 +192,7 @@
       const strings = (window.theme && window.theme.strings) || {};
 
       if (!variant) {
+        this.currentVariant = null;
         // CASE: Unavailable combination (F-31)
         if (this.hiddenIdInput) {
           this.hiddenIdInput.value = '';
@@ -206,8 +211,15 @@
         if (this.stockTextEl) {
           this.stockTextEl.textContent = strings.unavailable || '';
         }
+        const event = new CustomEvent('vespera:variant:change', {
+          bubbles: true,
+          detail: { variant: null, formattedPrice: '' }
+        });
+        this.container.dispatchEvent(event);
         return;
       }
+
+      this.currentVariant = variant;
 
       // CASE: Valid variant
       if (this.hiddenIdInput) {

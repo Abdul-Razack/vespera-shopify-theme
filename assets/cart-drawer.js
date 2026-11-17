@@ -175,6 +175,8 @@ class CartDrawer extends HTMLElement {
       submitBtn.setAttribute("aria-busy", "true");
     }
 
+    document.dispatchEvent(new CustomEvent('vespera:cart:add:start', { detail: { form } }));
+
     const formData = new FormData(form);
     
     try {
@@ -209,6 +211,7 @@ class CartDrawer extends HTMLElement {
         submitBtn.disabled = false;
         submitBtn.removeAttribute("aria-busy");
       }
+      document.dispatchEvent(new CustomEvent('vespera:cart:add:complete', { detail: { form } }));
     }
   }
 

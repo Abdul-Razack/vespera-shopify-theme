@@ -186,111 +186,73 @@
               </div>
 
             {%- when 'clinical_study' -%}
-              <details class="main-product__accordion" {{ block.shopify_attributes }}>
-                <summary class="main-product__accordion-summary">
-                  <div class="main-product__accordion-header-wrap">
-                    <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
-                    {%- if block.settings.metric != blank -%}
-                      <span class="product-details-badge">{{ block.settings.metric | escape }}</span>
+              {%- assign item_study_summary = product.metafields.custom.clinical_study_summary.value | default: product.metafields.custom.clinical_study_summary | default: block.settings.summary -%}
+              {%- assign item_study_content = product.metafields.custom.clinical_study.value | default: product.metafields.custom.clinical_study | default: block.settings.content -%}
+              {%- if item_study_summary != blank or item_study_content != blank -%}
+                <details class="main-product__accordion" {{ block.shopify_attributes }}>
+                  <summary class="main-product__accordion-summary">
+                    <div class="main-product__accordion-header-wrap">
+                      <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                      {%- if block.settings.metric != blank -%}
+                        <span class="product-details-badge">{{ block.settings.metric | escape }}</span>
+                      {%- endif -%}
+                    </div>
+                    <span class="accordion-icon" aria-hidden="true">+</span>
+                  </summary>
+                  <div class="main-product__accordion-content">
+                    {%- if item_study_summary != blank -%}
+                      <p class="product-details-summary"><strong>{{ item_study_summary | escape }}</strong></p>
+                    {%- endif -%}
+                    {%- if item_study_content != blank -%}
+                      <div class="rte">{{ item_study_content }}</div>
                     {%- endif -%}
                   </div>
-                  <span class="accordion-icon" aria-hidden="true">+</span>
-                </summary>
-                <div class="main-product__accordion-content">
-                  {%- assign is_soap_item = false -%}
-                  {%- if product.type == 'Soap' or product.handle contains 'soap' -%}
-                    {%- assign is_soap_item = true -%}
-                  {%- endif -%}
-                  {%- assign is_lip_item = false -%}
-                  {%- if product.type contains 'Lip' or product.handle contains 'lip' -%}
-                    {%- assign is_lip_item = true -%}
-                  {%- endif -%}
-                  {%- assign item_study_summary = block.settings.summary -%}
-                  {%- assign item_study_content = block.settings.content -%}
-                  {%- if is_soap_item -%}
-                    {%- assign item_study_summary = 'Cold-Process Formulation Details:' -%}
-                    {%- assign item_study_content = '<p>Traditional cold-process saponified bar cured for six weeks to retain natural plant glycerin and produce a gentle, conditioning lather without drying sensitive skin.</p>' -%}
-                  {%- elsif is_lip_item -%}
-                    {%- assign item_study_summary = 'Conditioning Lip Barrier Care:' -%}
-                    {%- assign item_study_content = '<p>Infused with restorative plant seed oils and rich botanical butters to soothe delicate lip tissue with buildable, natural satin finish.</p>' -%}
-                  {%- endif -%}
-
-                  {%- if item_study_summary != blank -%}
-                    <p class="product-details-summary"><strong>{{ item_study_summary | escape }}</strong></p>
-                  {%- endif -%}
-                  <div class="rte">{{ item_study_content }}</div>
-                </div>
-              </details>
+                </details>
+              {%- endif -%}
 
             {%- when 'ingredients' -%}
-              {%- assign is_soap_item = false -%}
-              {%- if product.type == 'Soap' or product.handle contains 'soap' -%}
-                {%- assign is_soap_item = true -%}
-              {%- endif -%}
-              {%- assign is_lip_item = false -%}
-              {%- if product.type contains 'Lip' or product.handle contains 'lip' -%}
-                {%- assign is_lip_item = true -%}
-              {%- endif -%}
-
-              {%- assign item_key_bioactives = block.settings.key_bioactives -%}
-              {%- assign item_inci_content = block.settings.content -%}
-              {%- if is_soap_item -%}
-                {%- assign item_key_bioactives = 'Extra Virgin Olive Oil, Shea Butter, Coconut Oil, Pink Clay, Pure Botanicals.' -%}
-                {%- assign item_inci_content = '<p>Olea Europaea (Olive) Fruit Oil, Cocos Nucifera (Coconut) Oil, Aqua/Water/Eau, Butyrospermum Parkii (Shea) Butter, Sodium Hydroxide, Montmorillonite (French Pink Clay), Essential Oil Blend.</p>' -%}
-              {%- elsif is_lip_item -%}
-                {%- assign item_key_bioactives = 'Wild Camellia Seed Oil, Shea Butter, Elderberry Fruit Extract, Natural Mineral Pigments.' -%}
-                {%- assign item_inci_content = '<p>Camellia Oleifera Seed Oil, Ricinus Communis (Castor) Seed Oil, Butyrospermum Parkii (Shea) Butter, Euphorbia Cerifera (Candelilla) Wax, Sambucus Nigra (Elderberry) Fruit Extract, Tocopherol, Natural Mineral Oxides.</p>' -%}
-              {%- endif -%}
-
-              <details class="main-product__accordion" {{ block.shopify_attributes }}>
-                <summary class="main-product__accordion-summary">
-                  <div class="main-product__accordion-header-wrap">
-                    <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
-                    {%- if block.settings.bioactives_count != blank -%}
-                      <span class="product-details-badge">{{ block.settings.bioactives_count | escape }}</span>
+              {%- assign item_key_bioactives = product.metafields.custom.key_bioactives.value | default: product.metafields.custom.key_bioactives | default: block.settings.key_bioactives -%}
+              {%- assign item_inci_content = product.metafields.custom.ingredients.value | default: product.metafields.custom.ingredients | default: block.settings.content -%}
+              {%- if item_key_bioactives != blank or item_inci_content != blank -%}
+                <details class="main-product__accordion" {{ block.shopify_attributes }}>
+                  <summary class="main-product__accordion-summary">
+                    <div class="main-product__accordion-header-wrap">
+                      <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                      {%- if block.settings.bioactives_count != blank -%}
+                        <span class="product-details-badge">{{ block.settings.bioactives_count | escape }}</span>
+                      {%- endif -%}
+                    </div>
+                    <span class="accordion-icon" aria-hidden="true">+</span>
+                  </summary>
+                  <div class="main-product__accordion-content">
+                    {%- if item_key_bioactives != blank -%}
+                      <div class="product-details-list">
+                        <span class="product-details-label">{{ 'products.product.key_bio_actives' | t }}</span>
+                        <span class="product-details-text">{{ item_key_bioactives | escape }}</span>
+                      </div>
+                    {%- endif -%}
+                    {%- if item_inci_content != blank -%}
+                      <div class="rte">{{ item_inci_content }}</div>
                     {%- endif -%}
                   </div>
-                  <span class="accordion-icon" aria-hidden="true">+</span>
-                </summary>
-                <div class="main-product__accordion-content">
-                  {%- if item_key_bioactives != blank -%}
-                    <div class="product-details-list">
-                      <span class="product-details-label">{{ 'products.product.key_bio_actives' | t }}</span>
-                      <span class="product-details-text">{{ item_key_bioactives | escape }}</span>
-                    </div>
-                  {%- endif -%}
-                  <div class="rte">{{ item_inci_content }}</div>
-                </div>
-              </details>
+                </details>
+              {%- endif -%}
 
             {%- when 'ritual' -%}
-              {%- assign is_soap_item = false -%}
-              {%- if product.type == 'Soap' or product.handle contains 'soap' -%}
-                {%- assign is_soap_item = true -%}
-              {%- endif -%}
-              {%- assign is_lip_item = false -%}
-              {%- if product.type contains 'Lip' or product.handle contains 'lip' -%}
-                {%- assign is_lip_item = true -%}
-              {%- endif -%}
-
-              {%- assign item_ritual_content = block.settings.content -%}
-              {%- if is_soap_item -%}
-                {%- assign item_ritual_content = '<p><strong>Daily Cleansing Ritual:</strong> Work between wet palms to generate a rich, creamy lather. Gently massage onto face and body, then rinse thoroughly with warm water. Store on a draining dish between uses to preserve bar longevity.</p>' -%}
-              {%- elsif is_lip_item -%}
-                {%- assign item_ritual_content = '<p><strong>Daily Lip Ritual:</strong> Glide smoothly over bare lips or layer over lip contour for buildable satin hydration. Reapply throughout the day as needed to maintain comfortable barrier protection.</p>' -%}
-              {%- endif -%}
-
-              <details class="main-product__accordion" {{ block.shopify_attributes }}>
-                <summary class="main-product__accordion-summary">
-                  <div class="main-product__accordion-header-wrap">
-                    <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+              {%- assign item_ritual_content = product.metafields.custom.ritual.value | default: product.metafields.custom.ritual | default: block.settings.content -%}
+              {%- if item_ritual_content != blank -%}
+                <details class="main-product__accordion" {{ block.shopify_attributes }}>
+                  <summary class="main-product__accordion-summary">
+                    <div class="main-product__accordion-header-wrap">
+                      <span class="main-product__accordion-title">{{ block.settings.heading | escape }}</span>
+                    </div>
+                    <span class="accordion-icon" aria-hidden="true">+</span>
+                  </summary>
+                  <div class="main-product__accordion-content">
+                    <div class="rte">{{ item_ritual_content }}</div>
                   </div>
-                  <span class="accordion-icon" aria-hidden="true">+</span>
-                </summary>
-                <div class="main-product__accordion-content">
-                  <div class="rte">{{ item_ritual_content }}</div>
-                </div>
-              </details>
+                </details>
+              {%- endif -%}
 
             {%- when 'collapsible_tab' -%}
               <details class="main-product__accordion" {{ block.shopify_attributes }}>
@@ -570,8 +532,17 @@
     const qtyInput = section.querySelector('[data-product-qty-input]');
 
     function getVariantPicker() {
-      const pickerContainer = section.querySelector('[data-variant-picker-container]');
-      return pickerContainer ? pickerContainer._variantPickerInstance : null;
+      if (section && section._variantPickerInstance) return section._variantPickerInstance;
+      const pickerContainer = (section && section.hasAttribute('data-variant-picker-container'))
+        ? section
+        : (section ? section.querySelector('[data-variant-picker-container]') : null);
+      if (pickerContainer) {
+        if (pickerContainer._variantPickerInstance) return pickerContainer._variantPickerInstance;
+        if (window.Vespera && typeof window.Vespera.VariantPicker === 'function') {
+          return new window.Vespera.VariantPicker(pickerContainer);
+        }
+      }
+      return null;
     }
 
     section.addEventListener('vespera:variant:change', (e) => {
@@ -585,11 +556,29 @@
           stickyBtn.textContent = strings.addToCart || 'Add to cart';
         } else {
           stickyBtn.setAttribute('disabled', 'disabled');
-          stickyBtn.textContent = strings.soldOut || 'Sold out';
+          stickyBtn.textContent = variant ? (strings.soldOut || 'Sold out') : (strings.unavailable || 'Unavailable');
         }
       }
       if (stickyImg && variant && variant.featured_image) {
         stickyImg.src = variant.featured_image.src;
+      }
+    });
+
+    document.addEventListener('vespera:cart:add:start', () => {
+      if (stickyBtn) {
+        stickyBtn.setAttribute('disabled', 'disabled');
+        stickyBtn.setAttribute('aria-busy', 'true');
+      }
+    });
+
+    document.addEventListener('vespera:cart:add:complete', () => {
+      if (stickyBtn) {
+        stickyBtn.removeAttribute('aria-busy');
+        const picker = getVariantPicker();
+        const currentVariant = picker && typeof picker.getCurrentVariant === 'function' ? picker.getCurrentVariant() : null;
+        if (currentVariant && currentVariant.available) {
+          stickyBtn.removeAttribute('disabled');
+        }
       }
     });
 
@@ -832,20 +821,17 @@
         {
           "type": "text",
           "id": "metric",
-          "label": "Highlight badge",
-          "default": "Key Highlight"
+          "label": "Highlight badge"
         },
         {
           "type": "text",
           "id": "summary",
-          "label": "Summary note",
-          "default": "Formulation highlights and notes:"
+          "label": "Summary note"
         },
         {
           "type": "richtext",
           "id": "content",
-          "label": "Study description",
-          "default": "<p>Crafted with cold-pressed botanical extracts and nourishing plant lipids to support natural radiance and hydration during your daily ritual.</p>"
+          "label": "Study description"
         }
       ]
     },
@@ -862,20 +848,17 @@
         {
           "type": "text",
           "id": "bioactives_count",
-          "label": "Badge callout",
-          "default": "Plant-Based Ingredients"
+          "label": "Badge callout"
         },
         {
           "type": "text",
           "id": "key_bioactives",
-          "label": "Key bio-actives",
-          "default": "Plant Squalane, Cold-Pressed Rosehip Seed Oil, Niacinamide, Botanical Extracts."
+          "label": "Key bio-actives"
         },
         {
           "type": "richtext",
           "id": "content",
-          "label": "Full INCI formulation",
-          "default": "<p>Aqua/Water/Eau, Simmondsia Chinensis (Jojoba) Seed Oil, Rosa Canina (Rosehip) Seed Oil, Squalane, Niacinamide, Glycerin, Sodium Hyaluronate, Tocopherol (Vitamin E), Pelargonium Graveolens Oil, Rosmarinus Officinalis Leaf Extract.</p>"
+          "label": "Full INCI formulation"
         }
       ]
     },
@@ -892,8 +875,7 @@
         {
           "type": "richtext",
           "id": "content",
-          "label": "Ritual instructions",
-          "default": "<p><strong>Morning Ritual:</strong> Warm 2–3 drops between clean palms. Inhale the natural botanical terpene profile. Press gently into cleansed face, neck, and decolletage using upward sweeps until absorbed. Follow with SPF.</p><p><strong>Evening Ritual:</strong> Apply 3–4 drops following treatment essences as an intensive overnight lipid sealant.</p>"
+          "label": "Ritual instructions"
         }
       ]
     },
