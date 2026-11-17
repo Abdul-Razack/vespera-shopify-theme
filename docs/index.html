@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vespera Theme Documentation | User Guide & Setup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #141312;
+      --surface: #1E1D1A;
+      --surface-subtle: #2A2826;
+      --text: #F5F2EB;
+      --text-muted: #A8A39D;
+      --accent: #C5A880;
+      --border: #2E2C29;
+      --border-highlight: #45423E;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.7;
+      letter-spacing: -0.01em;
+    }
+    header.doc-header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(20, 19, 18, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    nav.doc-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav.doc-nav a:hover, nav.doc-nav a.active { color: var(--accent); }
+    .doc-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    aside.doc-sidebar {
+      width: 280px;
+      border-right: 1px solid var(--border);
+      padding: 2.5rem 1.5rem;
+      position: sticky;
+      top: 73px;
+      height: calc(100vh - 73px);
+      overflow-y: auto;
+    }
+    aside.doc-sidebar h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    aside.doc-sidebar h4:first-of-type { margin-top: 0; }
+    aside.doc-sidebar ul { list-style: none; }
+    aside.doc-sidebar li { margin-bottom: 0.4rem; }
+    aside.doc-sidebar a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      display: block;
+      padding: 0.2rem 0;
+      transition: color 0.2s;
+    }
+    aside.doc-sidebar a:hover { color: var(--text); }
+    main.doc-content {
+      flex: 1;
+      padding: 3rem 4rem;
+      max-width: 900px;
+    }
+    h1, h2, h3 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+      color: var(--text);
+    }
+    h1 { font-size: 2.8rem; line-height: 1.2; margin-bottom: 1rem; }
+    h2 { font-size: 2rem; margin-top: 3rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    h3 { font-size: 1.4rem; margin-top: 2rem; margin-bottom: 0.75rem; color: var(--accent); }
+    p { margin-bottom: 1.25rem; color: #D5D1CA; }
+    ul, ol { margin-left: 1.5rem; margin-bottom: 1.5rem; color: #D5D1CA; }
+    li { margin-bottom: 0.5rem; }
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-highlight);
+      border-radius: 4px;
+      font-size: 0.75rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+    }
+    .feature-card h4 {
+      font-family: var(--font-heading);
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+    .feature-card p { font-size: 0.88rem; margin: 0; }
+    code {
+      font-family: monospace;
+      background: var(--surface-subtle);
+      padding: 0.15rem 0.4rem;
+      border-radius: 3px;
+      font-size: 0.88rem;
+      color: var(--accent);
+    }
+    pre {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 1.25rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      margin: 1.5rem 0;
+    }
+    pre code { background: none; padding: 0; color: #ECE8E1; }
+    .alert-box {
+      background: rgba(197, 168, 128, 0.08);
+      border-left: 3px solid var(--accent);
+      padding: 1rem 1.25rem;
+      margin: 1.5rem 0;
+      border-radius: 0 4px 4px 0;
+    }
+    .alert-box p { margin: 0; font-size: 0.9rem; color: #E5E1DA; }
+    footer.doc-footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4rem;
+    }
+    @media (max-width: 900px) {
+      .doc-layout { flex-direction: column; }
+      aside.doc-sidebar { width: 100%; height: auto; position: static; border-right: none; border-bottom: 1px solid var(--border); }
+      main.doc-content { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="doc-header">
+    <a href="index.html" class="logo">Vespera <span>Themes</span></a>
+    <nav class="doc-nav">
+      <a href="index.html" class="active">Documentation</a>
+      <a href="support.html">Merchant Support</a>
+    </nav>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-sidebar">
+      <h4>Getting Started</h4>
+      <ul>
+        <li><a href="#overview">Theme Overview</a></li>
+        <li><a href="#installation">Installation Guide</a></li>
+        <li><a href="#presets">Selecting a Preset</a></li>
+      </ul>
+
+      <h4>Core Storefront Features</h4>
+      <ul>
+        <li><a href="#header">Top Bar & Header</a></li>
+        <li><a href="#product-page">Product Details & PDP</a></li>
+        <li><a href="#cart">Cart Drawer & Cart Page</a></li>
+        <li><a href="#collections">Collections & Filtering</a></li>
+        <li><a href="#media">3D Models & Video Gallery</a></li>
+      </ul>
+
+      <h4>Advanced Capabilities</h4>
+      <ul>
+        <li><a href="#subscriptions">Subscription Selling Plans</a></li>
+        <li><a href="#gift-cards">Gift Card Recipient Forms</a></li>
+        <li><a href="#unit-pricing">Unit Price Measurements</a></li>
+        <li><a href="#localization">Multi-Market & Language</a></li>
+      </ul>
+
+      <h4>Merchant Assistance</h4>
+      <ul>
+        <li><a href="#faq">Frequently Asked Questions</a></li>
+        <li><a href="support.html">Contact Technical Support</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <span class="badge">Vespera Theme v2.0.0 — Official Merchant User Guide</span>
+      <h1 id="overview">Vespera Theme Documentation</h1>
+      <p>Welcome to <strong>Vespera</strong>, an editorial Online Store 2.0 theme engineered exclusively for luxury skincare, botanical cosmetics, fragrance houses, and high-end wellness brands. Built with zero third-party framework overhead, Vespera achieves near-instant mobile load times, 100% WCAG AA contrast compliance, and full architectural alignment with official Shopify Theme Store standards.</p>
+
+      <div class="card-grid">
+        <div class="feature-card">
+          <h4>Vespera Preset</h4>
+          <p>Moody, nocturnal luxury palette (deep espresso, charcoal, and warm antique gold). Optimized for fine fragrance and botanical night elixirs.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Luminous Preset</h4>
+          <p>Clean, airy minimalist editorial style (crisp white, soft sage, and deep forest green). Ideal for clinical dermatological skincare.</p>
+        </div>
+        <div class="feature-card">
+          <h4>Botanical Preset</h4>
+          <p>Warm organic parchment and terracotta tones. Handcrafted for organic herbalism, facial oils, and sustainable body rituals.</p>
+        </div>
+      </div>
+
+      <h2 id="installation">1. Installation & Initial Setup</h2>
+      <p>To install Vespera into your Shopify store:</p>
+      <ol>
+        <li>From your <strong>Shopify Admin</strong>, navigate to <strong>Online Store &rarr; Themes</strong>.</li>
+        <li>In the <em>Theme library</em> section, click <strong>Add theme &rarr; Upload zip file</strong>.</li>
+        <li>Select <code>vespera-v2.0.0.zip</code> and click <strong>Upload file</strong>.</li>
+        <li>Once processed, click <strong>Customize</strong> to launch the Shopify Theme Editor.</li>
+      </ol>
+
+      <div class="alert-box">
+        <p><strong>Shopify Best Practice:</strong> We recommend publishing the theme on an unpublished preview first while configuring your catalog and media settings.</p>
+      </div>
+
+      <h2 id="header">2. Top Bar & Navigation Setup</h2>
+      <p>The site header includes an interactive multi-slide Top Bar, sticky header behavior with scroll-up reveal, native predictive search, and multi-level mega navigation.</p>
+      <h3>Configuring the Top Bar</h3>
+      <ul>
+        <li>In the Theme Editor, select <strong>Top bar</strong> under the Header Group.</li>
+        <li>Add multiple message slides (e.g. <em>"Complimentary worldwide shipping over $75"</em>).</li>
+        <li>Enable automatic carousel rotation and adjust slide duration (3 to 10 seconds).</li>
+        <li>Select background and text contrast colors tailored to your active preset.</li>
+      </ul>
+
+      <h2 id="product-page">3. Product Page (PDP) & Reorderable Blocks</h2>
+      <p>Vespera features 14 fully reorderable product blocks allowing merchants to craft editorial storytelling experiences:</p>
+      <ul>
+        <li><strong>Product Title & Vendor:</strong> Semantic heading levels with configurable font sizes.</li>
+        <li><strong>Price & Unit Price:</strong> Automatically renders compare-at savings, tax notices, and unit price calculations (e.g. <code>$12.00 / 100 ml</code>).</li>
+        <li><strong>Variant Picker:</strong> Choose between tactile visual option chips, dropdowns, and swatches. Multi-modal cues indicate sold-out and unavailable states.</li>
+        <li><strong>Quick Buy & Dynamic Checkout:</strong> Branded primary CTA paired with native accelerated checkout (Shop Pay, Apple Pay, Google Pay).</li>
+        <li><strong>Editorial Tabs:</strong> Configurable accordion tabs for <em>Bio-Active Ingredients</em>, <em>Application Ritual</em>, and <em>Clinical Studies</em>.</li>
+        <li><strong>In-Store Pickup Availability:</strong> Displays real-time location pickup options when retail inventory is present.</li>
+      </ul>
+
+      <h2 id="cart">4. Slide-Out Ajax Cart Drawer</h2>
+      <p>Vespera's Cart Drawer is built with framework-free Vanilla JS custom elements (<code>&lt;cart-drawer&gt;</code>):</p>
+      <ul>
+        <li><strong>Free Shipping Threshold Meter:</strong> Live progressive progress bar calculating remaining cart value required for free shipping.</li>
+        <li><strong>Order Notes:</strong> Merchant-toggleable cart note field with debounced background auto-save to <code>/cart/update.js</code>.</li>
+        <li><strong>Discount Applications:</strong> Real-time display of both automatic order-level promotions and line-item savings badges.</li>
+        <li><strong>Accessibility Focus Trap:</strong> Complete keyboard trapping (Tab / Shift+Tab) with Escape key dismissal and return-of-focus.</li>
+      </ul>
+
+      <h2 id="media">5. Video & 3D Model Media Gallery</h2>
+      <p>The product gallery supports interactive media rendering:</p>
+      <ul>
+        <li><strong>Still Photography:</strong> Pinch-to-zoom on mobile and high-resolution modal lightbox on desktop.</li>
+        <li><strong>MP4 & WebM Video:</strong> Native responsive HTML5 video playback with looping controls.</li>
+        <li><strong>3D AR Models:</strong> Interactive GLB/USDZ model viewer with Shopify AR quick-look on iOS and Android devices.</li>
+      </ul>
+
+      <h2 id="faq">6. Frequently Asked Questions</h2>
+      <h3>How do I switch between the Botanical, Luminous, and Vespera presets?</h3>
+      <p>In the Shopify Theme Editor, click on the <strong>Theme settings</strong> (gear icon) in the top left, expand <strong>Presets</strong>, and select your desired aesthetic style. All typography, color tokens, and layout defaults will update instantaneously.</p>
+
+      <h3>Does Vespera support multi-currency and multi-language?</h3>
+      <p>Yes. Vespera natively supports Shopify Markets. The country and language selectors in the footer and mobile menu activate automatically when more than one market or language is enabled in <em>Settings &rarr; Markets</em>.</p>
+
+      <h3>How do I enable Gift Card recipient forms?</h3>
+      <p>When you create a Gift Card product in your Shopify Admin, Vespera automatically detects <code>product.gift_card?</code> and renders the native recipient form (recipient email, name, message, and scheduled delivery date) directly above the Add to Cart button.</p>
+
+      <div class="alert-box">
+        <p><strong>Need further assistance?</strong> Our technical team offers dedicated merchant support with guaranteed 2-business-day response turnaround. <a href="support.html" style="color: var(--accent); text-decoration: underline;">Open a support ticket &rarr;</a></p>
+      </div>
+    </main>
+  </div>
+
+  <footer class="doc-footer">
+    <p>&copy; 2026 Vespera Themes. Exclusively crafted for the Shopify Theme Store. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
+

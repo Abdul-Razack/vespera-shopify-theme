@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merchant Support & Technical Help | Vespera Theme</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #141312;
+      --surface: #1E1D1A;
+      --surface-subtle: #2A2826;
+      --text: #F5F2EB;
+      --text-muted: #A8A39D;
+      --accent: #C5A880;
+      --border: #2E2C29;
+      --border-highlight: #76726B;
+      --font-heading: 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.7;
+    }
+    header.doc-header {
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      background: rgba(20, 19, 18, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 100;
+    }
+    .logo {
+      font-family: var(--font-heading);
+      font-size: 1.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .logo span { color: var(--accent); }
+    nav.doc-nav a {
+      color: var(--text-muted);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+    nav.doc-nav a:hover, nav.doc-nav a.active { color: var(--accent); }
+    .container {
+      max-width: 800px;
+      margin: 3rem auto;
+      padding: 0 1.5rem;
+    }
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.8rem;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+      text-align: center;
+    }
+    .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      font-size: 1.05rem;
+    }
+    .sla-banner {
+      background: var(--surface);
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .sla-icon { font-size: 1.5rem; color: var(--accent); }
+    .sla-text h4 { font-family: var(--font-heading); font-size: 1.15rem; color: var(--accent); margin-bottom: 0.2rem; }
+    .sla-text p { font-size: 0.88rem; color: #D5D1CA; margin: 0; }
+    form.support-form {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 2.5rem;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+    label span.req { color: #E88F75; margin-left: 3px; }
+    input[type="text"],
+    input[type="email"],
+    input[type="url"],
+    select,
+    textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border-highlight);
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.92rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 2px rgba(197, 168, 128, 0.2);
+    }
+    textarea { min-height: 140px; resize: vertical; }
+    .file-upload-box {
+      border: 1px dashed var(--border-highlight);
+      padding: 1.5rem;
+      text-align: center;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+    .file-upload-box input { margin-top: 0.5rem; }
+    .submit-btn {
+      background: var(--accent);
+      color: var(--bg);
+      border: none;
+      padding: 1rem 2rem;
+      font-family: inherit;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 1rem;
+      transition: background-color 0.2s, transform 0.1s;
+    }
+    .submit-btn:hover { background: #D5B890; }
+    .submit-btn:active { transform: translateY(1px); }
+    footer.doc-footer {
+      border-top: 1px solid var(--border);
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 5rem;
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      form.support-form { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="doc-header">
+    <a href="index.html" class="logo">Vespera <span>Themes</span></a>
+    <nav class="doc-nav">
+      <a href="index.html">Documentation</a>
+      <a href="support.html" class="active">Merchant Support</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <h1>Merchant Support Portal</h1>
+    <p class="subtitle">Official technical support for verified Vespera theme license holders.</p>
+
+    <div class="sla-banner">
+      <div class="sla-icon">&#9874;</div>
+      <div class="sla-text">
+        <h4>Guaranteed 2-Business-Day Response SLA</h4>
+        <p>In full adherence to Shopify Theme Store Section 22 guidelines, our dedicated theme engineering team responds to all verified merchant inquiries within 48 business hours.</p>
+      </div>
+    </div>
+
+    <form class="support-form" action="https://formsubmit.co/abuabdulrazacka@gmail.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_subject" value="New Vespera Theme Support Request">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="merchant-name">Your Full Name <span class="req">*</span></label>
+          <input type="text" id="merchant-name" name="name" required placeholder="Elena Vance">
+        </div>
+        <div class="form-group">
+          <label for="merchant-email">Email Address <span class="req">*</span></label>
+          <input type="email" id="merchant-email" name="email" required placeholder="elena@yourstore.com">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="store-domain">Shopify Store Domain / URL <span class="req">*</span></label>
+          <input type="text" id="store-domain" name="store_url" required placeholder="your-brand.myshopify.com">
+        </div>
+        <div class="form-group">
+          <label for="theme-version">Installed Theme Version <span class="req">*</span></label>
+          <input type="text" id="theme-version" name="theme_version" readonly value="Vespera v2.0.0">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="support-topic">Inquiry Category <span class="req">*</span></label>
+        <select id="support-topic" name="topic" required>
+          <option value="" disabled selected>Select category...</option>
+          <option value="setup">Initial Setup & Preset Activation</option>
+          <option value="product-page">Product Page & Media Configuration</option>
+          <option value="cart">Cart Drawer & Checkout Flow</option>
+          <option value="accessibility">Accessibility & Keyboard Navigation</option>
+          <option value="bug">Bug Report / Unexpected Behavior</option>
+          <option value="other">General Question</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="issue-description">Detailed Description & Steps to Reproduce <span class="req">*</span></label>
+        <textarea id="issue-description" name="description" required placeholder="Please describe your store setup, steps to reproduce the issue, and expected behavior..."></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="file-attachment">Screenshot or Error Log (Optional)</label>
+        <div class="file-upload-box">
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Attach image file (PNG, JPG, max 5MB)</p>
+          <input type="file" id="file-attachment" name="attachment" accept="image/*,.pdf">
+        </div>
+      </div>
+
+      <button type="submit" class="submit-btn">Submit Support Request</button>
+      <p style="text-align: center; color: var(--text-muted); font-size: 0.8rem; margin-top: 1rem;">
+        An automated confirmation receipt with ticket reference number will be sent to your email immediately upon submission.
+      </p>
+    </form>
+  </div>
+
+  <footer class="doc-footer">
+    <p>&copy; 2026 Vespera Themes. Exclusively crafted for the Shopify Theme Store. All rights reserved.</p>
+  </footer>
+
+</body>
+</html>
+

@@ -590,10 +590,11 @@
         if (picker && typeof picker.selectVariantById === 'function') {
           picker.selectVariantById(targetId);
         } else {
+          // Delayed picker initialization: prevent hidden variant ID from diverging
+          // from visible options and prices while shopper sees previous selection.
           const hiddenInput = section.querySelector('[name="id"]');
-          if (hiddenInput) {
-            hiddenInput.value = targetId;
-            hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+          if (hiddenInput && hiddenInput.value) {
+            stickySelect.value = hiddenInput.value;
           }
         }
       });
