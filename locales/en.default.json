@@ -240,6 +240,7 @@
       "quick_view": "Quick view",
       "unavailable": "Unavailable",
       "adding": "Adding...",
+      "cart_add_error": "Could not confirm the addition. Check your cart and try again.",
       "key_bio_actives": "Key bio-actives:",
       "add_to_cart_short": "Add"
     },

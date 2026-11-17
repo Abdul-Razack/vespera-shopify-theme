@@ -15,6 +15,7 @@
   if (!modal || !bodyEl) return;
 
   let activeTrigger = null;
+  let productRequest = 0;
   let currentProduct = null;
   let selectedVariant = null;
   let currentQuantity = 1;
@@ -61,6 +62,7 @@
   }
 
   function closeModal() {
+    productRequest++;
     // Pause any playing videos inside the modal
     modal.querySelectorAll('video').forEach(v => {
       try { v.pause(); } catch(err) {}
@@ -199,6 +201,7 @@
             </button>
           </div>
 
+          <p id="QuickViewCartError" role="alert" hidden></p>
           <a href="${product.url}" class="quick-view__full-details">${strings.viewDetails || ''} &rarr;</a>
         </div>
       </div>
@@ -273,6 +276,7 @@
     const mainImg = document.getElementById('QuickViewMainImg');
     const strings = getStrings();
 
+    const errorMessage = document.getElementById('QuickViewCartError');
     let adding = false;
 
     function updateAddButton() {
@@ -430,6 +434,7 @@
       addBtn.addEventListener('click', async () => {
         if (adding || !selectedVariant || !selectedVariant.available) return;
         adding = true;
+        if (errorMessage) errorMessage.hidden = true;
         const item = { id: selectedVariant.id, quantity: currentQuantity };
 
         addBtn.setAttribute('disabled', 'disabled');
@@ -447,7 +452,10 @@
             })
           });
 
-          if (!response.ok) throw new Error('Add to cart failed');
+          if (!response.ok) {
+            const details = await response.json().catch(() => ({}));
+            throw new Error(details.description || strings.cartAddError);
+          }
 
           // Open cart drawer and refresh
           const drawer = document.querySelector('cart-drawer');
@@ -464,6 +472,10 @@
           }
         } catch (err) {
           console.error('Quick view add error:', err);
+          if (errorMessage) {
+            errorMessage.textContent = err instanceof TypeError ? strings.cartAddError : err.message;
+            errorMessage.hidden = false;
+          }
           adding = false;
           updateAddButton();
         }
@@ -480,6 +492,7 @@
     const handle = trigger.getAttribute('data-quick-view-handle');
     if (!handle) return;
 
+    const request = ++productRequest;
     openModal(trigger);
 
     try {
@@ -499,8 +512,9 @@
         galleryEl = doc.querySelector('.product-media-gallery');
       }
 
-      renderProduct(product, galleryEl);
+      if (request === productRequest) renderProduct(product, galleryEl);
     } catch (err) {
+      if (request !== productRequest) return;
       console.error('Failed to load quick view:', err);
       bodyEl.innerHTML = `
         <div style="padding: 40px; text-align: center;">
