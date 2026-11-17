@@ -182,7 +182,7 @@
     <div class="mobile-nav-drawer__overlay" id="MobileNavOverlay" tabindex="-1"></div>
     <div class="mobile-nav-drawer__panel">
       <div class="mobile-nav-drawer__header">
-        <span class="site-header__brand-name">{{ brand_name }}</span>
+        <span class="mobile-nav-drawer__title">{{ brand_name }}</span>
         <button type="button" class="mobile-nav-drawer__close" id="MobileNavClose" aria-label="{{ 'sections.header.close_menu' | t }}">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -516,10 +516,10 @@
       min-height: 38px;
     }
     .site-header__mobile-toggle {
-      width: 38px;
-      height: 38px;
-      min-width: 38px;
-      min-height: 38px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
       flex-shrink: 0;
     }
   }
@@ -537,16 +537,17 @@
       gap: 4px;
     }
     .site-header__icon-link {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      min-height: 32px;
+      width: 36px;
+      height: 36px;
+      min-width: 36px;
+      min-height: 36px;
     }
     .site-header__mobile-toggle {
-      width: 32px;
-      height: 32px;
-      min-width: 32px;
-      min-height: 32px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      flex-shrink: 0;
     }
   }
 
@@ -636,7 +637,8 @@
     padding: var(--space-6);
     border-bottom: 1px solid var(--color-border);
   }
-  .mobile-nav-drawer__header .site-header__brand-name {
+  .mobile-nav-drawer__header .site-header__brand-name,
+  .mobile-nav-drawer__title {
     flex: 1 1 auto;
     min-width: 0;
     max-width: none;
@@ -644,6 +646,12 @@
     overflow: visible;
     overflow-wrap: anywhere;
     text-overflow: clip;
+    font-family: var(--font-heading-family);
+    font-size: 1.05rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    font-weight: 500;
   }
   .mobile-nav-drawer__close {
     flex-shrink: 0;

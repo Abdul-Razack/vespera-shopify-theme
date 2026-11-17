@@ -59,6 +59,17 @@
               <a href="{{ section.settings.button_link }}" class="btn-primary">
                 {{ section.settings.button_label | escape }}
               </a>
+              {%- if section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank -%}
+                <a href="{{ section.settings.secondary_button_link }}" class="btn-secondary">
+                  {{ section.settings.secondary_button_label | escape }}
+                </a>
+              {%- endif -%}
+            </div>
+          {%- elsif section.settings.secondary_button_label != blank and section.settings.secondary_button_link != blank -%}
+            <div class="image-with-text__action">
+              <a href="{{ section.settings.secondary_button_link }}" class="btn-secondary">
+                {{ section.settings.secondary_button_label | escape }}
+              </a>
             </div>
           {%- endif -%}
         </div>
@@ -216,6 +227,17 @@
       "id": "button_link",
       "label": "Button link",
       "info": "Destination page or collection URL. If left empty, the button is hidden."
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_link",
+      "label": "Secondary button link",
+      "info": "Anchor (#standards) or secondary URL. If left empty, the button is hidden."
     }
   ],
   "presets": [

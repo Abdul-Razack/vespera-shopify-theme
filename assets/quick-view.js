@@ -31,9 +31,21 @@
   }
 
   function stripHtml(html) {
+    if (!html) return '';
+    const spaced = html
+      .replace(/<\/(p|div|h[1-6]|li|blockquote|tr)>/gi, ' ')
+      .replace(/<(br|hr)\s*\/?>/gi, ' ');
     const tmp = document.createElement('div');
-    tmp.innerHTML = html || '';
-    return tmp.textContent || tmp.innerText || '';
+    tmp.innerHTML = spaced;
+    const text = tmp.textContent || tmp.innerText || '';
+    return text.replace(/\s+/g, ' ').trim();
+  }
+
+  function formatExcerpt(html, maxLength = 160) {
+    const text = stripHtml(html);
+    if (!text) return '';
+    if (text.length <= maxLength) return text;
+    return text.slice(0, maxLength).trim() + '...';
   }
 
   function openModal(trigger) {
@@ -113,7 +125,7 @@
     const formattedPrice = formatMoney(selectedVariant.price);
     const hasCompare = selectedVariant.compare_at_price && selectedVariant.compare_at_price > selectedVariant.price;
     const formattedCompare = hasCompare ? formatMoney(selectedVariant.compare_at_price) : '';
-    const plainDesc = stripHtml(product.description).slice(0, 160) + '...';
+    const plainDesc = formatExcerpt(product.description, 160);
     const mainImgSrc = selectedVariant.featured_image ? selectedVariant.featured_image.src : (product.featured_image || '');
 
     // Build options markup

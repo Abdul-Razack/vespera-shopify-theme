@@ -17,9 +17,9 @@
       </div>
     {%- endif -%}
 
-    <div class="faq-accordion" role="list">
+    <div class="faq-accordion">
       {%- for block in section.blocks -%}
-        <details class="faq-item" {{ block.shopify_attributes }} role="listitem" {% if forloop.first %}open{% endif %}>
+        <details class="faq-item" {{ block.shopify_attributes }} {% if forloop.first %}open{% endif %}>
           <summary class="faq-item__summary">
             <span class="faq-item__question">{{ block.settings.question | escape }}</span>
             <span class="faq-item__icon" aria-hidden="true">&plus;</span>
@@ -163,8 +163,8 @@
         {
           "type": "faq_item",
           "settings": {
-            "question": "Are Vespera glass vessels recyclable and UV-protective?",
-            "answer": "<p>Yes. We house all formulations in biophotonic UV-protective glass vessels that shield plant extracts from photodegradation.</p>"
+            "question": "How are Vespera products packaged?",
+            "answer": "<p>Our liquid formulations are housed in protective, recyclable glass vessels, while our solid bars and balms are packaged in recyclable paper cartons. Please refer to individual product pages for specific packaging and recycling guidance.</p>"
           }
         },
         {

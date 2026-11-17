@@ -197,14 +197,51 @@
                   <span class="accordion-icon" aria-hidden="true">+</span>
                 </summary>
                 <div class="main-product__accordion-content">
-                  {%- if block.settings.summary != blank -%}
-                    <p class="product-details-summary"><strong>{{ block.settings.summary | escape }}</strong></p>
+                  {%- assign is_soap_item = false -%}
+                  {%- if product.type == 'Soap' or product.handle contains 'soap' -%}
+                    {%- assign is_soap_item = true -%}
                   {%- endif -%}
-                  <div class="rte">{{ block.settings.content }}</div>
+                  {%- assign is_lip_item = false -%}
+                  {%- if product.type contains 'Lip' or product.handle contains 'lip' -%}
+                    {%- assign is_lip_item = true -%}
+                  {%- endif -%}
+                  {%- assign item_study_summary = block.settings.summary -%}
+                  {%- assign item_study_content = block.settings.content -%}
+                  {%- if is_soap_item -%}
+                    {%- assign item_study_summary = 'Cold-Process Formulation Details:' -%}
+                    {%- assign item_study_content = '<p>Traditional cold-process saponified bar cured for six weeks to retain natural plant glycerin and produce a gentle, conditioning lather without drying sensitive skin.</p>' -%}
+                  {%- elsif is_lip_item -%}
+                    {%- assign item_study_summary = 'Conditioning Lip Barrier Care:' -%}
+                    {%- assign item_study_content = '<p>Infused with restorative plant seed oils and rich botanical butters to soothe delicate lip tissue with buildable, natural satin finish.</p>' -%}
+                  {%- endif -%}
+
+                  {%- if item_study_summary != blank -%}
+                    <p class="product-details-summary"><strong>{{ item_study_summary | escape }}</strong></p>
+                  {%- endif -%}
+                  <div class="rte">{{ item_study_content }}</div>
                 </div>
               </details>
 
             {%- when 'ingredients' -%}
+              {%- assign is_soap_item = false -%}
+              {%- if product.type == 'Soap' or product.handle contains 'soap' -%}
+                {%- assign is_soap_item = true -%}
+              {%- endif -%}
+              {%- assign is_lip_item = false -%}
+              {%- if product.type contains 'Lip' or product.handle contains 'lip' -%}
+                {%- assign is_lip_item = true -%}
+              {%- endif -%}
+
+              {%- assign item_key_bioactives = block.settings.key_bioactives -%}
+              {%- assign item_inci_content = block.settings.content -%}
+              {%- if is_soap_item -%}
+                {%- assign item_key_bioactives = 'Extra Virgin Olive Oil, Shea Butter, Coconut Oil, Pink Clay, Pure Botanicals.' -%}
+                {%- assign item_inci_content = '<p>Olea Europaea (Olive) Fruit Oil, Cocos Nucifera (Coconut) Oil, Aqua/Water/Eau, Butyrospermum Parkii (Shea) Butter, Sodium Hydroxide, Montmorillonite (French Pink Clay), Essential Oil Blend.</p>' -%}
+              {%- elsif is_lip_item -%}
+                {%- assign item_key_bioactives = 'Wild Camellia Seed Oil, Shea Butter, Elderberry Fruit Extract, Natural Mineral Pigments.' -%}
+                {%- assign item_inci_content = '<p>Camellia Oleifera Seed Oil, Ricinus Communis (Castor) Seed Oil, Butyrospermum Parkii (Shea) Butter, Euphorbia Cerifera (Candelilla) Wax, Sambucus Nigra (Elderberry) Fruit Extract, Tocopherol, Natural Mineral Oxides.</p>' -%}
+              {%- endif -%}
+
               <details class="main-product__accordion" {{ block.shopify_attributes }}>
                 <summary class="main-product__accordion-summary">
                   <div class="main-product__accordion-header-wrap">
@@ -216,17 +253,33 @@
                   <span class="accordion-icon" aria-hidden="true">+</span>
                 </summary>
                 <div class="main-product__accordion-content">
-                  {%- if block.settings.key_bioactives != blank -%}
+                  {%- if item_key_bioactives != blank -%}
                     <div class="product-details-list">
                       <span class="product-details-label">{{ 'products.product.key_bio_actives' | t }}</span>
-                      <span class="product-details-text">{{ block.settings.key_bioactives | escape }}</span>
+                      <span class="product-details-text">{{ item_key_bioactives | escape }}</span>
                     </div>
                   {%- endif -%}
-                  <div class="rte">{{ block.settings.content }}</div>
+                  <div class="rte">{{ item_inci_content }}</div>
                 </div>
               </details>
 
             {%- when 'ritual' -%}
+              {%- assign is_soap_item = false -%}
+              {%- if product.type == 'Soap' or product.handle contains 'soap' -%}
+                {%- assign is_soap_item = true -%}
+              {%- endif -%}
+              {%- assign is_lip_item = false -%}
+              {%- if product.type contains 'Lip' or product.handle contains 'lip' -%}
+                {%- assign is_lip_item = true -%}
+              {%- endif -%}
+
+              {%- assign item_ritual_content = block.settings.content -%}
+              {%- if is_soap_item -%}
+                {%- assign item_ritual_content = '<p><strong>Daily Cleansing Ritual:</strong> Work between wet palms to generate a rich, creamy lather. Gently massage onto face and body, then rinse thoroughly with warm water. Store on a draining dish between uses to preserve bar longevity.</p>' -%}
+              {%- elsif is_lip_item -%}
+                {%- assign item_ritual_content = '<p><strong>Daily Lip Ritual:</strong> Glide smoothly over bare lips or layer over lip contour for buildable satin hydration. Reapply throughout the day as needed to maintain comfortable barrier protection.</p>' -%}
+              {%- endif -%}
+
               <details class="main-product__accordion" {{ block.shopify_attributes }}>
                 <summary class="main-product__accordion-summary">
                   <div class="main-product__accordion-header-wrap">
@@ -235,7 +288,7 @@
                   <span class="accordion-icon" aria-hidden="true">+</span>
                 </summary>
                 <div class="main-product__accordion-content">
-                  <div class="rte">{{ block.settings.content }}</div>
+                  <div class="rte">{{ item_ritual_content }}</div>
                 </div>
               </details>
 
@@ -262,7 +315,7 @@
 </div>
 
 <!-- Universal Bottom Sticky Buy Bar -->
-<div class="sticky-buy-dock" id="StickyBuyDock" inert>
+<div class="sticky-buy-dock{% if product.has_only_default_variant %} sticky-buy-dock--single-variant{% endif %}" id="StickyBuyDock" inert>
   <div class="sticky-buy-dock__inner page-container">
     <div class="sticky-buy-dock__product">
       {%- if featured_media != blank -%}
@@ -516,17 +569,23 @@
     const addBtn = section.querySelector('[data-add-to-cart-btn]') || section.querySelector('button[name="add"]');
     const qtyInput = section.querySelector('[data-product-qty-input]');
 
+    function getVariantPicker() {
+      const pickerContainer = section.querySelector('[data-variant-picker-container]');
+      return pickerContainer ? pickerContainer._variantPickerInstance : null;
+    }
+
     section.addEventListener('vespera:variant:change', (e) => {
       const { variant, formattedPrice } = e.detail;
       if (stickySelect && variant) stickySelect.value = variant.id;
-      if (stickyPrice) stickyPrice.textContent = formattedPrice;
+      if (stickyPrice && formattedPrice) stickyPrice.textContent = formattedPrice;
       if (stickyBtn) {
+        const strings = (window.theme && window.theme.strings) || {};
         if (variant && variant.available) {
           stickyBtn.removeAttribute('disabled');
-          stickyBtn.textContent = 'Add to cart';
+          stickyBtn.textContent = strings.addToCart || 'Add to cart';
         } else {
           stickyBtn.setAttribute('disabled', 'disabled');
-          stickyBtn.textContent = 'Sold out';
+          stickyBtn.textContent = strings.soldOut || 'Sold out';
         }
       }
       if (stickyImg && variant && variant.featured_image) {
@@ -537,16 +596,26 @@
     if (stickySelect) {
       stickySelect.addEventListener('change', () => {
         const targetId = parseInt(stickySelect.value, 10);
-        const radio = section.querySelector(`input[name="id"][value="${targetId}"]`);
-        if (radio) {
-          radio.checked = true;
-          radio.dispatchEvent(new Event('change'));
+        if (isNaN(targetId)) return;
+        const picker = getVariantPicker();
+        if (picker && typeof picker.selectVariantById === 'function') {
+          picker.selectVariantById(targetId);
+        } else {
+          const hiddenInput = section.querySelector('[name="id"]');
+          if (hiddenInput) {
+            hiddenInput.value = targetId;
+            hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+          }
         }
       });
     }
 
     if (stickyBtn && addBtn) {
-      stickyBtn.addEventListener('click', () => addBtn.click());
+      stickyBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (stickyBtn.hasAttribute('disabled') || stickyBtn.getAttribute('aria-busy') === 'true') return;
+        addBtn.click();
+      });
     }
 
     function setQuantity(val) {
@@ -567,31 +636,63 @@
       stickyQtyPlus.addEventListener('click', () => setQuantity((parseInt(qtyInput ? qtyInput.value : 1, 10) || 1) + 1));
     }
 
-    // Scroll Observer and Keyboard Handler for Sticky Dock
+    // Scroll Observer and Position Handler for Sticky Dock
     if (stickyDock && addBtn) {
+      let isDockVisible = false;
+
+      function updateDockVisibility() {
+        const rect = addBtn.getBoundingClientRect();
+        // Visible only when the primary buy button has passed above the viewport
+        const shouldBeVisible = rect.bottom < 0;
+
+        if (shouldBeVisible && !isDockVisible) {
+          isDockVisible = true;
+          stickyDock.removeAttribute('inert');
+          stickyDock.classList.add('is-visible');
+        } else if (!shouldBeVisible && isDockVisible) {
+          isDockVisible = false;
+          if (document.activeElement && stickyDock.contains(document.activeElement)) {
+            addBtn.focus();
+          }
+          stickyDock.setAttribute('inert', '');
+          stickyDock.classList.remove('is-visible');
+        }
+      }
+
+      // Initial check (handles restored page scroll position on reload/back)
+      stickyDock.setAttribute('inert', '');
+      stickyDock.classList.remove('is-visible');
+      updateDockVisibility();
+
+      // IntersectionObserver for viewport intersection
       if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
-              stickyDock.removeAttribute('inert');
-              stickyDock.classList.add('is-visible');
-            } else {
-              if (document.activeElement && stickyDock.contains(document.activeElement)) {
-                addBtn.focus();
-              }
-              stickyDock.setAttribute('inert', '');
-              stickyDock.classList.remove('is-visible');
-            }
-          });
-        }, { threshold: 0 });
+        const observer = new IntersectionObserver(() => {
+          updateDockVisibility();
+        }, { threshold: [0, 1] });
         observer.observe(addBtn);
       }
+
+      // Scroll and resize listener with requestAnimationFrame for fast jumps
+      let ticking = false;
+      function onScrollOrResize() {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            updateDockVisibility();
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }
+      window.addEventListener('scroll', onScrollOrResize, { passive: true });
+      window.addEventListener('resize', onScrollOrResize, { passive: true });
+      window.addEventListener('pageshow', updateDockVisibility, { passive: true });
 
       stickyDock.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           if (document.activeElement && stickyDock.contains(document.activeElement)) {
             addBtn.focus();
           }
+          isDockVisible = false;
           stickyDock.setAttribute('inert', '');
           stickyDock.classList.remove('is-visible');
         }
@@ -810,7 +911,7 @@
           "type": "richtext",
           "id": "content",
           "label": "Tab content",
-          "default": "<p>Housed in recyclable amber UV-filtering glass to preserve potency without synthetic stabilizers. Packaged in FSC-certified post-consumer recycled paper printed with soy ink.</p>"
+          "default": "<p>Packaged in recyclable materials designed to protect formulation integrity and minimize environmental footprint. See individual packaging for local recycling guidance.</p>"
         },
         {
           "type": "page",

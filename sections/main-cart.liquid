@@ -9,13 +9,11 @@
 <div class="main-cart page-container section-spacing" data-section-id="{{ section.id }}">
   <header class="main-cart__header">
     <h1 class="main-cart__title">{{ 'templates.cart.title' | t }}</h1>
-    <p class="main-cart__subtitle">
-      {%- if cart.empty? -%}
-        {{ 'sections.cart.empty' | t }}
-      {%- else -%}
+    {%- unless cart.empty? -%}
+      <p class="main-cart__subtitle">
         {{ 'templates.cart.item_count' | t: count: cart.item_count }}
-      {%- endif -%}
-    </p>
+      </p>
+    {%- endunless -%}
 
     <!-- Free Shipping Bar -->
     {%- unless cart.empty? -%}
@@ -44,6 +42,9 @@
   {%- if cart.empty? -%}
     <div class="main-cart__empty text-center">
       <p class="main-cart__empty-text">{{ 'sections.cart.empty' | t }}</p>
+      <p class="main-cart__empty-subtext" style="font-size: var(--font-size-sm); color: var(--color-text-muted); margin-top: var(--space-2);">
+        {{ 'sections.cart.empty_subtext' | t }}
+      </p>
       <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
         {{ 'general.continue_shopping' | t }}
       </a>

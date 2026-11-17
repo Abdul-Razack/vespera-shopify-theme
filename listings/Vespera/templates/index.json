@@ -31,7 +31,7 @@
         "metric_3"
       ],
       "settings": {
-        "eyebrow": "Circadian Botany • Nocturnal Renewal",
+        "eyebrow": "Circadian Botany \u2022 Nocturnal Renewal",
         "heading": "Formulated for Deep Nocturnal Restoration",
         "subtext": "Replenishing lipid elixirs and restorative balms engineered to support your skin's natural nocturnal repair cycle while you rest.",
         "button_label": "Explore Evening Rituals",
@@ -139,7 +139,9 @@
         "heading": "Synchronized with Overnight Cellular Repair",
         "text": "<p>During sleep, the skin's cellular regeneration rate doubles while moisture loss increases. Our nocturnal lipid complexes deliver concentrated ceramides and cold-pressed botanical oils when renewal is at its peak.</p>",
         "button_label": "Explore Formulations",
-        "button_link": "/collections/all"
+        "button_link": "/collections/all",
+        "secondary_button_label": "Formulation Standards",
+        "secondary_button_link": "#standards"
       }
     },
     "multicolumn": {
@@ -240,7 +242,7 @@
         "ingredients": {
           "type": "faq_item",
           "settings": {
-            "question": "Where can I find a product’s ingredients?",
+            "question": "Where can I find a product\u2019s ingredients?",
             "answer": "<p>Visit the product page for its ingredient details. Contact us if you have a question about a particular formulation.</p>"
           }
         },
@@ -361,7 +363,7 @@
           "settings": {
             "label": "Formulations",
             "heading": "Bring it into your ritual",
-            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3–4 drops between your palms and gently press into damp skin, following the product directions.</p>"
+            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3\u20134 drops between your palms and gently press into damp skin, following the product directions.</p>"
           }
         }
       },
@@ -376,10 +378,10 @@
   "order": [
     "hero",
     "featured_collection",
-    "ritual_builder",
     "image_with_text",
-    "collection_list",
+    "ritual_builder",
     "ingredient_spotlight",
+    "collection_list",
     "formulation_faq",
     "press_marquee",
     "multicolumn",

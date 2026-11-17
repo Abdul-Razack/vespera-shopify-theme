@@ -139,7 +139,9 @@
         "heading": "Whole-Plant Potency Preserved at Harvest",
         "text": "<p>Every formulation begins with wildcrafted botanicals, cold-pressed within hours of harvest to preserve delicate enzymatic co-factors and active phytonutrients for cellular radiance.</p>",
         "button_label": "Explore Formulations",
-        "button_link": "/collections/all"
+        "button_link": "/collections/all",
+        "secondary_button_label": "Formulation Standards",
+        "secondary_button_link": "#standards"
       }
     },
     "multicolumn": {
@@ -169,8 +171,8 @@
           "type": "column",
           "settings": {
             "icon": "recycle",
-            "title": "Sustainable Glass",
-            "text": "<p>Packaged exclusively in UV-protective, recyclable amber glass to maintain nutrient integrity.</p>",
+            "title": "Conscious Packaging",
+            "text": "<p>Thoughtfully packaged in recyclable materials designed to protect formulation integrity and minimize footprint.</p>",
             "link_label": "Explore Body Care",
             "link": "/collections/all?category=Conscious+Body+Care"
           }
@@ -376,10 +378,10 @@
   "order": [
     "hero",
     "featured_collection",
-    "ritual_builder",
     "image_with_text",
-    "collection_list",
+    "ritual_builder",
     "ingredient_spotlight",
+    "collection_list",
     "formulation_faq",
     "press_marquee",
     "multicolumn",

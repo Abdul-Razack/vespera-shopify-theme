@@ -90,6 +90,43 @@
       });
     }
 
+    selectVariantById(variantId) {
+      const id = parseInt(variantId, 10);
+      if (!this.variants || isNaN(id)) return;
+      const targetVariant = this.variants.find(v => v.id === id);
+      if (!targetVariant) return;
+
+      this.optionGroups.forEach((group, groupIdx) => {
+        const targetVal = targetVariant.options[groupIdx];
+        if (targetVal === undefined) return;
+
+        const radios = group.querySelectorAll('input[type="radio"]');
+        let matched = false;
+        radios.forEach(r => {
+          if (r.value === targetVal) {
+            r.checked = true;
+            matched = true;
+          } else {
+            r.checked = false;
+          }
+        });
+
+        if (!matched) {
+          const select = group.querySelector('select');
+          if (select) {
+            select.value = targetVal;
+          }
+        }
+      });
+
+      if (this.hiddenIdInput) {
+        this.hiddenIdInput.value = targetVariant.id;
+        this.hiddenIdInput.removeAttribute('disabled');
+      }
+
+      this.updateState();
+    }
+
     updateOptionAvailabilityCues(selectedOptions) {
       // For each option group and value, determine if available variant exists
       this.optionGroups.forEach((group, groupIdx) => {

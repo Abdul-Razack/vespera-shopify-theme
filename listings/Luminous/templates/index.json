@@ -31,7 +31,7 @@
         "metric_3"
       ],
       "settings": {
-        "eyebrow": "Cellular Bio-Actives • Fermented Science",
+        "eyebrow": "Cellular Bio-Actives \u2022 Fermented Science",
         "heading": "Clinically Validated Cellular Radiance",
         "subtext": "Precision bio-ferments and low-molecular plant actives formulated to strengthen the lipid barrier and restore dermal clarity.",
         "button_label": "Explore Clinical Formulations",
@@ -139,7 +139,9 @@
         "heading": "High-Bioavailability Fermented Actives",
         "text": "<p>Through gentle low-temperature fermentation, botanical nutrients are broken into low-molecular fractions that absorb rapidly to accelerate cellular renewal and reveal lasting radiance.</p>",
         "button_label": "Explore Formulations",
-        "button_link": "/collections/all"
+        "button_link": "/collections/all",
+        "secondary_button_label": "Formulation Standards",
+        "secondary_button_link": "#standards"
       }
     },
     "multicolumn": {
@@ -240,7 +242,7 @@
         "ingredients": {
           "type": "faq_item",
           "settings": {
-            "question": "Where can I find a product’s ingredients?",
+            "question": "Where can I find a product\u2019s ingredients?",
             "answer": "<p>Visit the product page for its ingredient details. Contact us if you have a question about a particular formulation.</p>"
           }
         },
@@ -361,7 +363,7 @@
           "settings": {
             "label": "Formulations",
             "heading": "Bring it into your ritual",
-            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3–4 drops between your palms and gently press into damp skin, following the product directions.</p>"
+            "content": "<p>Find plant squalane in Botanical Radiance Serum. After cleansing, warm 3\u20134 drops between your palms and gently press into damp skin, following the product directions.</p>"
           }
         }
       },
@@ -376,10 +378,10 @@
   "order": [
     "hero",
     "featured_collection",
-    "ritual_builder",
     "image_with_text",
-    "collection_list",
+    "ritual_builder",
     "ingredient_spotlight",
+    "collection_list",
     "formulation_faq",
     "press_marquee",
     "multicolumn",
