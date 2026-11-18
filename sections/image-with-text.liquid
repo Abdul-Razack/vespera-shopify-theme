@@ -162,6 +162,19 @@
     display: flex;
     align-items: center;
     gap: var(--space-4);
+    flex-wrap: wrap;
+  }
+  @media (max-width: 480px) {
+    .image-with-text__action {
+      flex-direction: column;
+      align-items: stretch;
+      width: 100%;
+    }
+    .image-with-text__action .btn-primary,
+    .image-with-text__action .btn-secondary {
+      width: 100%;
+      text-align: center;
+    }
   }
 </style>
 

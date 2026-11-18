@@ -10,7 +10,7 @@ test('Quick View security and currency verification in real browser', async () =
   try {
     const browser = await chromium.launch({
       headless: true,
-      executablePath: '/usr/bin/google-chrome'
+      args: ['--no-sandbox']
     });
     const page = await browser.newPage();
 

@@ -9,7 +9,7 @@ const cartDrawerJs = fs.readFileSync(path.join(__dirname, '../assets/cart-drawer
 test('Cart Drawer: Serialized mutation queue and rapid double-click handling', async () => {
   const browser = await chromium.launch({
     headless: true,
-    executablePath: '/usr/bin/google-chrome'
+    args: ['--no-sandbox']
   });
   const page = await browser.newPage();
 
@@ -132,7 +132,7 @@ test('Cart Drawer: Serialized mutation queue and rapid double-click handling', a
 test('Cart Drawer: Inventory rejection (422) announces error and restores state', async () => {
   const browser = await chromium.launch({
     headless: true,
-    executablePath: '/usr/bin/google-chrome'
+    args: ['--no-sandbox']
   });
   const page = await browser.newPage();
 

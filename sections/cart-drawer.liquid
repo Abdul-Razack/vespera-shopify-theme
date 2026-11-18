@@ -62,9 +62,14 @@
           <p class="cart-drawer__empty-subtext" style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-top: var(--space-2);">
             {{ 'sections.cart.empty_subtext' | t }}
           </p>
-          <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-4);">
-            {{ 'general.continue_shopping' | t }}
-          </a>
+          <div class="cart-drawer__empty-actions" style="display: flex; flex-direction: column; gap: var(--space-3); margin-top: var(--space-4); align-items: center;">
+            <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="width: 100%; max-width: 240px;">
+              {{ 'general.continue_shopping' | t }}
+            </a>
+            <a href="{{ routes.cart_url }}" class="link-underline cart-drawer__empty-view-cart" style="font-size: var(--font-size-xs); color: var(--color-text); text-decoration: underline; padding: var(--space-1);">
+              {{ 'sections.cart.view_cart' | t }}
+            </a>
+          </div>
         </div>
       {%- else -%}
         <ul class="cart-drawer__items-list" role="list">

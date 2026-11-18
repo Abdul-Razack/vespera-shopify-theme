@@ -15,10 +15,11 @@ ritual-builder, ingredient-spotlight { display: block; }
 .ritual-product__image { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
 .ritual-product__media:hover .ritual-product__image { transform: scale(1.025); }
 .ritual-product__title { font-family: var(--font-heading-family); font-size: 24px; line-height: 1.2; min-height: 2.4em; margin: 0 0 8px; overflow-wrap: anywhere; }
-.ritual-product__price { font-family: var(--font-controls); margin-bottom: 16px; font-size: 16px; }
-.ritual-builder select { display: block; width: 100%; min-width: 0; min-height: 46px; padding: 10px 30px 10px 12px; border: 1px solid var(--color-border); border-radius: 0; background-color: var(--color-bg); color: var(--color-text); font: inherit; font-size: 14px; }
-.ritual-product__variant label, .ritual-step__swap { display: block; font-size: 12px; margin: 10px 0 6px; }
-.ritual-step__swap { margin-top: 18px; }
+.ritual-product__price { font-family: var(--font-controls); margin-bottom: 8px; font-size: 16px; }
+.ritual-builder select { display: block; width: 100%; min-width: 0; min-height: 46px; padding: 10px 38px 10px 14px; border: 1px solid var(--color-border); border-radius: 0; background-color: var(--color-bg); color: var(--color-text); font: inherit; font-size: 14px; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23191817' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 12px 12px; cursor: pointer; }
+.ritual-builder select:focus-visible { outline: 2px solid var(--color-focus, var(--color-text)); outline-offset: 1px; }
+.ritual-product__variant label, .ritual-step__swap { display: block; font-size: 12px; margin: 8px 0 6px; }
+.ritual-step__swap { margin-top: 8px; }
 .ritual-step__placeholder { display: block; width: 100%; max-height: 220px; }
 .ritual-step.is-excluded .ritual-product__media { opacity: .5; }
 .ritual-builder__footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; border-top: 1px solid var(--color-border); margin-top: 36px; padding-top: 24px; }

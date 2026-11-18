@@ -358,6 +358,10 @@ button {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
+  word-break: normal;
+  overflow-wrap: normal;
+  white-space: normal;
+  hyphens: none;
   transition: background-color var(--transition-normal), transform var(--transition-fast);
 }
 
@@ -380,6 +384,10 @@ button {
   letter-spacing: 0.05em;
   text-transform: uppercase;
   border-radius: var(--radius-sm);
+  word-break: normal;
+  overflow-wrap: normal;
+  white-space: normal;
+  hyphens: none;
   transition: border-color var(--transition-normal), background-color var(--transition-normal);
 }
 
@@ -1086,6 +1094,13 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   display: flex;
   align-items: center;
   justify-content: center;
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.main-product__qty-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
 }
 
 .main-product__qty-input {
@@ -1692,6 +1707,11 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   align-items: center;
   border-bottom: 2px solid var(--color-text);
   padding-bottom: var(--space-2);
+  transition: border-bottom-color var(--transition-fast);
+}
+
+.main-search__input-wrap:focus-within {
+  border-bottom-color: var(--color-accent);
 }
 
 /* ==========================================================================
@@ -1836,11 +1856,13 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 
 .main-search__input {
   width: 100%;
-  border: none;
-  background: transparent;
+  border: none !important;
+  background: transparent !important;
   font-size: 1.125rem;
   color: var(--color-text);
   outline: none;
+  box-shadow: none !important;
+  padding: var(--space-2) 0;
 }
 
 .main-search__submit-btn {
@@ -1849,8 +1871,19 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
   font-size: 1.5rem;
   color: var(--color-text);
   cursor: pointer;
-  padding: 0 var(--space-2);
-  transition: transform var(--transition-fast);
+  padding: 0 var(--space-3);
+  min-width: 44px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast), color var(--transition-fast);
+  border-radius: var(--radius-sm);
+}
+
+.main-search__submit-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .main-search__submit-btn:hover {
@@ -2104,18 +2137,33 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 
 .main-cart__checkout-btn {
   width: 100%;
-  height: 50px;
+  min-height: 48px;
   margin-bottom: var(--space-3);
 }
 
 .main-cart__continue-shopping {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 44px;
   text-align: center;
   font-size: var(--font-size-xs);
   color: var(--color-text-muted);
   text-decoration: none;
   margin-bottom: var(--space-4);
-  transition: color var(--transition-fast);
+  border-radius: var(--radius-sm);
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.main-cart__continue-shopping:hover {
+  color: var(--color-text);
+  background-color: rgba(25, 24, 23, 0.03);
+}
+
+.main-cart__continue-shopping:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .main-cart__continue-shopping:hover {
@@ -2203,6 +2251,20 @@ shopify-buy-it-now-button .shopify-payment-button__button:focus-visible {
 .facets-container {
   width: 100%;
   margin-bottom: var(--space-8);
+}
+
+.main-collection__header .facets-container {
+  margin-bottom: 0;
+}
+
+.facets-container:empty,
+.facets__left-group:empty,
+.facets__filters-group:empty,
+.facets__active-chips:empty {
+  display: none;
+  margin: 0;
+  padding: 0;
+  height: 0;
 }
 
 .facets__bar {
@@ -2781,11 +2843,23 @@ select,
 .contact-form__textarea,
 .contact-form__select,
 .footer__newsletter-input,
-.header-search__input,
-.main-search__input,
 .main-cart__note-input,
 .facet-price-field {
   border: 1px solid var(--color-border-dark);
+}
+
+.main-product__qty-input,
+.header-search__input,
+.main-search__input {
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  outline: none;
+}
+
+.main-product__qty-stepper:focus-within {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 1px var(--color-accent);
 }
 
 .site-footer__input-group input.site-footer__input {

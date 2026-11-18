@@ -47,6 +47,9 @@
       "legal_policies": "Legal Policies",
       "all_rights_reserved": ". All rights reserved."
     },
+    "faq": {
+      "placeholder": "Add FAQ questions in the theme editor to display them here."
+    },
     "announcements": {
       "previous": "Previous announcement",
       "next": "Next announcement"

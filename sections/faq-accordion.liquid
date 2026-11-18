@@ -1,3 +1,4 @@
+{%- if section.blocks.size > 0 or request.design_mode -%}
 <div id="standards" class="section-anchor"></div>
 <div id="faq" class="section-anchor"></div>
 <div class="faq-section section-spacing" data-section-id="{{ section.id }}">
@@ -17,22 +18,29 @@
       </div>
     {%- endif -%}
 
-    <div class="faq-accordion">
-      {%- for block in section.blocks -%}
-        <details class="faq-item" {{ block.shopify_attributes }} {% if forloop.first %}open{% endif %}>
-          <summary class="faq-item__summary">
-            <span class="faq-item__question">{{ block.settings.question | escape }}</span>
-            <span class="faq-item__icon" aria-hidden="true">&plus;</span>
-          </summary>
-          <div class="faq-item__answer rte">
-            {{ block.settings.answer }}
-          </div>
-        </details>
-      {%- endfor -%}
-    </div>
+    {%- if section.blocks.size > 0 -%}
+      <div class="faq-accordion">
+        {%- for block in section.blocks -%}
+          <details class="faq-item" {{ block.shopify_attributes }} {% if forloop.first %}open{% endif %}>
+            <summary class="faq-item__summary">
+              <span class="faq-item__question">{{ block.settings.question | escape }}</span>
+              <span class="faq-item__icon" aria-hidden="true">&plus;</span>
+            </summary>
+            <div class="faq-item__answer rte">
+              {{ block.settings.answer }}
+            </div>
+          </details>
+        {%- endfor -%}
+      </div>
+    {%- elsif request.design_mode -%}
+      <div class="faq-accordion--placeholder" style="padding: var(--space-6); border: 1px dashed var(--color-border); text-align: center; color: var(--color-text-muted); font-size: var(--font-size-sm); border-radius: var(--radius-sm);">
+        <p>{{ 'sections.faq.placeholder' | t | default: 'Add FAQ questions in the theme editor to display them here.' }}</p>
+      </div>
+    {%- endif -%}
 
   </div>
 </div>
+{%- endif -%}
 
 <style>
   .faq-section {
