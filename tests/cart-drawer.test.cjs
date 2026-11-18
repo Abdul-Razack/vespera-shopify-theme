@@ -226,3 +226,33 @@ test(`Cart Drawer: ${errorKind} rejection announces error after restoring state`
 });
 
 }
+
+test('Cart Drawer: retry double-click keeps the pointer target stable below an error', async (t) => {
+  const browser = await chromium.launch({ headless: true });
+  t.after(() => browser.close());
+  const page = await browser.newPage();
+  await page.setContent(`<cart-drawer>
+    <div data-cart-drawer-error style="height:120px">Previous inventory error</div>
+    <div data-line-item-key="serum"><span class="cart-drawer__qty-value">2</span>
+      <button data-qty-change="1" style="width:44px;height:44px">+</button>
+    </div></cart-drawer>`);
+  await page.addScriptTag({ content: cartDrawerJs });
+  await page.evaluate(() => {
+    window.mutations = [];
+    window.fetch = async (url, options) => {
+      const body = JSON.parse(options.body);
+      window.mutations.push(body.quantity);
+      await new Promise(resolve => setTimeout(resolve, 150));
+      return { ok: true, json: async () => ({ item_count: body.quantity, sections: {
+        'cart-drawer': `<cart-drawer><div data-cart-drawer-error hidden></div>
+          <div data-line-item-key="serum"><span class="cart-drawer__qty-value">${body.quantity}</span>
+          <button data-qty-change="1">+</button></div></cart-drawer>`
+      } }) };
+    };
+  });
+  await page.locator('[data-qty-change="1"]').dblclick();
+  await page.waitForFunction(() => !document.querySelector('cart-drawer')._isProcessingQueue);
+  assert.deepEqual(await page.evaluate(() => window.mutations), [3, 4]);
+  assert.equal(await page.locator('.cart-drawer__qty-value').textContent(), '4');
+  assert.equal(await page.locator('[data-cart-drawer-error]').evaluate(el => el.hidden), true);
+});

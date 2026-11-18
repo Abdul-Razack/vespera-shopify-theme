@@ -154,7 +154,8 @@ class CartDrawer extends HTMLElement {
    * Sets the target quantity for an item and triggers the serialized mutation runner.
    */
   queueSetQuantity(key, desiredQty, itemEl) {
-    this.clearError();
+    // Keep the error region stable while retrying so rapid clicks do not move
+    // off their target. A successful drawer refresh clears the previous error.
     this._targetQuantities.set(key, desiredQty);
 
     // Optimistic UI feedback
