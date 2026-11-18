@@ -6,11 +6,12 @@ const { chromium } = require('playwright');
 
 const cartDrawerJs = fs.readFileSync(path.join(__dirname, '../assets/cart-drawer.js'), 'utf8');
 
-test('Cart Drawer: Serialized mutation queue and rapid double-click handling', async () => {
+test('Cart Drawer: Serialized mutation queue and rapid double-click handling', async (t) => {
   const browser = await chromium.launch({
     headless: true,
     args: ['--no-sandbox']
   });
+  t.after(() => browser.close());
   const page = await browser.newPage();
 
   const html = `
@@ -88,7 +89,7 @@ test('Cart Drawer: Serialized mutation queue and rapid double-click handling', a
             items: [{ key: body.id, quantity: body.quantity }],
             item_count: body.quantity,
             sections: {
-              'cart-drawer': renderedHtml
+              'cart-drawer': '<cart-drawer>' + renderedHtml + '</cart-drawer>'
             }
           })
         };
@@ -129,11 +130,13 @@ test('Cart Drawer: Serialized mutation queue and rapid double-click handling', a
   await browser.close();
 });
 
-test('Cart Drawer: Inventory rejection (422) announces error and restores state', async () => {
+for (const errorKind of ['inventory', 'network']) {
+test(`Cart Drawer: ${errorKind} rejection announces error after restoring state`, async (t) => {
   const browser = await chromium.launch({
     headless: true,
     args: ['--no-sandbox']
   });
+  t.after(() => browser.close());
   const page = await browser.newPage();
 
   const html = `
@@ -167,12 +170,13 @@ test('Cart Drawer: Inventory rejection (422) announces error and restores state'
 
   await page.setContent(html);
 
-  const errorResult = await page.evaluate(async () => {
+  const errorResult = await page.evaluate(async (errorKind) => {
     const drawer = document.getElementById('CartDrawer');
 
     // Simulate 422 inventory cap reached
     window.fetch = async (url) => {
       if (url.includes('/cart/change')) {
+        if (errorKind === 'network') throw new Error('QA network unavailable');
         return {
           ok: false,
           status: 422,
@@ -183,6 +187,7 @@ test('Cart Drawer: Inventory rejection (422) announces error and restores state'
           })
         };
       }
+      if (url.endsWith('/cart.js')) return { ok: true, json: async () => ({ item_count: 2 }) };
       const renderedHtml = '<div class="cart-drawer__error-message" role="alert" aria-live="assertive" data-cart-drawer-error hidden></div>' +
         '<div class="cart-drawer-item" data-line-item-key="item_soap_123">' +
           '<span class="cart-drawer__qty-value">2</span>' +
@@ -190,7 +195,7 @@ test('Cart Drawer: Inventory rejection (422) announces error and restores state'
         '</div>';
       return {
         ok: true,
-        text: async () => renderedHtml
+        text: async () => '<cart-drawer>' + renderedHtml + '</cart-drawer>'
       };
     };
 
@@ -205,15 +210,19 @@ test('Cart Drawer: Inventory rejection (422) announces error and restores state'
     return {
       errorHidden: errorEl ? errorEl.hidden : null,
       errorText: errorEl ? errorEl.textContent.trim() : null,
+      restoredQuantity: drawer.querySelector('.cart-drawer__qty-value').textContent.trim(),
       pendingTargetExists: drawer._targetQuantities.has('item_soap_123')
     };
-  });
+  }, errorKind);
 
   // Verify that error is announced via live region
+  assert.equal(errorResult.restoredQuantity, '2');
   assert.equal(errorResult.errorHidden, false);
-  assert.ok(errorResult.errorText.includes('Botanical Solid Soap') || errorResult.errorText.includes('already in your cart'));
+  assert.match(errorResult.errorText, errorKind === 'network' ? /QA network unavailable/ : /already in your cart/);
   // Verify pending target was cleared so subsequent interactions start clean
   assert.equal(errorResult.pendingTargetExists, false);
 
   await browser.close();
 });
+
+}

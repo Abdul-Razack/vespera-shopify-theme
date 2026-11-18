@@ -208,8 +208,8 @@ class CartDrawer extends HTMLElement {
         } catch (networkErr) {
           console.error('Cart network mutation error:', networkErr);
           this._targetQuantities.delete(key);
-          this.showError(networkErr.message || (window.theme?.strings?.cartError || 'Network error updating cart. Please check your connection.'));
           await this.refreshDrawer();
+          this.showError(networkErr.message || (window.theme?.strings?.cartError || 'Network error updating cart. Please check your connection.'));
           break;
         }
 
@@ -217,10 +217,10 @@ class CartDrawer extends HTMLElement {
           const errData = await response.json().catch(() => ({}));
           const errMsg = errData.description || errData.message || (window.theme?.strings?.cartAddError || 'Could not update cart quantity. Please try again.');
           console.error('Cart mutation rejected:', errMsg);
-          this.showError(errMsg);
           // Remove from queue so we don't loop on inventory rejection
           this._targetQuantities.delete(key);
           await this.refreshDrawer();
+          this.showError(errMsg);
           break;
         }
 
