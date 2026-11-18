@@ -15,43 +15,45 @@
 
       <!-- Category Navigation Pills -->
       {%- if section.settings.show_category_pills and collection.all_types.size > 1 -%}
-        <div class="category-pills" role="region" aria-label="{{ 'sections.collection_template.filter_by_category' | t }}">
+        {%- assign is_all_active = false -%}
+        {%- if collection.current_type == blank -%}
+          {%- assign is_all_active = true -%}
+        {%- endif -%}
+        <nav class="category-pills" aria-label="{{ 'sections.collection_template.filter_by_category' | t }}">
           <ul class="category-pills__list" role="list">
             <li>
-              <button 
-                type="button" 
-                class="category-pill category-pill--active" 
-                aria-pressed="true" 
-                data-category-filter="all"
+              <a 
+                href="{{ routes.all_products_collection_url }}" 
+                class="category-pill{% if is_all_active %} category-pill--active{% endif %}" 
+                {% if is_all_active %}aria-current="page"{% endif %}
+                data-category-all
               >
                 {{ 'collections.general.all_products' | t }} <span class="category-pill__count">({{ collection.all_products_count | default: collection.products_count }})</span>
-              </button>
+              </a>
             </li>
             {%- for type in collection.all_types -%}
               {%- if type != blank -%}
-                {%- assign type_count = 0 -%}
-                {%- for prod in collection.products -%}
-                  {%- if prod.type == type -%}
-                    {%- assign type_count = type_count | plus: 1 -%}
-                  {%- endif -%}
-                {%- endfor -%}
+                {%- assign is_type_active = false -%}
+                {%- if collection.current_type == type -%}
+                  {%- assign is_type_active = true -%}
+                {%- endif -%}
                 <li>
-                  <button 
-                    type="button" 
-                    class="category-pill" 
-                    aria-pressed="false" 
-                    data-category-filter="{{ type | escape }}"
+                  <a 
+                    href="{{ routes.collections_url }}/types?q={{ type | url_encode }}" 
+                    class="category-pill{% if is_type_active %} category-pill--active{% endif %}" 
+                    {% if is_type_active %}aria-current="page"{% endif %}
+                    data-category-type="{{ type | escape }}"
                   >
                     {{ type | escape }}
-                    {%- if type_count > 0 -%}
-                      <span class="category-pill__count">({{ type_count }})</span>
+                    {%- if is_type_active -%}
+                      <span class="category-pill__count">({{ paginate.items }})</span>
                     {%- endif -%}
-                  </button>
+                  </a>
                 </li>
               {%- endif -%}
             {%- endfor -%}
           </ul>
-        </div>
+        </nav>
       {%- endif -%}
 
       <!-- Storefront Faceted Filtering & Sorting -->
@@ -238,6 +240,7 @@
     border-color: var(--color-border-dark);
   }
   .category-pill--active,
+  .category-pill[aria-current="page"],
   .category-pill[aria-pressed="true"] {
     color: var(--color-surface);
     background-color: var(--color-text);
@@ -250,6 +253,7 @@
     opacity: 1;
   }
   .category-pill--active .category-pill__count,
+  .category-pill[aria-current="page"] .category-pill__count,
   .category-pill[aria-pressed="true"] .category-pill__count {
     color: var(--color-surface);
     opacity: 1;
@@ -258,111 +262,72 @@
 
 <script>
   (function() {
-    const pills = document.querySelectorAll('.category-pill');
-    const items = document.querySelectorAll('.product-grid__item');
-    if (!pills.length || !items.length) return;
+    // Legacy /card URL query migration (?category=...) to Shopify native /collections/types?q=
+    const params = new URLSearchParams(window.location.search);
+    const categoryParam = params.get('category');
+    if (!categoryParam) return;
 
-    const activeCategories = new Set();
-
-    function updatePaginationLinks(isAll) {
-      const paginationLinks = document.querySelectorAll('.pagination a');
-      paginationLinks.forEach(link => {
-        try {
-          const u = new URL(link.href, window.location.origin);
-          if (isAll) {
-            u.searchParams.delete('category');
-          } else {
-            u.searchParams.set('category', Array.from(activeCategories).join(','));
-          }
-          link.href = u.pathname + u.search + u.hash;
-        } catch (e) {}
-      });
+    if (categoryParam.toLowerCase() === 'all') {
+      const cleanUrl = new URL(window.location.href);
+      cleanUrl.searchParams.delete('category');
+      window.location.replace(cleanUrl.toString());
+      return;
     }
 
-    function applyCategoryFilter(updateHistory) {
-      const isAll = (activeCategories.size === 0);
-
-      pills.forEach(p => {
-        const filter = p.getAttribute('data-category-filter');
-        const isActive = (filter === 'all' ? isAll : activeCategories.has(filter));
-        p.classList.toggle('category-pill--active', isActive);
-        p.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
-
-      let visible = 0;
-      items.forEach(item => {
-        const card = item.querySelector('.product-card');
-        const cardType = card ? (card.getAttribute('data-product-type') || '').trim() : '';
-        if (isAll || activeCategories.has(cardType)) {
-          item.style.display = '';
-          visible++;
-        } else {
-          item.style.display = 'none';
-        }
-      });
-
-      const countText = document.querySelector('.facets__count-text');
-      if (countText) {
-        if (visible === 1) {
-          countText.textContent = '1 formulation';
-        } else {
-          countText.textContent = visible + ' formulations';
-        }
-      }
-
-      updatePaginationLinks(isAll);
-
-      if (updateHistory) {
-        const url = new URL(window.location.href);
-        if (isAll) {
-          url.searchParams.delete('category');
-        } else {
-          url.searchParams.set('category', Array.from(activeCategories).join(','));
-        }
-        window.history.replaceState({}, '', url.toString());
-      }
-    }
+    const pills = document.querySelectorAll('[data-category-type]');
+    const rawReq = decodeURIComponent(categoryParam).trim().toLowerCase();
+    let matchedType = null;
 
     pills.forEach(pill => {
-      pill.addEventListener('click', function(e) {
-        e.preventDefault();
-        const cat = this.getAttribute('data-category-filter');
-        if (cat === 'all') {
-          activeCategories.clear();
-        } else {
-          if (activeCategories.has(cat)) {
-            activeCategories.delete(cat);
-          } else {
-            activeCategories.add(cat);
-          }
+      const type = (pill.getAttribute('data-category-type') || '').trim();
+      const typeLower = type.toLowerCase();
+      if (!matchedType) {
+        if (typeLower === rawReq) {
+          matchedType = type;
+        } else if (rawReq.includes(typeLower) || typeLower.includes(rawReq)) {
+          matchedType = type;
+        } else if (rawReq.includes('serum') && typeLower.includes('serum')) {
+          matchedType = type;
+        } else if (rawReq.includes('cleanser') && typeLower.includes('cleanser')) {
+          matchedType = type;
+        } else if ((rawReq.includes('cream') || rawReq.includes('balm') || rawReq.includes('moisturizer')) &&
+                   (typeLower.includes('cream') || typeLower.includes('balm') || typeLower.includes('moisturizer'))) {
+          matchedType = type;
+        } else if (rawReq.includes('body') && typeLower.includes('body')) {
+          matchedType = type;
         }
-        applyCategoryFilter(true);
-      });
+      }
     });
 
-    const params = new URLSearchParams(window.location.search);
-    const initialParam = params.get('category');
-    if (initialParam && initialParam !== 'all') {
-      const requestedCategories = initialParam.split(',').map(c => c.trim().toLowerCase()).filter(Boolean);
-      pills.forEach(p => {
-        const filter = p.getAttribute('data-category-filter');
-        if (filter && filter !== 'all') {
-          const fLow = filter.toLowerCase();
-          const isMatch = requestedCategories.some(req => {
-            if (fLow === req || fLow.includes(req) || req.includes(fLow)) return true;
-            if (req.includes('serum') && fLow.includes('serum')) return true;
-            if (req.includes('cleanser') && fLow.includes('cleanser')) return true;
-            if (req.includes('cream') && (fLow.includes('cream') || fLow.includes('balm') || fLow.includes('moisturizer'))) return true;
-            if (req.includes('body') && fLow.includes('body')) return true;
-            return false;
-          });
-          if (isMatch) {
-            activeCategories.add(filter);
-          }
-        }
-      });
-      if (activeCategories.size > 0) {
-        applyCategoryFilter(false);
+    if (matchedType) {
+      // Migrate legacy ?category= URL to Shopify native /collections/types?q=
+      const targetUrl = new URL(window.location.origin + '{{ routes.collections_url }}/types');
+      targetUrl.searchParams.set('q', matchedType);
+      const sortBy = params.get('sort_by');
+      if (sortBy) targetUrl.searchParams.set('sort_by', sortBy);
+      window.location.replace(targetUrl.toString());
+    } else {
+      // Unmatched category: render honest empty state
+      const grid = document.querySelector('.product-grid');
+      const countEl = document.querySelector('.facets__count-text');
+      const pagination = document.querySelector('.pagination');
+      if (pagination) pagination.remove();
+      if (countEl) countEl.textContent = '0 formulations';
+      if (grid) {
+        const safeReq = categoryParam.replace(/[&<>"']/g, function(m) {
+          return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m];
+        });
+        grid.innerHTML = `
+          <div class="main-collection__empty">
+            <p>{{ 'collections.general.no_matches' | t }}</p>
+            <p class="main-collection__empty-subtext" style="margin-top: var(--space-2); font-size: var(--font-size-sm); color: var(--color-text-muted);">
+              No formulations found matching "${safeReq}".
+            </p>
+            <a href="{{ routes.all_products_collection_url }}" class="btn-primary" style="margin-top: var(--space-6);">
+              {{ 'collections.general.view_all_products' | t }}
+            </a>
+          </div>
+        `;
       }
     }
   })();

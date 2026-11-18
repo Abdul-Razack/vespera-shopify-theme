@@ -24,11 +24,70 @@
     return (window.theme && window.theme.strings) ? window.theme.strings : {};
   }
 
-  function formatMoney(cents) {
+  /**
+   * Shopify-aware currency and money formatter.
+   * Respects shop.money_format, active currency formats, and never falls back to hardcoded $.
+   */
+  function formatMoney(cents, format) {
+    if (typeof cents === 'string') cents = cents.replace('.', '');
+    cents = parseInt(cents, 10);
+    if (isNaN(cents)) return '';
+
     if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
-      return window.Shopify.formatMoney(cents, window.theme && window.theme.moneyFormat ? window.theme.moneyFormat : '${{amount}}');
+      const moneyFormat = format || (window.theme && window.theme.moneyFormat) || '${{amount}}';
+      return window.Shopify.formatMoney(cents, moneyFormat);
     }
-    return '$' + (cents / 100).toFixed(2);
+
+    const formatString = format || (window.theme && window.theme.moneyFormat) || '${{amount}}';
+    function defaultOption(opt, def) {
+      return (typeof opt === 'undefined' ? def : opt);
+    }
+    function formatWithDelimiters(number, precision, thousands, decimal) {
+      precision = defaultOption(precision, 2);
+      thousands = defaultOption(thousands, ',');
+      decimal = defaultOption(decimal, '.');
+      if (isNaN(number) || number == null) return '0';
+      const numStr = (number / 100.0).toFixed(precision);
+      const parts = numStr.split('.');
+      const dollars = parts[0].replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1' + thousands);
+      const centsPart = parts[1] ? (decimal + parts[1]) : '';
+      return dollars + centsPart;
+    }
+
+    const placeholderRegex = /\{\{\s*(\w+)\s*\}\}/;
+    const match = formatString.match(placeholderRegex);
+    if (!match) {
+      const symbol = (window.theme && window.theme.currencySymbol) || '$';
+      return symbol + (cents / 100).toFixed(2);
+    }
+
+    let value = '';
+    switch (match[1]) {
+      case 'amount':
+        value = formatWithDelimiters(cents, 2);
+        break;
+      case 'amount_no_decimals':
+        value = formatWithDelimiters(cents, 0);
+        break;
+      case 'amount_with_comma_separator':
+        value = formatWithDelimiters(cents, 2, '.', ',');
+        break;
+      case 'amount_no_decimals_with_comma_separator':
+        value = formatWithDelimiters(cents, 0, '.', ',');
+        break;
+      case 'amount_with_space_separator':
+        value = formatWithDelimiters(cents, 2, ' ', ',');
+        break;
+      case 'amount_no_decimals_with_space_separator':
+        value = formatWithDelimiters(cents, 0, ' ', ',');
+        break;
+      case 'amount_with_apostrophe_separator':
+        value = formatWithDelimiters(cents, 2, "'", '.');
+        break;
+      default:
+        value = formatWithDelimiters(cents, 2);
+    }
+    return formatString.replace(placeholderRegex, value);
   }
 
   function stripHtml(html) {
@@ -96,28 +155,30 @@
   });
 
   // Focus trap inside Quick View Modal (F-33)
-  modal.addEventListener('keydown', (e) => {
-    if (modal.getAttribute('aria-hidden') !== 'false') return;
-    if (e.key === 'Tab') {
-      const focusable = Array.from(modal.querySelectorAll(
-        'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )).filter(el => el.offsetWidth > 0 || el.offsetHeight > 0);
+  if (modal) {
+    modal.addEventListener('keydown', (e) => {
+      if (modal.getAttribute('aria-hidden') !== 'false') return;
+      if (e.key === 'Tab') {
+        const focusable = Array.from(modal.querySelectorAll(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )).filter(el => el.offsetWidth > 0 || el.offsetHeight > 0);
 
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
 
-      if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
-        e.preventDefault();
-        first.focus();
+        if (e.shiftKey && (document.activeElement === first || !modal.contains(document.activeElement))) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && (document.activeElement === last || !modal.contains(document.activeElement))) {
+          e.preventDefault();
+          first.focus();
+        }
       }
-    }
-  });
+    });
+  }
 
-  // Render product details inside modal
+  // Render product details inside modal using context-safe DOM construction
   function renderProduct(product, galleryEl) {
     currentProduct = product;
     selectedVariant = product.variants.find(v => v.available) || product.variants[0];
@@ -130,82 +191,139 @@
     const plainDesc = formatExcerpt(product.description, 160);
     const mainImgSrc = selectedVariant.featured_image ? selectedVariant.featured_image.src : (product.featured_image || '');
 
-    // Build options markup
-    let optionsHtml = '';
-    if (product.options && product.options.length > 0 && !(product.options.length === 1 && product.options[0].name === 'Title')) {
-      optionsHtml = `
-        <div class="quick-view__options">
-          ${product.options.map((opt, optIdx) => `
-            <div class="quick-view__option-group" data-option-index="${optIdx}">
-              <span class="quick-view__option-title">${opt.name}: <strong>${selectedVariant.options[optIdx]}</strong></span>
-              <div class="quick-view__chips">
-                ${opt.values.map(val => {
-                  const isSelected = selectedVariant.options[optIdx] === val;
-                  // Check if any variant with this option is available
-                  const isAvailable = product.variants.some(v => v.options[optIdx] === val && v.available);
-                  return `
-                    <button 
-                      type="button" 
-                      class="quick-view__chip-btn ${isSelected ? 'is-selected' : ''} ${!isAvailable ? 'is-sold-out' : ''}" 
-                      data-option-value="${val}" 
-                      data-option-idx="${optIdx}"
-                      ${!isAvailable ? 'aria-disabled="true"' : ''}
-                    >
-                      <span class="quick-view__chip-text">${val}</span>
-                      ${!isAvailable && strings.soldOut ? `<span class="visually-hidden"> — ${strings.soldOut}</span>` : ''}
-                    </button>
-                  `;
-                }).join('')}
-              </div>
-            </div>
-          `).join('')}
-        </div>
-      `;
-    }
-
+    // Clear and build static structural layout
     bodyEl.innerHTML = `
       <div class="quick-view__grid">
         <div class="quick-view__media-wrap" id="QuickViewMediaWrap">
-          <img src="${mainImgSrc}" alt="${product.title}" class="quick-view__media-img" id="QuickViewMainImg" loading="lazy">
+          <img class="quick-view__media-img" id="QuickViewMainImg" loading="lazy">
         </div>
         
         <div class="quick-view__info">
-          <span class="quick-view__category">${product.type || ''}</span>
+          <span class="quick-view__category" id="QuickViewCategory"></span>
           <h3 class="quick-view__title">
-            <a href="${product.url}" class="quick-view__title-link">${product.title}</a>
+            <a class="quick-view__title-link" id="QuickViewTitleLink"></a>
           </h3>
 
           <div class="quick-view__prices">
-            <span class="quick-view__price" id="QuickViewPrice">${formattedPrice}</span>
-            <span class="quick-view__compare-price" id="QuickViewComparePrice" style="${hasCompare ? '' : 'display:none;'}">${formattedCompare}</span>
+            <span class="quick-view__price" id="QuickViewPrice"></span>
+            <span class="quick-view__compare-price" id="QuickViewComparePrice" style="display:none;"></span>
           </div>
 
-          <p class="quick-view__desc">${plainDesc}</p>
+          <p class="quick-view__desc" id="QuickViewDesc"></p>
 
-          ${optionsHtml}
+          <div class="quick-view__options" id="QuickViewOptions"></div>
 
           <div class="quick-view__cta-row">
             <div class="quick-view__qty-wrap">
-              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyMinus" aria-label="${strings.decreaseQuantity || ''}">&minus;</button>
+              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyMinus">&minus;</button>
               <span class="quick-view__qty-val" id="QuickViewQtyVal">1</span>
-              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyPlus" aria-label="${strings.increaseQuantity || ''}">&plus;</button>
+              <button type="button" class="quick-view__qty-btn" id="QuickViewQtyPlus">&plus;</button>
             </div>
 
-            <button 
-              type="button" 
-              class="btn-primary quick-view__add-btn" 
-              id="QuickViewAddBtn"
-              ${selectedVariant.available ? '' : 'disabled="disabled"'}
-            >
-              ${selectedVariant.available ? `${strings.addToCart || ''} &bull; <span id="QuickViewBtnPrice">${formattedPrice}</span>` : (strings.soldOut || '')}
-            </button>
+            <button type="button" class="btn-primary quick-view__add-btn" id="QuickViewAddBtn"></button>
           </div>
 
           <p id="QuickViewCartError" role="alert" hidden></p>
-          <a href="${product.url}" class="quick-view__full-details">${strings.viewDetails || ''} &rarr;</a>
+          <a class="quick-view__full-details" id="QuickViewFullDetails"></a>
         </div>
       </div>
     `;
+
+    // Safely assign catalog text via textContent and DOM attributes (immune to quotes, ampersands, and HTML tags)
+    const mainImg = bodyEl.querySelector('#QuickViewMainImg');
+    if (mainImg) {
+      mainImg.src = mainImgSrc;
+      mainImg.alt = product.title || '';
+    }
+
+    const catEl = bodyEl.querySelector('#QuickViewCategory');
+    if (catEl) catEl.textContent = product.type || '';
+
+    const titleLink = bodyEl.querySelector('#QuickViewTitleLink');
+    if (titleLink) {
+      titleLink.textContent = product.title || '';
+      titleLink.href = product.url || '#';
+    }
+
+    const priceEl = bodyEl.querySelector('#QuickViewPrice');
+    if (priceEl) priceEl.textContent = formattedPrice;
+
+    const comparePriceEl = bodyEl.querySelector('#QuickViewComparePrice');
+    if (comparePriceEl) {
+      if (hasCompare) {
+        comparePriceEl.textContent = formattedCompare;
+        comparePriceEl.style.display = 'inline';
+      } else {
+        comparePriceEl.style.display = 'none';
+      }
+    }
+
+    const descEl = bodyEl.querySelector('#QuickViewDesc');
+    if (descEl) descEl.textContent = plainDesc;
+
+    const fullDetailsEl = bodyEl.querySelector('#QuickViewFullDetails');
+    if (fullDetailsEl) {
+      fullDetailsEl.textContent = (strings.viewDetails || 'View details') + ' \u2192';
+      fullDetailsEl.href = product.url || '#';
+    }
+
+    const minusBtn = bodyEl.querySelector('#QuickViewQtyMinus');
+    if (minusBtn) minusBtn.setAttribute('aria-label', strings.decreaseQuantity || 'Decrease quantity');
+
+    const plusBtn = bodyEl.querySelector('#QuickViewQtyPlus');
+    if (plusBtn) plusBtn.setAttribute('aria-label', strings.increaseQuantity || 'Increase quantity');
+
+    // Safe options construction
+    const optionsContainer = bodyEl.querySelector('#QuickViewOptions');
+    if (optionsContainer && product.options && product.options.length > 0 && !(product.options.length === 1 && product.options[0].name === 'Title')) {
+      product.options.forEach((opt, optIdx) => {
+        const group = document.createElement('div');
+        group.className = 'quick-view__option-group';
+        group.setAttribute('data-option-index', String(optIdx));
+
+        const optTitle = document.createElement('span');
+        optTitle.className = 'quick-view__option-title';
+        optTitle.textContent = opt.name + ': ';
+        const strongVal = document.createElement('strong');
+        strongVal.textContent = (selectedVariant.options && selectedVariant.options[optIdx]) ? selectedVariant.options[optIdx] : '';
+        optTitle.appendChild(strongVal);
+        group.appendChild(optTitle);
+
+        const chipsWrap = document.createElement('div');
+        chipsWrap.className = 'quick-view__chips';
+
+        if (Array.isArray(opt.values)) {
+          opt.values.forEach(val => {
+            const isSelected = selectedVariant.options && selectedVariant.options[optIdx] === val;
+            const isAvailable = product.variants.some(v => v.options[optIdx] === val && v.available);
+
+            const chip = document.createElement('button');
+            chip.type = 'button';
+            chip.className = `quick-view__chip-btn ${isSelected ? 'is-selected' : ''} ${!isAvailable ? 'is-sold-out' : ''}`;
+            chip.setAttribute('data-option-value', val);
+            chip.setAttribute('data-option-idx', String(optIdx));
+            if (!isAvailable) chip.setAttribute('aria-disabled', 'true');
+
+            const textSpan = document.createElement('span');
+            textSpan.className = 'quick-view__chip-text';
+            textSpan.textContent = val;
+            chip.appendChild(textSpan);
+
+            if (!isAvailable && strings.soldOut) {
+              const vhSpan = document.createElement('span');
+              vhSpan.className = 'visually-hidden';
+              vhSpan.textContent = ' \u2014 ' + strings.soldOut;
+              chip.appendChild(vhSpan);
+            }
+
+            chipsWrap.appendChild(chip);
+          });
+        }
+
+        group.appendChild(chipsWrap);
+        optionsContainer.appendChild(group);
+      });
+    }
 
     // Inject Shared Media Gallery (Image, Video, External Video, 3D Model - R4.15)
     const mediaWrap = bodyEl.querySelector('#QuickViewMediaWrap');
@@ -402,46 +520,43 @@
                   item.classList.add('is-hidden');
                 }
               });
-              if (found) {
-                const thumbs = galleryEl.querySelectorAll('.product-media-gallery__thumb-btn');
-                thumbs.forEach(t => {
-                  if (t.getAttribute('data-thumbnail-id') === mediaId) {
-                    t.classList.add('is-active');
-                    t.setAttribute('aria-current', 'true');
-                  } else {
-                    t.classList.remove('is-active');
-                    t.removeAttribute('aria-current');
-                  }
-                });
+
+              if (!found && matched.featured_image && mainImg) {
+                mainImg.src = matched.featured_image.src;
               }
+            } else if (matched.featured_image && mainImg) {
+              mainImg.src = matched.featured_image.src;
             }
-          }
-          if (matched.featured_image && mainImg) {
+          } else if (matched.featured_image && mainImg) {
             mainImg.src = matched.featured_image.src;
           }
         } else {
-          // Unavailable combination (F-31)
           selectedVariant = null;
           updateAddButton();
-          if (priceEl) priceEl.textContent = strings.unavailable || '';
-          if (comparePriceEl) comparePriceEl.style.display = 'none';
         }
       });
     });
 
-    // Add to Cart Submission
+    // Add to Cart Submission Handler
     if (addBtn) {
       addBtn.addEventListener('click', async () => {
-        if (adding || !selectedVariant || !selectedVariant.available) return;
+        if (!selectedVariant || !selectedVariant.available || adding) return;
         adding = true;
         if (errorMessage) errorMessage.hidden = true;
-        const item = { id: selectedVariant.id, quantity: currentQuantity };
+
+        const item = {
+          id: selectedVariant.id,
+          quantity: currentQuantity
+        };
 
         addBtn.setAttribute('disabled', 'disabled');
         addBtn.textContent = strings.adding || '';
 
         try {
-          const response = await fetch(`${window.theme.routes.cartAdd}.js`, {
+          const cartAddUrl = (window.theme && window.theme.routes && window.theme.routes.cartAdd)
+            ? window.theme.routes.cartAdd + '.js'
+            : '/cart/add.js';
+          const response = await fetch(cartAddUrl, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -463,12 +578,14 @@
             const refreshed = await drawer.refreshDrawer();
             closeModal();
             if (refreshed === false) {
-              window.location.href = window.theme.routes.cart;
+              const cartUrl = (window.theme && window.theme.routes && window.theme.routes.cart) || '/cart';
+              window.location.href = cartUrl;
             } else {
               drawer.open();
             }
           } else {
-            window.location.href = window.theme.routes.cart;
+            const cartUrl = (window.theme && window.theme.routes && window.theme.routes.cart) || '/cart';
+            window.location.href = cartUrl;
           }
         } catch (err) {
           console.error('Quick view add error:', err);
@@ -496,10 +613,14 @@
     openModal(trigger);
 
     try {
-      // Fetch product data and section media gallery in parallel (R4.15)
+      // Localized root path preservation (market & locale aware)
+      const root = (window.theme && window.theme.routes && window.theme.routes.root && window.theme.routes.root !== '/')
+        ? window.theme.routes.root.replace(/\/$/, '')
+        : '';
+
       const [productRes, sectionRes] = await Promise.all([
-        fetch(`/products/${handle}.js`),
-        fetch(`/products/${handle}?section_id=main-product`).catch(() => null)
+        fetch(`${root}/products/${encodeURIComponent(handle)}.js`),
+        fetch(`${root}/products/${encodeURIComponent(handle)}?section_id=main-product`).catch(() => null)
       ]);
 
       if (!productRes.ok) throw new Error('Product fetch failed');
@@ -508,20 +629,38 @@
       let galleryEl = null;
       if (sectionRes && sectionRes.ok) {
         const sectionHtml = await sectionRes.text();
-        const doc = new DOMParser().parseFromString(sectionHtml, 'text/html');
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(sectionHtml, 'text/html');
         galleryEl = doc.querySelector('.product-media-gallery');
       }
 
-      if (request === productRequest) renderProduct(product, galleryEl);
+      // Stale response invalidation: ignore out-of-order responses
+      if (request !== productRequest) return;
+
+      renderProduct(product, galleryEl);
     } catch (err) {
       if (request !== productRequest) return;
-      console.error('Failed to load quick view:', err);
+      console.error('Quick view load error:', err);
       bodyEl.innerHTML = `
-        <div style="padding: 40px; text-align: center;">
-          <p>Failed to load formulation details. Please view full product page.</p>
-          <a href="/products/${handle}" class="btn-primary" style="margin-top: 16px;">View Formulation</a>
+        <div class="quick-view__error text-center" style="padding: var(--space-8);">
+          <p>${getStrings().cartAddError || 'Unable to load formulation. Please try again.'}</p>
         </div>
       `;
     }
   });
+
+  // Export for testing
+  window.Vespera = window.Vespera || {};
+  window.Vespera.QuickView = {
+    open: (handle) => {
+      const dummy = document.createElement('button');
+      dummy.setAttribute('data-quick-view-handle', handle);
+      document.body.appendChild(dummy);
+      dummy.click();
+      dummy.remove();
+    },
+    close: closeModal,
+    renderProduct: renderProduct,
+    formatMoney: formatMoney
+  };
 })();

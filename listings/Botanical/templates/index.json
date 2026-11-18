@@ -32,29 +32,25 @@
         "cat_1": {
           "type": "collection",
           "settings": {
-            "title": "Bio-Active Serums & Oils",
-            "link": "/collections/all?category=Bio-Active+Serums+%26+Oils"
+            "title": "Bio-Active Serums & Oils"
           }
         },
         "cat_2": {
           "type": "collection",
           "settings": {
-            "title": "Gentle Cleansers & Essences",
-            "link": "/collections/all?category=Gentle+Cleansers+%26+Essences"
+            "title": "Gentle Cleansers & Essences"
           }
         },
         "cat_3": {
           "type": "collection",
           "settings": {
-            "title": "Cellular Creams & Balms",
-            "link": "/collections/all?category=Cellular+Creams+%26+Balms"
+            "title": "Cellular Creams & Balms"
           }
         },
         "cat_4": {
           "type": "collection",
           "settings": {
-            "title": "Conscious Body Care",
-            "link": "/collections/all?category=Conscious+Body+Care"
+            "title": "Conscious Body Care"
           }
         }
       },
@@ -137,10 +133,7 @@
           "settings": {
             "title": "Purify & cleanse",
             "text": "A fresh beginning for your daily ritual.",
-            "products": [
-              "vespera-purifying-cleansing-oil",
-              "vespera-botanical-solid-soap"
-            ],
+            "products": [],
             "included": true
           }
         },
@@ -149,10 +142,7 @@
           "settings": {
             "title": "Tone & balance",
             "text": "A light layer before your next step.",
-            "products": [
-              "vespera-balancing-toning-mist",
-              "vespera-hydrating-floral-essence"
-            ],
+            "products": [],
             "included": true
           }
         },
@@ -161,10 +151,7 @@
           "settings": {
             "title": "Nourish & restore",
             "text": "Your finishing touch of botanical care.",
-            "products": [
-              "vespera-botanical-radiance-serum",
-              "vespera-soothing-recovery-serum"
-            ],
+            "products": [],
             "included": true
           }
         }

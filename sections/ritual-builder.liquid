@@ -16,19 +16,36 @@
         {%- for block in section.blocks -%}
           <fieldset class="ritual-step" data-ritual-step {{ block.shopify_attributes }}>
             <legend><span class="ritual-step__number">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span> {{ block.settings.title | escape }}</legend>
-            <label class="ritual-step__toggle"><input type="checkbox" data-ritual-toggle {% if block.settings.included %}checked{% endif %} {% if block.settings.products == blank %}disabled{% endif %}> {{ 'sections.ritual.include' | t }}</label>
+            {%- assign valid_count = 0 -%}
+            {%- for prod in block.settings.products -%}
+              {%- if prod != blank and prod.title != blank -%}
+                {%- assign valid_count = valid_count | plus: 1 -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            <label class="ritual-step__toggle"><input type="checkbox" data-ritual-toggle {% if block.settings.included and valid_count > 0 %}checked{% endif %} {% if valid_count == 0 %}disabled{% endif %}> {{ 'sections.ritual.include' | t }}</label>
             <p class="ritual-step__description">{{ block.settings.text | escape }}</p>
-            {%- if block.settings.products != blank -%}
+            {%- if valid_count > 0 -%}
               <div class="ritual-step__choices">
+                {%- assign choice_idx = 0 -%}
                 {%- for ritual_product in block.settings.products -%}
-                  {%- capture choice_id -%}{{ section.id }}-{{ block.id }}-{{ forloop.index }}{%- endcapture -%}
-                  {% render 'ritual-product', ritual_product: ritual_product, choice_index: forloop.index0, choice_id: choice_id %}
+                  {%- if ritual_product != blank and ritual_product.title != blank -%}
+                    {%- capture choice_id -%}{{ section.id }}-{{ block.id }}-{{ choice_idx }}{%- endcapture -%}
+                    {% render 'ritual-product', ritual_product: ritual_product, choice_index: choice_idx, choice_id: choice_id %}
+                    {%- assign choice_idx = choice_idx | plus: 1 -%}
+                  {%- endif -%}
                 {%- endfor -%}
               </div>
-              {%- if block.settings.products.size > 1 -%}
+              {%- if valid_count > 1 -%}
                 <label class="ritual-step__swap" for="RitualSwap-{{ section.id }}-{{ block.id }}">{{ 'sections.ritual.swap' | t }}</label>
                 <select id="RitualSwap-{{ section.id }}-{{ block.id }}" data-ritual-swap>
-                  {%- for ritual_product in block.settings.products -%}<option value="{{ forloop.index0 }}">{{ ritual_product.title | escape }}</option>{%- endfor -%}
+                  {%- assign opt_idx = 0 -%}
+                  {%- for ritual_product in block.settings.products -%}
+                    {%- if ritual_product != blank and ritual_product.title != blank -%}
+                      <option value="{{ opt_idx }}">{{ ritual_product.title | escape }}</option>
+                      {%- assign opt_idx = opt_idx | plus: 1 -%}
+                    {%- endif -%}
+                  {%- endfor -%}
                 </select>
               {%- endif -%}
             {%- else -%}
